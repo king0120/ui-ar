@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
-import ProjectsList from './pages/ProjectsList';
+import ProjectsList from './pages/OrganizationPage';
 import ProjectsDetailPage from './pages/ProjectsDetailPage';
 import AuditionManagerPage from './pages/AuditionManagerPage';
 import OrgSelectPage from './pages/OrgSelectPage';

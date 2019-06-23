@@ -8,6 +8,7 @@ import {fetchOrganization, deleteOrganization} from '../actions/organizationActi
 import {IOrganization} from '../types/IOrganization';
 import ConfirmationModal from "../components/ConfirmationModal";
 import AddOrganization from "../components/AddEditOrganization";
+import MembersList from "../components/MembersList";
 
 const TheatreHeader = styled.div`
   display: flex;
@@ -20,13 +21,14 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const ProjectsList: FC<IProjectList> = ({organization, fetchOrganization, deleteOrganization, history, match}) => {
+const OrganizationPage: FC<IProjectList> = ({organization, fetchOrganization, deleteOrganization, history, match}) => {
     const orgId = match.params.organizationId;
     useEffect(() => {
         fetchOrganization(orgId);
     }, [fetchOrganization, match.params.organizationId]);
     const panes = [
         {menuItem: 'Project Dashboard', render: () => <ProjectTable/>},
+        {menuItem: 'Members', render: () => <MembersList/>},
         {menuItem: 'Calendar', render: () => <Calendar/>},
     ];
 
@@ -66,4 +68,4 @@ const mapStateToProps = (state: any) => {
         organization: state.organization.organization
     };
 };
-export default connect(mapStateToProps, {fetchOrganization, deleteOrganization})(ProjectsList);
+export default connect(mapStateToProps, {fetchOrganization, deleteOrganization})(OrganizationPage);

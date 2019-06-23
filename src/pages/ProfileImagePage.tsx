@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {deleteImage, getCurrentUserDetails, getProfileDetails, uploadImage} from '../actions/talent/talentActions';
+import {deleteImage, getCurrentUserDetails, getProfileDetails, uploadImage} from '../actions/talentActions';
 import {Button, Header, Icon, Image, Segment} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
@@ -30,7 +30,7 @@ function MyDropzone(props: any) {
             <Segment placeholder style={{width: '100%'}}>
                 <Header icon>
                     <Icon name='file image outline'/>
-                                               {
+                    {
                         isDragActive ?
                             <p>Drop the files here ...</p> :
                             <p>Drag 'n' drop some files here, or click to select files</p>
@@ -50,7 +50,7 @@ const ProfileImagePage: FC<any> = (props) => {
         } else {
             props.getCurrentUserDetails(props.user.id);
         }
-    });
+    }, [props.readOnly]);
 
     return (
         <div>
@@ -80,4 +80,9 @@ const mapStateToProps = (state: any) => {
         user: state.user.user,
     };
 };
-export default connect(mapStateToProps, {getProfileDetails, getCurrentUserDetails, uploadImage, deleteImage})(ProfileImagePage);
+export default connect(mapStateToProps, {
+    getProfileDetails,
+    getCurrentUserDetails,
+    uploadImage,
+    deleteImage
+})(ProfileImagePage);

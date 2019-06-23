@@ -1,11 +1,11 @@
 import React, {FC, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {fetchAudition} from '../actions/audition/auditionThunkActions';
+import {fetchAudition} from '../actions/auditionActions';
 import styled from 'styled-components';
 import {Button, Icon} from 'semantic-ui-react';
 import AuditionManagerConfiguration from './AuditionManagerConfiguration';
 import AuditionManagerView from './AuditionManagerView';
-import {fetchProject} from '../actions/project/projectThunkActions';
+import {fetchProject} from '../actions/projectActions';
 
 const AuditionManagerPageStyles = styled.div`
     padding-bottom: 500px;

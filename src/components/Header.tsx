@@ -4,7 +4,7 @@ import ARLogo from '../static/arLogo.png';
 import styled from 'styled-components';
 import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {logOut} from '../actions/auth/authThunkActions';
+import {logOut} from '../actions/authActions';
 
 type IClickHandler = (event: SyntheticEvent, data: MenuItemProps) => void;
 
@@ -45,7 +45,7 @@ class Header extends Component<any, { activeItem?: string }> {
                                 <Menu.Item onClick={() => this.props.history.push('/search/actor')}>Actor Search</Menu.Item>
                                 <Menu.Item>Audition Search</Menu.Item>
                                 <Menu.Item>My Auditions</Menu.Item>
-                                <Dropdown as={Menu.Item} text={this.props.user.displayName}>
+                                <Dropdown as={Menu.Item} text={this.props.me.displayName}>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={() => this.props.history.push('/profile')}>View Profile</Dropdown.Item>
                                         <Dropdown.Item onClick={() => this.props.history.push('/pofilec')}>My Notifications</Dropdown.Item>
@@ -76,6 +76,7 @@ class Header extends Component<any, { activeItem?: string }> {
 const mapStateToProps = (state: any) => {
     return {
         user: state.user.user,
+        me: state.user.me,
     };
 };
 export default connect(mapStateToProps, {logOut})(withRouter(Header));

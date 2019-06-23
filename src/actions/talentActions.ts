@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import arAxios from '../../axiosHelper';
+import arAxios from '../utils/axiosHelper';
 
 export function getCurrentUserDetails() {
     return async (dispatch: Dispatch) => {
@@ -21,7 +21,7 @@ export function getProfileDetails(userId: any) {
         const res: { data: any } = await arAxios.get(`/api/v1/users/${userId}`);
         const user = res.data;
         dispatch({
-            type: 'GET_CURRENT_USER_SUCCESS',
+            type: 'GET_USER_SUCCESS',
             user,
         });
     };

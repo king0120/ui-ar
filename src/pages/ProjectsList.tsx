@@ -4,7 +4,7 @@ import ProjectTable from '../components/ProjectTable';
 import Calendar from '../components/Calendar';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchOrganization} from '../actions/organization/organizationThunkActions';
+import {fetchOrganization} from '../actions/organizationActions';
 import {IOrganization} from '../types/IOrganization';
 
 const TheatreHeader = styled.div`

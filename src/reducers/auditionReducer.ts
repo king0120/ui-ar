@@ -1,5 +1,5 @@
 import {Reducer} from "redux";
-import {AUDITION_ACTIONS} from "../actions/audition/actions";
+import {AUDITION_ACTIONS} from "../actions/auditionActions";
 
 const initialState = {
     audition: {}

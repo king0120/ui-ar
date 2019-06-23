@@ -1,10 +1,10 @@
 import React, {FC, useState} from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import {debounce} from 'lodash';
-import arAxios from '../../axiosHelper';
+import arAxios from '../../utils/axiosHelper';
 import {Button} from "semantic-ui-react";
 import {connect} from 'react-redux';
-import {inviteToAudition} from '../../actions/audition/auditionThunkActions';
+import {inviteToAudition} from '../../actions/auditionActions';
 
 const SearchTalent: FC<any> = ({ inviteToAudition, auditionId, projectId }) => {
     const [options, setOptions] = useState([]);

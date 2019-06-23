@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {Button, Form, Input, Message} from 'semantic-ui-react';
 
 import {connect} from 'react-redux';
-import {register} from '../actions/auth/authThunkActions';
+import {register} from '../actions/authActions';
 import {withRouter} from 'react-router-dom';
 import {LoginCard} from '../styles/shared';
 import {CardPageContainer} from '../styles/shared';
@@ -13,6 +13,7 @@ const RegistrationPage: FC<any> = (props) => {
     const [lastName, changeLastName] = useState('');
     const [city, changeCity] = useState('');
     const [state, changeState] = useState('');
+    const [website, changeWebsite] = useState('');
     const [email, changeEmail] = useState('');
     const [password, changePassword] = useState('');
     const [passwordConfirmation, changePasswordConfirmation] = useState('');
@@ -62,6 +63,10 @@ const RegistrationPage: FC<any> = (props) => {
                     <Form.Field>
                         <label htmlFor='phoneNumber'>Phone Number</label>
                         <Input name={'phoneNumber'} value={phoneNumber} onChange={(e, {value}) => changePhoneNumber(value)}/>
+                    </Form.Field>
+                    <Form.Field>
+                        <label htmlFor='website'>WebSite</label>
+                        <Input name={'website'} value={website} onChange={(e, {value}) => changeWebsite(value)}/>
                     </Form.Field>
                     <Form.Field>
                         <label htmlFor='email'>E-Mail</label>

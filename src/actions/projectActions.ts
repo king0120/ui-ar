@@ -1,7 +1,13 @@
-import arAxios from '../../axiosHelper';
+import arAxios from '../utils/axiosHelper';
 import {Dispatch} from 'redux';
-import {IProject} from '../../types/IProject';
-import {PROJECT_ACTIONS} from './actions';
+import {IProject} from '../types/IProject';
+
+export enum PROJECT_ACTIONS {
+    FETCH_PROJECT_SUCCESS,
+    FETCH_PROJECT_CREATE_SUCCESS,
+    FETCH_PROJECT_EDIT_SUCCESS,
+    FETCH_PROJECT_DELETE_SUCCESS,
+}
 
 export function fetchProject(id: string) {
     return async (dispatch: Dispatch) => {

@@ -1,12 +1,12 @@
 import React, {FC, useCallback} from 'react';
 import {Column} from 'primereact/column';
 import moment from 'moment';
-import {Button, Modal, Radio} from 'semantic-ui-react';
+import {Button, Modal} from 'semantic-ui-react';
 import {DataTable} from 'primereact/datatable';
 import AuditionTimeSlotActionColumn from '../AuditionTimeSlotActionColumn';
 import {ActorSearch} from '../../pages/ActorSearchPage';
 import {useDispatch, useSelector} from 'react-redux';
-import {inviteToAudition} from '../../actions/audition/auditionThunkActions';
+import {inviteToAudition} from '../../actions/auditionActions';
 
 function OpenTimeSlot(props: any) {
     const projectId = useSelector((state: any) => state.projects.project.id);

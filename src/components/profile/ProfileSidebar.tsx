@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getFormState} from '../../reducers/finalFormReducer';
-import {addUserBreakdown} from '../../actions/talent/talentActions';
+import {addUserBreakdown} from '../../actions/talentActions';
 import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
 
 const ProfileSidebarStyle = styled(List)`

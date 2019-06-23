@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {transformPhoneNumber} from '../utils';
 import ProfileSidebar from '../components/profile/ProfileSidebar';
-import {getCurrentUserDetails, getProfileDetails} from '../actions/talent/talentActions';
+import {getCurrentUserDetails, getProfileDetails} from '../actions/talentActions';
 import ExperienceList from '../components/profile/ExperienceList';
 import AddExperienceModal from '../components/profile/AddExperienceModal';
 import {Container, Header} from 'semantic-ui-react';
@@ -14,7 +14,7 @@ const ProfilePageStyle = styled(Container)`
         padding-top: 20px;
         display: flex;
         flex-direction: column;
-        width: 90%
+        width: 90%;
         margin: 0 auto;
         h3 {
             text-transform: capitalize;
@@ -37,7 +37,7 @@ const ProfilePageStyle = styled(Container)`
 const ExperienceHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
 
     h1,h2,h3 {
         margin: 0;
@@ -61,14 +61,14 @@ const ProfileHeader: FC<any> = (props) => {
 };
 
 const ProfilePage: FC<any> = (props) => {
-
+    const { readOnly, getProfileDetails, match, getCurrentUserDetails, user } = props;
     useEffect(() => {
-        if (props.readOnly) {
-            props.getProfileDetails(props.match.params.userId);
+        if (readOnly) {
+            getProfileDetails(match.params.userId);
         } else {
-            props.getCurrentUserDetails(props.user.id);
+            getCurrentUserDetails(user.id);
         }
-    }, [props.match.params.userId]);
+    }, [match.params.userId, readOnly, user.id, getProfileDetails, getCurrentUserDetails]);
 
     return (
         <ProfilePageStyle>
@@ -84,14 +84,20 @@ const ProfilePage: FC<any> = (props) => {
                     <h1>Experience</h1>
                     {!props.readOnly && <AddExperienceModal/>}
                 </ExperienceHeader>
-                <ExperienceList value={'theatreExperience'} type={'Theatre'} experiences={props.user.theatreExperience} readOnly={props.readOnly}/>
-                <ExperienceList value={'musicalTheatreExperience'} type={'Musical Theatre'} experiences={props.user.musicalTheatreExperience}
+                <ExperienceList value={'theatreExperience'} type={'Theatre'} experiences={props.user.theatreExperience}
                                 readOnly={props.readOnly}/>
-                <ExperienceList value={'operaExperience'} type={'Opera'} experiences={props.user.operaExperience} readOnly={props.readOnly}/>
-                <ExperienceList value={'filmExperience'} type={'Film'} experiences={props.user.filmExperience} readOnly={props.readOnly}/>
-                <ExperienceList value={'televisionExperience'} type={'Television'} experiences={props.user.televisionExperience}
+                <ExperienceList value={'musicalTheatreExperience'} type={'Musical Theatre'}
+                                experiences={props.user.musicalTheatreExperience}
                                 readOnly={props.readOnly}/>
-                <ExperienceList value={'commercialExperience'} type={'Commercial'} experiences={props.user.commercialExperience}
+                <ExperienceList value={'operaExperience'} type={'Opera'} experiences={props.user.operaExperience}
+                                readOnly={props.readOnly}/>
+                <ExperienceList value={'filmExperience'} type={'Film'} experiences={props.user.filmExperience}
+                                readOnly={props.readOnly}/>
+                <ExperienceList value={'televisionExperience'} type={'Television'}
+                                experiences={props.user.televisionExperience}
+                                readOnly={props.readOnly}/>
+                <ExperienceList value={'commercialExperience'} type={'Commercial'}
+                                experiences={props.user.commercialExperience}
                                 readOnly={props.readOnly}/>
             </div>
         </ProfilePageStyle>

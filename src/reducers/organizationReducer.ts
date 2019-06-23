@@ -1,6 +1,6 @@
 import {IOrganization} from '../types/IOrganization';
 import {Reducer} from 'redux';
-import {ORG_ACTIONS} from '../actions/organization/actions';
+import {ORG_ACTIONS} from '../actions/organizationActions';
 
 const initialState = {
     organizations: [],

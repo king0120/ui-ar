@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {fetchAllOrganizations} from '../actions/organization/organizationThunkActions';
+import {fetchAllOrganizations} from '../actions/organizationActions';
 import {Card} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';

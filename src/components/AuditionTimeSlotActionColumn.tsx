@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import styled from "styled-components";
 import {Button, Popup} from "semantic-ui-react";
 import {connect} from "react-redux";
-import { deleteTimeSlot } from "../actions/audition/auditionThunkActions";
+import { deleteTimeSlot } from "../actions/auditionActions";
 
 
 export const ActionsContainer = styled.div`

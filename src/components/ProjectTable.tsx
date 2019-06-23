@@ -10,8 +10,8 @@ import AddProjectModal from './AddProjectModal';
 import ProjectActionColumn from './ProjectActionColumn';
 import {IProject} from '../types/IProject';
 import {format} from 'date-fns';
-import {createProject, deleteProject} from '../actions/project/projectThunkActions';
-import {fetchOrganization} from '../actions/organization/organizationThunkActions';
+import {createProject, deleteProject} from '../actions/projectActions';
+import {fetchOrganization} from '../actions/organizationActions';
 
 const TableHeader = styled.div`
   display: flex;

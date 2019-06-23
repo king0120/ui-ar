@@ -1,4 +1,4 @@
-import thunk from 'redux-thunk' 
+import thunk from 'redux-thunk'
 import {
   applyMiddleware,
   compose,
@@ -10,6 +10,7 @@ import rootReducer from './reducers/index';
 declare global {
   interface Window { __REDUX_DEVTOOLS_EXTENSION__: any; }
 }
+
 
 // Redux DevTools Extension for Chrome and Firefox
 const reduxDevTool = () => {

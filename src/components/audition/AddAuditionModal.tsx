@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {connect} from 'react-redux';
-import {createAudition} from '../../actions/audition/auditionThunkActions';
+import {createAudition} from '../../actions/auditionActions';
 
 const AddAuditionModal: FC<any> = ({projectId, createAudition}) => {
     const onSubmit = (data: any) => createAudition(projectId, data);

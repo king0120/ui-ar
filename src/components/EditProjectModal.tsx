@@ -3,8 +3,8 @@ import {Button, Form, Modal} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import {IProject} from '../types/IProject';
 import {connect} from 'react-redux';
-import {editProject} from '../actions/project/projectThunkActions';
-import {fetchOrganization} from '../actions/organization/organizationThunkActions';
+import {editProject} from '../actions/projectActions';
+import {fetchOrganization} from '../actions/organizationActions';
 
 const AddProjectModal: FC<{
     project: IProject;

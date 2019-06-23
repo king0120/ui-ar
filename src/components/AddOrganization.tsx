@@ -1,11 +1,26 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {connect} from 'react-redux';
 import AddressInput from './AddressInput';
+import {createOrganization} from "../actions/organizationActions";
 
 const AddOrganization: FC<any> = (props) => {
-    const onSubmit = () => console.log('hello')
+    const [latLong, changeLatLong] = useState({});
+    const [address, changeAddress] = useState('');
+
+    const onSubmit = (val: any) => {
+        const toSubmit = {...val, ...latLong, address};
+        console.log(toSubmit)
+        props.createOrganization(toSubmit)
+    };
+    const handleAddressChange = (addressObject: any) => {
+        changeLatLong({
+            lat: addressObject.latlng.lat,
+            long: addressObject.latlng.lng
+        });
+        changeAddress(addressObject.value)
+    };
     return (
         <Modal
             trigger={
@@ -19,77 +34,28 @@ const AddOrganization: FC<any> = (props) => {
                         initialValues={{}}
                         render={({handleSubmit}) => (
                             <Form onSubmit={handleSubmit}>
-                                <AddressInput />
+                                <AddressInput handleChange={handleAddressChange}/>
                                 <Form.Field>
-                                    <label>Audition Name</label>
+                                    <label>Organization Name</label>
                                     <Field name={'name'} component={'input'} type={'text'}/>
                                 </Form.Field>
                                 <Form.Field>
-                                    <label>Audition Type</label>
-                                    <label>
-                                        <Field
-                                            name='auditionType'
-                                            component='input'
-                                            type='radio'
-                                            value='generalAudition'
-                                        />{' '} General Audition
-                                    </label>
-                                    <label>
-                                        <Field
-                                            name='auditionType'
-                                            component='input'
-                                            type='radio'
-                                            value='callback'
-                                        />{' '} Callback
-                                    </label>
-                                    <label>
-                                        <Field
-                                            name='auditionType'
-                                            component='input'
-                                            type='radio'
-                                            value='callForSubmission'
-                                        />{' '} Call For Submission
-                                    </label>
+                                    <label>Contact Phone Number</label>
+                                    <Field name={'contactPhoneNumber'} component={'input'} type={'number'}/>
                                 </Form.Field>
                                 <Form.Field>
-                                    <label>Audition Team</label>
-                                    <Field name={'auditionTeam'} component={'select'}>
-                                        <option value="0">Not Yet Available</option>
-                                    </Field>
+                                    <label>IRS Status</label>
+                                    <Field name={'irsStatus'} component={'input'}/>
                                 </Form.Field>
                                 <Form.Group>
-                                    <Form.Field width={8}>
-                                        <label>Address</label>
-                                        <Field name={'address1'} component={'input'} type={'text'}/>
-                                    </Form.Field>
-                                    <Form.Field width={8}>
-                                        <label>Address 2</label>
-                                        <Field name={'address2'} component={'input'} type={'text'}/>
-                                    </Form.Field>
+                                    <label>About Us</label>
+                                    <Field name={'aboutUs'} component={'textarea'}/>
                                 </Form.Group>
-                                <Form.Field>
-                                    <label>Contact Number</label>
-                                    <Field name={'phoneNumber'} component={'input'} type={'tel'}/>
-                                </Form.Field>
-                                <Form.Group widths={'equal'}>
-                                    <Form.Field>
-                                        <label>City</label>
-                                        <Field name={'city'} component={'input'} type={'text'}/>
-                                    </Form.Field>
-                                    <Form.Field>
-                                        <label>State</label>
-                                        <Field name={'state'} component={'input'} type={'text'}/>
-                                    </Form.Field>
-                                    <Form.Field>
-                                        <label>Zip Code</label>
-                                        <Field name={'zipCode'} component={'input'} type={'number'}/>
-                                    </Form.Field>
+                                <Form.Group>
+                                    <label>EID Statement</label>
+                                    <Field name={'eid'} component={'textarea'}/>
                                 </Form.Group>
-                                <Form.Field>
-                                    <label>Description</label>
-                                    <Field name={'description'} component={'textarea'}/>
-                                </Form.Field>
-                                <Button type={'submit'}>Save Audition</Button>
+                                <Button type={'submit'}>Save Organization</Button>
                             </Form>
                         )}
                     />
@@ -103,4 +69,4 @@ const mapStateToProps = (state: any) => ({
     hello: 'world'
 });
 
-export default connect(mapStateToProps, {})(AddOrganization);
+export default connect(mapStateToProps, { createOrganization })(AddOrganization);

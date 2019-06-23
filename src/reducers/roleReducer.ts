@@ -1,6 +1,6 @@
 import {IRole} from '../types/IRole';
 import {Reducer} from 'redux';
-import {ROLE_ACTIONS} from '../actions/role/actions';
+import {ROLE_ACTIONS} from '../actions/roleActions';
 
 const initialState = {
     roles: []

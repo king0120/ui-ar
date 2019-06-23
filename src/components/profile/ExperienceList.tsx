@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Button, Card, Item} from 'semantic-ui-react';
-import {removeExperience} from '../../actions/talent/talentActions';
+import {removeExperience} from '../../actions/talentActions';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 

@@ -1,7 +1,7 @@
 import {IProject} from '../types/IProject';
 import {Reducer} from 'redux';
-import {ORG_ACTIONS} from '../actions/organization/actions';
-import {PROJECT_ACTIONS} from '../actions/project/actions';
+import {ORG_ACTIONS} from '../actions/organizationActions';
+import {PROJECT_ACTIONS} from '../actions/projectActions';
 
 const initialState = {
     projects: [],

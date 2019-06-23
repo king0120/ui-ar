@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {connect} from 'react-redux';
-import {addExperience} from '../../actions/talent/talentActions';
+import {addExperience} from '../../actions/talentActions';
 
 const experiences = [{
     id: 'theatreExperience',

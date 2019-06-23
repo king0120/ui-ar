@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {createProjectRole, deleteRole, fetchRolesForProject} from '../../actions/role/roleThunkActions';
+import {createProjectRole, deleteRole, fetchRolesForProject} from '../../actions/roleActions';
 import {connect} from 'react-redux';
 import {Header, Label} from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -57,7 +57,7 @@ const RoleBreakdowns: FC<any> = ({roles, project, fetchRolesForProject, createPr
     const [expandedRows, setExpandedRows] = useState();
     useEffect(() => {
         fetchRolesForProject(project.id);
-    }, [project.id]);
+    }, [project.id, fetchRolesForProject]);
 
     const handleCreateRow = async (role: any) => {
         await createProjectRole(project.id, role);

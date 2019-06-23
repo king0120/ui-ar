@@ -3,7 +3,7 @@ import NavBar from './components/Header';
 import Router from './Router';
 import {BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {tokenCheck} from './actions/auth/authThunkActions';
+import {tokenCheck} from './actions/authActions';
 
 class App extends Component<any> {
     componentDidMount(): void {

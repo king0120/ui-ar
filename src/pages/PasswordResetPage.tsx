@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {CardPageContainer, LoginCard} from '../styles/shared';
 import {Button, Form, Input} from 'semantic-ui-react';
-import arAxios from '../axiosHelper';
+import arAxios from '../utils/axiosHelper';
 
 const PasswordResetPage = (props: any) => {
     const [email, changeEmail] = useState('');

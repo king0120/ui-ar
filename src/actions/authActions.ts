@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import arAxios from '../../axiosHelper';
+import arAxios from '../utils/axiosHelper';
 
 export function logIn(userLogin: any) {
     return async (dispatch: Dispatch) => {

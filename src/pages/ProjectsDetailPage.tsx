@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {IProject} from '../types/IProject';
 import ProjectSidebar from '../components/project/ProjectSidebar';
 import styled from 'styled-components';
-import {fetchProject} from '../actions/project/projectThunkActions';
+import {fetchProject} from '../actions/projectActions';
 import {match, Route} from 'react-router-dom';
 import RoleBreakdowns from '../components/project/RoleBreakdowns';
 import Auditions from '../components/project/Auditions';

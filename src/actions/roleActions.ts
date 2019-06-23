@@ -1,7 +1,13 @@
 import {Dispatch} from 'redux';
-import {ROLE_ACTIONS} from './actions';
-import arAxios from '../../axiosHelper';
-import {IRole} from '../../types/IRole';
+import arAxios from '../utils/axiosHelper';
+import {IRole} from '../types/IRole';
+
+export enum ROLE_ACTIONS {
+    FETCH_ROLES_SUCCESS = 'FETCH_ROLES_SUCCESS',
+    FETCH_ROLE_CREATE_SUCCESS = 'FETCH_ROLE_CREATE_SUCCESS',
+    FETCH_ROLE_EDIT_SUCCESS = 'FETCH_ROLE_EDIT_SUCCESS',
+    FETCH_ROLE_DELETE_SUCCESS = 'FETCH_ROLE_DELETE_SUCCESS',
+}
 
 export function createProjectRole(projectId: number, newProjectRole: IRole) {
     return async (dispatch: Dispatch) => {

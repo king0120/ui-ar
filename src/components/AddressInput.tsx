@@ -2,7 +2,10 @@ import React from 'react';
 import * as places from 'places.js';
 import {Input} from 'semantic-ui-react';
 
-class AddressInput extends React.Component {
+class AddressInput extends React.Component<any> {
+    static defaultProps = {
+        handleChange: () => {}
+    }
     componentDidMount(): void {
         const placeInstance = places({
             appId: 'plL5W1957CCG',
@@ -15,7 +18,10 @@ class AddressInput extends React.Component {
             countries: ['us'],
         });
 
-        placeInstance.on('change', (e: any) => console.log(e.suggestion));
+        placeInstance.on('change', (e: any) => {
+            console.log(e.suggestion)
+            this.props.handleChange(e.suggestion);
+        });
     }
 
     render() {

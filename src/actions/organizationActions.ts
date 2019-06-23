@@ -21,7 +21,21 @@ export function createOrganization(orgBody: any) {
             type: ORG_ACTIONS.FETCH_ORGANIZATION_CREATE_SUCCESS,
             org,
         });
-        dispatch<any>(fetchOrganization(org.id));
+        dispatch<any>(fetchAllOrganizations());
+    };
+}
+
+export function editOrganization(id: any, orgBody: any) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+
+        const res: { data: IOrganization } = await arAxios.put(`api/v1/organizations/${id}`, orgBody);
+        const org = res.data;
+        dispatch({
+            type: ORG_ACTIONS.FETCH_ORGANIZATION_EDIT_SUCCESS,
+            org,
+        });
+        dispatch<any>(fetchOrganization(id));
     };
 }
 
@@ -48,6 +62,18 @@ export function fetchAllOrganizations() {
         dispatch({
             type: ORG_ACTIONS.FETCH_ALL_ORGANIZATION_SUCCESS,
             organizations: res.data,
+        });
+    };
+}
+
+export function deleteOrganization(id: number) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+
+        await arAxios.delete(`api/v1/organizations/${id}`);
+
+        dispatch({
+            type: ORG_ACTIONS.FETCH_ORGANIZATION_DELETE_SUCCESS,
         });
     };
 }

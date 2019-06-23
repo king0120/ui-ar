@@ -20,6 +20,10 @@ const GlobalStyle = createGlobalStyle`
   .pi {
     margin-left: -8px;
   }
+  
+  #address-input {
+    width: 100%;
+  }
 `;
 
 const store = configureStore({});

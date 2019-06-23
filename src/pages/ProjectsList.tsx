@@ -4,8 +4,10 @@ import ProjectTable from '../components/ProjectTable';
 import Calendar from '../components/Calendar';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchOrganization} from '../actions/organizationActions';
+import {fetchOrganization, deleteOrganization} from '../actions/organizationActions';
 import {IOrganization} from '../types/IOrganization';
+import ConfirmationModal from "../components/ConfirmationModal";
+import AddOrganization from "../components/AddEditOrganization";
 
 const TheatreHeader = styled.div`
   display: flex;
@@ -18,10 +20,9 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const ProjectsList: FC<IProjectList> = ({organization, fetchOrganization, match}) => {
-
+const ProjectsList: FC<IProjectList> = ({organization, fetchOrganization, deleteOrganization, history, match}) => {
+    const orgId = match.params.organizationId;
     useEffect(() => {
-        const orgId = match.params.organizationId;
         fetchOrganization(orgId);
     }, [fetchOrganization, match.params.organizationId]);
     const panes = [
@@ -33,11 +34,18 @@ const ProjectsList: FC<IProjectList> = ({organization, fetchOrganization, match}
         return <h1>Loading</h1>;
     }
 
+    const handleDeleteOrg = () => {
+        deleteOrganization(orgId)
+        history.push('/organization')
+    }
     return (
         <Container>
             <TheatreHeader>
                 <Header as="h1">{organization.name}</Header>
-                <Button color={'yellow'}>Edit Organization</Button>
+                <div>
+                    <AddOrganization defaultValue={organization}/>
+                    <ConfirmationModal onConfirm={handleDeleteOrg}/>
+                </div>
             </TheatreHeader>
 
             <Tab menu={{fluid: true, tabular: true}} panes={panes}/>
@@ -48,7 +56,9 @@ const ProjectsList: FC<IProjectList> = ({organization, fetchOrganization, match}
 interface IProjectList {
     organization: IOrganization;
     fetchOrganization: (id: number) => {};
+    deleteOrganization: (id: number) => {};
     match: any;
+    history: any;
 }
 
 const mapStateToProps = (state: any) => {
@@ -56,4 +66,4 @@ const mapStateToProps = (state: any) => {
         organization: state.organization.organization
     };
 };
-export default connect(mapStateToProps, {fetchOrganization})(ProjectsList);
+export default connect(mapStateToProps, {fetchOrganization, deleteOrganization})(ProjectsList);

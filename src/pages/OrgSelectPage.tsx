@@ -1,23 +1,19 @@
 import React, {FC, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {fetchAllOrganizations} from '../actions/organizationActions';
-import {Card} from 'semantic-ui-react';
+import {Card, List} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import AddOrganization from '../components/AddOrganization';
+import AddOrganization from '../components/AddEditOrganization';
 
-const OrgWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-
-    .card {
-        height: 100px;
-        margin: 20px;
-        margin-top: 20px;
-        margin-bottom: 20px !important;
+const OrgPageStyle = styled.div`
+    width: 90%;
+    margin: 20px auto;
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 `;
 
@@ -27,24 +23,24 @@ const OrgSelectPage: FC<any> = ({fetchAllOrganizations, orgs}) => {
     }, [fetchAllOrganizations]);
 
     return (
-        <div>
-            <h1>Select An Organization Below</h1>
-            <AddOrganization />
-            <OrgWrapper>
+        <OrgPageStyle>
+            <div className={'header'}>
+                <h1>Select An Organization Below</h1>
+                <AddOrganization/>
+            </div>
+            <List bulleted divided relaxed>
                 {orgs.map((org: any) => (
-                    <Link to={`/organization/${org.id}/projects`} key={org.id}>
-                        <Card>
-                            <Card.Content>
-                                <Card.Header>{org.name}</Card.Header>
-                                <Card.Meta>
-                                    <span>{org.orgAddress1} {org.orgAddress2}, {org.orgCity}, {org.orgStates}</span>
-                                </Card.Meta>
-                            </Card.Content>
-                        </Card>
-                    </Link>
+                    <List.Item>
+                        <Link to={`/organization/${org.id}/projects`} key={org.id}>
+                            <List.Content>
+                                <List.Header as='a'>{org.name}</List.Header>
+                                <List.Description as='a'>{org.address}</List.Description>
+                            </List.Content>
+                        </Link>
+                    </List.Item>
                 ))}
-            </OrgWrapper>
-        </div>
+            </List>
+        </OrgPageStyle>
     );
 };
 

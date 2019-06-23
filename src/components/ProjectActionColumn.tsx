@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Button, Icon, Modal, Popup} from 'semantic-ui-react';
 import {IProject} from '../types/IProject';
 import EditProjectModal from './EditProjectModal';
+import ConfirmationModal from './ConfirmationModal';
 
 export const ActionsContainer = styled.div`
   display: flex;
@@ -15,28 +16,6 @@ interface IProjectActionColumn {
     deleteProject: (id: number) => {};
 }
 
-const DeleteModal: FC<any> = ({deleteProject, id}) => {
-    const [open, changeOpen] = useState(false);
-
-    return (
-        <Modal open={open} trigger={<Button onClick={() => changeOpen(true)} circular={true} color='red' icon='delete'/>}>
-            <Modal.Content>
-                Are you sure you want to delete this project?
-            </Modal.Content>
-            <Modal.Actions>
-                <Button basic color='red' onClick={() => changeOpen(false)}>
-                    <Icon name='remove'/> No
-                </Button>
-                <Button color='green' onClick={() => {
-                    deleteProject(id);
-                    changeOpen(false);
-                }}>
-                    <Icon name='checkmark'/> Yes
-                </Button>
-            </Modal.Actions>
-        </Modal>
-    );
-};
 
 const ProjectActionColumn: FC<IProjectActionColumn> = ({data, deleteProject}) => {
     return (
@@ -58,7 +37,7 @@ const ProjectActionColumn: FC<IProjectActionColumn> = ({data, deleteProject}) =>
             <Popup
                 inverted
                 trigger={
-                    <DeleteModal id={data.id} deleteProject={deleteProject}/>
+                    <ConfirmationModal id={data.id} onConfirm={() => deleteProject(data.id)}/>
                 }
                 content='Delete This Project'
             />

@@ -8,8 +8,13 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
     const [shortName, setShortName] = useState('');
     const [director, setDirector] = useState('');
     const [writer, setWriter] = useState('');
-    const [auditionDate, setAuditionDate] = useState(new Date());
-    const [callbackDate, setCallbackDate] = useState(new Date());
+    const [rehearsalStart, setRehearsalStart] = useState(new Date());
+    const [rehearsalEnd, setRehearsalEnd] = useState(new Date());
+    const [performanceStart, setPerformanceStart] = useState(new Date());
+    const [performanceEnd, setPerformanceEnd] = useState(new Date());
+
+    const [summary, setSummary] = useState('')
+    const [notes, setNotes] = useState('')
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
@@ -18,8 +23,12 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
             shortName,
             director,
             writer,
-            auditionDate: auditionDate.toString(),
-            callbackDate: callbackDate.toString()
+            summary,
+            notes,
+            rehearsalDateStart: rehearsalStart.toString(),
+            rehearsalDateEnd: rehearsalEnd.toString(),
+            performanceDateStart: performanceStart.toString(),
+            performanceDateEnd: performanceEnd.toString(),
         });
         setOpen(false);
     };
@@ -44,11 +53,6 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
                             <input value={name} onChange={e => setName(e.target.value)} placeholder='Name'/>
                         </Form.Field>
                         <Form.Field>
-                            <label>Short Name</label>
-                            <input value={shortName} onChange={e => setShortName(e.target.value)}
-                                   placeholder='Short Name'/>
-                        </Form.Field>
-                        <Form.Field>
                             <label>Director</label>
                             <input value={director} onChange={e => setDirector(e.target.value)} placeholder='Director'/>
                         </Form.Field>
@@ -57,13 +61,33 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
                             <input value={writer} onChange={e => setWriter(e.target.value)} placeholder='Writer'/>
                         </Form.Field>
                         <Form.Field>
-                            <label>Audition Date</label>
-                            <DatePicker selected={auditionDate} onChange={(data: Date) => setAuditionDate(data)}/>
+                            <label>Project Summary</label>
+                            <textarea value={summary} onChange={e => setSummary(e.target.value)} placeholder='Summary'/>
                         </Form.Field>
                         <Form.Field>
-                            <label>Callback Date</label>
-                            <DatePicker selected={callbackDate} onChange={(data: Date) => setCallbackDate(data)}/>
+                            <label>Project Notes (Rehearsal plan, location, days off, etc.)</label>
+                            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder='Notes'/>
                         </Form.Field>
+                        <div>
+                            <Form.Field>
+                                <label>Rehearsal Start Date</label>
+                                <DatePicker selected={rehearsalStart} onChange={(data: Date) => setRehearsalStart(data)}/>
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Rehearsal End Date</label>
+                                <DatePicker selected={rehearsalEnd} onChange={(data: Date) => setRehearsalEnd(data)}/>
+                            </Form.Field>
+                        </div>
+                        <div>
+                            <Form.Field>
+                                <label>Performance Start Date</label>
+                                <DatePicker selected={performanceStart} onChange={(data: Date) => setPerformanceStart(data)}/>
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Performance End Date</label>
+                                <DatePicker selected={performanceEnd} onChange={(data: Date) => setPerformanceEnd(data)}/>
+                            </Form.Field>
+                        </div>
                         <Button type='submit' onClick={handleSubmit}>Submit</Button>
                     </Form>
                 </Modal.Description>

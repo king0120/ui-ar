@@ -26,7 +26,7 @@ const DetailHeader: FC<IDetailHeaderProps> = ({ project }) => {
         <Image src="https://dctheatrescene.com/wp-content/uploads/2019/04/hadestown3.jpg" />
       </div>
 
-      <Header as="h1">{project.name} <small>a.k.a {project.shortName}</small></Header>
+      <Header as="h1">{project.name}</Header>
     </DetailHeaderStyles>
   );
 };

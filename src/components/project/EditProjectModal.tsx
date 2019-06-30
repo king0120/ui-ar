@@ -1,10 +1,10 @@
 import React, {FC, SyntheticEvent, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
-import {IProject} from '../types/IProject';
+import {IProject} from '../../types/IProject';
 import {connect} from 'react-redux';
-import {editProject} from '../actions/projectActions';
-import {fetchOrganization} from '../actions/organizationActions';
+import {editProject} from '../../actions/projectActions';
+import {fetchOrganization} from '../../actions/organizationActions';
 
 const AddProjectModal: FC<{
     project: IProject;

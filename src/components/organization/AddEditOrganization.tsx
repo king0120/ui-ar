@@ -2,8 +2,8 @@ import React, {FC, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {connect} from 'react-redux';
-import AddressInput from './AddressInput';
-import {createOrganization, editOrganization} from "../actions/organizationActions";
+import AddressInput from '../shared/AddressInput';
+import {createOrganization, editOrganization} from "../../actions/organizationActions";
 
 const AddEditOrganization: FC<any> = ({editOrganization, createOrganization, defaultValue = {}}) => {
     const latlong: any = {}
@@ -17,7 +17,7 @@ const AddEditOrganization: FC<any> = ({editOrganization, createOrganization, def
 
     const onSubmit = (val: any) => {
         const toSubmit = {...val, ...latLong, address};
-        defaultValue ? editOrganization(defaultValue.id, toSubmit) : createOrganization(toSubmit)
+        defaultValue.name ? editOrganization(defaultValue.id, toSubmit) : createOrganization(toSubmit)
         changeOpen(false)
     };
 
@@ -63,7 +63,8 @@ const AddEditOrganization: FC<any> = ({editOrganization, createOrganization, def
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Address</label>
-                                    <AddressInput defaultValue={defaultValue.address} handleChange={handleAddressChange}/>
+                                    <AddressInput defaultValue={defaultValue.address}
+                                                  handleChange={handleAddressChange}/>
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Contact Phone Number</label>

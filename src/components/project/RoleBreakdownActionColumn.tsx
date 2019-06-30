@@ -1,28 +1,74 @@
-import React, { FC } from 'react';
-import { Button, Popup } from 'semantic-ui-react'
-import { ActionsContainer } from '../ProjectActionColumn';
+import React, {FC, useState} from 'react';
+import {Button, Card, Modal, Popup} from 'semantic-ui-react'
+import { ActionsContainer } from '../organization/ProjectActionColumn';
 import { IProject } from '../../types/IProject';
+import {ActorSearch} from "../../pages/ActorSearchPage";
+import {castRole} from "../../actions/roleActions";
+import {connect} from "react-redux";
 
 interface IProjectActionColumn {
   data: IProject;
   deleteRole: () => {}
 }
+const CastRoleModal = (props: any) => {
+    const [open, changeOpen] = useState(false)
+    const trigger = (
+        <Popup
+            inverted
+            trigger={
+                <Button primary onClick={() => changeOpen(true)} circular color="green" icon='user'/>
+            }
+            content="Cast This Role"
+        />
+    )
 
-const RoleBreakdownActionColumn: FC<IProjectActionColumn> = ({ deleteRole }) => {
+    return (
+        <Modal
+            open={open}
+            onClose={() => {
+                changeOpen(false);
+            }}
+            trigger={trigger}>
+            <Card fluid style={{margin: 0, minHeight: "200px"}}>
+                <Card.Content>
+                    <Card.Header>Search For A Member</Card.Header>
+                    <ActorSearch handleClickTalent={(id: any) => {
+                        props.castRole(props.projectId, props.roleId, id)
+                        changeOpen(false);
+                    }}/>
+                </Card.Content>
+            </Card>
+        </Modal>
+    )
+}
+
+const RoleBreakdownActionColumn: FC<any> = ({data, projectId, deleteRole, castRole }) => {
   return (
     <ActionsContainer>
         <Popup
           inverted
           trigger={
-            <Button 
-              onClick={() => deleteRole()} 
-              circular color="red" icon='delete' 
-            />
+              <CastRoleModal castRole={castRole} roleId={data.id} projectId={projectId}/>
           }
-          content="Delete This Role"
+          content="Cast This Role"
+        />
+
+        <Popup
+            inverted
+            trigger={
+                <Button
+                    onClick={() => deleteRole()}
+                    circular color="red" icon='delete'
+                />
+            }
+            content="Delete This Role"
         />
       </ActionsContainer>
   );
 };
 
-export default RoleBreakdownActionColumn;
+const mapStateToProps = (state: any) => ({
+    projectId: state.projects.project.id,
+})
+
+export default connect(mapStateToProps , {castRole})(RoleBreakdownActionColumn);

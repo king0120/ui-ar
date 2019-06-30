@@ -1,6 +1,8 @@
 import {Dispatch} from 'redux';
 import arAxios from '../utils/axiosHelper';
 import {finishLoad, startLoad} from "./generalActions";
+import {ORG_ACTIONS} from "./organizationActions";
+import {fetchProject} from './projectActions';
 
 export enum AUDITION_ACTIONS {
     ADD_TALENT_TO_AUDITION_SUCCESS = 'ADD_TALENT_TO_AUDITION_SUCCESS',
@@ -16,6 +18,8 @@ export enum AUDITION_ACTIONS {
 export function createAudition(projectId: string, audition: any) {
     return async (dispatch: Dispatch) => {
         dispatch(startLoad());
+        const { question1, question2,question3, question4, question5} = audition;
+        audition.questions = [question1, question2,question3, question4, question5];
         const res = await arAxios.post(`/api/v1/projects/${projectId}/auditions`, audition);
 
         dispatch({
@@ -39,6 +43,20 @@ export function fetchAudition(projectId: string, id: string) {
         dispatch(finishLoad());
     };
 }
+
+export function deleteAudition(projectId: string, id: number) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+
+        await arAxios.delete(`/api/v1/projects/${projectId}/auditions/${id}`);
+
+        dispatch({
+            type: AUDITION_ACTIONS.FETCH_AUDITION_DELETE_SUCCESS,
+        });
+        dispatch<any>(fetchProject(projectId));
+    };
+}
+
 
 export function fetchTimeSlots(projectId: number, auditionId: number) {
     return async (dispatch: Dispatch) => {

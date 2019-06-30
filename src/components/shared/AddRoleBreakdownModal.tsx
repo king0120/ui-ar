@@ -1,8 +1,9 @@
 import React, {FC, SyntheticEvent, useState} from 'react';
 import {Button, Checkbox, Form, Modal} from 'semantic-ui-react';
-import TalentSpecificationsForm from './shared/TalentSpecificationsForm';
+import TalentSpecificationsForm from './TalentSpecificationsForm';
 import {connect} from 'react-redux';
-import {getFormState} from '../reducers/finalFormReducer';
+import {getFormState} from '../../reducers/finalFormReducer';
+import {ActorSearch} from '../../pages/ActorSearchPage';
 
 const AddRoleBreakdownModal: FC<{ specs: any, handleSubmit: (val: any) => void }> = (props) => {
     const [open, setOpen] = useState(false);

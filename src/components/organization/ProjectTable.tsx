@@ -6,12 +6,12 @@ import {Column} from 'primereact/column';
 import {Link} from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
-import AddProjectModal from './AddProjectModal';
+import AddProjectModal from '../project/AddProjectModal';
 import ProjectActionColumn from './ProjectActionColumn';
-import {IProject} from '../types/IProject';
+import {IProject} from '../../types/IProject';
 import {format} from 'date-fns';
-import {createProject, deleteProject} from '../actions/projectActions';
-import {fetchOrganization} from '../actions/organizationActions';
+import {createProject, deleteProject} from '../../actions/projectActions';
+import {fetchOrganization} from '../../actions/organizationActions';
 
 const TableHeader = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ interface IProjectTableProps {
     createProject: (data: any, orgId: number) => {};
     deleteProject: (data: any) => {};
     fetchOrganization: (id: number) => {};
-    projects: IProject[];
+    projects: any[];
     organizationId: number;
 }
 
@@ -37,23 +37,32 @@ export class ProjectTable extends React.Component<IProjectTableProps, IProjectTa
         expandedRows: [],
     };
 
-    rowExpansionTemplate(data: IProject) {
+    rowExpansionTemplate(data: any) {
         return (
-            <Link to={`/projects/${data.id}/dashboard`}>
-                <div className='p-grid p-fluid' style={{padding: '1em'}}>
-                    <Header as={'h2'}>{data.name}</Header>
-                    <Header as={'h3'}>aka: {data.shortName}</Header>
+            <div className='p-grid p-fluid' style={{padding: '1em'}}>
+                <Header as={'h2'}>{data.name}</Header>
+                <Header as={'h3'}>Written By: {data.writer}</Header>
+                <Header as={'h3'}>Directed By: {data.director}</Header>
+
+                <div>
+                    <h4>Summary</h4>
+                    <p>{data.summary}</p>
+                    <h4>Notes</h4>
                     <div>
-                        <h4>Summary</h4>
-                        <p>{data.projectSummary}</p>
-                        <hr></hr>
-                        <h4>Notes</h4>
-                        <div>
-                            <p>{data.projectNotes}</p>
-                        </div>
+                        <p>{data.notes}</p>
                     </div>
                 </div>
-            </Link>
+                <hr></hr>
+                <div>
+                    <h4>Rehearsal Dates</h4>
+                    {format(data.rehearsalDateStart, 'MMM Do, YYYY')} to {format(data.rehearsalDateEnd, 'MMM Do, YYYY')}
+                </div>
+                <hr></hr>
+                <div>
+                    <h4>Performance Dates</h4>
+                    {format(data.performanceDateStart, 'MMM Do, YYYY')} to {format(data.performanceDateEnd, 'MMM Do, YYYY')}
+                </div>
+            </div>
         );
     }
 
@@ -78,17 +87,17 @@ export class ProjectTable extends React.Component<IProjectTableProps, IProjectTa
                         to={`/organization/${this.props.organizationId}/projects/${data.id}/dashboard`}>{data.name}</Link>}/>
                     <Column field='director' header='Director'/>
                     <Column
-                        field='auditionDate'
-                        header='Audition Dates'
-                        body={(rowData: IProject) => (
-                            format(rowData.auditionDate, 'MMM Do, YYYY')
+                        field='rehearsalDateStart'
+                        header='Rehearsal Start'
+                        body={(rowData: any) => (
+                            format(rowData.rehearsalDateStart, 'MMM Do, YYYY')
                         )}
                     />
                     <Column
-                        field='callbackDate'
-                        header='Callback Dates'
-                        body={(rowData: IProject) => (
-                            format(rowData.callbackDate, 'MMM Do, YYYY')
+                        field='performanceDateStart'
+                        header='Performance Start'
+                        body={(rowData: any) => (
+                            format(rowData.performanceDateStart, 'MMM Do, YYYY')
                         )}
                     />
                     <Column body={

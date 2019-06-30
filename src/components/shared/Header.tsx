@@ -1,10 +1,10 @@
 import React, {Component, SyntheticEvent} from 'react';
 import {Dropdown, Image, Menu, MenuItemProps} from 'semantic-ui-react';
-import ARLogo from '../static/arLogo.png';
+import ARLogo from '../../static/arLogo.png';
 import styled from 'styled-components';
 import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {logOut} from '../actions/authActions';
+import {logOut} from '../../actions/authActions';
 
 type IClickHandler = (event: SyntheticEvent, data: MenuItemProps) => void;
 

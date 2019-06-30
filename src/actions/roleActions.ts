@@ -19,7 +19,20 @@ export function createProjectRole(projectId: number, newProjectRole: IRole) {
             type: ROLE_ACTIONS.FETCH_ROLE_CREATE_SUCCESS,
             role,
         });
-        fetchRolesForProject(projectId);
+        dispatch<any>(fetchRolesForProject(projectId));
+    };
+}
+
+export function castRole(projectId: string, id: string, userId: string) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+
+        const res: { data: any } = await arAxios.put(`/api/v1/projects/${projectId}/roles/${id}/cast`, {userId});
+        const role = res.data;
+        dispatch({
+            type: 'CAST_ROLE_SUCCESS',
+        });
+        dispatch<any>(fetchRolesForProject(projectId as any as number));
     };
 }
 

@@ -6,7 +6,7 @@ import {register} from '../actions/authActions';
 import {withRouter} from 'react-router-dom';
 import {LoginCard} from '../styles/shared';
 import {CardPageContainer} from '../styles/shared';
-import AddressInput from '../components/AddressInput';
+import AddressInput from '../components/shared/AddressInput';
 
 const RegistrationPage: FC<any> = (props) => {
     const [firstName, changeFirstName] = useState('');

@@ -13,7 +13,7 @@ const LogInPage: FC<any> = (props) => {
     async function handleSubmit(e: any) {
         e.preventDefault();
         await props.logIn({email, password});
-        props.history.goBack();
+        props.history.push('/profile');
     }
 
     return (

@@ -58,10 +58,16 @@ export function fetchAllOrganizations() {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
 
-        const res: { data: IOrganization } = await arAxios.get('api/v1/organizations');
+        const res: { data: any } = await arAxios.get('api/v1/organizations');
+        console.log(res.data)
+        const owned = res.data.owned.map((org: any) => {
+            org.owned = true
+            return org
+        });
+        console.log(owned)
         dispatch({
             type: ORG_ACTIONS.FETCH_ALL_ORGANIZATION_SUCCESS,
-            organizations: res.data,
+            organizations: [...owned, ...res.data.member],
         });
     };
 }
@@ -75,5 +81,32 @@ export function deleteOrganization(id: number) {
         dispatch({
             type: ORG_ACTIONS.FETCH_ORGANIZATION_DELETE_SUCCESS,
         });
+    };
+}
+
+
+export function addMemberToOrganization(id: number, memberId: string) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+
+        await arAxios.put(`api/v1/organizations/${id}/member`, {memberId});
+
+        dispatch({
+            type: 'ADD_MEMBER_TO_ORG_SUCCESS',
+        });
+        dispatch<any>(fetchOrganization(id));
+    };
+}
+
+export function removeMemberFromOrganization(id: number, memberId: string) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+
+        await arAxios.put(`api/v1/organizations/${id}/removeMember`, {memberId});
+
+        dispatch({
+            type: 'REMOVE_MEMBER_TO_ORG_SUCCESS',
+        });
+        dispatch<any>(fetchOrganization(id));
     };
 }

@@ -3,7 +3,7 @@ import {Column} from 'primereact/column';
 import moment from 'moment';
 import {Button, Modal} from 'semantic-ui-react';
 import {DataTable} from 'primereact/datatable';
-import AuditionTimeSlotActionColumn from '../AuditionTimeSlotActionColumn';
+import AuditionTimeSlotActionColumn from './AuditionTimeSlotActionColumn';
 import {ActorSearch} from '../../pages/ActorSearchPage';
 import {useDispatch, useSelector} from 'react-redux';
 import {inviteToAudition} from '../../actions/auditionActions';

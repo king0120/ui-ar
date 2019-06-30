@@ -5,7 +5,10 @@ import {Button, Header} from 'semantic-ui-react';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Link} from 'react-router-dom';
-import AddAuditionModal from '../audition/AddAuditionModal';
+import AddAuditionModal from '../audition/CreateAuditionModal';
+import ConfirmationModal from '../shared/ConfirmationModal';
+import {deleteAudition} from "../../actions/auditionActions";
+import {connect} from 'react-redux';
 
 const RowExpansion = () => {
     return (
@@ -17,12 +20,12 @@ const RowExpansion = () => {
     );
 };
 
-const Auditions: FC<IProjectsDetailPage> = ({project}) => {
+const Auditions: FC<any> = ({project, deleteAudition}) => {
     const auditions = project.auditions;
     const [expandedRows, setExpandedRows] = useState();
     return (
         <Container>
-            <div className='role-header'>
+            <div className='role-header'>T
                 <Header as='h1'>Upcoming Auditions for {project.name}</Header>
                 <AddAuditionModal/>
             </div>
@@ -38,16 +41,18 @@ const Auditions: FC<IProjectsDetailPage> = ({project}) => {
                 <Column field='name' header='Audition Name'/>
                 <Column field='auditionStartsOnUTC' header='Start Date'/>
                 <Column field='auditionType' header='Audition Type'/>
-                {/* <Column field="status" header="Status" /> */}
                 <Column
                     field='showInAuditionSearch'
                     body={(rowData: any) => rowData.showInAuditionSearch === 'YES' ? 'Public' : 'Private'} header='Status'/>
 
                 <Column body={
                     (data: any) => (
-                        <Link to={`/projects/${project.id}/audition-manager/${data.id}`}>
-                            <Button primary>Manage Audition</Button>
-                        </Link>
+                        <>
+                            <Link to={`/projects/${project.id}/audition-manager/${data.id}`}>
+                                <Button primary>Manage Audition</Button>
+                            </Link>
+                            <ConfirmationModal onConfirm={() => deleteAudition(project.id, data.id)}/>
+                        </>
                     )
                 }/>
             </DataTable>
@@ -55,4 +60,4 @@ const Auditions: FC<IProjectsDetailPage> = ({project}) => {
     );
 };
 
-export default Auditions;
+export default connect(null, {deleteAudition})(Auditions);

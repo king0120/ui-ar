@@ -4,7 +4,7 @@ import {deleteImage, getCurrentUserDetails, getProfileDetails, uploadImage} from
 import {Button, Header, Icon, Image, Segment} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
-import GoBackButton from '../components/GoBackButton';
+import GoBackButton from '../components/shared/GoBackButton';
 
 const StyleDropzone = styled.div`
     width: 90%;

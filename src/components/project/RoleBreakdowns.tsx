@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Header, Label} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {IRole} from '../../types/IRole';
-import AddRoleBreakdownModal from '../AddRoleBreakdownModal';
+import AddRoleBreakdownModal from '../shared/AddRoleBreakdownModal';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import RoleBreakdownActionColumn from './RoleBreakdownActionColumn';
@@ -85,6 +85,9 @@ const RoleBreakdowns: FC<any> = ({roles, project, fetchRolesForProject, createPr
                 <Column expander={true} style={{width: '2em'}}/>
                 <Column field='characterName' header='Character Name'/>
                 <Column field='characterSummary' header='Character Summary'/>
+                <Column header='Cast To' body={
+                    (data: any) => data.castTo && data.castTo.displayName || "Not Cast"
+                }/>
                 <Column body={
                     (data: any) => <RoleBreakdownActionColumn data={data} deleteRole={() => handleDeleteRow(data.id)}/>
                 } header='Actions'/>

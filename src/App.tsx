@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NavBar from './components/Header';
+import NavBar from './components/shared/Header';
 import Router from './Router';
 import {BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';

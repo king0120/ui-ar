@@ -122,9 +122,9 @@ const CreateAuditionModal: FC<any> = ({projectId, createAudition, roles, fetchRo
                                     {roles.map((role: any) => (
                                         <label>
                                             <Field
-                                                name='forRole'
+                                                name='forRoles'
                                                 component='input'
-                                                type='radio'
+                                                type='checkbox'
                                                 value={role.id}
                                             />{' '} {role.characterName}
                                         </label>

@@ -6,7 +6,7 @@ import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
 import GoBackButton from '../components/shared/GoBackButton';
 
-const StyleDropzone = styled.div`
+export const StyleDropzone = styled.div`
     width: 90%;
     margin: 20px auto;
     display: flex;

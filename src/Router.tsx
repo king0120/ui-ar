@@ -13,6 +13,7 @@ import ProfileImagePage from './pages/ProfileImagePage';
 import ActorSearchPage from './pages/ActorSearchPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 import SettingsPage from './pages/SettingsPage';
+import RoleBreakdownDetailPage from './pages/RoleBreakdownDetailPage';
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => (
     <Route {...rest} render={(props) => (
@@ -42,6 +43,7 @@ const AppRouter: FC<any> = ({loggedIn, children}) => {
                               component={(props: any) => <ProfilePage readOnly={true} {...props}/>}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects' component={ProjectsList}/>
                 <PrivateRoute loggedIn={loggedIn} path='/projects/:projectId/audition-manager/:auditionId' component={AuditionManagerPage}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/projects/:projectId/roles/:roleId' component={RoleBreakdownDetailPage}/>
                 <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId' component={ProjectsDetailPage}/>
             </Switch>
         </>

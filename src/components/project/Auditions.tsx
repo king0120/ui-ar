@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {IProjectsDetailPage} from '../../pages/ProjectsDetailPage';
+import Flex from 'styled-flex-component'
 import {Container} from './CommonStyledComponents';
 import {Button, Header} from 'semantic-ui-react';
 import {DataTable} from 'primereact/datatable';
@@ -25,7 +25,7 @@ const Auditions: FC<any> = ({project, deleteAudition}) => {
     const [expandedRows, setExpandedRows] = useState();
     return (
         <Container>
-            <div className='role-header'>T
+            <div className='role-header'>
                 <Header as='h1'>Upcoming Auditions for {project.name}</Header>
                 <AddAuditionModal/>
             </div>
@@ -45,14 +45,15 @@ const Auditions: FC<any> = ({project, deleteAudition}) => {
                     field='showInAuditionSearch'
                     body={(rowData: any) => rowData.showInAuditionSearch === 'YES' ? 'Public' : 'Private'} header='Status'/>
 
-                <Column body={
+                <Column
+                    body={
                     (data: any) => (
-                        <>
+                        <Flex spaceBetween>
                             <Link to={`/projects/${project.id}/audition-manager/${data.id}`}>
                                 <Button primary>Manage Audition</Button>
                             </Link>
                             <ConfirmationModal onConfirm={() => deleteAudition(project.id, data.id)}/>
-                        </>
+                        </Flex>
                     )
                 }/>
             </DataTable>

@@ -1,6 +1,7 @@
 import {Dispatch} from 'redux';
 import arAxios from '../utils/axiosHelper';
 import {IRole} from '../types/IRole';
+import {getCurrentUserDetails} from "./talentActions";
 
 export enum ROLE_ACTIONS {
     FETCH_ROLES_SUCCESS = 'FETCH_ROLES_SUCCESS',
@@ -49,6 +50,20 @@ export function fetchRolesForProject(projectId: number) {
     };
 }
 
+export function fetchRoleForProject(projectId: string, roleId: string) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+
+        const res: { data: any } = await arAxios.get(`/api/v1/projects/${projectId}/roles/${roleId}`);
+        console.log(res.data)
+        const role = res.data;
+        dispatch({
+            type: "FETCH_ROLE_SUCCESS",
+            role,
+        });
+    };
+}
+
 export function deleteRole(projectId: number, roleId: number) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
@@ -59,5 +74,20 @@ export function deleteRole(projectId: number, roleId: number) {
             type: ROLE_ACTIONS.FETCH_ROLE_DELETE_SUCCESS,
             role,
         });
+    };
+}
+
+export function uploadDocument(projectId: string, id: string, file: File[]) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+        const formData = new FormData();
+        formData.append('upload', file[0]);
+        const res: { data: any } = await arAxios.put(`/api/v1/projects/${projectId}/roles/${id}/document`, formData);
+        dispatch({
+            type: 'UPLOAD_DOCUMENT',
+        });
+
+
+        dispatch<any>(fetchRoleForProject(projectId, id));
     };
 }

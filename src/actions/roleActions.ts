@@ -55,7 +55,6 @@ export function fetchRoleForProject(projectId: string, roleId: string) {
         dispatch({type: 'REQUEST_STARTED'});
 
         const res: { data: any } = await arAxios.get(`/api/v1/projects/${projectId}/roles/${roleId}`);
-        console.log(res.data)
         const role = res.data;
         dispatch({
             type: "FETCH_ROLE_SUCCESS",

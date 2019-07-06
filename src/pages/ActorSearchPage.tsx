@@ -17,7 +17,6 @@ function NoReduxActorSearch(props: any) {
     return (
         <>
             <Form onSubmit={() => {
-                console.log(props);
                 props.searchUsers({value, type, spec: props.spec})
             }}>
                 <Input

@@ -24,7 +24,6 @@ class AddressInput extends React.Component<any> {
         });
 
         placeInstance.on('change', (e: any) => {
-            console.log(e.suggestion)
             this.props.handleChange(e.suggestion);
             this.setState({value: e.suggestion.value})
         });

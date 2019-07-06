@@ -52,7 +52,6 @@ const SearchTalent: FC<any> = ({ inviteToAudition, auditionId, projectId }) => {
 };
 
 const mapStateToProps = (state: any) => {
-    console.log(state)
     return {
         projectId: state.projects.project.id,
         auditionId: state.auditions.audition.id

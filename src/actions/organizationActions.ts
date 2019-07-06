@@ -59,12 +59,10 @@ export function fetchAllOrganizations() {
         dispatch({type: 'REQUEST_STARTED'});
 
         const res: { data: any } = await arAxios.get('api/v1/organizations');
-        console.log(res.data)
         const owned = res.data.owned.map((org: any) => {
             org.owned = true
             return org
         });
-        console.log(owned)
         dispatch({
             type: ORG_ACTIONS.FETCH_ALL_ORGANIZATION_SUCCESS,
             organizations: [...owned, ...res.data.member],

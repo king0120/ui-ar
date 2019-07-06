@@ -30,7 +30,6 @@ const AuditionTimeSlotActionColumn: FC<any> = ({projectId, auditionId, data,remo
                         circular color="red"
                         icon='remove user'
                         onClick={() => {
-                            console.log(data)
                             removeActorFromTimeslot(projectId, auditionId, data.id)
                         }}
                     />

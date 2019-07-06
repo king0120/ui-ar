@@ -10,7 +10,6 @@ const PasswordResetPage = (props: any) => {
     const [error, setError] = useState(false)
 
     const handleSubmit = async () => {
-        console.log('handleSUbmit')
         setError(false)
         try {
             if (!props.match.params.token) {

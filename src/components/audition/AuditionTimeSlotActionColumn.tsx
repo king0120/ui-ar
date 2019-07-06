@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import styled from "styled-components";
 import {Button, Popup} from "semantic-ui-react";
 import {connect} from "react-redux";
-import { deleteTimeSlot } from "../../actions/auditionActions";
+import {deleteTimeSlot, removeActorFromTimeslot} from "../../actions/auditionActions";
 
 
 export const ActionsContainer = styled.div`
@@ -12,32 +12,37 @@ export const ActionsContainer = styled.div`
 `;
 
 
-
-const AuditionTimeSlotActionColumn: FC<any> = ({auditionId, data, deleteTimeSlot}) => {
-    console.log(data)
+const AuditionTimeSlotActionColumn: FC<any> = ({projectId, auditionId, data,removeActorFromTimeslot, deleteTimeSlot}) => {
 
     return (
         <ActionsContainer>
             <Popup
                 inverted
                 trigger={
-                    <Button circular color="yellow" icon='edit' />
+                    <Button circular color="yellow" icon='edit'/>
                 }
                 content="Edit This Project"
             />
             <Popup
                 inverted
                 trigger={
-                    <Button circular color="orange" icon='add user'/>
+                    <Button
+                        circular color="red"
+                        icon='remove user'
+                        onClick={() => {
+                            console.log(data)
+                            removeActorFromTimeslot(projectId, auditionId, data.id)
+                        }}
+                    />
                 }
-                content="Manage Audition Teams"
+                content="Remove Actor"
             />
             <Popup
                 inverted
                 trigger={
                     <Button
                         circular color="red" icon='delete'
-                        onClick={() => deleteTimeSlot(5, auditionId, data.id)}
+                        onClick={() => deleteTimeSlot(projectId, auditionId, data.id)}
                     />
                 }
                 content="Delete This TimeSlot"
@@ -48,7 +53,8 @@ const AuditionTimeSlotActionColumn: FC<any> = ({auditionId, data, deleteTimeSlot
 
 const mapStateToProps = (state: any) => {
     return {
+        projectId: state.projects.project.id,
         auditionId: state.auditions.audition.id,
     }
 }
-export default connect(mapStateToProps, {deleteTimeSlot})(AuditionTimeSlotActionColumn);
+export default connect(mapStateToProps, {deleteTimeSlot, removeActorFromTimeslot})(AuditionTimeSlotActionColumn);

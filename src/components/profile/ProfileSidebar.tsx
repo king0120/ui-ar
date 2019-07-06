@@ -35,17 +35,19 @@ const AttributesModal: FC<any> = (props) => {
     );
 };
 
-const ProfileSidebar: FC<any> = (props = {user: {profileImages: []}}) => {
+const ProfileSidebar: FC<any> = (props: any) => {
     const imagePageUrl = props.readOnly ? `/profile/${props.user.id}/images` : '/profile/images';
     let imageUrl = 'https://image.shutterstock.com/z/stock-vector-default-avatar-profile-icon-grey-photo-placeholder-518740741.jpg';
-    if (props.user.profileImages && props.user.profileImages[0] && props.user.profileImages[0].url) {
-        imageUrl = props.user.profileImages[0].url;
+    if (props.user.profilePicture && props.user.profilePicture.url) {
+        imageUrl = props.user.profilePicture && props.user.profilePicture.url;
     }
     return (
         <div>
             <ProfileSidebarStyle divided relaxed>
                 <List.Item>
-                    <Image size={'medium'} src={imageUrl}/>
+                    <Link to={imagePageUrl}>
+                        <Image size={'medium'} src={imageUrl}/>
+                    </Link>
                 </List.Item>
                 {!props.readOnly &&
                 <List.Item as={'a'}>

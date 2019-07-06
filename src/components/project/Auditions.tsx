@@ -39,23 +39,23 @@ const Auditions: FC<any> = ({project, deleteAudition}) => {
             >
                 <Column expander={true} style={{width: '2em'}}/>
                 <Column field='name' header='Audition Name'/>
-                <Column field='auditionStartsOnUTC' header='Start Date'/>
+                <Column field='startDate' header='Start Date'/>
                 <Column field='auditionType' header='Audition Type'/>
                 <Column
                     field='showInAuditionSearch'
-                    body={(rowData: any) => rowData.showInAuditionSearch === 'YES' ? 'Public' : 'Private'} header='Status'/>
+                    body={(rowData: any) => rowData.private ? 'Private' : 'Public'} header='Status'/>
 
                 <Column
                     body={
-                    (data: any) => (
-                        <Flex spaceBetween>
-                            <Link to={`/projects/${project.id}/audition-manager/${data.id}`}>
-                                <Button primary>Manage Audition</Button>
-                            </Link>
-                            <ConfirmationModal onConfirm={() => deleteAudition(project.id, data.id)}/>
-                        </Flex>
-                    )
-                }/>
+                        (data: any) => (
+                            <Flex spaceBetween>
+                                <Link to={`/projects/${project.id}/audition-manager/${data.id}`}>
+                                    <Button primary>Manage Audition</Button>
+                                </Link>
+                                <ConfirmationModal onConfirm={() => deleteAudition(project.id, data.id)}/>
+                            </Flex>
+                        )
+                    }/>
             </DataTable>
         </Container>
     );

@@ -7,6 +7,7 @@ import AuditionTimeSlotActionColumn from './AuditionTimeSlotActionColumn';
 import {ActorSearch} from '../../pages/ActorSearchPage';
 import {useDispatch, useSelector} from 'react-redux';
 import {inviteToAudition} from '../../actions/auditionActions';
+import {Link} from 'react-router-dom';
 
 function OpenTimeSlot(props: any) {
     const projectId = useSelector((state: any) => state.projects.project.id);
@@ -50,22 +51,19 @@ const TimeSlotTable: FC<any> = ({allSlots, editable = false, header}) => {
                         body={(data: any) => {
                             if (data.talent) {
                                 const {displayName} = data.talent.user;
-                                return <p>{displayName}</p>;
+                                return (
+                                    <Link to={`/profile/${data.talent.user.id}`}>{displayName}</Link>
+                                );
                             } else {
                                 return <OpenTimeSlot timeSlotId={data.id}/>;
                             }
                         }} header={'Actor'}
                 />
-                <Column body={(data: any) => (
-                    <>
-                        <div>
-                            Confirmed || Denied
-                        </div>
-                        <div>
-                            Conflicts
-                        </div>
-                    </>
-                )} header={'Status'}/>
+                <Column body={(data: any) => {
+                    if (data.talent) {
+                        return <div> {data.talent.status} </div>
+                    }
+                }} header={'Status'}/>
                 <Column body={(data: any) => (
                     <>
                         Any || List of Characters
@@ -76,11 +74,9 @@ const TimeSlotTable: FC<any> = ({allSlots, editable = false, header}) => {
                         Send Message || Remove Actor ||
                     </>
                 )} header={'Actions'}/>
-                {editable ? (
-                      <Column body={
-                        (data: any) => <AuditionTimeSlotActionColumn data={data}/>
-                    } header='Actions'/>
-                ) : <div style={{display: 'none'}}></div>}
+                <Column body={
+                    (data: any) => <AuditionTimeSlotActionColumn data={data}/>
+                } header='Actions'/>
             </DataTable>
         </>
     );

@@ -1,9 +1,16 @@
 import React, {FC, useCallback, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {deleteImage, getCurrentUserDetails, getProfileDetails, uploadImage} from '../actions/talentActions';
+import {
+    deleteImage,
+    getCurrentUserDetails,
+    getProfileDetails,
+    setProfilePic,
+    uploadImage
+} from '../actions/talentActions';
 import {Button, Header, Icon, Image, Segment} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
+import Flex from 'styled-flex-component'
 import GoBackButton from '../components/shared/GoBackButton';
 
 export const StyleDropzone = styled.div`
@@ -56,21 +63,30 @@ const ProfileImagePage: FC<any> = (props) => {
         <div>
             <GoBackButton/>
             {!props.readOnly && <MyDropzone {...props}/>}
-            <Image.Group>
+            <Flex spaceBetween>
                 {props.user.profileImages && props.user.profileImages.map((img: any) => (
                     <div key={img.s3key}>
                         <Image rounded bordered size={'medium'} src={img.url}/>
                         {!props.readOnly && (
+                            <div>
+                                {(props.user.profilePicture && props.user.profilePicture.s3Key === img.s3Key) && <p>Current Profile Pic</p>}
+                                <Button
+                                    onClick={() => props.setProfilePic(img.s3Key)}
+                                    color={'green'}
+                                >
+                                    Set Profile Pic
+                                </Button>
                             <Button
                                 onClick={() => props.deleteImage(img.s3Key)}
                                 color={'red'}
                             >
                                 Delete Image
                             </Button>
+                            </div>
                         )}
                     </div>
                 ))}
-            </Image.Group>
+            </Flex>
         </div>
     );
 };
@@ -84,5 +100,6 @@ export default connect(mapStateToProps, {
     getProfileDetails,
     getCurrentUserDetails,
     uploadImage,
-    deleteImage
+    deleteImage,
+    setProfilePic
 })(ProfileImagePage);

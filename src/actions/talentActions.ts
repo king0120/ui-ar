@@ -79,6 +79,18 @@ export function deleteImage(key: string) {
     };
 }
 
+export function setProfilePic(key: string) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+        await arAxios.put(`/api/v1/users/me/image/profile`, {key});
+        dispatch({
+            type: 'PROFILE_PIC',
+        });
+
+        dispatch<any>(getCurrentUserDetails());
+    };
+}
+
 export function addUserBreakdown(breakdown: any) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});

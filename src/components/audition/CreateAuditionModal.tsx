@@ -2,6 +2,7 @@ import React, {FC, useState, useEffect} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {connect} from 'react-redux';
+import DatePicker from 'react-datepicker'
 import {createAudition} from '../../actions/auditionActions';
 import {fetchRolesForProject} from '../../actions/roleActions';
 import AddressInput from "../shared/AddressInput";
@@ -9,12 +10,13 @@ import AddressInput from "../shared/AddressInput";
 const CreateAuditionModal: FC<any> = ({projectId, createAudition, roles, fetchRolesForProject}) => {
     const [latLong, changeLatLong] = useState({} as any);
     const [address, changeAddress] = useState('');
+    const [startDate, changeStartDate] = useState(new Date());
 
     useEffect(() => {
         fetchRolesForProject(projectId)
     }, [projectId])
 
-    const onSubmit = (data: any) => createAudition(projectId, {...data, lat: latLong.lat, long: latLong.long, address});
+    const onSubmit = (data: any) => createAudition(projectId, {...data, lat: latLong.lat, long: latLong.long, address, startDate});
 
     const handleAddressChange = (addressObject: any) => {
         changeLatLong({
@@ -90,6 +92,10 @@ const CreateAuditionModal: FC<any> = ({projectId, createAudition, roles, fetchRo
                                 <Form.Field>
                                     <label>Address</label>
                                     <AddressInput handleChange={handleAddressChange}/>
+                                </Form.Field>
+                                <Form.Field>
+                                    <label>Date</label>
+                                    <DatePicker selected={startDate} onChange={(data: Date) => changeStartDate(data)}/>
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Contact Phone Number</label>

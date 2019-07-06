@@ -5,6 +5,7 @@ const UPDATE_FORM_STATE = 'final-form-redux-example/finalForm/UPDATE_FORM_STATE'
 export default function reducer(state: any = {}, action: any = {}) {
     switch (action.type) {
         case UPDATE_FORM_STATE:
+            console.log(action)
             return {
                 ...state,
                 [action.form]: action.payload,

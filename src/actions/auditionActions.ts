@@ -18,9 +18,9 @@ export enum AUDITION_ACTIONS {
 export function createAudition(projectId: string, audition: any) {
     return async (dispatch: Dispatch) => {
         dispatch(startLoad());
-        const { question1, question2,question3, question4, question5} = audition;
-        audition.questions = [question1, question2,question3, question4, question5];
-        const res = await arAxios.post(`/api/v1/projects/${projectId}/auditions`, audition);
+        const { question1, question2,question3, question4, question5, ...cleanedAudition} = audition;
+        cleanedAudition.questions = [question1, question2,question3, question4, question5].filter(Boolean);
+        const res = await arAxios.post(`/api/v1/projects/${projectId}/auditions`, cleanedAudition);
 
         dispatch({
             type: AUDITION_ACTIONS.FETCH_AUDITION_CREATE_SUCCESS,
@@ -99,6 +99,17 @@ export function deleteTimeSlot(projectId: number, auditionId: number, timeSlotId
     };
 }
 
+export function removeActorFromTimeslot(projectId: number, auditionId: number, timeSlotId: string) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+        await arAxios.put(
+            `/api/v1/projects/${projectId}/audition/${auditionId}/audition-time-slot/${timeSlotId}/removeTalent`,
+        );
+
+        dispatch<any>(fetchTimeSlots(projectId, auditionId));
+    };
+}
+
 export function inviteToAudition(projectId: string, auditionId: number, user: any, timeSlotId: string) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
@@ -113,5 +124,23 @@ export function inviteToAudition(projectId: string, auditionId: number, user: an
             type: AUDITION_ACTIONS.ADD_TALENT_TO_AUDITION_SUCCESS,
         });
         dispatch<any>(fetchAudition(projectId, auditionId.toString()));
+    };
+}
+
+
+export function removeFrom(projectId: string, auditionId: number, user: any, timeSlotId: string) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+        // await arAxios.post(
+        //     `/api/v1/projects/${projectId}/auditions/${auditionId}/talent`,
+        //     {
+        //         id: user,
+        //         timeSlotId,
+        //     },
+        // );
+        // dispatch({
+        //     type: AUDITION_ACTIONS.ADD_TALENT_TO_AUDITION_SUCCESS,
+        // });move
+        // dispatch<any>(fetchAudition(projectId, auditionId.toString()));
     };
 }

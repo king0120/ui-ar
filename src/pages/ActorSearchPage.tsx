@@ -1,8 +1,10 @@
-import React, {FC, SyntheticEvent, useState} from 'react';
+import React, {FC, SyntheticEvent, useState, useEffect} from 'react';
 import {Button, Dropdown, Form, Image, Input, List} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {searchUsers} from '../actions/searchActions';
 import {withRouter} from 'react-router-dom';
+import {TalentSpecificationsForm} from '../components/shared/TalentSpecificationsForm';
+import {getFormState} from "../reducers/finalFormReducer";
 
 function NoReduxActorSearch(props: any) {
     const [value, changeValue] = useState('');
@@ -14,7 +16,10 @@ function NoReduxActorSearch(props: any) {
     ];
     return (
         <>
-            <Form onSubmit={() => props.searchUsers({value, type})}>
+            <Form onSubmit={() => {
+                console.log(props);
+                props.searchUsers({value, type, spec: props.spec})
+            }}>
                 <Input
                     fluid
                     action={
@@ -28,6 +33,8 @@ function NoReduxActorSearch(props: any) {
                     value={value}
                     onChange={(e) => changeValue(e.target.value)}
                 />
+                {props.showTalentSpec && <TalentSpecificationsForm />}
+
             </Form>
             {
                 props.results.length && (
@@ -55,17 +62,20 @@ function NoReduxActorSearch(props: any) {
 
 const mapStateToProps = (state: any) => ({
     results: state.search.data || [],
+    spec: getFormState(state, 'talentSpecs').values
 });
 
 export const ActorSearch = connect(mapStateToProps, {searchUsers})(NoReduxActorSearch);
 
+
 const ActorSearchPage: FC<any> = (props) => {
     const handleClickTalent = (id: string) => props.history.push(`/profile/${id}`);
+
 
     return (
         <div>
             <h1>Actor Search</h1>
-            <ActorSearch handleClickTalent={handleClickTalent}/>
+            <ActorSearch handleClickTalent={handleClickTalent} showTalentSpec={true}/>
         </div>
     );
 };

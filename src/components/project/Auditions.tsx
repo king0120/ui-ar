@@ -20,7 +20,7 @@ const RowExpansion = () => {
     );
 };
 
-const Auditions: FC<any> = ({project, deleteAudition}) => {
+const Auditions: FC<any> = ({match, project, deleteAudition}) => {
     const auditions = project.auditions;
     const [expandedRows, setExpandedRows] = useState();
     return (
@@ -49,6 +49,9 @@ const Auditions: FC<any> = ({project, deleteAudition}) => {
                     body={
                         (data: any) => (
                             <Flex spaceBetween>
+                                <Link to={`/organization/${match.params.organizationId}/projects/${project.id}/auditions/${data.id}`}>
+                                    <Button primary>Start Audition</Button>
+                                </Link>
                                 <Link to={`/projects/${project.id}/audition-manager/${data.id}`}>
                                     <Button primary>Manage Audition</Button>
                                 </Link>

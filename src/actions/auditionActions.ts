@@ -127,20 +127,36 @@ export function inviteToAudition(projectId: string, auditionId: number, user: an
     };
 }
 
-
-export function removeFrom(projectId: string, auditionId: number, user: any, timeSlotId: string) {
+export function respondToAudition(projectId: string, auditionId: number, email: string, responseCode: string, response: string) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
-        // await arAxios.post(
-        //     `/api/v1/projects/${projectId}/auditions/${auditionId}/talent`,
-        //     {
-        //         id: user,
-        //         timeSlotId,
-        //     },
-        // );
-        // dispatch({
-        //     type: AUDITION_ACTIONS.ADD_TALENT_TO_AUDITION_SUCCESS,
-        // });move
-        // dispatch<any>(fetchAudition(projectId, auditionId.toString()));
+        await arAxios.put(
+            `/api/v1/projects/${projectId}/auditions/${auditionId}/response`,
+            {
+                email,
+                responseCode,
+                response
+            },
+        );
+        dispatch({
+            type: AUDITION_ACTIONS.ADD_TALENT_TO_AUDITION_SUCCESS,
+        });
+        dispatch<any>(fetchAudition(projectId, auditionId.toString()));
     };
 }
+
+export function updateInstance(projectId: string, auditionId: number, instanceId: string, body: any) {
+    return async (dispatch: Dispatch) => {
+        dispatch({type: 'REQUEST_STARTED'});
+        await arAxios.put(
+            `/api/v1/projects/${projectId}/auditions/${auditionId}/instance/${instanceId}`,
+            body,
+        );
+        dispatch({
+            type: 'UPDATE_INSTANCE_SUCCESS',
+        });
+        dispatch<any>(fetchAudition(projectId, auditionId.toString()));
+    };
+}
+
+

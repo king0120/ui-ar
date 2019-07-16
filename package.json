@@ -16,6 +16,7 @@
     "places.js": "^1.16.4",
     "primeicons": "^1.0.0",
     "primereact": "^3.1.2",
+    "query-string": "^6.8.1",
     "rc-time-picker": "^3.6.4",
     "react": "^16.8.6",
     "react-datepicker": "^2.4.0",

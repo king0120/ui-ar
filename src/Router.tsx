@@ -14,6 +14,9 @@ import ActorSearchPage from './pages/ActorSearchPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 import SettingsPage from './pages/SettingsPage';
 import RoleBreakdownDetailPage from './pages/RoleBreakdownDetailPage';
+import AuditionResponse from "./pages/AuditionResponse";
+import Auditions from "./components/project/Auditions";
+import AuditionPage from "./pages/AuditionPage";
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => (
     <Route {...rest} render={(props) => (
@@ -32,6 +35,7 @@ const AppRouter: FC<any> = ({loggedIn, children}) => {
                 <Route exact path='/login' component={LogInPage}/>
                 <Route exact path='/passwordReset' component={PasswordResetPage}/>
                 <Route exact path='/passwordReset/:token' component={PasswordResetPage}/>
+                <Route exact path='/auditionResponse' component={AuditionResponse}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/settings' component={SettingsPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/search/actor' component={ActorSearchPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/organization' component={OrgSelectPage}/>
@@ -42,6 +46,7 @@ const AppRouter: FC<any> = ({loggedIn, children}) => {
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId'
                               component={(props: any) => <ProfilePage readOnly={true} {...props}/>}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects' component={ProjectsList}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects/:projectId/auditions/:auditionId' component={AuditionPage}/>
                 <PrivateRoute loggedIn={loggedIn} path='/projects/:projectId/audition-manager/:auditionId' component={AuditionManagerPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/projects/:projectId/roles/:roleId' component={RoleBreakdownDetailPage}/>
                 <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId' component={ProjectsDetailPage}/>

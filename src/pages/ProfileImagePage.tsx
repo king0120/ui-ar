@@ -57,7 +57,7 @@ const ProfileImagePage: FC<any> = (props) => {
         } else {
             props.getCurrentUserDetails(props.user.id);
         }
-    }, [props.readOnly]);
+    }, [props.readOnly, props.match.params.userId]);
 
     return (
         <div>

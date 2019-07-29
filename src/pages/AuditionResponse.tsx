@@ -17,7 +17,7 @@ const statuses = [{
 const AuditionResponse: FC<any> = ({location, history, respondToAudition}) => {
     return (
         <div>
-            Respond to Autidion
+            Respond to Audition
             <FinalForm
                 onSubmit={(vals: any) => {
                     const values = queryString.parse(location.search)

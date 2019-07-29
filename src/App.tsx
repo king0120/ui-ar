@@ -4,6 +4,17 @@ import Router from './Router';
 import {BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {tokenCheck} from './actions/authActions';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+const token = localStorage.getItem('access_token');
+
+const client = new ApolloClient({
+    headers: {
+        'Authorization': token ? `Bearer ${token}` : "",
+    }
+});
+
 
 class App extends Component<any> {
     componentDidMount(): void {
@@ -15,10 +26,12 @@ class App extends Component<any> {
             return <h1>Loading</h1>;
         }
         return (
-            <BrowserRouter>
-                <NavBar/>
-                <Router/>
-            </BrowserRouter>
+            <ApolloProvider client={client}>
+                <BrowserRouter>
+                    <NavBar/>
+                    <Router/>
+                </BrowserRouter>
+            </ApolloProvider>
         );
     }
 }

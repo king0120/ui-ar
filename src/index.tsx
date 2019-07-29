@@ -10,6 +10,7 @@ import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import configureStore from './configureStore';
+
 import {Provider} from 'react-redux';
 
 const GlobalStyle = createGlobalStyle`
@@ -26,13 +27,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+
 const store = configureStore({});
 
 ReactDOM.render(
     <Provider store={store}>
         <GlobalStyle/>
         <App/>
-    </Provider>, document.getElementById('root'));
+    </Provider>
+    , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

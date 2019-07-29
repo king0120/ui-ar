@@ -3,12 +3,14 @@ import {connect} from "react-redux";
 import {fetchAudition, updateInstance} from "../actions/auditionActions";
 import ProfilePage from "./ProfilePage";
 import styled from "styled-components";
-import {Button, List, Dropdown} from 'semantic-ui-react';
+import {Button, List, Dropdown, Tab} from 'semantic-ui-react';
+import ProfileImagePage from "./ProfileImagePage";
+import NotesOnActor from "../components/audition/NotesOnActor";
 
 const AuditionPageStyles = styled.div`
   display: flex;
   min-height: 98vh;
-  .item {
+  .list .item {
     margin: 15px;
   }
   .leftColumn {
@@ -30,7 +32,6 @@ const decisionOptions = [
 ];
 
 const TalentListSection: FC<any> = ({title, talentList, handleClick}) => {
-    console.log('IN SECTION', talentList)
     return (
         <>
             <h3>{title}</h3>
@@ -53,7 +54,8 @@ const TalentListSection: FC<any> = ({title, talentList, handleClick}) => {
     )
 }
 
-const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance}) => {
+
+const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, showingTalent}) => {
     const [currentlyViewing, setCurrentlyViewing] = useState(null);
     const [currentTalentId, setCurrentTalentId] = useState(null);
     const [decisionValue, setDecisionValue] = useState('');
@@ -64,12 +66,19 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance})
     const {auditionId, projectId} = match.params;
     const changeDecision = (id: any) => updateInstance(projectId, auditionId, id, {decision: decisionValue === 'pending' ? null : decisionValue});
     const talent = formatAuditionObject(audition.talent);
-    console.log(talent)
+
     const handleTalentClick = (selectedTalent: any) => {
         setDecisionValue(selectedTalent.decision || '');
         setCurrentlyViewing(selectedTalent.user.id);
         setCurrentTalentId(selectedTalent.id);
     };
+
+    const panes = [
+        {menuItem: "Profile", render: () => <Tab.Pane><ProfilePage readOnly={true} match={{params: {userId: currentlyViewing}}}/></Tab.Pane>},
+        {menuItem: "Notes", render: () => <Tab.Pane><NotesOnActor auditionId={audition.id} userId={currentlyViewing}/></Tab.Pane>},
+        {menuItem: "Photos", render: () => <Tab.Pane><ProfileImagePage readOnly={true} match={{params: {userId: currentlyViewing}}}/></Tab.Pane>}
+    ]
+
     return (
         <AuditionPageStyles>
             <div className="leftColumn">
@@ -93,7 +102,14 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance})
                     <Button>Favorite</Button>
                     <Button>Add Notes</Button>
                 </div>
-                <ProfilePage readOnly={true} match={{params: {userId: currentlyViewing}}}/>
+                {currentlyViewing ? (
+                    <Tab panes={panes} />
+                ) : (
+                    <div>
+                        Click a name to the left to show their profile
+                    </div>
+                )}
+
             </div>
         </AuditionPageStyles>
     );
@@ -102,7 +118,8 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance})
 const mapStateToProps = (state: any) => {
     return {
         audition: state.auditions.audition,
-        user: state.user.user
+        user: state.user.user,
+        me: state.user.me
     }
 }
 

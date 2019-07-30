@@ -6,6 +6,7 @@ import styled from "styled-components";
 import {Button, List, Dropdown, Tab} from 'semantic-ui-react';
 import ProfileImagePage from "./ProfileImagePage";
 import NotesOnActor from "../components/audition/NotesOnActor";
+import Flex from 'styled-flex-component'
 
 const AuditionPageStyles = styled.div`
   display: flex;
@@ -16,10 +17,14 @@ const AuditionPageStyles = styled.div`
   .leftColumn {
     background: #1b1c1d;
     color: whitesmoke;
-    width: 20%;
+    width: 15%;
+    padding: 15px;
+  }
+  .middleColumn {
+     width: 65%;
   }
   .rightColumn {
-     width: 80%;
+     width: 20%;
   }
 `;
 
@@ -74,9 +79,16 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, 
     };
 
     const panes = [
-        {menuItem: "Profile", render: () => <Tab.Pane><ProfilePage readOnly={true} match={{params: {userId: currentlyViewing}}}/></Tab.Pane>},
-        {menuItem: "Notes", render: () => <Tab.Pane><NotesOnActor auditionId={audition.id} userId={currentlyViewing}/></Tab.Pane>},
-        {menuItem: "Photos", render: () => <Tab.Pane><ProfileImagePage readOnly={true} match={{params: {userId: currentlyViewing}}}/></Tab.Pane>}
+        {
+            menuItem: "Profile",
+            render: () => <Tab.Pane><ProfilePage readOnly={true}
+                                                 match={{params: {userId: currentlyViewing}}}/></Tab.Pane>
+        },
+        {
+            menuItem: "Photos",
+            render: () => <Tab.Pane><ProfileImagePage readOnly={true}
+                                                      match={{params: {userId: currentlyViewing}}}/></Tab.Pane>
+        }
     ]
 
     return (
@@ -89,28 +101,34 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, 
                 <TalentListSection title='On Hold' talentList={talent['on_hold']} handleClick={handleTalentClick}/>
                 <TalentListSection title='No Thanks' talentList={talent['no_thanks']} handleClick={handleTalentClick}/>
             </div>
-            <div className="rightColumn">
-                <div>
-                    <Dropdown
-                        selection
-                        placeholder={'Select Talent Decision'}
-                        options={decisionOptions}
-                        value={decisionValue}
-                        onChange={(e, data) => setDecisionValue(data.value as string)}
-                    />
-                    <Button onClick={() => (changeDecision(currentTalentId))}>Submit Decision</Button>
-                    <Button>Favorite</Button>
-                    <Button>Add Notes</Button>
-                </div>
-                {currentlyViewing ? (
-                    <Tab panes={panes} />
-                ) : (
-                    <div>
-                        Click a name to the left to show their profile
-                    </div>
-                )}
+            {currentlyViewing ? (
+                <>
+                    <div className="middleColumn">
+                        <Tab panes={panes}/>
 
-            </div>
+                    </div>
+                    <div className="rightColumn">
+                        <h4>Casting Decision</h4>
+                        <Flex>
+                            <Dropdown
+                                selection
+                                name={'decision'}
+                                placeholder={'Select Talent Decision'}
+                                options={decisionOptions}
+                                value={decisionValue}
+                                onChange={(e, data) => setDecisionValue(data.value as string)}
+                            />
+                        </Flex>
+                        <Button onClick={() => (changeDecision(currentTalentId))}>Submit Decision</Button>
+                        <h4>Add Notes</h4>
+                        <NotesOnActor auditionId={audition.id} userId={currentlyViewing}/>
+                    </div>
+                </>
+            ) : (
+                <div>
+                    Click a name to the left to show their profile
+                </div>
+            )}
         </AuditionPageStyles>
     );
 };

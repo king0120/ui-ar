@@ -7,6 +7,7 @@ import {Button, List, Dropdown, Tab} from 'semantic-ui-react';
 import ProfileImagePage from "./ProfileImagePage";
 import NotesOnActor from "../components/audition/NotesOnActor";
 import Flex from 'styled-flex-component'
+import AddTalentToActiveAudition from '../components/audition/AddTalentToActiveAudition';
 
 const AuditionPageStyles = styled.div`
   display: flex;
@@ -94,7 +95,10 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, 
     return (
         <AuditionPageStyles>
             <div className="leftColumn">
-                <Button primary>Add Talent</Button>
+                <AddTalentToActiveAudition
+                    projectId={match.params.projectId}
+                    auditionId={match.params.auditionId}
+                />
                 <TalentListSection title='Pending' talentList={talent.pending} handleClick={handleTalentClick}/>
                 <TalentListSection title='Cast' talentList={talent['cast']} handleClick={handleTalentClick}/>
                 <TalentListSection title='Callback' talentList={talent['callback']} handleClick={handleTalentClick}/>

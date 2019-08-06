@@ -110,15 +110,16 @@ export function removeActorFromTimeslot(projectId: number, auditionId: number, t
     };
 }
 
-export function inviteToAudition(projectId: string, auditionId: number, user: any, timeSlotId: string) {
+export function inviteToAudition(projectId: string, auditionId: number, user: any, timeSlotId?: string) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
+        const body: any = {id: user}
+        if (timeSlotId){
+            body.timeSlotId = timeSlotId
+        }
         await arAxios.post(
             `/api/v1/projects/${projectId}/auditions/${auditionId}/talent`,
-            {
-                id: user,
-                timeSlotId,
-            },
+            body
         );
         dispatch({
             type: AUDITION_ACTIONS.ADD_TALENT_TO_AUDITION_SUCCESS,

@@ -2,9 +2,9 @@ import React, {FC, useState} from 'react';
 import {Button, Form, Input, Message} from 'semantic-ui-react';
 
 import {connect} from 'react-redux';
-import {logIn} from '../actions/authActions';
+import {logIn} from '../../actions/authActions';
 import {Link, withRouter} from 'react-router-dom';
-import {CardPageContainer, LoginCard} from '../styles/shared';
+import {CardPageContainer, LoginCard} from '../../styles/shared';
 
 const LogInPage: FC<any> = (props) => {
     const [email, changeEmail] = useState('');

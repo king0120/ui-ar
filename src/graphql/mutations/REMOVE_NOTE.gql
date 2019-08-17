@@ -1,0 +1,3 @@
+mutation removeNote($id: String!) {
+    removeNote(id: $id)
+}

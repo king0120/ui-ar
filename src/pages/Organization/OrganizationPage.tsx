@@ -1,14 +1,14 @@
 import React, {FC, useEffect} from 'react';
 import {Button, Header, Tab} from 'semantic-ui-react';
-import ProjectTable from '../components/organization/ProjectTable';
-import Calendar from '../components/shared/Calendar';
+import ProjectTable from '../../components/organization/ProjectTable';
+import Calendar from '../../components/shared/Calendar';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchOrganization, deleteOrganization} from '../actions/organizationActions';
-import {IOrganization} from '../types/IOrganization';
-import ConfirmationModal from "../components/shared/ConfirmationModal";
-import AddOrganization from "../components/organization/AddEditOrganization";
-import MembersList from "../components/organization/MembersList";
+import {fetchOrganization, deleteOrganization} from '../../actions/organizationActions';
+import {IOrganization} from '../../types/IOrganization';
+import ConfirmationModal from "../../components/shared/ConfirmationModal";
+import AddOrganization from "../../components/organization/AddEditOrganization";
+import MembersList from "../../components/organization/MembersList";
 
 const TheatreHeader = styled.div`
   display: flex;

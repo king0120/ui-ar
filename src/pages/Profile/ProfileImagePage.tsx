@@ -6,12 +6,12 @@ import {
     getProfileDetails,
     setProfilePic,
     uploadImage
-} from '../actions/talentActions';
+} from '../../actions/talentActions';
 import {Button, Header, Icon, Image, Segment} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component'
-import GoBackButton from '../components/shared/GoBackButton';
+import GoBackButton from '../../components/shared/GoBackButton';
 
 export const StyleDropzone = styled.div`
     width: 90%;

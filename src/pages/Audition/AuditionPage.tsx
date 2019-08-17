@@ -1,13 +1,17 @@
 import React, {FC, useEffect, useState} from 'react';
 import {connect} from "react-redux";
-import {fetchAudition, updateInstance} from "../actions/auditionActions";
-import ProfilePage from "./ProfilePage";
+import {updateInstance} from "../../actions/auditionActions";
+import ProfilePage from "../Profile/ProfilePage";
 import styled from "styled-components";
-import {Button, List, Dropdown, Tab} from 'semantic-ui-react';
-import ProfileImagePage from "./ProfileImagePage";
-import NotesOnActor from "../components/audition/NotesOnActor";
-import Flex from 'styled-flex-component'
-import AddTalentToActiveAudition from '../components/audition/AddTalentToActiveAudition';
+import {Button, Dropdown, List, Tab} from 'semantic-ui-react';
+import ProfileImagePage from "../Profile/ProfileImagePage";
+import NotesOnActor from "../../components/audition/NotesOnActor";
+import Flex from 'styled-flex-component';
+import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
+import {useLazyQuery} from "@apollo/react-hooks";
+import {loader} from 'graphql.macro';
+
+const GET_AUDITION = loader('../../graphql/queries/GET_AUDITION.gql');
 
 const AuditionPageStyles = styled.div`
   display: flex;
@@ -52,26 +56,34 @@ const TalentListSection: FC<any> = ({title, talentList, handleClick}) => {
                                 {talent.user.displayName}
                             </List.Content>
                         </List.Item>
-                    )
+                    );
                 })}
                 {talentList.length === 0 && <List.Item><List.Content>None</List.Content></List.Item>}
             </List>
         </>
-    )
-}
+    );
+};
 
 
-const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, showingTalent}) => {
+const AuditionPage: FC<any> = ({match, updateInstance}) => {
     const [currentlyViewing, setCurrentlyViewing] = useState(null);
     const [currentTalentId, setCurrentTalentId] = useState(null);
     const [decisionValue, setDecisionValue] = useState('');
+    const [getAudition, {loading, data}] = useLazyQuery(GET_AUDITION);
+
     useEffect(() => {
-        fetchAudition(match.params.projectId, match.params.auditionId)
-    }, [match, fetchAudition]);
+        const {auditionId} = match.params;
+        getAudition({variables: {auditionId}});
+    }, [match]);
+
+    if (loading || !data) {
+        return <h1>loading</h1>;
+    }
+    console.log(data);
 
     const {auditionId, projectId} = match.params;
     const changeDecision = (id: any) => updateInstance(projectId, auditionId, id, {decision: decisionValue === 'pending' ? null : decisionValue});
-    const talent = formatAuditionObject(audition.talent);
+    const talent = formatAuditionObject(data.getAudition.talent);
 
     const handleTalentClick = (selectedTalent: any) => {
         setDecisionValue(selectedTalent.decision || '');
@@ -90,7 +102,7 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, 
             render: () => <Tab.Pane><ProfileImagePage readOnly={true}
                                                       match={{params: {userId: currentlyViewing}}}/></Tab.Pane>
         }
-    ]
+    ];
 
     return (
         <AuditionPageStyles>
@@ -125,7 +137,7 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, 
                         </Flex>
                         <Button onClick={() => (changeDecision(currentTalentId))}>Submit Decision</Button>
                         <h4>Add Notes</h4>
-                        <NotesOnActor auditionId={audition.id} userId={currentlyViewing}/>
+                        <NotesOnActor auditionId={data.getAudition.id} userId={currentlyViewing}/>
                     </div>
                 </>
             ) : (
@@ -139,11 +151,10 @@ const AuditionPage: FC<any> = ({match, fetchAudition, audition, updateInstance, 
 
 const mapStateToProps = (state: any) => {
     return {
-        audition: state.auditions.audition,
         user: state.user.user,
         me: state.user.me
-    }
-}
+    };
+};
 
 function formatAuditionObject(talent: any = []) {
     const defaultObject = {
@@ -152,16 +163,16 @@ function formatAuditionObject(talent: any = []) {
         'callback': [],
         'cast': [],
         'pending': [],
-    }
+    };
 
     return talent.reduce((acc: any, val: any) => {
         if (val.decision) {
-            acc[val.decision].push(val)
+            acc[val.decision].push(val);
         } else {
-            acc.pending.push(val)
+            acc.pending.push(val);
         }
-        return acc
-    }, defaultObject)
+        return acc;
+    }, defaultObject);
 }
 
-export default connect(mapStateToProps, {fetchAudition, updateInstance})(AuditionPage);
+export default connect(mapStateToProps, {updateInstance})(AuditionPage);

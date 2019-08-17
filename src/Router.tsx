@@ -1,22 +1,24 @@
 import React, {FC} from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
-import ProjectsList from './pages/OrganizationPage';
-import ProjectsDetailPage from './pages/ProjectsDetailPage';
-import AuditionManagerPage from './pages/AuditionManagerPage';
-import OrgSelectPage from './pages/OrgSelectPage';
+import ProjectsList from './pages/Organization/OrganizationPage';
+import ProjectsDetailPage from './pages/Project/ProjectsDetailPage';
+import AuditionManagerPage from './pages/Audition/AuditionManagerPage';
+import OrgSelectPage from './pages/Organization/OrgSelectPage';
 import {connect} from 'react-redux';
-import LogInPage from './pages/LogInPage';
-import ProfilePage from './pages/ProfilePage';
-import HomePage from './pages/HomePage';
-import RegistrationPage from './pages/RegistrationPage';
-import ProfileImagePage from './pages/ProfileImagePage';
-import ActorSearchPage from './pages/ActorSearchPage';
-import PasswordResetPage from './pages/PasswordResetPage';
-import SettingsPage from './pages/SettingsPage';
-import RoleBreakdownDetailPage from './pages/RoleBreakdownDetailPage';
-import AuditionResponse from "./pages/AuditionResponse";
+import LogInPage from './pages/Auth/LogInPage';
+import ProfilePage from './pages/Profile/ProfilePage';
+import HomePage from './pages/General/HomePage';
+import RegistrationPage from './pages/Auth/RegistrationPage';
+import ProfileImagePage from './pages/Profile/ProfileImagePage';
+import ActorSearchPage from './pages/Search/ActorSearchPage';
+import PasswordResetPage from './pages/Auth/PasswordResetPage';
+import SettingsPage from './pages/General/SettingsPage';
+import RoleBreakdownDetailPage from './pages/Project/RoleBreakdownDetailPage';
+import AuditionResponse from "./pages/Audition/AuditionResponse";
 import Auditions from "./components/project/Auditions";
-import AuditionPage from "./pages/AuditionPage";
+import AuditionPage from "./pages/Audition/AuditionPage";
+import AuditionSearchPage from "./pages/Search/AuditionSearchPage";
+import MyAuditions from "./pages/Profile/MyAuditions";
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => (
     <Route {...rest} render={(props) => (
@@ -38,7 +40,9 @@ const AppRouter: FC<any> = ({loggedIn, children}) => {
                 <Route exact path='/auditionResponse' component={AuditionResponse}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/settings' component={SettingsPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/search/actor' component={ActorSearchPage}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/search/audition' component={AuditionSearchPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/organization' component={OrgSelectPage}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions' component={MyAuditions}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/images' component={ProfileImagePage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId/images'
                               component={(props: any) => <ProfileImagePage readOnly={true} {...props}/>}/>

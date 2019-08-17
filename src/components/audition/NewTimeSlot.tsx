@@ -6,8 +6,10 @@ import TimePicker from 'rc-time-picker';
 import moment, {Moment} from 'moment';
 import {connect} from 'react-redux';
 import {createTimeSlots} from '../../actions/auditionActions';
+import {withRouter} from "react-router";
 
 const NewTimeSlot: FC<any> = (props) => {
+    const {projectId, auditionId} = props.match.params;
     const {allSlots, changeAllSlots} = props;
 
     const buildTimeSlots = (startTime: Moment, numSlots: number, duration: number) => {
@@ -24,7 +26,6 @@ const NewTimeSlot: FC<any> = (props) => {
     };
 
     const handleSaveTime = () => {
-        const {projectId, auditionId} = props;
         props.createTimeSlots(projectId, auditionId, allSlots);
     };
 
@@ -87,8 +88,5 @@ const NewTimeSlot: FC<any> = (props) => {
     );
 };
 
-const mapStateToProps = (state: any) => ({
-    projectId: state.projects.project.id,
-    auditionId: state.auditions.audition.id,
-});
-export default connect(mapStateToProps, {createTimeSlots})(NewTimeSlot) as any;
+
+export default connect(null, {createTimeSlots})(withRouter(NewTimeSlot)) as any;

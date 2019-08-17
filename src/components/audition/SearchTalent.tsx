@@ -5,8 +5,10 @@ import arAxios from '../../utils/axiosHelper';
 import {Button} from "semantic-ui-react";
 import {connect} from 'react-redux';
 import {inviteToAudition} from '../../actions/auditionActions';
+import {withRouter} from 'react-router';
 
-const SearchTalent: FC<any> = ({ inviteToAudition, auditionId, projectId }) => {
+const SearchTalent: FC<any> = ({match, inviteToAudition}) => {
+    const {auditionId, projectId} = match.params;
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -44,17 +46,12 @@ const SearchTalent: FC<any> = ({ inviteToAudition, auditionId, projectId }) => {
             {selected && (
                 <div>
                     <p>{selected}</p>
-                    <Button onClick={() => inviteToAudition(projectId, auditionId, selected)}>Invite To Audition</Button>
+                    <Button onClick={() => inviteToAudition(projectId, auditionId, selected)}>Invite To
+                        Audition</Button>
                 </div>
             )}
         </div>
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        projectId: state.projects.project.id,
-        auditionId: state.auditions.audition.id
-    }
-};
-export default connect(mapStateToProps, {inviteToAudition})(SearchTalent);
+export default connect(null, {inviteToAudition})(withRouter(SearchTalent));

@@ -3,7 +3,7 @@ import {Button, Form, Input} from "semantic-ui-react";
 import {Field, Form as FinalForm} from "react-final-form";
 import {connect} from "react-redux";
 import queryString from 'query-string'
-import {respondToAudition} from "../actions/auditionActions";
+import {respondToAudition} from "../../actions/auditionActions";
 
 const statuses = [{
     id: 'confirmed',

@@ -1,8 +1,6 @@
 import {Dispatch} from 'redux';
 import arAxios from '../utils/axiosHelper';
 import {finishLoad, startLoad} from "./generalActions";
-import {ORG_ACTIONS} from "./organizationActions";
-import {fetchProject} from './projectActions';
 
 export enum AUDITION_ACTIONS {
     ADD_TALENT_TO_AUDITION_SUCCESS = 'ADD_TALENT_TO_AUDITION_SUCCESS',
@@ -14,36 +12,6 @@ export enum AUDITION_ACTIONS {
     FETCH_AUDITION_TIMESLOTS_SUCCESS = 'FETCH_AUDITION_TIMESLOTS_SUCCESS'
 }
 
-
-export function createAudition(projectId: string, audition: any) {
-    return async (dispatch: Dispatch) => {
-        dispatch(startLoad());
-        const { question1, question2,question3, question4, question5, ...cleanedAudition} = audition;
-        cleanedAudition.questions = [question1, question2,question3, question4, question5].filter(Boolean);
-        const res = await arAxios.post(`/api/v1/projects/${projectId}/auditions`, cleanedAudition);
-
-        dispatch({
-            type: AUDITION_ACTIONS.FETCH_AUDITION_CREATE_SUCCESS,
-            audition: res.data,
-        });
-        dispatch(finishLoad());
-    };
-}
-
-export function fetchAudition(projectId: string, id: string) {
-    return async (dispatch: Dispatch) => {
-        dispatch(startLoad());
-
-        const res = await arAxios.get(`/api/v1/projects/${projectId}/auditions/${id}`);
-
-        dispatch({
-            type: AUDITION_ACTIONS.FETCH_AUDITION_SUCCESS,
-            audition: res.data,
-        });
-        dispatch(finishLoad());
-    };
-}
-
 export function deleteAudition(projectId: string, id: number) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
@@ -53,7 +21,6 @@ export function deleteAudition(projectId: string, id: number) {
         dispatch({
             type: AUDITION_ACTIONS.FETCH_AUDITION_DELETE_SUCCESS,
         });
-        dispatch<any>(fetchProject(projectId));
     };
 }
 
@@ -124,7 +91,6 @@ export function inviteToAudition(projectId: string, auditionId: number, user: an
         dispatch({
             type: AUDITION_ACTIONS.ADD_TALENT_TO_AUDITION_SUCCESS,
         });
-        dispatch<any>(fetchAudition(projectId, auditionId.toString()));
     };
 }
 
@@ -142,7 +108,6 @@ export function respondToAudition(projectId: string, auditionId: number, email: 
         dispatch({
             type: AUDITION_ACTIONS.ADD_TALENT_TO_AUDITION_SUCCESS,
         });
-        dispatch<any>(fetchAudition(projectId, auditionId.toString()));
     };
 }
 
@@ -156,7 +121,6 @@ export function updateInstance(projectId: string, auditionId: number, instanceId
         dispatch({
             type: 'UPDATE_INSTANCE_SUCCESS',
         });
-        dispatch<any>(fetchAudition(projectId, auditionId.toString()));
     };
 }
 

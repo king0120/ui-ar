@@ -1,10 +1,11 @@
 import React, {FC, SyntheticEvent, useState, useEffect} from 'react';
 import {Button, Dropdown, Form, Image, Input, List} from 'semantic-ui-react';
 import {connect} from 'react-redux';
-import {searchUsers} from '../actions/searchActions';
+import {searchUsers} from '../../actions/searchActions';
 import {withRouter} from 'react-router-dom';
-import {TalentSpecificationsForm} from '../components/shared/TalentSpecificationsForm';
-import {getFormState} from "../reducers/finalFormReducer";
+import {TalentSpecificationsForm} from '../../components/shared/TalentSpecificationsForm';
+import {getFormState} from "../../reducers/finalFormReducer";
+import {Container} from "../../components/project/CommonStyledComponents";
 
 function NoReduxActorSearch(props: any) {
     const [value, changeValue] = useState('');
@@ -72,10 +73,10 @@ const ActorSearchPage: FC<any> = (props) => {
 
 
     return (
-        <div>
+        <Container>
             <h1>Actor Search</h1>
             <ActorSearch handleClickTalent={handleClickTalent} showTalentSpec={true}/>
-        </div>
+        </Container>
     );
 };
 

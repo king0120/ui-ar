@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {Button, Popup} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {deleteTimeSlot, removeActorFromTimeslot} from "../../actions/auditionActions";
+import {withRouter} from "react-router";
 
 
 export const ActionsContainer = styled.div`
@@ -12,8 +13,8 @@ export const ActionsContainer = styled.div`
 `;
 
 
-const AuditionTimeSlotActionColumn: FC<any> = ({projectId, auditionId, data,removeActorFromTimeslot, deleteTimeSlot}) => {
-
+const AuditionTimeSlotActionColumn: FC<any> = ({match, auditionId, data,removeActorFromTimeslot, deleteTimeSlot}) => {
+    const {projectId} = match
     return (
         <ActionsContainer>
             <Popup
@@ -52,8 +53,7 @@ const AuditionTimeSlotActionColumn: FC<any> = ({projectId, auditionId, data,remo
 
 const mapStateToProps = (state: any) => {
     return {
-        projectId: state.projects.project.id,
         auditionId: state.auditions.audition.id,
     }
 }
-export default connect(mapStateToProps, {deleteTimeSlot, removeActorFromTimeslot})(AuditionTimeSlotActionColumn);
+export default connect(mapStateToProps, {deleteTimeSlot, removeActorFromTimeslot})(withRouter(AuditionTimeSlotActionColumn));

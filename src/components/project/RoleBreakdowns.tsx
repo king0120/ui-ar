@@ -10,7 +10,7 @@ import {Column} from 'primereact/column';
 import RoleBreakdownActionColumn from './RoleBreakdownActionColumn';
 import {Container} from './CommonStyledComponents';
 import {useDropzone} from "react-dropzone";
-import {StyleDropzone} from "../../pages/ProfileImagePage";
+import {StyleDropzone} from "../../pages/Profile/ProfileImagePage";
 import {Link} from 'react-router-dom';
 
 const LabelsContainer = styled.div`

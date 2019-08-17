@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Button, List, Modal, Card} from 'semantic-ui-react';
 import ConfirmationModal from "../shared/ConfirmationModal";
 import {removeMemberFromOrganization, addMemberToOrganization} from "../../actions/organizationActions";
-import {ActorSearch} from '../../pages/ActorSearchPage';
+import {ActorSearch} from '../../pages/Search/ActorSearchPage';
 import Flex from 'styled-flex-component';
 
 const AddMemberModal = (props: any) => {

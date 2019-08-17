@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import TimeSlotTable from '../components/audition/TimeSlotTable';
+import TimeSlotTable from '../../components/audition/TimeSlotTable';
 import styled from 'styled-components';
 
 const AuditionPageContainerStyle = styled.div`

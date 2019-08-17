@@ -1,14 +1,14 @@
 import React, {FC, useState} from 'react';
-import {Button, Modal, Image, Header} from "semantic-ui-react";
+import {Button, Modal} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {inviteToAudition} from "../../actions/auditionActions";
-import {ActorSearch} from "../../pages/ActorSearchPage";
+import {ActorSearch} from "../../pages/Search/ActorSearchPage";
 
 const AddTalentToActiveAudition: FC<any> = ({auditionId, projectId, inviteToAudition}) => {
-    const [open, changeOpen] = useState(false)
+    const [open, changeOpen] = useState(false);
     const handleClickTalent = async (actorId: string) => {
-        await inviteToAudition(projectId, auditionId, actorId)
-        changeOpen(false)
+        await inviteToAudition(projectId, auditionId, actorId);
+        changeOpen(false);
     };
     return (
         <Modal

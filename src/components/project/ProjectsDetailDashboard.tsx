@@ -1,7 +1,7 @@
 
 import React, { FC } from 'react';
 import DetailHeader from './DetailHeader';
-import { IProjectsDetailPage } from '../../pages/ProjectsDetailPage';
+import { IProjectsDetailPage } from '../../pages/Project/ProjectsDetailPage';
 import {format} from "date-fns";
 
 export const Dashboard: FC<IProjectsDetailPage> = ({ project }) => {

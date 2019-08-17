@@ -3,7 +3,7 @@ import {Button, Checkbox, Form, Modal} from 'semantic-ui-react';
 import TalentSpecificationsForm from './TalentSpecificationsForm';
 import {connect} from 'react-redux';
 import {getFormState} from '../../reducers/finalFormReducer';
-import {ActorSearch} from '../../pages/ActorSearchPage';
+import {ActorSearch} from '../../pages/Search/ActorSearchPage';
 
 const AddRoleBreakdownModal: FC<{ specs: any, handleSubmit: (val: any) => void }> = (props) => {
     const [open, setOpen] = useState(false);

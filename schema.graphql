@@ -1,0 +1,254 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type ActorNote {
+    audition: Audition!
+    createdAt: String!
+    for: User!
+    id: String!
+    owner: User!
+    text: String!
+    updatedAt: Float!
+}
+
+type Audition {
+    address: String!
+    auditionType: String!
+    collateral: [AuditionCollateral!]!
+    createdAt: DateTime!
+    description: String!
+    forRoles: [ProjectRole!]!
+    id: String!
+    lat: Float!
+    long: Float!
+    name: String!
+    phoneNumber: String
+    private: Boolean!
+    project: Project!
+    prop: String!
+    questions: [AuditionQuestion!]!
+    requirementSummary: String
+    startDate: DateTime!
+    talent: [AuditionTalentInstance!]!
+    timeSlots: [AuditionTimeSlot!]!
+    updatedAt: DateTime!
+}
+
+type AuditionCollateral {
+    audition: Audition!
+    createdAt: String!
+    id: Float!
+    role: ProjectRole!
+    s3Key: String!
+    user: User!
+}
+
+type AuditionQuestion {
+    audition: Audition!
+    id: Float!
+    text: String!
+}
+
+type AuditionTalentInstance {
+    audition: Audition!
+    callBack: String!
+    createdAt: DateTime!
+    decision: String!
+    hasConflicts: Boolean!
+    id: String!
+    projectId: Float!
+    registered: Boolean!
+    selfSignup: String!
+    status: String!
+    timeSlot: AuditionTimeSlot!
+    updatedAt: DateTime!
+    user: User!
+    walkIn: String!
+}
+
+type AuditionTimeSlot {
+    audition: Audition!
+    endTime: DateTime!
+    id: String!
+    startTime: DateTime!
+    talent: AuditionTalentInstance!
+}
+
+type BreakdownAttribute {
+    category: Float!
+    createdAt: String!
+    id: Float!
+    projectRole: ProjectRole!
+    type: Float!
+    user: User!
+    value: String!
+}
+
+type CommercialExperience {
+    user: User!
+}
+
+type FilmExperience {
+    user: User!
+}
+
+type MusicalTheatreExperience {
+    user: User!
+}
+
+type Mutation {
+    addNote(input: CreateNoteDTO!): ActorNote!
+    createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
+    deleteAudition(auditionId: String!): Audition!
+    removeNote(id: String!): Boolean
+    updateTalentInstance(instance: AuditionInstanceDTO!, instanceId: String!): ActorNote!
+}
+
+type OperaExperience {
+    user: User!
+}
+
+type Organization {
+    aboutUs: String!
+    address: String!
+    contactPhoneNumber: String!
+    contractsOfferred: String!
+    eid: String!
+    id: Float!
+    irsStatus: String!
+    lat: Float!
+    long: Float!
+    members: [User!]!
+    name: String!
+    owner: User!
+    projects: [Project!]!
+    website: String!
+}
+
+type Project {
+    auditions: [Audition!]!
+    createdAt: DateTime!
+    director: String!
+    id: Float!
+    name: String!
+    notes: String!
+    organizationId: Organization!
+    performanceDateEnd: DateTime!
+    performanceDateStart: DateTime!
+    photoS3Key: String!
+    rehearsalDateEnd: DateTime!
+    rehearsalDateStart: DateTime!
+    roles: [ProjectRole!]!
+    status: String!
+    summary: String!
+    updatedAt: DateTime!
+    writer: String!
+}
+
+type ProjectRole {
+    breakdown: [BreakdownAttribute!]
+    castTo: User
+    characterName: String!
+    characterSummary: String!
+    collateral: [AuditionCollateral!]!
+    id: String!
+    inAuditions: [Audition!]!
+    movementRequirements: String
+    project: Project!
+}
+
+type Query {
+    getAudition(auditionId: String!): Audition!
+    getNotes(actorId: String!): [ActorNote!]!
+    getUser(id: String!): User!
+    searchForAuditions(query: String!): [Audition!]!
+}
+
+type TelevisionExperience {
+    user: User!
+}
+
+type TheatreExperience {
+    user: User!
+}
+
+type User {
+    breakdown: [BreakdownAttribute!]!
+    castIn: [ProjectRole!]!
+    city: String!
+    commercialExperience: [CommercialExperience!]!
+    createdAt: String!
+    displayName: String!
+    email: String!
+    emailConfirmed: Boolean!
+    filmExperience: [FilmExperience!]!
+    firstName: String!
+    gender: String!
+    heightInches: Float!
+    id: String!
+    instances: [AuditionTalentInstance!]!
+    lastName: String!
+    musicalTheatreExperience: [MusicalTheatreExperience!]!
+    notes: [ActorNote!]!
+    operaExperience: [OperaExperience!]!
+    organizations: [Organization!]!
+    ownedOrgs: [Organization!]!
+    phoneNumber: String!
+    profileImages: [UserImage!]!
+    profilePicture: UserImage!
+    roles: [Role!]!
+    state: String!
+    televisionExperience: [TelevisionExperience!]!
+    theatreExperience: [TheatreExperience!]!
+    updatedAt: Float!
+    verified: Boolean!
+    website: String!
+    weightLbs: Float!
+}
+
+type UserImage {
+    createdAt: String!
+    id: Float!
+    isPrimary: Boolean!
+    s3Key: String!
+    user: User!
+}
+
+"What type of user is this? Admin or Actor"
+enum Role {
+    actor
+    admin
+}
+
+input AuditionInstanceDTO {
+    decision: String!
+}
+
+input CreateAuditionDTO {
+    address: String!
+    auditionType: String!
+    description: String!
+    lat: Float!
+    long: Float!
+    name: String!
+    phoneNumber: String!
+    private: Boolean!
+    prop: String!
+    requirementSummary: String!
+    startDate: DateTime!
+}
+
+input CreateNoteDTO {
+    audition: String!
+    for: String!
+    owner: String
+    text: String!
+}
+
+
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime

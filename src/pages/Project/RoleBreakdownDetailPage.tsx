@@ -1,9 +1,9 @@
 import React, {FC, useCallback, useEffect} from 'react';
 import {useDropzone} from "react-dropzone";
-import {StyleDropzone} from "./ProfileImagePage";
+import {StyleDropzone} from "../Profile/ProfileImagePage";
 import {Divider, Header, Icon, Loader, Segment, List} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {fetchRoleForProject, uploadDocument} from "../actions/roleActions";
+import {fetchRoleForProject, uploadDocument} from "../../actions/roleActions";
 
 function MyDropzone(props: any) {
     const onDrop = useCallback(acceptedFiles => {

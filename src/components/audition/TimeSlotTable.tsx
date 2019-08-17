@@ -4,14 +4,14 @@ import moment from 'moment';
 import {Button, Modal} from 'semantic-ui-react';
 import {DataTable} from 'primereact/datatable';
 import AuditionTimeSlotActionColumn from './AuditionTimeSlotActionColumn';
-import {ActorSearch} from '../../pages/ActorSearchPage';
-import {useDispatch, useSelector} from 'react-redux';
+import {ActorSearch} from '../../pages/Search/ActorSearchPage';
+import {useDispatch} from 'react-redux';
 import {inviteToAudition} from '../../actions/auditionActions';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 function OpenTimeSlot(props: any) {
-    const projectId = useSelector((state: any) => state.projects.project.id);
-    const auditionId = useSelector((state: any) => state.auditions.audition.id);
+    const projectId = props.projectId;
+    const auditionId = props.auditionId;
     const dispatch = useDispatch();
     const invite = useCallback(
         (id, timeSlotId) => {
@@ -33,7 +33,7 @@ function OpenTimeSlot(props: any) {
     );
 }
 
-const TimeSlotTable: FC<any> = ({allSlots, editable = false, header}) => {
+const TimeSlotTable: FC<any> = ({match, allSlots, editable = false, header}) => {
     return (
         <>
             <h1>Times</h1>
@@ -55,13 +55,16 @@ const TimeSlotTable: FC<any> = ({allSlots, editable = false, header}) => {
                                     <Link to={`/profile/${data.talent.user.id}`}>{displayName}</Link>
                                 );
                             } else {
-                                return <OpenTimeSlot timeSlotId={data.id}/>;
+                                return <OpenTimeSlot
+                                    auditionId={match.params.auditionId}
+                                    projectId={match.params.projectId}
+                                    timeSlotId={data.id}/>;
                             }
                         }} header={'Actor'}
                 />
                 <Column body={(data: any) => {
                     if (data.talent) {
-                        return <div> {data.talent.status} </div>
+                        return <div> {data.talent.status} </div>;
                     }
                 }} header={'Status'}/>
                 <Column body={(data: any) => (
@@ -82,4 +85,4 @@ const TimeSlotTable: FC<any> = ({allSlots, editable = false, header}) => {
     );
 };
 
-export default TimeSlotTable;
+export default withRouter(TimeSlotTable);

@@ -43,12 +43,12 @@ class Header extends Component<any, { activeItem?: string }> {
                         ? (
                             <>
                                 <Menu.Item onClick={() => this.props.history.push('/search/actor')}>Actor Search</Menu.Item>
-                                <Menu.Item>Audition Search</Menu.Item>
-                                <Menu.Item>My Auditions</Menu.Item>
+                                <Menu.Item onClick={() => this.props.history.push('/search/audition')}>Audition Search</Menu.Item>
+                                <Menu.Item onClick={() => this.props.history.push('/profile/auditions')}>My Auditions</Menu.Item>
                                 <Dropdown as={Menu.Item} text={this.props.me.displayName}>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={() => this.props.history.push('/profile')}>View Profile</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => this.props.history.push('/pofilec')}>My Notifications</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => this.props.history.push('/profile')}>My Notifications</Dropdown.Item>
                                         <Dropdown.Item onClick={() => this.props.history.push('/organization')}>Casting Dashboard</Dropdown.Item>
                                         <Dropdown.Item onClick={() => this.props.history.push('/settings')}>Settings</Dropdown.Item>
                                         <Dropdown.Item onClick={logOut}>Sign Out</Dropdown.Item>

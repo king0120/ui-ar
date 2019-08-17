@@ -1,13 +1,13 @@
 import React, {FC, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {IProject} from '../types/IProject';
-import ProjectSidebar from '../components/project/ProjectSidebar';
+import {IProject} from '../../types/IProject';
+import ProjectSidebar from '../../components/project/ProjectSidebar';
 import styled from 'styled-components';
-import {fetchProject} from '../actions/projectActions';
+import {fetchProject} from '../../actions/projectActions';
 import {match, Route} from 'react-router-dom';
-import RoleBreakdowns from '../components/project/RoleBreakdowns';
-import Auditions from '../components/project/Auditions';
-import {Dashboard} from '../components/project/ProjectsDetailDashboard';
+import RoleBreakdowns from '../../components/project/RoleBreakdowns';
+import Auditions from '../../components/project/Auditions';
+import {Dashboard} from '../../components/project/ProjectsDetailDashboard';
 
 const DetailPageStyles = styled.div`
   display: flex;

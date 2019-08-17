@@ -1,22 +1,13 @@
 import React, {FC, useState} from 'react';
 import {Button, Form} from "semantic-ui-react";
 import {useMutation} from "@apollo/react-hooks";
-import {gql} from "apollo-boost";
-import {GET_NOTES} from './NotesOnActor';
+import {loader} from 'graphql.macro';
 
-const ADD_NOTE = gql`
-    mutation addNote($input: CreateNoteDTO!) {
-        addNote(
-            input: $input
-        ) {
-            id
-            text
-        }
-    }
-`
+const ADD_NOTE = loader('../../graphql/mutations/ADD_NOTE.gql');
+const GET_NOTES = loader('../../graphql/queries/GET_NOTES.gql');
 
 const AddNoteForActor: FC<any> = ({userId, auditionId}) => {
-    const [text, setText] = useState('')
+    const [text, setText] = useState('');
     const variables = {input: {for: userId, audition: auditionId, text}};
     const refetchQueries = [{
         query: GET_NOTES,
@@ -24,8 +15,8 @@ const AddNoteForActor: FC<any> = ({userId, auditionId}) => {
     }];
     const [addNote] = useMutation(ADD_NOTE, {variables, refetchQueries});
     const handleSubmit = () => {
-        addNote()
-        setText('')
+        addNote();
+        setText('');
     };
     return (
         <Form onSubmit={handleSubmit}>

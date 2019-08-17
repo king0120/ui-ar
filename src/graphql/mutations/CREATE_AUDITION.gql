@@ -1,0 +1,7 @@
+mutation createAudition($projectId: String!, $audition: CreateAuditionDTO!) {
+    createAudition(audition: $audition, projectId: $projectId) {
+        id
+        name
+        address
+    }
+}

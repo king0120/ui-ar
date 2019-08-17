@@ -1,13 +1,13 @@
 import React, {FC, useEffect} from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
-import {transformPhoneNumber} from '../utils';
-import ProfileSidebar from '../components/profile/ProfileSidebar';
-import {getCurrentUserDetails, getProfileDetails} from '../actions/talentActions';
-import ExperienceList from '../components/profile/ExperienceList';
-import AddExperienceModal from '../components/profile/AddExperienceModal';
+import {transformPhoneNumber} from '../../utils';
+import ProfileSidebar from '../../components/profile/ProfileSidebar';
+import {getCurrentUserDetails, getProfileDetails} from '../../actions/talentActions';
+import ExperienceList from '../../components/profile/ExperienceList';
+import AddExperienceModal from '../../components/profile/AddExperienceModal';
 import {Container, Header} from 'semantic-ui-react';
-import ProfileBreakdown from '../components/profile/ProfileBreakdown';
+import ProfileBreakdown from '../../components/profile/ProfileBreakdown';
 
 const ProfilePageStyle = styled(Container)`
     &&& {

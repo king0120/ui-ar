@@ -1,29 +1,43 @@
-import React, {FC, useState, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {connect} from 'react-redux';
-import DatePicker from 'react-datepicker'
-import {createAudition} from '../../actions/auditionActions';
+import DatePicker from 'react-datepicker';
 import {fetchRolesForProject} from '../../actions/roleActions';
 import AddressInput from "../shared/AddressInput";
+import {loader} from 'graphql.macro';
+import {useMutation} from "@apollo/react-hooks";
 
-const CreateAuditionModal: FC<any> = ({projectId, createAudition, roles, fetchRolesForProject}) => {
+const CREATE_AUDITION = loader('../../graphql/mutations/CREATE_AUDITION.gql');
+
+const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) => {
     const [latLong, changeLatLong] = useState({} as any);
     const [address, changeAddress] = useState('');
     const [startDate, changeStartDate] = useState(new Date());
-
+    const [createAudition] = useMutation(CREATE_AUDITION);
     useEffect(() => {
-        fetchRolesForProject(projectId)
-    }, [projectId])
+        fetchRolesForProject(projectId);
+    }, [projectId]);
 
-    const onSubmit = (data: any) => createAudition(projectId, {...data, lat: latLong.lat, long: latLong.long, address, startDate});
+    const onSubmit = (data: any) => {
+        const {status, question1, question2, question3, question4, question5, ...cleaned} = data;
+        return createAudition({
+            variables: {
+                projectId: projectId,
+                audition: {
+                    ...cleaned, lat: latLong.lat, long: latLong.long, private: status === "private", address, startDate,
+                    questions: [question1, question2, question3, question4, question5]
+                }
+            }
+        });
+    };
 
     const handleAddressChange = (addressObject: any) => {
         changeLatLong({
             lat: addressObject.latlng.lat,
             long: addressObject.latlng.lng
         });
-        changeAddress(addressObject.value)
+        changeAddress(addressObject.value);
     };
 
     return (
@@ -126,7 +140,7 @@ const CreateAuditionModal: FC<any> = ({projectId, createAudition, roles, fetchRo
                                 <Form.Field>
                                     <label>For Role</label>
                                     {roles.map((role: any) => (
-                                        <label>
+                                        <label key={role.id}>
                                             <Field
                                                 name='forRoles'
                                                 component='input'
@@ -149,6 +163,6 @@ const CreateAuditionModal: FC<any> = ({projectId, createAudition, roles, fetchRo
 const mapStateToProps = (state: any) => ({
     roles: state.roles.roles,
     projectId: state.projects.project.id
-})
+});
 
-export default connect(mapStateToProps, {createAudition, fetchRolesForProject})(CreateAuditionModal);
+export default connect(mapStateToProps, {fetchRolesForProject})(CreateAuditionModal);

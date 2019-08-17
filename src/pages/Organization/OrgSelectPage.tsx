@@ -1,10 +1,10 @@
 import React, {FC, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {fetchAllOrganizations} from '../actions/organizationActions';
+import {fetchAllOrganizations} from '../../actions/organizationActions';
 import {Card, List} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import AddOrganization from '../components/organization/AddEditOrganization';
+import AddOrganization from '../../components/organization/AddEditOrganization';
 
 const OrgPageStyle = styled.div`
     width: 90%;

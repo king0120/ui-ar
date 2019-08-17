@@ -2,11 +2,11 @@ import React, {FC, useEffect, useState} from 'react';
 import {Button, Form, Input, Message} from 'semantic-ui-react';
 
 import {connect} from 'react-redux';
-import {register} from '../actions/authActions';
+import {register} from '../../actions/authActions';
 import {withRouter} from 'react-router-dom';
-import {LoginCard} from '../styles/shared';
-import {CardPageContainer} from '../styles/shared';
-import AddressInput from '../components/shared/AddressInput';
+import {LoginCard} from '../../styles/shared';
+import {CardPageContainer} from '../../styles/shared';
+import AddressInput from '../../components/shared/AddressInput';
 
 const RegistrationPage: FC<any> = (props) => {
     const [firstName, changeFirstName] = useState('');

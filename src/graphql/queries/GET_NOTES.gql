@@ -1,0 +1,10 @@
+query getNotes($actorId: String!){
+    getNotes(actorId: $actorId) {
+        id
+        text
+        audition {
+            name
+        }
+        createdAt
+    }
+}

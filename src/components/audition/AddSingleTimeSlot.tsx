@@ -1,21 +1,23 @@
 import React, {FC} from 'react';
-import {Button, Form, Input} from 'semantic-ui-react';
+import {Button, Form} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
 import moment, {Moment} from 'moment';
 import {connect} from 'react-redux';
 import {createTimeSlots} from '../../actions/auditionActions';
+import {withRouter} from 'react-router';
 
 const AddSingleTimeSlot: FC<any> = (props) => {
+    const {auditionId, projectId} = props.match.params;
     const buildTimeSlots = (startTime: Moment, endTime: Moment) => {
-        const {projectId, auditionId} = props;
         props.createTimeSlots(projectId, auditionId, [{startTime, endTime}]);
     };
 
     return (
         <FinalForm
-            onSubmit={() => {}}
+            onSubmit={() => {
+            }}
             render={({handleSubmit, form}) => {
                 return (
                     <Form onSubmit={handleSubmit}>
@@ -67,9 +69,5 @@ const AddSingleTimeSlot: FC<any> = (props) => {
     );
 };
 
-const mapStateToProps = (state: any) => ({
-    projectId: state.projects.project.id,
-    auditionId: state.auditions.audition.id,
-});
 
-export default connect(mapStateToProps, {createTimeSlots})(AddSingleTimeSlot) as any;
+export default connect(null, {createTimeSlots})(withRouter(AddSingleTimeSlot)) as any;

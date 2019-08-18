@@ -1,0 +1,14 @@
+query getOrganizationsForUser {
+    getAllOrganizationsForUser {
+        owned {
+            id
+            name
+            address
+        }
+        member {
+            id
+            name
+            address
+        }
+    }
+}

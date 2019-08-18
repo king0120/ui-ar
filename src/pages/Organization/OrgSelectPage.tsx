@@ -1,11 +1,11 @@
-import React, {FC, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {fetchAllOrganizations} from '../../actions/organizationActions';
+import React, {FC} from 'react';
 import {List} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import AddOrganization from '../../components/organization/AddEditOrganization';
+import {useQuery} from "@apollo/react-hooks";
 
+const GET_ORGANIZATIONS_FOR_USER = require('../../graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
 const OrgPageStyle = styled.div`
     width: 90%;
     margin: 20px auto;
@@ -17,11 +17,14 @@ const OrgPageStyle = styled.div`
     }
 `;
 
-const OrgSelectPage: FC<any> = ({fetchAllOrganizations, orgs}) => {
-    useEffect(() => {
-        fetchAllOrganizations();
-    }, [fetchAllOrganizations]);
-
+const OrgSelectPage: FC<any> = () => {
+    const {loading, data} = useQuery(GET_ORGANIZATIONS_FOR_USER)
+    let orgs = data && data.getAllOrganizationsForUser;
+    if (loading) {
+        return <h1>Loading</h1>
+    }
+    orgs = [...orgs.owned, ...orgs.member]
+    console.log(orgs)
     return (
         <OrgPageStyle>
             <div className={'header'}>
@@ -30,11 +33,11 @@ const OrgSelectPage: FC<any> = ({fetchAllOrganizations, orgs}) => {
             </div>
             <List bulleted divided relaxed>
                 {orgs.map((org: any) => (
-                    <List.Item>
-                        <Link to={`/organization/${org.id}/projects`} key={org.id}>
+                    <List.Item key={org.id}>
+                        <Link to={`/organization/${org.id}/projects`}>
                             <List.Content>
-                                <List.Header as='a'>{org.name}</List.Header>
-                                <List.Description as='a'>{org.address}</List.Description>
+                                <List.Header>{org.name}</List.Header>
+                                <List.Description>{org.address}</List.Description>
                             </List.Content>
                         </Link>
                     </List.Item>
@@ -44,10 +47,4 @@ const OrgSelectPage: FC<any> = ({fetchAllOrganizations, orgs}) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        orgs: state.organization.organizations,
-    };
-};
-
-export default connect(mapStateToProps, {fetchAllOrganizations})(OrgSelectPage);
+export default OrgSelectPage;

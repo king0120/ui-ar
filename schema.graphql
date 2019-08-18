@@ -118,7 +118,7 @@ type Organization {
     contactPhoneNumber: String!
     contractsOfferred: String!
     eid: String!
-    id: Float!
+    id: String!
     irsStatus: String!
     lat: Float!
     long: Float!
@@ -162,6 +162,7 @@ type ProjectRole {
 }
 
 type Query {
+    getAllOrganizationsForUser: UserOrganizations!
     getAllProjects(organizationId: String!): [Project!]!
     getAudition(auditionId: String!): Audition!
     getAuditionsForProject(projectId: String!): [Audition!]!
@@ -220,6 +221,11 @@ type UserImage {
     isPrimary: Boolean!
     s3Key: String!
     user: User!
+}
+
+type UserOrganizations {
+    member: [Organization!]!
+    owned: [Organization!]!
 }
 
 "What type of user is this? Admin or Actor"

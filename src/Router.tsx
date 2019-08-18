@@ -15,7 +15,6 @@ import PasswordResetPage from './pages/Auth/PasswordResetPage';
 import SettingsPage from './pages/General/SettingsPage';
 import RoleBreakdownDetailPage from './pages/Project/RoleBreakdownDetailPage';
 import AuditionResponse from "./pages/Audition/AuditionResponse";
-import Auditions from "./components/project/Auditions";
 import AuditionPage from "./pages/Audition/AuditionPage";
 import AuditionSearchPage from "./pages/Search/AuditionSearchPage";
 import MyAuditions from "./pages/Profile/MyAuditions";
@@ -28,7 +27,7 @@ const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => (
     )}/>
 );
 
-const AppRouter: FC<any> = ({loggedIn, children}) => {
+const AppRouter: FC<any> = ({loggedIn}) => {
     return (
         <>
             <Switch>

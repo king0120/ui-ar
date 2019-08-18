@@ -29,7 +29,7 @@ const AuditionManagerPage: FC<any> = ({match, history, fetchProject}) => {
     useEffect(() => {
         const {auditionId} = match.params;
         getAudition({variables: {auditionId}});
-    }, [fetchProject, match.params.projectId, match.params.auditionId]);
+    }, [getAudition, match.params, fetchProject, match.params.projectId, match.params.auditionId]);
 
     const audition = data && data.getAudition;
     const timeSlots = audition ? audition.timeSlots : []

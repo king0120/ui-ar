@@ -1,6 +1,6 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import styled from 'styled-components';
-import {Button, Icon, Modal, Popup} from 'semantic-ui-react';
+import {Popup} from 'semantic-ui-react';
 import {IProject} from '../../types/IProject';
 import EditProjectModal from '../project/EditProjectModal';
 import ConfirmationModal from '../shared/ConfirmationModal';

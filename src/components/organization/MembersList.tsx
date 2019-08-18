@@ -5,6 +5,10 @@ import ConfirmationModal from "../shared/ConfirmationModal";
 import {removeMemberFromOrganization, addMemberToOrganization} from "../../actions/organizationActions";
 import {ActorSearch} from '../../pages/Search/ActorSearchPage';
 import Flex from 'styled-flex-component';
+import {useQuery} from "@apollo/react-hooks";
+import {withRouter} from 'react-router-dom';
+
+const GET_ORGANIZATION = require('../../graphql/queries/organization/GET_ORGANIZATION.gql')
 
 const AddMemberModal = (props: any) => {
     const [open, changeOpen] = useState(false)
@@ -29,7 +33,13 @@ const AddMemberModal = (props: any) => {
 }
 
 const MembersList: FC<any> = (props) => {
-    const {organization} = props;
+    const {organizationId} = props.match.params;
+    const {loading, data} = useQuery(GET_ORGANIZATION, {variables: {orgId: organizationId}});
+    const organization = data && data.getOneOrganization;
+    if (loading) {
+        return <h1>loading</h1>
+    }
+
     return (
         <div>
             <div>
@@ -39,7 +49,7 @@ const MembersList: FC<any> = (props) => {
             <div>
                 <Flex justifyBetween alignBaseline>
                     <h3>Members</h3>
-                    <AddMemberModal {...props}/>
+                    <AddMemberModal organization={organization} {...props}/>
                 </Flex>
                 <List divided verticalAlign='middle'>
                     {organization.members.map((member: any) => {
@@ -59,9 +69,7 @@ const MembersList: FC<any> = (props) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        organization: state.organization.organization
-    }
-}
-export default connect(mapStateToProps, {removeMemberFromOrganization, addMemberToOrganization})(MembersList);
+export default connect(null, {
+    removeMemberFromOrganization,
+    addMemberToOrganization
+})(withRouter(MembersList));

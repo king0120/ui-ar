@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
-    const [shortName, setShortName] = useState('');
+    const [shortName] = useState('');
     const [director, setDirector] = useState('');
     const [writer, setWriter] = useState('');
     const [rehearsalStart, setRehearsalStart] = useState(new Date());

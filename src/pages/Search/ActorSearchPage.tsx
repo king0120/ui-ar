@@ -1,4 +1,4 @@
-import React, {FC, SyntheticEvent, useState, useEffect} from 'react';
+import React, {FC, SyntheticEvent, useState} from 'react';
 import {Button, Dropdown, Form, Image, Input, List} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {searchUsers} from '../../actions/searchActions';

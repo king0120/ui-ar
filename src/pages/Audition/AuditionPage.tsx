@@ -72,12 +72,11 @@ const AuditionPage: FC<any> = ({match, updateInstance}) => {
     useEffect(() => {
         const {auditionId} = match.params;
         getAudition({variables: {auditionId}});
-    }, [match]);
+    }, [getAudition, match]);
 
     if (loading || !data) {
         return <h1>loading</h1>;
     }
-    console.log(data);
 
     const {auditionId, projectId} = match.params;
     const changeDecision = (id: any) => updateInstance(projectId, auditionId, id, {decision: decisionValue === 'pending' ? null : decisionValue});

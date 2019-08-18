@@ -27,9 +27,10 @@ export const StyleDropzone = styled.div`
 `;
 
 function MyDropzone(props: any) {
+    const {uploadImage} = props;
     const onDrop = useCallback(acceptedFiles => {
-        props.uploadImage(acceptedFiles);
-    }, [props]);
+        uploadImage(acceptedFiles);
+    }, [uploadImage]);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
     return (
@@ -50,14 +51,14 @@ function MyDropzone(props: any) {
 }
 
 const ProfileImagePage: FC<any> = (props) => {
-
+    const {readOnly, getProfileDetails, getCurrentUserDetails} = props
     useEffect(() => {
-        if (props.readOnly) {
-            props.getProfileDetails(props.match.params.userId);
+        if (readOnly) {
+            getProfileDetails(props.match.params.userId);
         } else {
-            props.getCurrentUserDetails(props.user.id);
+            getCurrentUserDetails(props.user.id);
         }
-    }, [props.readOnly, props.match.params.userId]);
+    }, [readOnly, getProfileDetails, getCurrentUserDetails, props.user.id, props.match.params.userId]);
 
     return (
         <div>
@@ -69,19 +70,20 @@ const ProfileImagePage: FC<any> = (props) => {
                         <Image rounded bordered size={'medium'} src={img.url}/>
                         {!props.readOnly && (
                             <div>
-                                {(props.user.profilePicture && props.user.profilePicture.s3Key === img.s3Key) && <p>Current Profile Pic</p>}
+                                {(props.user.profilePicture && props.user.profilePicture.s3Key === img.s3Key) &&
+                                <p>Current Profile Pic</p>}
                                 <Button
                                     onClick={() => props.setProfilePic(img.s3Key)}
                                     color={'green'}
                                 >
                                     Set Profile Pic
                                 </Button>
-                            <Button
-                                onClick={() => props.deleteImage(img.s3Key)}
-                                color={'red'}
-                            >
-                                Delete Image
-                            </Button>
+                                <Button
+                                    onClick={() => props.deleteImage(img.s3Key)}
+                                    color={'red'}
+                                >
+                                    Delete Image
+                                </Button>
                             </div>
                         )}
                     </div>

@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import ProjectSidebar from '../../components/project/ProjectSidebar';
 import styled from 'styled-components';
 import {Route} from 'react-router-dom';
@@ -21,7 +21,6 @@ const DetailPageStyles = styled.div`
 const ProjectsDetailPage: FC<any> = ({match}) => {
     const {
         loading,
-        error,
         data: {getOneProject: project}
     }: any = useQuery(GET_PROJECT, {variables: {projectId: match!.params.projectId}})
 

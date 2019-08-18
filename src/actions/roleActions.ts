@@ -1,7 +1,6 @@
 import {Dispatch} from 'redux';
 import arAxios from '../utils/axiosHelper';
 import {IRole} from '../types/IRole';
-import {getCurrentUserDetails} from "./talentActions";
 
 export enum ROLE_ACTIONS {
     FETCH_ROLES_SUCCESS = 'FETCH_ROLES_SUCCESS',
@@ -28,8 +27,7 @@ export function castRole(projectId: string, id: string, userId: string) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
 
-        const res: { data: any } = await arAxios.put(`/api/v1/projects/${projectId}/roles/${id}/cast`, {userId});
-        const role = res.data;
+        await arAxios.put(`/api/v1/projects/${projectId}/roles/${id}/cast`, {userId});
         dispatch({
             type: 'CAST_ROLE_SUCCESS',
         });
@@ -81,7 +79,7 @@ export function uploadDocument(projectId: string, id: string, file: File[]) {
         dispatch({type: 'REQUEST_STARTED'});
         const formData = new FormData();
         formData.append('upload', file[0]);
-        const res: { data: any } = await arAxios.put(`/api/v1/projects/${projectId}/roles/${id}/document`, formData);
+        await arAxios.put(`/api/v1/projects/${projectId}/roles/${id}/document`, formData);
         dispatch({
             type: 'UPLOAD_DOCUMENT',
         });

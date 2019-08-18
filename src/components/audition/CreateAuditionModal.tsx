@@ -21,7 +21,7 @@ const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) 
     const [createAudition] = useMutation(CREATE_AUDITION, {refetchQueries});
     useEffect(() => {
         fetchRolesForProject(projectId);
-    }, [projectId]);
+    }, [projectId, fetchRolesForProject]);
 
     const onSubmit = async (data: any) => {
         const {status, question1, question2, question3, question4, question5, ...cleaned} = data;

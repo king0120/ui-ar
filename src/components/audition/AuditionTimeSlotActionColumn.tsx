@@ -13,8 +13,8 @@ export const ActionsContainer = styled.div`
 `;
 
 
-const AuditionTimeSlotActionColumn: FC<any> = ({match, auditionId, data,removeActorFromTimeslot, deleteTimeSlot}) => {
-    const {projectId} = match
+const AuditionTimeSlotActionColumn: FC<any> = ({match, data, removeActorFromTimeslot, deleteTimeSlot}) => {
+    const {projectId, auditionId} = match.params;
     return (
         <ActionsContainer>
             <Popup
@@ -51,9 +51,4 @@ const AuditionTimeSlotActionColumn: FC<any> = ({match, auditionId, data,removeAc
     )
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        auditionId: state.auditions.audition.id,
-    }
-}
-export default connect(mapStateToProps, {deleteTimeSlot, removeActorFromTimeslot})(withRouter(AuditionTimeSlotActionColumn));
+export default connect(null, {deleteTimeSlot, removeActorFromTimeslot})(withRouter(AuditionTimeSlotActionColumn));

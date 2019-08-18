@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Button, Form, Input} from "semantic-ui-react";
+import {Button, Form} from "semantic-ui-react";
 import {Field, Form as FinalForm} from "react-final-form";
 import {connect} from "react-redux";
 import queryString from 'query-string'

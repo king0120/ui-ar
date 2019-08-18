@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {createProjectRole, deleteRole, fetchRolesForProject} from '../../actions/roleActions';
 import {connect} from 'react-redux';
 import {Header, Label} from 'semantic-ui-react';
@@ -89,7 +89,7 @@ const RoleBreakdowns: FC<any> = ({roles, projectId, projectName, fetchRolesForPr
                 )}/>
                 <Column field='characterSummary' header='Character Summary'/>
                 <Column header='Cast To' body={
-                    (data: any) => data.castTo && data.castTo.displayName || "Not Cast"
+                    (data: any) => (data.castTo && data.castTo.displayName) || "Not Cast"
                 }/>
                 <Column body={
                     (data: any) => <RoleBreakdownActionColumn projectId={projectId} data={data} deleteRole={() => handleDeleteRow(data.id)}/>

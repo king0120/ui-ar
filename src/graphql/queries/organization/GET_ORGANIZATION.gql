@@ -1,5 +1,13 @@
 query getOrganization($orgId: String!){
     getOneOrganization(organizationId: $orgId) {
+        id
         name
+        owner {
+            displayName
+        }
+        members {
+            id
+            displayName
+        }
     }
 }

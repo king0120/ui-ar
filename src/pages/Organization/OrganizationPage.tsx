@@ -1,10 +1,10 @@
-import React, {FC, useEffect} from 'react';
-import {Button, Header, Tab} from 'semantic-ui-react';
+import React, {FC} from 'react';
+import {Header, Tab} from 'semantic-ui-react';
 import ProjectTable from '../../components/organization/ProjectTable';
 import Calendar from '../../components/shared/Calendar';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchOrganization, deleteOrganization} from '../../actions/organizationActions';
+import {deleteOrganization} from '../../actions/organizationActions';
 import {IOrganization} from '../../types/IOrganization';
 import ConfirmationModal from "../../components/shared/ConfirmationModal";
 import AddOrganization from "../../components/organization/AddEditOrganization";
@@ -23,7 +23,7 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const OrganizationPage: FC<IProjectList> = ({fetchOrganization, deleteOrganization, history, match}) => {
+const OrganizationPage: FC<IProjectList> = ({deleteOrganization, history, match}) => {
     const orgId = match.params.organizationId;
     const {loading, data} = useQuery(GET_ORGANIZATION, {variables: {orgId}})
 
@@ -33,10 +33,8 @@ const OrganizationPage: FC<IProjectList> = ({fetchOrganization, deleteOrganizati
         {menuItem: 'Calendar', render: () => <Calendar/>},
     ];
 
-    console.log(loading, data)
-
     const organization = data && data.getOneOrganization;
-    if (!organization) {
+    if (loading || !organization) {
         return <h1>Loading</h1>;
     }
 
@@ -67,9 +65,4 @@ interface IProjectList {
     history: any;
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        organization: state.organization.organization
-    };
-};
-export default connect(mapStateToProps, {fetchOrganization, deleteOrganization})(OrganizationPage);
+export default connect(null, {deleteOrganization})(OrganizationPage);

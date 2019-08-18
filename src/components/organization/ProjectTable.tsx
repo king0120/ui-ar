@@ -22,10 +22,6 @@ const TableHeader = styled.div`
   padding: 10px 0;
 `;
 
-interface IProjectTableState {
-    expandedRows: any[];
-}
-
 const RowExpansionTemplate = (data: any) => {
     return (
         <div className='p-grid p-fluid' style={{padding: '1em'}}>
@@ -58,9 +54,8 @@ const RowExpansionTemplate = (data: any) => {
 export const ProjectTable: FC<any> = (props) => {
     const [expandedRows, setExpandedRows] = useState([])
     const organizationId = props.match.params.organizationId;
-    const {data, loading} = useQuery(GET_PROJECTS_FOR_ORG, {variables: {organizationId}});
+    const {data} = useQuery(GET_PROJECTS_FOR_ORG, {variables: {organizationId}});
     const projects = data.getAllProjects;
-    console.log(projects)
     return (<>
             <TableHeader>
                 <Header as='h2'>Upcoming Projects</Header>
@@ -100,9 +95,6 @@ export const ProjectTable: FC<any> = (props) => {
         </>
 
     )
-}
+};
 
-const mapStateToProps = (state: any) => ({
-    projects: state.projects.projects
-});
-export default connect(mapStateToProps, {createProject, fetchOrganization, deleteProject})(withRouter(ProjectTable));
+export default connect(null, {createProject, fetchOrganization, deleteProject})(withRouter(ProjectTable));

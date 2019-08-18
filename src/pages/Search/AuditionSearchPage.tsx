@@ -2,13 +2,10 @@ import React, {useState} from 'react';
 import {Button, Form, Input, List} from "semantic-ui-react";
 import {useLazyQuery} from "@apollo/react-hooks";
 import {Container} from '../../components/project/CommonStyledComponents';
-import { loader } from 'graphql.macro'
-
-const SEARCH_AUDITIONS = loader('../../graphql/queries/SEARCH_AUDITIONS.gql')
+const SEARCH_AUDITIONS = require('../../graphql/queries/SEARCH_AUDITIONS.gql');
 
 const AuditionSearchPage = () => {
     const [value, changeValue] = useState('')
-
     const [searchAuditions, {loading, data}] = useLazyQuery(SEARCH_AUDITIONS);
     const results = data && data.searchForAuditions;
 

@@ -7,27 +7,31 @@ import {Column} from 'primereact/column';
 import {Link} from 'react-router-dom';
 import AddAuditionModal from '../audition/CreateAuditionModal';
 import ConfirmationModal from '../shared/ConfirmationModal';
-import {deleteAudition} from "../../actions/auditionActions";
-import {connect} from 'react-redux';
+import {useMutation, useQuery} from "@apollo/react-hooks";
 
-const RowExpansion = () => {
-    return (
-        <>
-            <h1>
-                stuff here
-            </h1>
-        </>
-    );
-};
+const DELETE_AUDITION = require('../../graphql/mutations/DELETE_AUDITION.gql');
+const GET_AUDITIONS_FOR_PROJECT = require('../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 
-const Auditions: FC<any> = ({match, project, deleteAudition}) => {
-    const auditions = project.auditions;
+const RowExpansion = () => <h1>stuff here</h1>
+
+const Auditions: FC<any> = ({match, projectId, projectName}) => {
+    const {loading, data} = useQuery(GET_AUDITIONS_FOR_PROJECT, {variables: {projectId}})
     const [expandedRows, setExpandedRows] = useState();
+    const [deleteAudition] = useMutation(DELETE_AUDITION, {
+        refetchQueries: [{
+            query: GET_AUDITIONS_FOR_PROJECT,
+            variables: {projectId}}]
+    });
+
+    const auditions = data ? data.getAuditionsForProject : [];
+    if (loading) {
+        return <h1>Loading</h1>
+    }
     return (
         <Container>
             <div className='role-header'>
-                <Header as='h1'>Upcoming Auditions for {project.name}</Header>
-                <AddAuditionModal/>
+                <Header as='h1'>Upcoming Auditions for {projectName}</Header>
+                <AddAuditionModal projectId={projectId}/>
             </div>
 
             <DataTable
@@ -49,13 +53,15 @@ const Auditions: FC<any> = ({match, project, deleteAudition}) => {
                     body={
                         (data: any) => (
                             <Flex spaceBetween>
-                                <Link to={`/organization/${match.params.organizationId}/projects/${project.id}/auditions/${data.id}`}>
+                                <Link
+                                    to={`/organization/${match.params.organizationId}/projects/${projectId}/auditions/${data.id}`}>
                                     <Button primary>Start Audition</Button>
                                 </Link>
-                                <Link to={`/projects/${project.id}/audition-manager/${data.id}`}>
+                                <Link to={`/projects/${projectId}/audition-manager/${data.id}`}>
                                     <Button primary>Manage Audition</Button>
                                 </Link>
-                                <ConfirmationModal onConfirm={() => deleteAudition(project.id, data.id)}/>
+                                <ConfirmationModal
+                                    onConfirm={() => deleteAudition({variables: {auditionId: data.id}})}/>
                             </Flex>
                         )
                     }/>
@@ -64,4 +70,4 @@ const Auditions: FC<any> = ({match, project, deleteAudition}) => {
     );
 };
 
-export default connect(null, {deleteAudition})(Auditions);
+export default Auditions;

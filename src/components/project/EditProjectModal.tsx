@@ -5,13 +5,9 @@ import {IProject} from '../../types/IProject';
 import {connect} from 'react-redux';
 import {editProject} from '../../actions/projectActions';
 import {fetchOrganization} from '../../actions/organizationActions';
+import {withRouter} from "react-router";
 
-const AddProjectModal: FC<{
-    project: IProject;
-    fetchOrganization: (id: number) => void
-    editProject: (id: number, project: IProject) => void,
-    organizationId: number
-}> = (props) => {
+const AddProjectModal: FC<any> = (props) => {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState(props.project.name);
     const [shortName, setShortName] = useState(props.project.shortName);
@@ -19,7 +15,7 @@ const AddProjectModal: FC<{
     const [writer, setWriter] = useState(props.project.writer);
     const [auditionDate, setAuditionDate] = useState(new Date());
     const [callbackDate, setCallbackDate] = useState(new Date());
-
+    const organizationId = props.match.params.organizationId
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
         const updatedProject = {
@@ -35,7 +31,7 @@ const AddProjectModal: FC<{
         };
         try {
             await props.editProject(props.project.id, updatedProject);
-            await props.fetchOrganization(props.organizationId);
+            await props.fetchOrganization(organizationId);
             setOpen(false);
         } catch (err) {
             console.log('ERROR');
@@ -65,7 +61,8 @@ const AddProjectModal: FC<{
                         </Form.Field>
                         <Form.Field>
                             <label>Short Name</label>
-                            <input value={shortName} onChange={e => setShortName(e.target.value)} placeholder='Short Name'/>
+                            <input value={shortName} onChange={e => setShortName(e.target.value)}
+                                   placeholder='Short Name'/>
                         </Form.Field>
                         <Form.Field>
                             <label>Director</label>
@@ -91,9 +88,4 @@ const AddProjectModal: FC<{
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        organizationId: state.organization.organization.id,
-    };
-}
-export default connect(mapStateToProps, {editProject, fetchOrganization})(AddProjectModal);
+export default connect(null, {editProject, fetchOrganization})(withRouter(AddProjectModal));

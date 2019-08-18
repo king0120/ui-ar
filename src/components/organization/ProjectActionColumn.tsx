@@ -27,13 +27,6 @@ const ProjectActionColumn: FC<IProjectActionColumn> = ({data, deleteProject}) =>
                 }
                 content='Edit This Project'
             />
-            {/*<Popup*/}
-            {/*  inverted*/}
-            {/*  trigger={*/}
-            {/*    <Button circular color="orange" icon='add user' />*/}
-            {/*  }*/}
-            {/*  content="Manage Audition Teams"*/}
-            {/*/>*/}
             <Popup
                 inverted
                 trigger={

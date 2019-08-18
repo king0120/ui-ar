@@ -1,0 +1,5 @@
+query getOrganization($orgId: String!){
+    getOneOrganization(organizationId: $orgId) {
+        name
+    }
+}

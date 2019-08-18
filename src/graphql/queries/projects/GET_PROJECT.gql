@@ -1,0 +1,5 @@
+query getOneProject($projectId: String!) {
+    getOneProject(projectId: $projectId) {
+        name
+    }
+}

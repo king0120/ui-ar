@@ -12,19 +12,6 @@ export enum AUDITION_ACTIONS {
     FETCH_AUDITION_TIMESLOTS_SUCCESS = 'FETCH_AUDITION_TIMESLOTS_SUCCESS'
 }
 
-export function deleteAudition(projectId: string, id: number) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        await arAxios.delete(`/api/v1/projects/${projectId}/auditions/${id}`);
-
-        dispatch({
-            type: AUDITION_ACTIONS.FETCH_AUDITION_DELETE_SUCCESS,
-        });
-    };
-}
-
-
 export function fetchTimeSlots(projectId: number, auditionId: number) {
     return async (dispatch: Dispatch) => {
         dispatch(startLoad());

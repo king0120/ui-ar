@@ -1,7 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {createProjectRole, deleteRole, fetchRolesForProject} from '../../actions/roleActions';
 import {connect} from 'react-redux';
-import {Header, Icon, Label, Segment} from 'semantic-ui-react';
+import {Header, Label} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {IRole} from '../../types/IRole';
 import AddRoleBreakdownModal from '../shared/AddRoleBreakdownModal';
@@ -9,8 +9,6 @@ import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import RoleBreakdownActionColumn from './RoleBreakdownActionColumn';
 import {Container} from './CommonStyledComponents';
-import {useDropzone} from "react-dropzone";
-import {StyleDropzone} from "../../pages/Profile/ProfileImagePage";
 import {Link} from 'react-router-dom';
 
 const LabelsContainer = styled.div`
@@ -56,25 +54,25 @@ const RowExpansion = (role: IRole) => {
     );
 };
 
-const RoleBreakdowns: FC<any> = ({roles, project, fetchRolesForProject, createProjectRole, deleteRole}) => {
+const RoleBreakdowns: FC<any> = ({roles, projectId, projectName, fetchRolesForProject, createProjectRole, deleteRole}) => {
     const [expandedRows, setExpandedRows] = useState();
     useEffect(() => {
-        fetchRolesForProject(project.id);
-    }, [project.id, fetchRolesForProject]);
+        fetchRolesForProject(projectId);
+    }, [projectId, fetchRolesForProject]);
 
     const handleCreateRow = async (role: any) => {
-        await createProjectRole(project.id, role);
-        await fetchRolesForProject(project.id);
+        await createProjectRole(projectId, role);
+        await fetchRolesForProject(projectId);
     };
 
     const handleDeleteRow = async (id: number) => {
-        await deleteRole(project.id, id);
-        await fetchRolesForProject(project.id);
+        await deleteRole(projectId, id);
+        await fetchRolesForProject(projectId);
     };
     return (
         <Container>
             <div className='role-header'>
-                <Header as='h1'>Role Breakdown for {project.name}</Header>
+                <Header as='h1'>Role Breakdown for {projectName}</Header>
                 <AddRoleBreakdownModal handleSubmit={(role) => handleCreateRow(role)}/>
             </div>
 
@@ -86,15 +84,15 @@ const RoleBreakdowns: FC<any> = ({roles, project, fetchRolesForProject, createPr
                 rowExpansionTemplate={RowExpansion}
             >
                 <Column expander={true} style={{width: '2em'}}/>
-                <Column header='Character Name' body={(data:any) => (
-                    <Link to={`/projects/${project.id}/roles/${data.id}`}>{data.characterName}</Link>
+                <Column header='Character Name' body={(data: any) => (
+                    <Link to={`/projects/${projectId}/roles/${data.id}`}>{data.characterName}</Link>
                 )}/>
                 <Column field='characterSummary' header='Character Summary'/>
                 <Column header='Cast To' body={
                     (data: any) => data.castTo && data.castTo.displayName || "Not Cast"
                 }/>
                 <Column body={
-                    (data: any) => <RoleBreakdownActionColumn data={data} deleteRole={() => handleDeleteRow(data.id)}/>
+                    (data: any) => <RoleBreakdownActionColumn projectId={projectId} data={data} deleteRole={() => handleDeleteRow(data.id)}/>
                 } header='Actions'/>
             </DataTable>
         </Container>

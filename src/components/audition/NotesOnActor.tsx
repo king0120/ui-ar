@@ -4,10 +4,8 @@ import {useMutation, useQuery} from '@apollo/react-hooks';
 import AddNoteForActor from './AddNoteForActor';
 import moment from "moment";
 import Flex from 'styled-flex-component';
-import {loader} from 'graphql.macro';
-
-const GET_NOTES = loader('../../graphql/queries/GET_NOTES.gql');
-const REMOVE_NOTE = loader('../../graphql/mutations/REMOVE_NOTE.gql');
+const GET_NOTES = require('../../graphql/queries/GET_NOTES.gql');
+const REMOVE_NOTE = require('../../graphql/mutations/REMOVE_NOTE.gql');
 
 const NoteItem: FC<any> = ({note, userId}) => {
     const refetchQueries = [{

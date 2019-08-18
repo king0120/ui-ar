@@ -18,22 +18,22 @@ type ActorNote {
 type Audition {
     address: String!
     auditionType: String!
-    collateral: [AuditionCollateral!]!
+    collateral: [AuditionCollateral!]
     createdAt: DateTime!
-    description: String!
-    forRoles: [ProjectRole!]!
+    description: String
+    forRoles: [ProjectRole!]
     id: String!
     lat: Float!
     long: Float!
     name: String!
     phoneNumber: String
-    private: Boolean!
+    prep: String
+    private: Boolean
     project: Project!
-    prop: String!
-    questions: [AuditionQuestion!]!
+    questions: [AuditionQuestion!]
     requirementSummary: String
-    startDate: DateTime!
-    talent: [AuditionTalentInstance!]!
+    startDate: DateTime
+    talent: [AuditionTalentInstance!]
     timeSlots: [AuditionTimeSlot!]!
     updatedAt: DateTime!
 }
@@ -55,19 +55,19 @@ type AuditionQuestion {
 
 type AuditionTalentInstance {
     audition: Audition!
-    callBack: String!
+    callBack: String
     createdAt: DateTime!
-    decision: String!
-    hasConflicts: Boolean!
+    decision: String
+    hasConflicts: Boolean
     id: String!
-    projectId: Float!
-    registered: Boolean!
-    selfSignup: String!
+    projectId: Float
+    registered: Boolean
+    selfSignup: String
     status: String!
-    timeSlot: AuditionTimeSlot!
+    timeSlot: AuditionTimeSlot
     updatedAt: DateTime!
-    user: User!
-    walkIn: String!
+    user: User
+    walkIn: String
 }
 
 type AuditionTimeSlot {
@@ -75,7 +75,7 @@ type AuditionTimeSlot {
     endTime: DateTime!
     id: String!
     startTime: DateTime!
-    talent: AuditionTalentInstance!
+    talent: AuditionTalentInstance
 }
 
 type BreakdownAttribute {
@@ -133,7 +133,7 @@ type Project {
     auditions: [Audition!]!
     createdAt: DateTime!
     director: String!
-    id: Float!
+    id: String!
     name: String!
     notes: String!
     organizationId: Organization!
@@ -162,8 +162,12 @@ type ProjectRole {
 }
 
 type Query {
+    getAllProjects(organizationId: String!): [Project!]!
     getAudition(auditionId: String!): Audition!
+    getAuditionsForProject(projectId: String!): [Audition!]!
     getNotes(actorId: String!): [ActorNote!]!
+    getOneOrganization(organizationId: String!): Organization!
+    getOneProject(projectId: String!): Project!
     getUser(id: String!): User!
     searchForAuditions(query: String!): [Audition!]!
 }
@@ -232,13 +236,15 @@ input CreateAuditionDTO {
     address: String!
     auditionType: String!
     description: String!
+    forRoles: [String!]!
     lat: Float!
     long: Float!
     name: String!
     phoneNumber: String!
+    prep: String
     private: Boolean!
-    prop: String!
-    requirementSummary: String!
+    questions: [String!]!
+    requirementSummary: String
     startDate: DateTime!
 }
 

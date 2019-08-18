@@ -9,7 +9,9 @@ import {IOrganization} from '../../types/IOrganization';
 import ConfirmationModal from "../../components/shared/ConfirmationModal";
 import AddOrganization from "../../components/organization/AddEditOrganization";
 import MembersList from "../../components/organization/MembersList";
+import {useQuery} from "@apollo/react-hooks";
 
+const GET_ORGANIZATION = require('../../graphql/queries/organization/GET_ORGANIZATION.gql')
 const TheatreHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -21,17 +23,19 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const OrganizationPage: FC<IProjectList> = ({organization, fetchOrganization, deleteOrganization, history, match}) => {
+const OrganizationPage: FC<IProjectList> = ({fetchOrganization, deleteOrganization, history, match}) => {
     const orgId = match.params.organizationId;
-    useEffect(() => {
-        fetchOrganization(orgId);
-    }, [fetchOrganization, match.params.organizationId]);
+    const {loading, data} = useQuery(GET_ORGANIZATION, {variables: {orgId}})
+
     const panes = [
         {menuItem: 'Project Dashboard', render: () => <ProjectTable/>},
         {menuItem: 'Members', render: () => <MembersList/>},
         {menuItem: 'Calendar', render: () => <Calendar/>},
     ];
 
+    console.log(loading, data)
+
+    const organization = data && data.getOneOrganization;
     if (!organization) {
         return <h1>Loading</h1>;
     }

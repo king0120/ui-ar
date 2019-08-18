@@ -1,0 +1,8 @@
+query getAuditionsForProject($projectId: String!){
+    getAuditionsForProject(projectId: $projectId){
+        id
+        name
+        startDate
+        auditionType
+    }
+}

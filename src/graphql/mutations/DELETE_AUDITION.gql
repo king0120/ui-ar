@@ -1,0 +1,5 @@
+mutation deleteAudition ($auditionId: String!){
+    deleteAudition(auditionId: $auditionId) {
+        name
+    }
+}

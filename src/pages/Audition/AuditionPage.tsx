@@ -9,9 +9,7 @@ import NotesOnActor from "../../components/audition/NotesOnActor";
 import Flex from 'styled-flex-component';
 import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
 import {useLazyQuery} from "@apollo/react-hooks";
-import {loader} from 'graphql.macro';
-
-const GET_AUDITION = loader('../../graphql/queries/GET_AUDITION.gql');
+const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
 
 const AuditionPageStyles = styled.div`
   display: flex;

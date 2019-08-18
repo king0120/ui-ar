@@ -1,0 +1,12 @@
+query getProjects($organizationId: String!){
+    getAllProjects(organizationId: $organizationId) {
+        id
+        name
+        director
+        summary
+        notes
+        rehearsalDateStart
+        rehearsalDateEnd
+        performanceDateStart
+    }
+}

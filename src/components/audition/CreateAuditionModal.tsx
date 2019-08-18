@@ -5,31 +5,36 @@ import {connect} from 'react-redux';
 import DatePicker from 'react-datepicker';
 import {fetchRolesForProject} from '../../actions/roleActions';
 import AddressInput from "../shared/AddressInput";
-import {loader} from 'graphql.macro';
 import {useMutation} from "@apollo/react-hooks";
-
-const CREATE_AUDITION = loader('../../graphql/mutations/CREATE_AUDITION.gql');
+const CREATE_AUDITION = require('../../graphql/mutations/CREATE_AUDITION.gql');
+const GET_AUDITIONS_FOR_PROJECT = require('../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 
 const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) => {
+    const refetchQueries = [{
+        query: GET_AUDITIONS_FOR_PROJECT,
+        variables: {projectId}
+    }];
+    const [open, setOpen] = useState(false)
     const [latLong, changeLatLong] = useState({} as any);
     const [address, changeAddress] = useState('');
     const [startDate, changeStartDate] = useState(new Date());
-    const [createAudition] = useMutation(CREATE_AUDITION);
+    const [createAudition] = useMutation(CREATE_AUDITION, {refetchQueries});
     useEffect(() => {
         fetchRolesForProject(projectId);
     }, [projectId]);
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         const {status, question1, question2, question3, question4, question5, ...cleaned} = data;
-        return createAudition({
+        await createAudition({
             variables: {
                 projectId: projectId,
                 audition: {
                     ...cleaned, lat: latLong.lat, long: latLong.long, private: status === "private", address, startDate,
-                    questions: [question1, question2, question3, question4, question5]
+                    questions: [question1, question2, question3, question4, question5].filter(Boolean)
                 }
             }
         });
+        setOpen(false)
     };
 
     const handleAddressChange = (addressObject: any) => {
@@ -42,8 +47,11 @@ const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) 
 
     return (
         <Modal
+            open={open}
+            closeOnDimmerClick={true}
+            onClose={() => setOpen(false)}
             trigger={
-                <Button secondary>Create an Audition</Button>
+                <Button secondary onClick={() => setOpen(true)}>Create an Audition</Button>
             }>
             <Modal.Header>Create New Audition</Modal.Header>
             <Modal.Content>
@@ -161,8 +169,7 @@ const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) 
 };
 
 const mapStateToProps = (state: any) => ({
-    roles: state.roles.roles,
-    projectId: state.projects.project.id
+    roles: state.roles.roles
 });
 
 export default connect(mapStateToProps, {fetchRolesForProject})(CreateAuditionModal);

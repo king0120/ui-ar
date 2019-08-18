@@ -6,9 +6,8 @@ import AuditionManagerConfiguration from './AuditionManagerConfiguration';
 import AuditionManagerView from './AuditionManagerView';
 import {fetchProject} from '../../actions/projectActions';
 import {useLazyQuery} from "@apollo/react-hooks";
-import {loader} from 'graphql.macro';
 
-const GET_AUDITION = loader('../../graphql/queries/GET_AUDITION.gql');
+const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
 
 const AuditionManagerPageStyles = styled.div`
     padding-bottom: 500px;
@@ -67,9 +66,4 @@ const AuditionManagerPage: FC<any> = ({match, history, fetchProject}) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        project: state.projects.project
-    };
-};
-export default connect(mapStateToProps, {fetchProject})(AuditionManagerPage);
+export default connect(null, {fetchProject})(AuditionManagerPage);

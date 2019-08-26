@@ -1,10 +1,12 @@
 import React, {FC} from 'react';
 import styled from "styled-components";
 import {Button, Popup} from "semantic-ui-react";
-import {connect} from "react-redux";
-import {deleteTimeSlot, removeActorFromTimeslot} from "../../actions/auditionActions";
 import {withRouter} from "react-router";
+import {useMutation} from "@apollo/react-hooks";
 
+const DELETE_TIME_SLOT = require('../../graphql/mutations/timeslots/DELETE_TIME_SLOT.gql')
+const REMOVE_TALENT_FROM_TIME_SLOT = require('../../graphql/mutations/timeslots/REMOVE_TALENT_FROM_TIME_SLOT.gql')
+const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql')
 
 export const ActionsContainer = styled.div`
   display: flex;
@@ -13,8 +15,21 @@ export const ActionsContainer = styled.div`
 `;
 
 
-const AuditionTimeSlotActionColumn: FC<any> = ({match, data, removeActorFromTimeslot, deleteTimeSlot}) => {
-    const {projectId, auditionId} = match.params;
+const AuditionTimeSlotActionColumn: FC<any> = ({match, data}) => {
+    const {auditionId} = match.params;
+    const [deleteTimeSlot] = useMutation(DELETE_TIME_SLOT, {
+        refetchQueries: [{
+            query: GET_AUDITION,
+            variables: {auditionId}
+        }]
+    })
+
+    const [removeTalent] = useMutation(REMOVE_TALENT_FROM_TIME_SLOT, {
+        refetchQueries: [{
+            query: GET_AUDITION,
+            variables: {auditionId}
+        }]
+    })
     return (
         <ActionsContainer>
             <Popup
@@ -31,7 +46,7 @@ const AuditionTimeSlotActionColumn: FC<any> = ({match, data, removeActorFromTime
                         circular color="red"
                         icon='remove user'
                         onClick={() => {
-                            removeActorFromTimeslot(projectId, auditionId, data.id)
+                            removeTalent({variables: {data: {id: data.id}}})
                         }}
                     />
                 }
@@ -42,7 +57,11 @@ const AuditionTimeSlotActionColumn: FC<any> = ({match, data, removeActorFromTime
                 trigger={
                     <Button
                         circular color="red" icon='delete'
-                        onClick={() => deleteTimeSlot(projectId, auditionId, data.id)}
+                        onClick={
+                            () => deleteTimeSlot({
+                                variables: {data: {auditionId, id: data.id}}
+                            })
+                        }
                     />
                 }
                 content="Delete This TimeSlot"
@@ -51,4 +70,4 @@ const AuditionTimeSlotActionColumn: FC<any> = ({match, data, removeActorFromTime
     )
 };
 
-export default connect(null, {deleteTimeSlot, removeActorFromTimeslot})(withRouter(AuditionTimeSlotActionColumn));
+export default withRouter(AuditionTimeSlotActionColumn);

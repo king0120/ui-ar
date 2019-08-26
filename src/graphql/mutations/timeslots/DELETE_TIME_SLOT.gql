@@ -1,0 +1,3 @@
+mutation deleteTimeSlot($data: DeleteTimeSlotDTO!) {
+    deleteTimeSlot(data: $data)
+}

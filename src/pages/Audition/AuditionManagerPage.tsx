@@ -1,10 +1,8 @@
 import React, {FC, useEffect, useState} from 'react';
-import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {Button, Icon} from 'semantic-ui-react';
 import AuditionManagerConfiguration from './AuditionManagerConfiguration';
 import AuditionManagerView from './AuditionManagerView';
-import {fetchProject} from '../../actions/projectActions';
 import {useLazyQuery} from "@apollo/react-hooks";
 
 const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
@@ -21,7 +19,7 @@ const AuditionHeader = styled.div`
     align-items: center;
 `;
 
-const AuditionManagerPage: FC<any> = ({match, history, fetchProject}) => {
+const AuditionManagerPage: FC<any> = ({match, history}) => {
     const [allSlots, changeAllSlots] = useState<any>([]);
     const [showConfig, toggleShowConfig] = useState<boolean>(false);
     const [getAudition, {loading, data}] = useLazyQuery(GET_AUDITION);
@@ -29,7 +27,7 @@ const AuditionManagerPage: FC<any> = ({match, history, fetchProject}) => {
     useEffect(() => {
         const {auditionId} = match.params;
         getAudition({variables: {auditionId}});
-    }, [getAudition, match.params, fetchProject, match.params.projectId, match.params.auditionId]);
+    }, [getAudition, match.params, match.params.projectId, match.params.auditionId]);
 
     const audition = data && data.getAudition;
     const timeSlots = audition ? audition.timeSlots : []
@@ -66,4 +64,4 @@ const AuditionManagerPage: FC<any> = ({match, history, fetchProject}) => {
     );
 };
 
-export default connect(null, {fetchProject})(AuditionManagerPage);
+export default AuditionManagerPage;

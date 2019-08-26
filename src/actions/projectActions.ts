@@ -9,18 +9,6 @@ export enum PROJECT_ACTIONS {
     FETCH_PROJECT_DELETE_SUCCESS,
 }
 
-export function fetchProject(id: string) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        const res: { data: IProject } = await arAxios.get(`/api/v1/projects/${id}`);
-        dispatch({
-            type: PROJECT_ACTIONS.FETCH_PROJECT_SUCCESS,
-            project: res.data,
-        });
-    };
-}
-
 export function createProject(newProject: any, organizationId: number) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});

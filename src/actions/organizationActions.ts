@@ -21,7 +21,6 @@ export function createOrganization(orgBody: any) {
             type: ORG_ACTIONS.FETCH_ORGANIZATION_CREATE_SUCCESS,
             org,
         });
-        dispatch<any>(fetchAllOrganizations());
     };
 }
 
@@ -34,38 +33,6 @@ export function editOrganization(id: any, orgBody: any) {
         dispatch({
             type: ORG_ACTIONS.FETCH_ORGANIZATION_EDIT_SUCCESS,
             org,
-        });
-        dispatch<any>(fetchOrganization(id));
-    };
-}
-
-
-export function fetchOrganization(id: number) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        const res: { data: IOrganization } = await arAxios.get(`api/v1/organizations/${id}`);
-        const {projects, ...org} = res.data;
-        dispatch({
-            type: ORG_ACTIONS.FETCH_ORGANIZATION_SUCCESS,
-            org,
-            projects,
-        });
-    };
-}
-
-export function fetchAllOrganizations() {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        const res: { data: any } = await arAxios.get('api/v1/organizations');
-        const owned = res.data.owned.map((org: any) => {
-            org.owned = true
-            return org
-        });
-        dispatch({
-            type: ORG_ACTIONS.FETCH_ALL_ORGANIZATION_SUCCESS,
-            organizations: [...owned, ...res.data.member],
         });
     };
 }
@@ -92,7 +59,6 @@ export function addMemberToOrganization(id: number, memberId: string) {
         dispatch({
             type: 'ADD_MEMBER_TO_ORG_SUCCESS',
         });
-        dispatch<any>(fetchOrganization(id));
     };
 }
 
@@ -105,6 +71,5 @@ export function removeMemberFromOrganization(id: number, memberId: string) {
         dispatch({
             type: 'REMOVE_MEMBER_TO_ORG_SUCCESS',
         });
-        dispatch<any>(fetchOrganization(id));
     };
 }

@@ -71,10 +71,10 @@ type AuditionTalentInstance {
 }
 
 type AuditionTimeSlot {
-    audition: Audition!
-    endTime: DateTime!
+    audition: Audition
+    endTime: DateTime
     id: String!
-    startTime: DateTime!
+    startTime: DateTime
     talent: AuditionTalentInstance
 }
 
@@ -104,7 +104,9 @@ type Mutation {
     addNote(input: CreateNoteDTO!): ActorNote!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
     deleteAudition(auditionId: String!): Audition!
+    deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     removeNote(id: String!): Boolean
+    removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     updateTalentInstance(instance: AuditionInstanceDTO!, instanceId: String!): ActorNote!
 }
 
@@ -259,6 +261,11 @@ input CreateNoteDTO {
     for: String!
     owner: String
     text: String!
+}
+
+input DeleteTimeSlotDTO {
+    auditionId: String
+    id: String!
 }
 
 

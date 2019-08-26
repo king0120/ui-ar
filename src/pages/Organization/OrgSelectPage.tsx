@@ -23,7 +23,10 @@ const OrgSelectPage: FC<any> = () => {
     if (loading) {
         return <h1>Loading</h1>
     }
-    orgs = [...orgs.owned, ...orgs.member]
+    if (orgs) {
+        orgs = [...orgs.owned, ...orgs.member]
+    }
+
     console.log(orgs)
     return (
         <OrgPageStyle>

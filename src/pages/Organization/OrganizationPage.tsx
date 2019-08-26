@@ -59,7 +59,6 @@ const OrganizationPage: FC<IProjectList> = ({deleteOrganization, history, match}
 
 interface IProjectList {
     organization: IOrganization;
-    fetchOrganization: (id: number) => {};
     deleteOrganization: (id: number) => {};
     match: any;
     history: any;

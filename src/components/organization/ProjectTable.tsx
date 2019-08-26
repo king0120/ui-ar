@@ -10,7 +10,6 @@ import AddProjectModal from '../project/AddProjectModal';
 import ProjectActionColumn from './ProjectActionColumn';
 import {format} from 'date-fns';
 import {createProject, deleteProject} from '../../actions/projectActions';
-import {fetchOrganization} from '../../actions/organizationActions';
 import {useQuery} from '@apollo/react-hooks';
 
 const GET_PROJECTS_FOR_ORG = require('../../graphql/queries/projects/GET_PROJECTS_FOR_ORG.gql')
@@ -61,7 +60,6 @@ export const ProjectTable: FC<any> = (props) => {
                 <Header as='h2'>Upcoming Projects</Header>
                 <AddProjectModal handleSubmit={async (data) => {
                     await props.createProject(data, organizationId);
-                    await props.fetchOrganization(organizationId);
                 }}/>
             </TableHeader>
             <DataTable
@@ -97,4 +95,4 @@ export const ProjectTable: FC<any> = (props) => {
     )
 };
 
-export default connect(null, {createProject, fetchOrganization, deleteProject})(withRouter(ProjectTable));
+export default connect(null, {createProject, deleteProject})(withRouter(ProjectTable));

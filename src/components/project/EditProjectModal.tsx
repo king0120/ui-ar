@@ -3,7 +3,6 @@ import {Button, Form, Modal} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import {connect} from 'react-redux';
 import {editProject} from '../../actions/projectActions';
-import {fetchOrganization} from '../../actions/organizationActions';
 import {withRouter} from "react-router";
 
 const AddProjectModal: FC<any> = (props) => {
@@ -14,7 +13,6 @@ const AddProjectModal: FC<any> = (props) => {
     const [writer, setWriter] = useState(props.project.writer);
     const [auditionDate, setAuditionDate] = useState(new Date());
     const [callbackDate, setCallbackDate] = useState(new Date());
-    const organizationId = props.match.params.organizationId
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
         const updatedProject = {
@@ -30,7 +28,6 @@ const AddProjectModal: FC<any> = (props) => {
         };
         try {
             await props.editProject(props.project.id, updatedProject);
-            await props.fetchOrganization(organizationId);
             setOpen(false);
         } catch (err) {
             console.log('ERROR');
@@ -87,4 +84,4 @@ const AddProjectModal: FC<any> = (props) => {
     );
 };
 
-export default connect(null, {editProject, fetchOrganization})(withRouter(AddProjectModal));
+export default connect(null, {editProject})(withRouter(AddProjectModal));

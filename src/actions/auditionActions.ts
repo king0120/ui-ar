@@ -8,21 +8,6 @@ export enum AUDITION_ACTIONS {
 }
 
 
-export function createTimeSlots(projectId: number, auditionId: number, timeSlots: any[]) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-        const res = await arAxios.post(
-            `/api/v1/projects/${projectId}/audition/${auditionId}/audition-time-slot`,
-            timeSlots,
-        );
-        dispatch({
-            type: AUDITION_ACTIONS.CREATE_AUDITION_TIMESLOT_SUCCESS,
-            timeSlots: res.data,
-        });
-    };
-}
-
-
 export function inviteToAudition(projectId: string, auditionId: number, user: any, timeSlotId?: string) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});

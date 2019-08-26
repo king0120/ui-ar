@@ -103,6 +103,7 @@ type MusicalTheatreExperience {
 type Mutation {
     addNote(input: CreateNoteDTO!): ActorNote!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
+    createTimeslot(data: CreateTimeSlotDTO!): [AuditionTimeSlot!]!
     deleteAudition(auditionId: String!): Audition!
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     removeNote(id: String!): Boolean
@@ -137,16 +138,16 @@ type Project {
     director: String!
     id: String!
     name: String!
-    notes: String!
+    notes: String
     organizationId: Organization!
-    performanceDateEnd: DateTime!
-    performanceDateStart: DateTime!
-    photoS3Key: String!
-    rehearsalDateEnd: DateTime!
-    rehearsalDateStart: DateTime!
+    performanceDateEnd: DateTime
+    performanceDateStart: DateTime
+    photoS3Key: String
+    rehearsalDateEnd: DateTime
+    rehearsalDateStart: DateTime
     roles: [ProjectRole!]!
-    status: String!
-    summary: String!
+    status: String
+    summary: String
     updatedAt: DateTime!
     writer: String!
 }
@@ -261,6 +262,12 @@ input CreateNoteDTO {
     for: String!
     owner: String
     text: String!
+}
+
+input CreateTimeSlotDTO {
+    auditionId: String
+    endTime: DateTime!
+    startTime: DateTime!
 }
 
 input DeleteTimeSlotDTO {

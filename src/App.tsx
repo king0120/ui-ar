@@ -5,14 +5,15 @@ import {BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {tokenCheck} from './actions/authActions';
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
+import {ApolloProvider} from '@apollo/react-hooks';
 
 const token = localStorage.getItem('access_token');
 
 const client = new ApolloClient({
     headers: {
         'Authorization': token ? `Bearer ${token}` : "",
-    }
+    },
+    uri: process.env.NODE_ENV === "production" ? 'https://aud-rev-test.herokuapp.com/graphql' : undefined
 });
 
 

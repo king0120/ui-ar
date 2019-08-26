@@ -5,13 +5,26 @@ import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
 import moment, {Moment} from 'moment';
 import {connect} from 'react-redux';
-import {createTimeSlots} from '../../actions/auditionActions';
 import {withRouter} from 'react-router';
+import {useMutation} from "@apollo/react-hooks";
+
+const CREATE_TIME_SLOTS = require('../../graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
+const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql')
 
 const AddSingleTimeSlot: FC<any> = (props) => {
-    const {auditionId, projectId} = props.match.params;
+    const {auditionId} = props.match.params;
+    const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
+        refetchQueries: [{
+            query: GET_AUDITION,
+            variables: {auditionId}
+        }]
+    })
     const buildTimeSlots = (startTime: Moment, endTime: Moment) => {
-        props.createTimeSlots(projectId, auditionId, [{startTime, endTime}]);
+        createTimeSlots({
+            variables: {
+                data: {startTime, endTime, auditionId}
+            }
+        })
     };
 
     return (
@@ -70,4 +83,4 @@ const AddSingleTimeSlot: FC<any> = (props) => {
 };
 
 
-export default connect(null, {createTimeSlots})(withRouter(AddSingleTimeSlot)) as any;
+export default withRouter(AddSingleTimeSlot);

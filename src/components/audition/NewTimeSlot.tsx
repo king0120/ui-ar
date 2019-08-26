@@ -4,13 +4,22 @@ import {Field, Form as FinalForm} from 'react-final-form';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
 import moment, {Moment} from 'moment';
-import {connect} from 'react-redux';
-import {createTimeSlots} from '../../actions/auditionActions';
 import {withRouter} from "react-router";
+import {useMutation} from "@apollo/react-hooks";
+
+const CREATE_TIME_SLOTS = require('../../graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql');
+const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
 
 const NewTimeSlot: FC<any> = (props) => {
-    const {projectId, auditionId} = props.match.params;
+    const {auditionId} = props.match.params;
     const {allSlots, changeAllSlots} = props;
+
+    const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
+        refetchQueries: [{
+            query: GET_AUDITION,
+            variables: {auditionId}
+        }]
+    });
 
     const buildTimeSlots = (startTime: Moment, numSlots: number, duration: number) => {
         const start = startTime.clone();
@@ -26,7 +35,14 @@ const NewTimeSlot: FC<any> = (props) => {
     };
 
     const handleSaveTime = () => {
-        props.createTimeSlots(projectId, auditionId, allSlots);
+        allSlots.forEach((slot: any) => {
+            const {startTime, endTime} = slot;
+            createTimeSlots({
+                variables: {
+                    data: {startTime, endTime, auditionId}
+                }
+            })
+        })
     };
 
     return (
@@ -89,4 +105,4 @@ const NewTimeSlot: FC<any> = (props) => {
 };
 
 
-export default connect(null, {createTimeSlots})(withRouter(NewTimeSlot)) as any;
+export default withRouter(NewTimeSlot);

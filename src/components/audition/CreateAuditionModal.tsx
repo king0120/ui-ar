@@ -1,15 +1,14 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
-import {connect} from 'react-redux';
 import DatePicker from 'react-datepicker';
-import {fetchRolesForProject} from '../../actions/roleActions';
 import AddressInput from "../shared/AddressInput";
-import {useMutation} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 const CREATE_AUDITION = require('../../graphql/mutations/CREATE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
+const GET_ALL_ROLES = require('../../graphql/queries/roles/GET_ALL_ROLES.gql');
 
-const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) => {
+const CreateAuditionModal: FC<any> = ({projectId}) => {
     const refetchQueries = [{
         query: GET_AUDITIONS_FOR_PROJECT,
         variables: {projectId}
@@ -19,9 +18,12 @@ const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) 
     const [address, changeAddress] = useState('');
     const [startDate, changeStartDate] = useState(new Date());
     const [createAudition] = useMutation(CREATE_AUDITION, {refetchQueries});
-    useEffect(() => {
-        fetchRolesForProject(projectId);
-    }, [projectId, fetchRolesForProject]);
+    const {data, loading} = useQuery(GET_ALL_ROLES, {variables: {projectId}});
+    const roles = data.getAllRoles;
+
+    if (loading) {
+        return <h1>loading</h1>
+    }
 
     const onSubmit = async (data: any) => {
         const {status, question1, question2, question3, question4, question5, ...cleaned} = data;
@@ -168,8 +170,5 @@ const CreateAuditionModal: FC<any> = ({projectId, roles, fetchRolesForProject}) 
     );
 };
 
-const mapStateToProps = (state: any) => ({
-    roles: state.roles.roles
-});
 
-export default connect(mapStateToProps, {fetchRolesForProject})(CreateAuditionModal);
+export default CreateAuditionModal;

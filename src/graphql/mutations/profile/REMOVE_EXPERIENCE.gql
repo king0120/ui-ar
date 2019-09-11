@@ -1,0 +1,3 @@
+mutation removeExperience($data: AddExperienceDTO!) {
+    removeExperience(data: $data)
+}

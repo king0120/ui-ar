@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {createProjectRole, deleteRole, fetchRolesForProject} from '../../actions/roleActions';
+import {createProjectRole, deleteRole} from '../../actions/roleActions';
 import {connect} from 'react-redux';
 import {Header, Label} from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -10,6 +10,9 @@ import {Column} from 'primereact/column';
 import RoleBreakdownActionColumn from './RoleBreakdownActionColumn';
 import {Container} from './CommonStyledComponents';
 import {Link} from 'react-router-dom';
+import {useQuery} from "@apollo/react-hooks";
+
+const GET_ALL_ROLES = require('../../graphql/queries/roles/GET_ALL_ROLES.gql');
 
 const LabelsContainer = styled.div`
   max-width: 40%;
@@ -54,28 +57,30 @@ const RowExpansion = (role: IRole) => {
     );
 };
 
-const RoleBreakdowns: FC<any> = ({roles, projectId, projectName, fetchRolesForProject, createProjectRole, deleteRole}) => {
+const RoleBreakdowns: FC<any> = ({projectId, projectName, createProjectRole, deleteRole}) => {
+    const {data, loading, refetch} = useQuery(GET_ALL_ROLES, {variables: {projectId}});
     const [expandedRows, setExpandedRows] = useState();
-    useEffect(() => {
-        fetchRolesForProject(projectId);
-    }, [projectId, fetchRolesForProject]);
 
+    useEffect(() => {refetch()}, [refetch]);
     const handleCreateRow = async (role: any) => {
         await createProjectRole(projectId, role);
-        await fetchRolesForProject(projectId);
+        await refetch()
     };
 
     const handleDeleteRow = async (id: number) => {
         await deleteRole(projectId, id);
-        await fetchRolesForProject(projectId);
+        await refetch()
     };
+    if (loading) {
+        return <h1>Loading</h1>
+    }
+    const roles = data.getAllRoles
     return (
         <Container>
             <div className='role-header'>
                 <Header as='h1'>Role Breakdown for {projectName}</Header>
                 <AddRoleBreakdownModal handleSubmit={(role) => handleCreateRow(role)}/>
             </div>
-
             <DataTable
                 emptyMessage={'No Roles Available. Please Create A Role.'}
                 value={roles}
@@ -92,17 +97,12 @@ const RoleBreakdowns: FC<any> = ({roles, projectId, projectName, fetchRolesForPr
                     (data: any) => (data.castTo && data.castTo.displayName) || "Not Cast"
                 }/>
                 <Column body={
-                    (data: any) => <RoleBreakdownActionColumn projectId={projectId} data={data} deleteRole={() => handleDeleteRow(data.id)}/>
+                    (data: any) => <RoleBreakdownActionColumn projectId={projectId} data={data}
+                                                              deleteRole={() => handleDeleteRow(data.id)}/>
                 } header='Actions'/>
             </DataTable>
         </Container>
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        roles: state.roles.roles,
-    };
-};
-
-export default connect(mapStateToProps, {fetchRolesForProject, createProjectRole, deleteRole})(RoleBreakdowns);
+export default connect(null, {createProjectRole, deleteRole})(RoleBreakdowns);

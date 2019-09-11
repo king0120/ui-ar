@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC} from 'react';
 import {Column} from 'primereact/column';
 import moment from 'moment';
 import {Button, Modal} from 'semantic-ui-react';
@@ -6,26 +6,30 @@ import {DataTable} from 'primereact/datatable';
 import AuditionTimeSlotActionColumn from './AuditionTimeSlotActionColumn';
 import {ActorSearch} from '../../pages/Search/ActorSearchPage';
 import {useDispatch} from 'react-redux';
-import {inviteToAudition} from '../../actions/auditionActions';
 import {Link, withRouter} from 'react-router-dom';
+import {useMutation} from "@apollo/react-hooks";
+
+const INVITE_TO_AUDITION = require('../../graphql/mutations/INVITE_TO_AUDITION.gql')
 
 function OpenTimeSlot(props: any) {
-    const projectId = props.projectId;
-    const auditionId = props.auditionId;
-    const dispatch = useDispatch();
-    const invite = useCallback(
-        (id, timeSlotId) => {
-            dispatch(inviteToAudition(projectId, auditionId, id, timeSlotId));
-        },
-        [dispatch, projectId, auditionId],
-    );
+    const {projectId, auditionId, timeSlotId } = props;
+    const [inviteToAudition] = useMutation(INVITE_TO_AUDITION)
+    const invite = async (userId: string) => {
+        await inviteToAudition({
+            variables: {
+                projectId,
+                auditionId,
+                userId: userId,
+                timeSlotId
+            }});
+    };
     return (
         <>
             <em>Available</em>
             <Modal trigger={<Button>Invite Actor</Button>}>
                 <Modal.Header>Invite Actor</Modal.Header>
                 <Modal.Content>
-                    <ActorSearch handleClickTalent={(id: string) => invite(id, props.timeSlotId)}/>
+                    <ActorSearch handleClickTalent={invite}/>
                 </Modal.Content>
             </Modal>
 

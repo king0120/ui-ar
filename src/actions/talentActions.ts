@@ -1,58 +1,6 @@
 import {Dispatch} from 'redux';
 import arAxios from '../utils/axiosHelper';
 
-export function getCurrentUserDetails() {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        const res: { data: any } = await arAxios.get(`/api/v1/users/me`);
-        const user = res.data;
-        dispatch({
-            type: 'GET_CURRENT_USER_SUCCESS',
-            user,
-        });
-    };
-}
-
-export function getProfileDetails(userId: any) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        const res: { data: any } = await arAxios.get(`/api/v1/users/${userId}`);
-        const user = res.data;
-        dispatch({
-            type: 'GET_USER_SUCCESS',
-            user,
-        });
-    };
-}
-
-export function addExperience(experienceType: string, experienceBody: any) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        await arAxios.post(`/api/v1/users/me/experiences/${experienceType}`, experienceBody);
-        dispatch({
-            type: 'ADD_EXPERIENCE_SUCCESS',
-        });
-
-        dispatch<any>(getCurrentUserDetails());
-    };
-}
-
-export function removeExperience(experienceType: string, experienceId: any) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        await arAxios.delete(`/api/v1/users/me/experiences/${experienceType}/${experienceId}`);
-        dispatch({
-            type: 'DELETE_EXPERIENCE',
-        });
-
-        dispatch<any>(getCurrentUserDetails());
-    };
-}
-
 export function uploadImage(file: File[]) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
@@ -62,8 +10,6 @@ export function uploadImage(file: File[]) {
         dispatch({
             type: 'UPLOAD_IMAGE',
         });
-
-        dispatch<any>(getCurrentUserDetails());
     };
 }
 
@@ -74,8 +20,6 @@ export function deleteImage(key: string) {
         dispatch({
             type: 'DELETE_IMAGE',
         });
-
-        dispatch<any>(getCurrentUserDetails());
     };
 }
 
@@ -86,8 +30,6 @@ export function setProfilePic(key: string) {
         dispatch({
             type: 'PROFILE_PIC',
         });
-
-        dispatch<any>(getCurrentUserDetails());
     };
 }
 
@@ -98,7 +40,5 @@ export function addUserBreakdown(breakdown: any) {
         dispatch({
             type: 'ADD_USER_BREAKDOWN',
         });
-
-        dispatch<any>(getCurrentUserDetails());
     };
 }

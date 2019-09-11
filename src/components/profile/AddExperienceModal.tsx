@@ -1,8 +1,11 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
-import {connect} from 'react-redux';
-import {addExperience} from '../../actions/talentActions';
+import {useMutation} from "@apollo/react-hooks";
+import {GlobalContext} from "../../context/globalContext";
+
+const ADD_EXPERIENCE = require('../../graphql/mutations/profile/ADD_EXPERIENCE.gql')
+const GET_USER = require('../../graphql/queries/user/GET_USER.gql')
 
 const experiences = [{
     id: 'theatreExperience',
@@ -24,11 +27,18 @@ const experiences = [{
     friendly: 'Commercial',
 }];
 
-const AddExperienceModal: FC<any> = ({addExperience}) => {
+const AddExperienceModal: FC<any> = () => {
     const [open, toggleOpen] = useState(false);
+    const {userId} = useContext(GlobalContext);
+    const [addExperience] = useMutation(ADD_EXPERIENCE, {
+        refetchQueries: [{
+            query: GET_USER,
+            variables: {id: userId}
+        }]
+    })
     const onSubmit = (data: any) => {
         const {experienceType, ...experience} = data;
-        addExperience(experienceType, experience);
+        addExperience({variables: {data: {experienceType, experience}}});
         toggleOpen(false);
     };
 
@@ -90,4 +100,4 @@ const AddExperienceModal: FC<any> = ({addExperience}) => {
     );
 };
 
-export default connect(null, {addExperience})(AddExperienceModal);
+export default AddExperienceModal;

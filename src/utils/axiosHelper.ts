@@ -4,7 +4,7 @@ const arAxios = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? 'https://aud-rev-test.herokuapp.com/' : '/',
 });
 
-const accessToken = localStorage.getItem('access_token');
+const accessToken = localStorage.getItem('accessToken');
 if (accessToken) {
     arAxios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 }

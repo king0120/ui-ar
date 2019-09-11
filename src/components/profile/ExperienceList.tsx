@@ -1,8 +1,11 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {Button, Card, Item} from 'semantic-ui-react';
-import {removeExperience} from '../../actions/talentActions';
-import {connect} from 'react-redux';
 import styled from 'styled-components';
+import {useMutation} from "@apollo/react-hooks";
+import {GlobalContext} from "../../context/globalContext";
+
+const REMOVE_EXPERIENCE = require('../../graphql/mutations/profile/REMOVE_EXPERIENCE.gql')
+const GET_USER = require('../../graphql/queries/user/GET_USER.gql')
 
 const ItemHeaderStyle = styled(Item.Header)`
     &&&&&& {
@@ -23,7 +26,14 @@ const ItemHeaderStyle = styled(Item.Header)`
     }
 `;
 
-const ExperienceList: FC<any> = ({experiences = [], value, type, removeExperience, readOnly}) => {
+const ExperienceList: FC<any> = ({experiences = [], value, type, readOnly}) => {
+    const {userId} = useContext(GlobalContext);
+    const [removeExperience] = useMutation(REMOVE_EXPERIENCE, {
+        refetchQueries: [{
+            query: GET_USER,
+            variables: {id: userId}
+        }]
+    });
     if (!experiences.length) {
         return null;
     }
@@ -42,7 +52,16 @@ const ExperienceList: FC<any> = ({experiences = [], value, type, removeExperienc
                                         <p className={'smaller'}>Project: {exp.project}</p>
                                     </div>
                                     {!readOnly &&
-                                    <Button onClick={() => removeExperience(value, exp.id)} icon='trash' color={'red'} floated='right'/>}
+                                    <Button onClick={() => removeExperience({
+                                        variables: {
+                                            data: {
+                                                experienceType: value,
+                                                experienceId: exp.id
+                                            }
+                                        }
+                                    })
+                                    }
+                                            icon='trash' color={'red'} floated='right'/>}
                                 </ItemHeaderStyle>
                                 <Item.Description>
                                     {exp.description || 'No Description Provided'}
@@ -59,4 +78,4 @@ const ExperienceList: FC<any> = ({experiences = [], value, type, removeExperienc
     );
 };
 
-export default connect(null, {removeExperience})(ExperienceList);
+export default ExperienceList;

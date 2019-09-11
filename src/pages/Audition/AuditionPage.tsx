@@ -146,13 +146,6 @@ const AuditionPage: FC<any> = ({match, updateInstance}) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        user: state.user.user,
-        me: state.user.me
-    };
-};
-
 function formatAuditionObject(talent: any = []) {
     const defaultObject = {
         'no_thanks': [],
@@ -172,4 +165,4 @@ function formatAuditionObject(talent: any = []) {
     }, defaultObject);
 }
 
-export default connect(mapStateToProps, {updateInstance})(AuditionPage);
+export default connect(null, {updateInstance})(AuditionPage);

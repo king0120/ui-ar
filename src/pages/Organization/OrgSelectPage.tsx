@@ -27,7 +27,6 @@ const OrgSelectPage: FC<any> = () => {
         orgs = [...orgs.owned, ...orgs.member]
     }
 
-    console.log(orgs)
     return (
         <OrgPageStyle>
             <div className={'header'}>

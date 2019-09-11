@@ -1,9 +1,7 @@
-import React, {FC, useCallback, useEffect} from 'react';
+import React, {FC, useCallback, useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {
     deleteImage,
-    getCurrentUserDetails,
-    getProfileDetails,
     setProfilePic,
     uploadImage
 } from '../../actions/talentActions';
@@ -12,6 +10,12 @@ import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component'
 import GoBackButton from '../../components/shared/GoBackButton';
+import {useLazyQuery, useMutation} from "@apollo/react-hooks";
+import {GlobalContext} from "../../context/globalContext";
+
+const GET_USER = require('../../graphql/queries/user/GET_USER.gql');
+const SET_PROFILE = require('../../graphql/mutations/profile/SET_PROFILE.gql');
+const DELETE_IMAGE = require('../../graphql/mutations/profile/DELETE_IMAGE.gql');
 
 export const StyleDropzone = styled.div`
     width: 90%;
@@ -51,35 +55,51 @@ function MyDropzone(props: any) {
 }
 
 const ProfileImagePage: FC<any> = (props) => {
-    const {readOnly, getProfileDetails, getCurrentUserDetails} = props
-    useEffect(() => {
-        if (readOnly) {
-            getProfileDetails(props.match.params.userId);
-        } else {
-            getCurrentUserDetails(props.user.id);
-        }
-    }, [readOnly, getProfileDetails, getCurrentUserDetails, props.user.id, props.match.params.userId]);
+    const {readOnly} = props;
+    const [getUser, {data, loading}] = useLazyQuery(GET_USER);
+    const {userId} = useContext(GlobalContext);
 
+    const refetch = {
+        refetchQueries: [{
+            query: GET_USER,
+            variables: {id: readOnly ? props.match.params.userId : userId}
+        }]
+    }
+    const [setProfile] = useMutation(SET_PROFILE, refetch)
+    const [deleteImage] = useMutation(DELETE_IMAGE, refetch )
+
+    const user = data && data.getUser;
+
+    useEffect(() => {
+        const id = readOnly ? props.match.params.userId : userId;
+        if (id) {
+            getUser({variables: {id}})
+        }
+    }, [readOnly, userId, props.match.params.userId, getUser]);
+
+    if (!data || loading) {
+        return <h1>loading</h1>
+    }
     return (
         <div>
             <GoBackButton/>
             {!props.readOnly && <MyDropzone {...props}/>}
             <Flex spaceBetween>
-                {props.user.profileImages && props.user.profileImages.map((img: any) => (
+                {user.profileImages && user.profileImages.map((img: any) => (
                     <div key={img.s3key}>
                         <Image rounded bordered size={'medium'} src={img.url}/>
                         {!props.readOnly && (
                             <div>
-                                {(props.user.profilePicture && props.user.profilePicture.s3Key === img.s3Key) &&
+                                {(user.profilePicture && user.profilePicture.s3Key === img.s3Key) &&
                                 <p>Current Profile Pic</p>}
                                 <Button
-                                    onClick={() => props.setProfilePic(img.s3Key)}
+                                    onClick={() => setProfile({variables: {key: img.s3Key}})}
                                     color={'green'}
                                 >
                                     Set Profile Pic
                                 </Button>
                                 <Button
-                                    onClick={() => props.deleteImage(img.s3Key)}
+                                    onClick={() => deleteImage({variables: {key: img.s3Key}})}
                                     color={'red'}
                                 >
                                     Delete Image
@@ -93,14 +113,7 @@ const ProfileImagePage: FC<any> = (props) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        user: state.user.user,
-    };
-};
-export default connect(mapStateToProps, {
-    getProfileDetails,
-    getCurrentUserDetails,
+export default connect(null, {
     uploadImage,
     deleteImage,
     setProfilePic

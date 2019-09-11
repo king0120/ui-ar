@@ -1,45 +1,63 @@
-import React, {Component} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import NavBar from './components/shared/Header';
 import Router from './Router';
-import {BrowserRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {tokenCheck} from './actions/authActions';
+import {BrowserRouter, withRouter} from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
-import {ApolloProvider} from '@apollo/react-hooks';
+import {ApolloProvider, useQuery} from '@apollo/react-hooks';
+import {GlobalContext} from "./context/globalContext";
 
-const token = localStorage.getItem('access_token');
+const token = localStorage.getItem('accessToken');
+const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql')
 
 const client = new ApolloClient({
     headers: {
         'Authorization': token ? `Bearer ${token}` : "",
     },
-    uri: process.env.NODE_ENV === "production" ? 'https://aud-rev-test.herokuapp.com/graphql' : undefined
+    uri: process.env.NODE_ENV === "production" ? 'https://aud-rev-test.herokuapp.com/graphql' : undefined,
+    clientState: {
+        defaults: {},
+        resolvers: {},
+        typeDefs: ``
+    }
 });
 
+const App = (props: any) => {
+    const {data, loading} = useQuery(TOKEN_CHECK)
+    const {setUserId, setDisplayName} = useContext(GlobalContext)
+    const [isHome, setIsHome] = useState(true)
 
-class App extends Component<any> {
-    componentDidMount(): void {
-        this.props.tokenCheck();
-    }
+    useEffect(() => {
+        setIsHome(props.location.pathname === "/")
+    }, [props.location.pathname])
 
-    render() {
-        if (!this.props.loaded) {
-            return <h1>Loading</h1>;
+    useEffect(() => {
+        if (data && data.tokenCheck) {
+            setUserId(data.tokenCheck.id)
+            setDisplayName(data.tokenCheck.displayName)
+        } else if (!loading && !data) {
+            setUserId('none')
         }
+    }, [data, setUserId, loading, setDisplayName])
+    if (loading) {
+        return <h1>Loading</h1>;
+    } else {
         return (
-            <ApolloProvider client={client}>
-                <BrowserRouter>
-                    <NavBar/>
+            <>
+                <NavBar/>
+                <div style={{marginTop: isHome ? 0 : 80}}>
                     <Router/>
-                </BrowserRouter>
-            </ApolloProvider>
-        );
+                </div>
+            </>)
     }
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        loaded: state.user.initToken
-    };
-};
-export default connect(mapStateToProps, {tokenCheck})(App);
+const WithRouter = withRouter(App)
+const WithApollo = () => (
+    <ApolloProvider client={client}>
+        <BrowserRouter>
+            <WithRouter/>
+        </BrowserRouter>
+    </ApolloProvider>
+)
+
+export default WithApollo;

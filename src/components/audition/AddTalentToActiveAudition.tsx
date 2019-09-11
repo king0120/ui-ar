@@ -1,13 +1,20 @@
 import React, {FC, useState} from 'react';
 import {Button, Modal} from "semantic-ui-react";
-import {connect} from "react-redux";
-import {inviteToAudition} from "../../actions/auditionActions";
 import {ActorSearch} from "../../pages/Search/ActorSearchPage";
+import {useMutation} from "@apollo/react-hooks";
 
-const AddTalentToActiveAudition: FC<any> = ({auditionId, projectId, inviteToAudition}) => {
+const INVITE_TO_AUDITION = require('../../graphql/mutations/INVITE_TO_AUDITION.gql')
+
+const AddTalentToActiveAudition: FC<any> = ({auditionId, projectId}) => {
     const [open, changeOpen] = useState(false);
-    const handleClickTalent = async (actorId: string) => {
-        await inviteToAudition(projectId, auditionId, actorId);
+    const [inviteToAudition] = useMutation(INVITE_TO_AUDITION)
+    const handleClickTalent = async (userId: string) => {
+        await inviteToAudition({
+            variables: {
+                projectId,
+                auditionId,
+                userId
+        }});
         changeOpen(false);
     };
     return (
@@ -29,4 +36,4 @@ const AddTalentToActiveAudition: FC<any> = ({auditionId, projectId, inviteToAudi
 };
 
 
-export default connect(null, {inviteToAudition})(AddTalentToActiveAudition);
+export default AddTalentToActiveAudition;

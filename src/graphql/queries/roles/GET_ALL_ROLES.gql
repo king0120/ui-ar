@@ -1,0 +1,17 @@
+query getAllRoles($projectId: String!){
+    getAllRoles(projectId: $projectId) {
+        id
+        characterName
+        characterSummary
+        castTo {
+            displayName
+        }
+        breakdown {
+            ageRange
+            gender
+            unions
+            ethnicity
+            vocalRange
+        }
+    }
+}

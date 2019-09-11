@@ -1,0 +1,12 @@
+query getRole($roleId: String!) {
+    getRole(roleId: $roleId) {
+        id
+        characterName
+        characterSummary
+        movementRequirements
+        collateral {
+            key
+            url
+        }
+    }
+}

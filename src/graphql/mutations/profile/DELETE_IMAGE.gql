@@ -1,0 +1,3 @@
+mutation deleteImage($key: String!) {
+    deleteImage(key: $key)
+}

@@ -1,0 +1,6 @@
+{
+    tokenCheck {
+        id
+        displayName
+    }
+}

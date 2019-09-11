@@ -1,10 +1,9 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import ProjectsList from './pages/Organization/OrganizationPage';
 import ProjectsDetailPage from './pages/Project/ProjectsDetailPage';
 import AuditionManagerPage from './pages/Audition/AuditionManagerPage';
 import OrgSelectPage from './pages/Organization/OrgSelectPage';
-import {connect} from 'react-redux';
 import LogInPage from './pages/Auth/LogInPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import HomePage from './pages/General/HomePage';
@@ -18,18 +17,23 @@ import AuditionResponse from "./pages/Audition/AuditionResponse";
 import AuditionPage from "./pages/Audition/AuditionPage";
 import AuditionSearchPage from "./pages/Search/AuditionSearchPage";
 import MyAuditions from "./pages/Profile/MyAuditions";
+import {GlobalContext} from "./context/globalContext";
 
-const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => (
-    <Route {...rest} render={(props) => (
-        loggedIn
-            ? <Component {...props} />
-            : <Redirect to='/login'/>
-    )}/>
-);
-
-const AppRouter: FC<any> = ({loggedIn}) => {
+const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     return (
-        <>
+        <Route {...rest} render={(props) => (
+            loggedIn
+                ? <Component {...props} />
+                : <Redirect to='/login'/>
+        )}/>
+    );
+}
+
+const AppRouter: FC<any> = (props) => {
+    const {userId} = useContext(GlobalContext);
+    const loggedIn = userId !== 'none'
+    return (
+        <div>
             <Switch>
                 <Route exact path='/' component={HomePage}/>
                 <Route exact path='/register' component={RegistrationPage}/>
@@ -48,17 +52,20 @@ const AppRouter: FC<any> = ({loggedIn}) => {
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile' component={ProfilePage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId'
                               component={(props: any) => <ProfilePage readOnly={true} {...props}/>}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects' component={ProjectsList}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects/:projectId/auditions/:auditionId' component={AuditionPage}/>
-                <PrivateRoute loggedIn={loggedIn} path='/projects/:projectId/audition-manager/:auditionId' component={AuditionManagerPage}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/projects/:projectId/roles/:roleId' component={RoleBreakdownDetailPage}/>
-                <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId' component={ProjectsDetailPage}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects'
+                              component={ProjectsList}/>
+                <PrivateRoute loggedIn={loggedIn} exact
+                              path='/organization/:organizationId/projects/:projectId/auditions/:auditionId'
+                              component={AuditionPage}/>
+                <PrivateRoute loggedIn={loggedIn} path='/projects/:projectId/audition-manager/:auditionId'
+                              component={AuditionManagerPage}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/projects/:projectId/roles/:roleId'
+                              component={RoleBreakdownDetailPage}/>
+                <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId'
+                              component={ProjectsDetailPage}/>
             </Switch>
-        </>
+        </div>
     );
 };
 
-const mapStateToProps = (state: any) => ({
-    loggedIn: state.user.loggedIn,
-});
-export default connect(mapStateToProps)(AppRouter);
+export default AppRouter;

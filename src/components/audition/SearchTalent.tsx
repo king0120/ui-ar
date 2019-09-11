@@ -3,14 +3,16 @@ import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import {debounce} from 'lodash';
 import arAxios from '../../utils/axiosHelper';
 import {Button} from "semantic-ui-react";
-import {connect} from 'react-redux';
-import {inviteToAudition} from '../../actions/auditionActions';
 import {withRouter} from 'react-router';
+import {useMutation} from "@apollo/react-hooks";
 
-const SearchTalent: FC<any> = ({match, inviteToAudition}) => {
+const INVITE_TO_AUDITION = require('../../graphql/mutations/INVITE_TO_AUDITION.gql')
+
+const SearchTalent: FC<any> = ({match}) => {
     const {auditionId, projectId} = match.params;
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [inviteToAudition] = useMutation(INVITE_TO_AUDITION)
 
     const [selected, changeSelected] = useState('');
 
@@ -46,7 +48,12 @@ const SearchTalent: FC<any> = ({match, inviteToAudition}) => {
             {selected && (
                 <div>
                     <p>{selected}</p>
-                    <Button onClick={() => inviteToAudition(projectId, auditionId, selected)}>Invite To
+                    <Button onClick={() => inviteToAudition({
+                        variables: {
+                            projectId,
+                            auditionId,
+                            userId: selected
+                        }})}>Invite To
                         Audition</Button>
                 </div>
             )}
@@ -54,4 +61,4 @@ const SearchTalent: FC<any> = ({match, inviteToAudition}) => {
     );
 };
 
-export default connect(null, {inviteToAudition})(withRouter(SearchTalent));
+export default withRouter(SearchTalent);

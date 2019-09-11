@@ -19,7 +19,6 @@ export function createProjectRole(projectId: number, newProjectRole: IRole) {
             type: ROLE_ACTIONS.FETCH_ROLE_CREATE_SUCCESS,
             role,
         });
-        dispatch<any>(fetchRolesForProject(projectId));
     };
 }
 
@@ -30,33 +29,6 @@ export function castRole(projectId: string, id: string, userId: string) {
         await arAxios.put(`/api/v1/projects/${projectId}/roles/${id}/cast`, {userId});
         dispatch({
             type: 'CAST_ROLE_SUCCESS',
-        });
-        dispatch<any>(fetchRolesForProject(projectId as any as number));
-    };
-}
-
-export function fetchRolesForProject(projectId: number) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        const res: { data: any } = await arAxios.get(`/api/v1/projects/${projectId}/roles`);
-        const {roles} = res.data;
-        dispatch({
-            type: ROLE_ACTIONS.FETCH_ROLES_SUCCESS,
-            roles,
-        });
-    };
-}
-
-export function fetchRoleForProject(projectId: string, roleId: string) {
-    return async (dispatch: Dispatch) => {
-        dispatch({type: 'REQUEST_STARTED'});
-
-        const res: { data: any } = await arAxios.get(`/api/v1/projects/${projectId}/roles/${roleId}`);
-        const role = res.data;
-        dispatch({
-            type: "FETCH_ROLE_SUCCESS",
-            role,
         });
     };
 }
@@ -83,8 +55,5 @@ export function uploadDocument(projectId: string, id: string, file: File[]) {
         dispatch({
             type: 'UPLOAD_DOCUMENT',
         });
-
-
-        dispatch<any>(fetchRoleForProject(projectId, id));
     };
 }

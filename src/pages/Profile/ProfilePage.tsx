@@ -1,13 +1,15 @@
-import React, {FC, useEffect} from 'react';
-import {connect} from 'react-redux';
+import React, {FC, useContext, useEffect} from 'react';
 import styled from 'styled-components';
 import {transformPhoneNumber} from '../../utils';
 import ProfileSidebar from '../../components/profile/ProfileSidebar';
-import {getCurrentUserDetails, getProfileDetails} from '../../actions/talentActions';
 import ExperienceList from '../../components/profile/ExperienceList';
 import AddExperienceModal from '../../components/profile/AddExperienceModal';
 import {Container, Header} from 'semantic-ui-react';
 import ProfileBreakdown from '../../components/profile/ProfileBreakdown';
+import {useQuery} from "@apollo/react-hooks";
+import {GlobalContext} from "../../context/globalContext";
+
+const GET_USER = require('../../graphql/queries/user/GET_USER.gql');
 
 const ProfilePageStyle = styled(Container)`
     &&& {
@@ -44,39 +46,44 @@ const ExperienceHeader = styled.div`
     }
 `;
 
-const ProfileHeader: FC<any> = (props) => {
+const ProfileHeader: FC<any> = ({user}) => {
     return (
         <ExperienceHeader>
             <div>
-                <Header as={'h1'}>{props.user.displayName}</Header>
-                <h3>Location: {props.user.city}, {props.user.state}</h3>
-                <h3>Gender: {props.user.gender}</h3>
+                <Header as={'h1'}>{user.displayName}</Header>
+                <h3>Location: {user.city}, {user.state}</h3>
+                <h3>Gender: {user.gender}</h3>
             </div>
             <div>
-                <p>Phone {transformPhoneNumber(props.user.phoneNumber)}</p>
-                <p>E-mail: {props.user.email}</p>
+                <p>Phone {transformPhoneNumber(user.phoneNumber)}</p>
+                <p>E-mail: {user.email}</p>
             </div>
         </ExperienceHeader>
     );
 };
 
 const ProfilePage: FC<any> = (props) => {
-    const { readOnly, getProfileDetails, match, getCurrentUserDetails, user } = props;
-    useEffect(() => {
-        if (readOnly) {
-            getProfileDetails(match.params.userId);
-        } else {
-            getCurrentUserDetails(user.id);
-        }
-    }, [match.params.userId, readOnly, user.id, getProfileDetails, getCurrentUserDetails]);
+    const { readOnly } = props;
+    const {userId} = useContext(GlobalContext);
+    const id = readOnly ? props.match.params.userId : userId;
+    const {data, loading, refetch} = useQuery(GET_USER, {variables: {id}})
+    const user = data && data.getUser;
+    // useEffect(() => {
+    //     if (id) {
+    //         refetch({id})
+    //     }
+    // }, [id, refetch]);
 
+    if (!data || loading) {
+        return <h1>loading</h1>
+    }
     return (
         <ProfilePageStyle>
             <div className={'profileInfo'}>
-                <ProfileSidebar user={props.user} readOnly={props.readOnly}/>
+                <ProfileSidebar user={user} readOnly={props.readOnly}/>
                 <div className={'inner'}>
-                    <ProfileHeader {...props}/>
-                    <ProfileBreakdown breakdown={props.user.breakdown || {}}/>
+                    <ProfileHeader user={user}/>
+                    <ProfileBreakdown breakdown={user.breakdown || {}}/>
                 </div>
             </div>
             <div>
@@ -84,29 +91,24 @@ const ProfilePage: FC<any> = (props) => {
                     <h1>Experience</h1>
                     {!props.readOnly && <AddExperienceModal/>}
                 </ExperienceHeader>
-                <ExperienceList value={'theatreExperience'} type={'Theatre'} experiences={props.user.theatreExperience}
+                <ExperienceList value={'theatreExperience'} type={'Theatre'} experiences={user.theatreExperience}
                                 readOnly={props.readOnly}/>
                 <ExperienceList value={'musicalTheatreExperience'} type={'Musical Theatre'}
-                                experiences={props.user.musicalTheatreExperience}
+                                experiences={user.musicalTheatreExperience}
                                 readOnly={props.readOnly}/>
-                <ExperienceList value={'operaExperience'} type={'Opera'} experiences={props.user.operaExperience}
+                <ExperienceList value={'operaExperience'} type={'Opera'} experiences={user.operaExperience}
                                 readOnly={props.readOnly}/>
-                <ExperienceList value={'filmExperience'} type={'Film'} experiences={props.user.filmExperience}
+                <ExperienceList value={'filmExperience'} type={'Film'} experiences={user.filmExperience}
                                 readOnly={props.readOnly}/>
                 <ExperienceList value={'televisionExperience'} type={'Television'}
-                                experiences={props.user.televisionExperience}
+                                experiences={user.televisionExperience}
                                 readOnly={props.readOnly}/>
                 <ExperienceList value={'commercialExperience'} type={'Commercial'}
-                                experiences={props.user.commercialExperience}
+                                experiences={user.commercialExperience}
                                 readOnly={props.readOnly}/>
             </div>
         </ProfilePageStyle>
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        user: state.user.user,
-    };
-};
-export default connect(mapStateToProps, {getProfileDetails, getCurrentUserDetails})(ProfilePage);
+export default ProfilePage;

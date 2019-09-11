@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Button, Form, Input, Message} from 'semantic-ui-react';
+import {Button, Form, Input } from 'semantic-ui-react';
 
 import {connect} from 'react-redux';
 import {register} from '../../actions/authActions';
@@ -18,7 +18,7 @@ const RegistrationPage: FC<any> = (props) => {
     const [password, changePassword] = useState('');
     const [passwordConfirmation, changePasswordConfirmation] = useState('');
     const [phoneNumber, changePhoneNumber] = useState('');
-    const [error, changeError] = useState('');
+    const [_error, changeError] = useState('');
 
     useEffect(() => {
         changeError(props.error);
@@ -81,13 +81,14 @@ const RegistrationPage: FC<any> = (props) => {
                         <Input name={'passwordConfirmation'} type={'password'} value={passwordConfirmation}
                                onChange={(e, {value}) => changePasswordConfirmation(value)}/>
                     </Form.Field>
-                    {error
-                        ? (<Message
-                            error
-                            header='Registration Error'
-                            content={error}
-                        />) : null
-                    }
+                    {/* TODO: ADD HANDLE ERROR */}
+                    {/*{error*/}
+                    {/*    ? (<Message*/}
+                    {/*        error*/}
+                    {/*        header='Registration Error'*/}
+                    {/*        content={error}*/}
+                    {/*    />) : null*/}
+                    {/*}*/}
 
                     <Button type='submit'>Register</Button>
                 </Form>
@@ -96,8 +97,4 @@ const RegistrationPage: FC<any> = (props) => {
     );
 };
 
-const mapStateToProps = (state: any) => ({
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {register})(withRouter(RegistrationPage));
+export default connect(null, {register})(withRouter(RegistrationPage));

@@ -1,9 +1,12 @@
-import React, {FC, useCallback, useEffect} from 'react';
+import React, {FC, useCallback} from 'react';
 import {useDropzone} from "react-dropzone";
 import {StyleDropzone} from "../Profile/ProfileImagePage";
 import {Divider, Header, Icon, Loader, Segment, List} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {fetchRoleForProject, uploadDocument} from "../../actions/roleActions";
+import {uploadDocument} from "../../actions/roleActions";
+import {useQuery} from "@apollo/react-hooks";
+
+const GET_ROLE = require('../../graphql/queries/roles/GET_ROLE.gql');
 
 function MyDropzone(props: any) {
     const onDrop = useCallback(acceptedFiles => {
@@ -29,15 +32,14 @@ function MyDropzone(props: any) {
 }
 
 
-const RoleBreakdownDetailPage: FC<any> = ({role, match, fetchRoleForProject, uploadDocument}) => {
-    useEffect(() => {
-        const {projectId, roleId} = match.params;
-        fetchRoleForProject(projectId, roleId)
-    }, [fetchRoleForProject, match])
+const RoleBreakdownDetailPage: FC<any> = ({match, uploadDocument}) => {
+    const {roleId} = match.params;
+    const {data, loading} = useQuery(GET_ROLE, {variables: {roleId}});
 
-    if (!role) {
+    if (loading) {
         return <Loader/>
     }
+    const role = data.getRole
     return (
         <div>
             <h1>{role.characterName}</h1>
@@ -64,11 +66,5 @@ const RoleBreakdownDetailPage: FC<any> = ({role, match, fetchRoleForProject, upl
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        role: state.roles.role,
-    };
-};
-
-export default connect(mapStateToProps, {fetchRoleForProject, uploadDocument})(RoleBreakdownDetailPage);
+export default connect(null, {uploadDocument})(RoleBreakdownDetailPage);
 

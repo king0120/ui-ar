@@ -4,7 +4,6 @@ import {Field, Form as FinalForm} from 'react-final-form';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
 import moment, {Moment} from 'moment';
-import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {useMutation} from "@apollo/react-hooks";
 

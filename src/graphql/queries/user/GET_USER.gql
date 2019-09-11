@@ -1,0 +1,64 @@
+query getUser($id: String!) {
+    getUser(id: $id) {
+        displayName
+        city
+        state
+        gender
+        phoneNumber
+        email
+        breakdown {
+            ageRange
+            gender
+            unions
+            ethnicity
+            vocalRange
+        }
+        profilePicture {
+            url
+        }
+        profileImages {
+            s3Key
+            url
+        }
+        musicalTheatreExperience {
+            id
+            role
+            project
+            description
+            company
+            director
+        }
+        operaExperience {
+            id
+            role
+            project
+            description
+            company
+            director
+        }
+        filmExperience {
+            id
+            role
+            project
+            description
+            company
+            director
+        }
+        televisionExperience {
+            id
+            role
+            project
+            description
+            company
+            director
+        }
+        commercialExperience {
+            id
+            role
+            project
+            description
+            company
+            director
+        }
+    }
+}

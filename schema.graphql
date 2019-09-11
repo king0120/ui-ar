@@ -5,6 +5,17 @@ schema {
     mutation: Mutation
 }
 
+interface Experience {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
+}
+
 type ActorNote {
     audition: Audition!
     createdAt: String!
@@ -41,7 +52,7 @@ type Audition {
 type AuditionCollateral {
     audition: Audition!
     createdAt: String!
-    id: Float!
+    id: String!
     role: ProjectRole!
     s3Key: String!
     user: User!
@@ -49,7 +60,7 @@ type AuditionCollateral {
 
 type AuditionQuestion {
     audition: Audition!
-    id: Float!
+    id: String!
     text: String!
 }
 
@@ -81,37 +92,94 @@ type AuditionTimeSlot {
 type BreakdownAttribute {
     category: Float!
     createdAt: String!
-    id: Float!
+    id: String!
     projectRole: ProjectRole!
     type: Float!
     user: User!
     value: String!
 }
 
-type CommercialExperience {
+type CommercialExperience implements Experience {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
     user: User!
 }
 
-type FilmExperience {
+type FilmExperience implements Experience {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
     user: User!
 }
 
-type MusicalTheatreExperience {
+type FormattedBreakdown {
+    ageRange: [String!]
+    ethnicity: [String!]
+    gender: [String!]
+    unions: [String!]
+    vocalRange: [String!]
+}
+
+type FormattedCollateral {
+    key: String
+    url: String
+}
+
+type LoginResponse {
+    accessToken: String!
+    displayName: String!
+    userId: String!
+}
+
+type MusicalTheatreExperience implements Experience {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
     user: User!
 }
 
 type Mutation {
+    addExperience(data: AddExperienceDTO!): Boolean
     addNote(input: CreateNoteDTO!): ActorNote!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
-    createTimeslot(data: CreateTimeSlotDTO!): [AuditionTimeSlot!]!
+    createTimeslot(data: CreateTimeSlotDTO!): AuditionTimeSlot!
     deleteAudition(auditionId: String!): Audition!
+    deleteImage(key: String!): Boolean
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
+    inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String!): AuditionTalentInstance!
+    login(email: String!, password: String!): LoginResponse!
+    removeExperience(data: AddExperienceDTO!): Boolean
     removeNote(id: String!): Boolean
     removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
+    setProfile(key: String!): Boolean
     updateTalentInstance(instance: AuditionInstanceDTO!, instanceId: String!): ActorNote!
 }
 
-type OperaExperience {
+type OperaExperience implements Experience {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
     user: User!
 }
 
@@ -153,11 +221,11 @@ type Project {
 }
 
 type ProjectRole {
-    breakdown: [BreakdownAttribute!]
+    breakdown: FormattedBreakdown
     castTo: User
     characterName: String!
     characterSummary: String!
-    collateral: [AuditionCollateral!]!
+    collateral: [FormattedCollateral!]!
     id: String!
     inAuditions: [Audition!]!
     movementRequirements: String
@@ -167,36 +235,55 @@ type ProjectRole {
 type Query {
     getAllOrganizationsForUser: UserOrganizations!
     getAllProjects(organizationId: String!): [Project!]!
+    getAllRoles(projectId: String!): [ProjectRole!]!
     getAudition(auditionId: String!): Audition!
     getAuditionsForProject(projectId: String!): [Audition!]!
     getNotes(actorId: String!): [ActorNote!]!
     getOneOrganization(organizationId: String!): Organization!
     getOneProject(projectId: String!): Project!
+    getRole(roleId: String!): ProjectRole!
     getUser(id: String!): User!
     searchForAuditions(query: String!): [Audition!]!
+    tokenCheck: User!
 }
 
-type TelevisionExperience {
+type TelevisionExperience implements Experience {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
     user: User!
 }
 
-type TheatreExperience {
+type TheatreExperience implements Experience {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
     user: User!
 }
 
 type User {
-    breakdown: [BreakdownAttribute!]!
+    breakdown: FormattedBreakdown!
     castIn: [ProjectRole!]!
-    city: String!
+    city: String
     commercialExperience: [CommercialExperience!]!
     createdAt: String!
-    displayName: String!
+    displayName: String
     email: String!
     emailConfirmed: Boolean!
     filmExperience: [FilmExperience!]!
     firstName: String!
     gender: String!
-    heightInches: Float!
+    heightInches: Float
     id: String!
     instances: [AuditionTalentInstance!]!
     lastName: String!
@@ -207,22 +294,23 @@ type User {
     ownedOrgs: [Organization!]!
     phoneNumber: String!
     profileImages: [UserImage!]!
-    profilePicture: UserImage!
+    profilePicture: UserImage
     roles: [Role!]!
-    state: String!
+    state: String
     televisionExperience: [TelevisionExperience!]!
     theatreExperience: [TheatreExperience!]!
     updatedAt: Float!
     verified: Boolean!
-    website: String!
-    weightLbs: Float!
+    website: String
+    weightLbs: Float
 }
 
 type UserImage {
     createdAt: String!
-    id: Float!
+    id: String!
     isPrimary: Boolean!
     s3Key: String!
+    url: String
     user: User!
 }
 
@@ -235,6 +323,12 @@ type UserOrganizations {
 enum Role {
     actor
     admin
+}
+
+input AddExperienceDTO {
+    experience: ExperienceInput
+    experienceId: String
+    experienceType: String!
 }
 
 input AuditionInstanceDTO {
@@ -273,6 +367,17 @@ input CreateTimeSlotDTO {
 input DeleteTimeSlotDTO {
     auditionId: String
     id: String!
+}
+
+input ExperienceInput {
+    company: String!
+    description: String
+    director: String!
+    id: String
+    imageGuid: String
+    project: String!
+    role: String!
+    showOnResume: Boolean
 }
 
 

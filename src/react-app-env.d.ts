@@ -2,3 +2,8 @@
 
 declare module 'places.js';
 declare module 'styled-flex-component';
+
+declare module '*.mp4' {
+    const src: string;
+    export default src;
+}

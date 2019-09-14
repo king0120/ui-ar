@@ -1,6 +1,4 @@
 import React, {FC, useEffect, useState} from 'react';
-import {connect} from "react-redux";
-import {updateInstance} from "../../actions/auditionActions";
 import ProfilePage from "../Profile/ProfilePage";
 import styled from "styled-components";
 import {Button, Dropdown, List, Tab} from 'semantic-ui-react';
@@ -8,8 +6,10 @@ import ProfileImagePage from "../Profile/ProfileImagePage";
 import NotesOnActor from "../../components/audition/NotesOnActor";
 import Flex from 'styled-flex-component';
 import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
-import {useLazyQuery} from "@apollo/react-hooks";
+import {useLazyQuery, useMutation} from "@apollo/react-hooks";
+
 const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
+const UPDATE_TALENT_INSTANCE = require('../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
 
 const AuditionPageStyles = styled.div`
   display: flex;
@@ -63,23 +63,32 @@ const TalentListSection: FC<any> = ({title, talentList, handleClick}) => {
 };
 
 
-const AuditionPage: FC<any> = ({match, updateInstance}) => {
+const AuditionPage: FC<any> = ({match}) => {
+    const {auditionId} = match.params;
     const [currentlyViewing, setCurrentlyViewing] = useState(null);
     const [currentTalentId, setCurrentTalentId] = useState(null);
     const [decisionValue, setDecisionValue] = useState('');
     const [getAudition, {loading, data}] = useLazyQuery(GET_AUDITION);
+    const [updateTalentInstance] = useMutation(UPDATE_TALENT_INSTANCE, {
+        refetchQueries: [{
+            query: GET_AUDITION,
+            variables: {auditionId}
+        }]
+    })
 
     useEffect(() => {
-        const {auditionId} = match.params;
         getAudition({variables: {auditionId}});
-    }, [getAudition, match]);
+    }, [getAudition, auditionId]);
 
     if (loading || !data) {
         return <h1>loading</h1>;
     }
-
-    const {auditionId, projectId} = match.params;
-    const changeDecision = (id: any) => updateInstance(projectId, auditionId, id, {decision: decisionValue === 'pending' ? null : decisionValue});
+    const changeDecision = (id: any) => updateTalentInstance({
+        variables: {
+            decision: decisionValue === 'pending' ? undefined : decisionValue,
+            instanceId: id
+        }
+    })
     const talent = formatAuditionObject(data.getAudition.talent);
 
     const handleTalentClick = (selectedTalent: any) => {
@@ -165,4 +174,4 @@ function formatAuditionObject(talent: any = []) {
     }, defaultObject);
 }
 
-export default connect(null, {updateInstance})(AuditionPage);
+export default AuditionPage;

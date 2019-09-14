@@ -26,7 +26,6 @@ class Header extends Component<any, { activeItem?: string }> {
     handleItemClick: IClickHandler = (_e, itemValue) => this.setState({activeItem: itemValue.name});
 
     render() {
-        console.log(this.props)
         if (this.props.location.pathname === "/") {
             return null
         }

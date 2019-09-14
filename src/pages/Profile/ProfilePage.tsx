@@ -1,4 +1,4 @@
-import React, {FC, useContext, useEffect} from 'react';
+import React, {FC, useContext} from 'react';
 import styled from 'styled-components';
 import {transformPhoneNumber} from '../../utils';
 import ProfileSidebar from '../../components/profile/ProfileSidebar';
@@ -66,13 +66,8 @@ const ProfilePage: FC<any> = (props) => {
     const { readOnly } = props;
     const {userId} = useContext(GlobalContext);
     const id = readOnly ? props.match.params.userId : userId;
-    const {data, loading, refetch} = useQuery(GET_USER, {variables: {id}})
+    const {data, loading} = useQuery(GET_USER, {variables: {id}})
     const user = data && data.getUser;
-    // useEffect(() => {
-    //     if (id) {
-    //         refetch({id})
-    //     }
-    // }, [id, refetch]);
 
     if (!data || loading) {
         return <h1>loading</h1>

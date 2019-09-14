@@ -3,6 +3,7 @@ import {Button, Modal} from "semantic-ui-react";
 import {ActorSearch} from "../../pages/Search/ActorSearchPage";
 import {useMutation} from "@apollo/react-hooks";
 
+const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
 const INVITE_TO_AUDITION = require('../../graphql/mutations/INVITE_TO_AUDITION.gql')
 
 const AddTalentToActiveAudition: FC<any> = ({auditionId, projectId}) => {
@@ -14,7 +15,12 @@ const AddTalentToActiveAudition: FC<any> = ({auditionId, projectId}) => {
                 projectId,
                 auditionId,
                 userId
-        }});
+            },
+            refetchQueries: [{
+                query: GET_AUDITION,
+                variables: {auditionId}
+            }]
+        });
         changeOpen(false);
     };
     return (

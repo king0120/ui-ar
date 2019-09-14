@@ -1,0 +1,3 @@
+mutation updateTalentInstance($decision: String!, $instanceId: String!) {
+    updateTalentInstance(decision: $decision, instanceId: $instanceId)
+}

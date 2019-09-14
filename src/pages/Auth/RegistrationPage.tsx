@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Button, Form, Input } from 'semantic-ui-react';
+import {Button, Form, Input, Message } from 'semantic-ui-react';
 
 import {connect} from 'react-redux';
 import {register} from '../../actions/authActions';
@@ -18,7 +18,7 @@ const RegistrationPage: FC<any> = (props) => {
     const [password, changePassword] = useState('');
     const [passwordConfirmation, changePasswordConfirmation] = useState('');
     const [phoneNumber, changePhoneNumber] = useState('');
-    const [_error, changeError] = useState('');
+    const [error, changeError] = useState('');
 
     useEffect(() => {
         changeError(props.error);
@@ -81,14 +81,13 @@ const RegistrationPage: FC<any> = (props) => {
                         <Input name={'passwordConfirmation'} type={'password'} value={passwordConfirmation}
                                onChange={(e, {value}) => changePasswordConfirmation(value)}/>
                     </Form.Field>
-                    {/* TODO: ADD HANDLE ERROR */}
-                    {/*{error*/}
-                    {/*    ? (<Message*/}
-                    {/*        error*/}
-                    {/*        header='Registration Error'*/}
-                    {/*        content={error}*/}
-                    {/*    />) : null*/}
-                    {/*}*/}
+                    {error
+                        ? (<Message
+                            error
+                            header='Registration Error'
+                            content={error}
+                        />) : null
+                    }
 
                     <Button type='submit'>Register</Button>
                 </Form>

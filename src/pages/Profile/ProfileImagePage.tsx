@@ -2,7 +2,6 @@ import React, {FC, useCallback, useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {
     deleteImage,
-    setProfilePic,
     uploadImage
 } from '../../actions/talentActions';
 import {Button, Header, Icon, Image, Segment} from 'semantic-ui-react';
@@ -116,5 +115,4 @@ const ProfileImagePage: FC<any> = (props) => {
 export default connect(null, {
     uploadImage,
     deleteImage,
-    setProfilePic
 })(ProfileImagePage);

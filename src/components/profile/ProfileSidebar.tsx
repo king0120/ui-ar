@@ -34,6 +34,17 @@ const AttributesModal: FC<any> = (props) => {
         </Modal>
     );
 };
+declare const Chargebee: any;
+
+const handleUpgradeClick = () => {
+    const cb = Chargebee.getInstance();
+    cb.openCheckout({
+        hostedPage: (page: any) => {
+            console.log(page);
+            return Promise.resolve('success');
+        }
+    });
+};
 
 const ProfileSidebar: FC<any> = (props: any) => {
     const imagePageUrl = props.readOnly ? `/profile/${props.user.id}/images` : '/profile/images';
@@ -61,6 +72,11 @@ const ProfileSidebar: FC<any> = (props: any) => {
                             {props.readOnly ? 'See Additional Photos' : 'See and Upload Additional Photos'}
                         </List.Content>
                     </Link>
+                </List.Item>
+                <List.Item>
+                    <List.Content>
+                        <List.Header onClick={handleUpgradeClick}>Upgrade Account</List.Header>
+                    </List.Content>
                 </List.Item>
             </ProfileSidebarStyle>
         </div>

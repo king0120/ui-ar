@@ -1,10 +1,22 @@
 import React, {FC, useState, useEffect} from 'react';
-import {Button, Card, Container, Header, Message} from 'semantic-ui-react';
+import {Button, Card, Container, Header} from 'semantic-ui-react';
 import breakdancer from '../../static/breakdancer.mp4';
-import styled, {StyledComponentBase} from 'styled-components'
+import styled from 'styled-components'
 import LandTheRole from "./LandTheRole";
 import LogInPage from "../Auth/LogInPage";
 import {Link} from "react-router-dom";
+
+{/*<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />*/}
+{/*<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />*/}
+{/*    <link rel="stylesheet" href="style.css" type="text/css" />*/}
+{/*    <link rel="stylesheet" href="css/dark.css" type="text/css" />*/}
+{/*    <link rel="stylesheet" href="css/font-icons.css" type="text/css" />*/}
+{/*    <link rel="stylesheet" href="css/animate.css" type="text/css" />*/}
+{/*    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />*/}
+
+{/*    <link rel="stylesheet" href="css/responsive.css" type="text/css" />*/}
+{/*    <meta name="viewport" content="width=device-width, initial-scale=1" />*/}
+
 
 const HomePageStyle = styled(Container)`
   position: relative;
@@ -119,7 +131,7 @@ const HomePage: FC<any> = ({history}) => {
                 <div className="landing-grid cta">
                     <LogInPage />
                     <p style={{marginTop: 10}}>
-                        New to us? <Link to={'/register'}><a>Sign Up Here</a></Link>
+                        New to us? <Link to={'/register'}>Sign Up Here</Link>
                     </p>
                 </div>
                 <LandTheRole/>

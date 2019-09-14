@@ -9,6 +9,7 @@ export enum PROJECT_ACTIONS {
     FETCH_PROJECT_DELETE_SUCCESS,
 }
 
+//TODO: Implement
 export function createProject(newProject: any, organizationId: number) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
@@ -21,6 +22,7 @@ export function createProject(newProject: any, organizationId: number) {
     };
 }
 
+//TODO: Implement
 export function editProject(id: number, body: IProject) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});
@@ -33,6 +35,7 @@ export function editProject(id: number, body: IProject) {
     };
 }
 
+//TODO: Implement
 export function deleteProject(projectId: number) {
     return async (dispatch: Dispatch) => {
         dispatch({type: 'REQUEST_STARTED'});

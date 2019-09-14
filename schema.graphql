@@ -157,10 +157,12 @@ type MusicalTheatreExperience implements Experience {
 type Mutation {
     addExperience(data: AddExperienceDTO!): Boolean
     addNote(input: CreateNoteDTO!): ActorNote!
+    addUserBreakdown(key: String!): Boolean
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
     createTimeslot(data: CreateTimeSlotDTO!): AuditionTimeSlot!
     deleteAudition(auditionId: String!): Audition!
     deleteImage(key: String!): Boolean
+    deleteProject(id: String!): Boolean
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String!): AuditionTalentInstance!
     login(email: String!, password: String!): LoginResponse!
@@ -168,7 +170,7 @@ type Mutation {
     removeNote(id: String!): Boolean
     removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     setProfile(key: String!): Boolean
-    updateTalentInstance(instance: AuditionInstanceDTO!, instanceId: String!): ActorNote!
+    updateTalentInstance(decision: String, instanceId: String): Boolean
 }
 
 type OperaExperience implements Experience {
@@ -329,10 +331,6 @@ input AddExperienceDTO {
     experience: ExperienceInput
     experienceId: String
     experienceType: String!
-}
-
-input AuditionInstanceDTO {
-    decision: String!
 }
 
 input CreateAuditionDTO {

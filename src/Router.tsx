@@ -6,7 +6,6 @@ import AuditionManagerPage from './pages/Audition/AuditionManagerPage';
 import OrgSelectPage from './pages/Organization/OrgSelectPage';
 import LogInPage from './pages/Auth/LogInPage';
 import ProfilePage from './pages/Profile/ProfilePage';
-import HomePage from './pages/General/HomePage';
 import RegistrationPage from './pages/Auth/RegistrationPage';
 import ProfileImagePage from './pages/Profile/ProfileImagePage';
 import ActorSearchPage from './pages/Search/ActorSearchPage';
@@ -35,7 +34,7 @@ const AppRouter: FC<any> = (props) => {
     return (
         <div>
             <Switch>
-                <Route exact path='/' component={HomePage}/>
+
                 <Route exact path='/register' component={RegistrationPage}/>
                 <Route exact path='/login' component={LogInPage}/>
                 <Route exact path='/passwordReset' component={PasswordResetPage}/>
@@ -63,6 +62,7 @@ const AppRouter: FC<any> = (props) => {
                               component={RoleBreakdownDetailPage}/>
                 <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId'
                               component={ProjectsDetailPage}/>
+                <PrivateRoute loggedIn={loggedIn} path='/' component={ProfilePage}/>
             </Switch>
         </div>
     );

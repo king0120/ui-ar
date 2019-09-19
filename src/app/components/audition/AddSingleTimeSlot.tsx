@@ -7,8 +7,8 @@ import moment, {Moment} from 'moment';
 import {withRouter} from 'react-router';
 import {useMutation} from "@apollo/react-hooks";
 
-const CREATE_TIME_SLOTS = require('../../graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
-const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql')
+const CREATE_TIME_SLOTS = require('../../../graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
+const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql')
 
 const AddSingleTimeSlot: FC<any> = (props) => {
     const {auditionId} = props.match.params;

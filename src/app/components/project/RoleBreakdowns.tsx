@@ -1,9 +1,9 @@
 import React, {FC, useEffect, useState} from 'react';
-import {createProjectRole, deleteRole} from '../../actions/roleActions';
+import {createProjectRole, deleteRole} from '../../../redux/actions/roleActions';
 import {connect} from 'react-redux';
 import {Header, Label} from 'semantic-ui-react';
 import styled from 'styled-components';
-import {IRole} from '../../types/IRole';
+import {IRole} from '../../../types/IRole';
 import AddRoleBreakdownModal from '../shared/AddRoleBreakdownModal';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
@@ -12,7 +12,7 @@ import {Container} from './CommonStyledComponents';
 import {Link} from 'react-router-dom';
 import {useQuery} from "@apollo/react-hooks";
 
-const GET_ALL_ROLES = require('../../graphql/queries/roles/GET_ALL_ROLES.gql');
+const GET_ALL_ROLES = require('../../../graphql/queries/roles/GET_ALL_ROLES.gql');
 
 const LabelsContainer = styled.div`
   max-width: 40%;

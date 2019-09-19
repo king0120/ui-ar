@@ -1,22 +1,23 @@
 import React, {FC, useContext} from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
-import ProjectsList from './pages/Organization/OrganizationPage';
-import ProjectsDetailPage from './pages/Project/ProjectsDetailPage';
-import AuditionManagerPage from './pages/Audition/AuditionManagerPage';
-import OrgSelectPage from './pages/Organization/OrgSelectPage';
-import LogInPage from './pages/Auth/LogInPage';
-import ProfilePage from './pages/Profile/ProfilePage';
-import RegistrationPage from './pages/Auth/RegistrationPage';
-import ProfileImagePage from './pages/Profile/ProfileImagePage';
-import ActorSearchPage from './pages/Search/ActorSearchPage';
-import PasswordResetPage from './pages/Auth/PasswordResetPage';
-import SettingsPage from './pages/General/SettingsPage';
-import RoleBreakdownDetailPage from './pages/Project/RoleBreakdownDetailPage';
-import AuditionResponse from "./pages/Audition/AuditionResponse";
-import AuditionPage from "./pages/Audition/AuditionPage";
-import AuditionSearchPage from "./pages/Search/AuditionSearchPage";
-import MyAuditions from "./pages/Profile/MyAuditions";
+import ProjectsList from './app/pages/Organization/OrganizationPage';
+import ProjectsDetailPage from './app/pages/Project/ProjectsDetailPage';
+import AuditionManagerPage from './app/pages/Audition/AuditionManagerPage';
+import OrgSelectPage from './app/pages/Organization/OrgSelectPage';
+import LogInPage from './app/pages/Auth/LogInPage';
+import ProfilePage from './app/pages/Profile/ProfilePage';
+import RegistrationPage from './app/pages/Auth/RegistrationPage';
+import ProfileImagePage from './app/pages/Profile/ProfileImagePage';
+import ActorSearchPage from './app/pages/Search/ActorSearchPage';
+import PasswordResetPage from './app/pages/Auth/PasswordResetPage';
+import SettingsPage from './app/pages/General/SettingsPage';
+import RoleBreakdownDetailPage from './app/pages/Project/RoleBreakdownDetailPage';
+import AuditionResponse from "./app/pages/Audition/AuditionResponse";
+import AuditionPage from "./app/pages/Audition/AuditionPage";
+import AuditionSearchPage from "./app/pages/Search/AuditionSearchPage";
+import MyAuditions from "./app/pages/Profile/MyAuditions";
 import {GlobalContext} from "./context/globalContext";
+import Login2Page from './app/pages/LoginPage2';
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     return (
@@ -36,7 +37,7 @@ const AppRouter: FC<any> = (props) => {
             <Switch>
 
                 <Route exact path='/register' component={RegistrationPage}/>
-                <Route exact path='/login' component={LogInPage}/>
+                <Route exact path='/login' component={Login2Page}/>
                 <Route exact path='/passwordReset' component={PasswordResetPage}/>
                 <Route exact path='/passwordReset/:token' component={PasswordResetPage}/>
                 <Route exact path='/auditionResponse' component={AuditionResponse}/>

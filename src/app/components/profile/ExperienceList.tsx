@@ -2,10 +2,10 @@ import React, {FC, useContext} from 'react';
 import {Button, Card, Item} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {useMutation} from "@apollo/react-hooks";
-import {GlobalContext} from "../../context/globalContext";
+import {GlobalContext} from "../../../context/globalContext";
 
-const REMOVE_EXPERIENCE = require('../../graphql/mutations/profile/REMOVE_EXPERIENCE.gql')
-const GET_USER = require('../../graphql/queries/user/GET_USER.gql')
+const REMOVE_EXPERIENCE = require('../../../graphql/mutations/profile/REMOVE_EXPERIENCE.gql')
+const GET_USER = require('../../../graphql/queries/user/GET_USER.gql')
 
 const ItemHeaderStyle = styled(Item.Header)`
     &&&&&& {

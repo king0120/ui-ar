@@ -5,7 +5,7 @@ import AuditionManagerConfiguration from './AuditionManagerConfiguration';
 import AuditionManagerView from './AuditionManagerView';
 import {useLazyQuery} from "@apollo/react-hooks";
 
-const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
+const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 
 const AuditionManagerPageStyles = styled.div`
     padding-bottom: 500px;

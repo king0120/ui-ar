@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
-import arAxios from '../utils/axiosHelper';
-import {IRole} from '../types/IRole';
+import arAxios from '../../utils/axiosHelper';
+import {IRole} from '../../types/IRole';
 
 export enum ROLE_ACTIONS {
     FETCH_ROLES_SUCCESS = 'FETCH_ROLES_SUCCESS',

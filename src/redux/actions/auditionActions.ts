@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import arAxios from '../utils/axiosHelper';
+import arAxios from '../../utils/axiosHelper';
 
 export enum AUDITION_ACTIONS {
     ADD_TALENT_TO_AUDITION_SUCCESS = 'ADD_TALENT_TO_AUDITION_SUCCESS',

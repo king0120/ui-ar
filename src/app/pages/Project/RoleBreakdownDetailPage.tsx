@@ -3,10 +3,10 @@ import {useDropzone} from "react-dropzone";
 import {StyleDropzone} from "../Profile/ProfileImagePage";
 import {Divider, Header, Icon, Loader, Segment, List} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {uploadDocument} from "../../actions/roleActions";
+import {uploadDocument} from "../../../redux/actions/roleActions";
 import {useQuery} from "@apollo/react-hooks";
 
-const GET_ROLE = require('../../graphql/queries/roles/GET_ROLE.gql');
+const GET_ROLE = require('../../../graphql/queries/roles/GET_ROLE.gql');
 
 function MyDropzone(props: any) {
     const onDrop = useCallback(acceptedFiles => {

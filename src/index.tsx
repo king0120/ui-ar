@@ -9,7 +9,7 @@ import 'primeicons/primeicons.css';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
-import configureStore from './configureStore';
+import configureStore from './redux/configureStore';
 
 import {Provider} from 'react-redux';
 import {GlobalContextProvider} from './context/globalContext';

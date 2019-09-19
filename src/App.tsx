@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import NavBar from './components/shared/Header';
+import NavBar from './app/components/shared/Header';
 import Router from './Router';
 import {BrowserRouter, withRouter} from 'react-router-dom';
 import ApolloClient from 'apollo-boost';

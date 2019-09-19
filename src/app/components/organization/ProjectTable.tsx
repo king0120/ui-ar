@@ -9,10 +9,10 @@ import styled from 'styled-components';
 import AddProjectModal from '../project/AddProjectModal';
 import ProjectActionColumn from './ProjectActionColumn';
 import {format} from 'date-fns';
-import {createProject, deleteProject} from '../../actions/projectActions';
+import {createProject, deleteProject} from '../../../redux/actions/projectActions';
 import {useQuery} from '@apollo/react-hooks';
 
-const GET_PROJECTS_FOR_ORG = require('../../graphql/queries/projects/GET_PROJECTS_FOR_ORG.gql')
+const GET_PROJECTS_FOR_ORG = require('../../../graphql/queries/projects/GET_PROJECTS_FOR_ORG.gql')
 
 const TableHeader = styled.div`
   display: flex;

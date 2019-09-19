@@ -4,14 +4,14 @@ import ProjectTable from '../../components/organization/ProjectTable';
 import Calendar from '../../components/shared/Calendar';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {deleteOrganization} from '../../actions/organizationActions';
-import {IOrganization} from '../../types/IOrganization';
+import {deleteOrganization} from '../../../redux/actions/organizationActions';
+import {IOrganization} from '../../../types/IOrganization';
 import ConfirmationModal from "../../components/shared/ConfirmationModal";
 import AddOrganization from "../../components/organization/AddEditOrganization";
 import MembersList from "../../components/organization/MembersList";
 import {useQuery} from "@apollo/react-hooks";
 
-const GET_ORGANIZATION = require('../../graphql/queries/organization/GET_ORGANIZATION.gql')
+const GET_ORGANIZATION = require('../../../graphql/queries/organization/GET_ORGANIZATION.gql')
 const TheatreHeader = styled.div`
   display: flex;
   justify-content: space-between;

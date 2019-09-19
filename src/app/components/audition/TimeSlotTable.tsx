@@ -8,8 +8,8 @@ import {ActorSearch} from '../../pages/Search/ActorSearchPage';
 import {Link, withRouter} from 'react-router-dom';
 import {useMutation} from "@apollo/react-hooks";
 
-const INVITE_TO_AUDITION = require('../../graphql/mutations/INVITE_TO_AUDITION.gql')
-const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
+const INVITE_TO_AUDITION = require('../../../graphql/mutations/INVITE_TO_AUDITION.gql')
+const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 
 function OpenTimeSlot(props: any) {
     const {projectId, auditionId, timeSlotId } = props;

@@ -2,8 +2,8 @@ import React, {FC, useState} from 'react';
 import {Button, Form} from "semantic-ui-react";
 import {useMutation} from "@apollo/react-hooks";
 
-const ADD_NOTE = require('../../graphql/mutations/ADD_NOTE.gql');
-const GET_NOTES = require('../../graphql/queries/GET_NOTES.gql');
+const ADD_NOTE = require('../../../graphql/mutations/ADD_NOTE.gql');
+const GET_NOTES = require('../../../graphql/queries/GET_NOTES.gql');
 
 const AddNoteForActor: FC<any> = ({userId, auditionId}) => {
     const [text, setText] = useState('');

@@ -1,12 +1,12 @@
 import React, {FC, useState} from 'react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import {debounce} from 'lodash';
-import arAxios from '../../utils/axiosHelper';
+import arAxios from '../../../utils/axiosHelper';
 import {Button} from "semantic-ui-react";
 import {withRouter} from 'react-router';
 import {useMutation} from "@apollo/react-hooks";
 
-const INVITE_TO_AUDITION = require('../../graphql/mutations/INVITE_TO_AUDITION.gql')
+const INVITE_TO_AUDITION = require('../../../graphql/mutations/INVITE_TO_AUDITION.gql')
 
 const SearchTalent: FC<any> = ({match}) => {
     const {auditionId, projectId} = match.params;

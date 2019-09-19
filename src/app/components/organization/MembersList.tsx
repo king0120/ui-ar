@@ -2,13 +2,13 @@ import React, {FC, useState} from 'react';
 import {connect} from 'react-redux';
 import {Button, List, Modal, Card} from 'semantic-ui-react';
 import ConfirmationModal from "../shared/ConfirmationModal";
-import {removeMemberFromOrganization, addMemberToOrganization} from "../../actions/organizationActions";
+import {removeMemberFromOrganization, addMemberToOrganization} from "../../../redux/actions/organizationActions";
 import {ActorSearch} from '../../pages/Search/ActorSearchPage';
 import Flex from 'styled-flex-component';
 import {useQuery} from "@apollo/react-hooks";
 import {withRouter} from 'react-router-dom';
 
-const GET_ORGANIZATION = require('../../graphql/queries/organization/GET_ORGANIZATION.gql')
+const GET_ORGANIZATION = require('../../../graphql/queries/organization/GET_ORGANIZATION.gql')
 
 const AddMemberModal = (props: any) => {
     const [open, changeOpen] = useState(false)

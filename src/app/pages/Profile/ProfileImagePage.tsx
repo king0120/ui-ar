@@ -3,18 +3,18 @@ import {connect} from 'react-redux';
 import {
     deleteImage,
     uploadImage
-} from '../../actions/talentActions';
+} from '../../../redux/actions/talentActions';
 import {Button, Header, Icon, Image, Segment} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
 import Flex from 'styled-flex-component'
 import GoBackButton from '../../components/shared/GoBackButton';
 import {useLazyQuery, useMutation} from "@apollo/react-hooks";
-import {GlobalContext} from "../../context/globalContext";
+import {GlobalContext} from "../../../context/globalContext";
 
-const GET_USER = require('../../graphql/queries/user/GET_USER.gql');
-const SET_PROFILE = require('../../graphql/mutations/profile/SET_PROFILE.gql');
-const DELETE_IMAGE = require('../../graphql/mutations/profile/DELETE_IMAGE.gql');
+const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
+const SET_PROFILE = require('../../../graphql/mutations/profile/SET_PROFILE.gql');
+const DELETE_IMAGE = require('../../../graphql/mutations/profile/DELETE_IMAGE.gql');
 
 export const StyleDropzone = styled.div`
     width: 90%;

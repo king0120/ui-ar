@@ -2,10 +2,10 @@ import React, {FC, useContext, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {useMutation} from "@apollo/react-hooks";
-import {GlobalContext} from "../../context/globalContext";
+import {GlobalContext} from "../../../context/globalContext";
 
-const ADD_EXPERIENCE = require('../../graphql/mutations/profile/ADD_EXPERIENCE.gql')
-const GET_USER = require('../../graphql/queries/user/GET_USER.gql')
+const ADD_EXPERIENCE = require('../../../graphql/mutations/profile/ADD_EXPERIENCE.gql')
+const GET_USER = require('../../../graphql/queries/user/GET_USER.gql')
 
 const experiences = [{
     id: 'theatreExperience',

@@ -9,8 +9,8 @@ import AddAuditionModal from '../audition/CreateAuditionModal';
 import ConfirmationModal from '../shared/ConfirmationModal';
 import {useMutation, useQuery} from "@apollo/react-hooks";
 
-const DELETE_AUDITION = require('../../graphql/mutations/DELETE_AUDITION.gql');
-const GET_AUDITIONS_FOR_PROJECT = require('../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
+const DELETE_AUDITION = require('../../../graphql/mutations/DELETE_AUDITION.gql');
+const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 
 const RowExpansion = () => <h1>stuff here</h1>
 

@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import {Button, Card, Modal, Popup} from 'semantic-ui-react';
 import {ActionsContainer} from '../organization/ProjectActionColumn';
 import {ActorSearch} from "../../pages/Search/ActorSearchPage";
-import {castRole} from "../../actions/roleActions";
+import {castRole} from "../../../redux/actions/roleActions";
 import {connect} from "react-redux";
 
 

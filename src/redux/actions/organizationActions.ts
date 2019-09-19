@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
-import arAxios from '../utils/axiosHelper';
-import {IOrganization} from '../types/IOrganization';
+import arAxios from '../../utils/axiosHelper';
+import {IOrganization} from '../../types/IOrganization';
 
 export enum ORG_ACTIONS {
     FETCH_ALL_ORGANIZATION_SUCCESS = 'FETCH_ALL_ORGANIZATION_SUCCESS',

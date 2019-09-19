@@ -3,7 +3,7 @@ import {Button, Form, Modal} from 'semantic-ui-react';
 import {Field, Form as FinalForm} from 'react-final-form';
 import {connect} from 'react-redux';
 import AddressInput from '../shared/AddressInput';
-import {createOrganization, editOrganization} from "../../actions/organizationActions";
+import {createOrganization, editOrganization} from "../../../redux/actions/organizationActions";
 
 const AddEditOrganization: FC<any> = ({editOrganization, createOrganization, defaultValue = {}}) => {
     const latlong: any = {}

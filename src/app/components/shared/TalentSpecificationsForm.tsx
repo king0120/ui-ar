@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {Button, Header} from 'semantic-ui-react';
 import {Field as FField, Form as FinalForm} from 'react-final-form';
-import FormStateToRedux from '../../utils/FormStateToRedux';
+import FormStateToRedux from '../../../utils/FormStateToRedux';
 
 const SmartCheckbox: FC<any> = ({category, option}) => (
     <label>

@@ -3,8 +3,8 @@ import {Button, Modal} from "semantic-ui-react";
 import {ActorSearch} from "../../pages/Search/ActorSearchPage";
 import {useMutation} from "@apollo/react-hooks";
 
-const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
-const INVITE_TO_AUDITION = require('../../graphql/mutations/INVITE_TO_AUDITION.gql')
+const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
+const INVITE_TO_AUDITION = require('../../../graphql/mutations/INVITE_TO_AUDITION.gql')
 
 const AddTalentToActiveAudition: FC<any> = ({auditionId, projectId}) => {
     const [open, changeOpen] = useState(false);

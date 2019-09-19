@@ -1,15 +1,15 @@
 import React, {FC, useContext} from 'react';
 import styled from 'styled-components';
-import {transformPhoneNumber} from '../../utils';
+import {transformPhoneNumber} from '../../../utils';
 import ProfileSidebar from '../../components/profile/ProfileSidebar';
 import ExperienceList from '../../components/profile/ExperienceList';
 import AddExperienceModal from '../../components/profile/AddExperienceModal';
 import {Container, Header} from 'semantic-ui-react';
 import ProfileBreakdown from '../../components/profile/ProfileBreakdown';
 import {useQuery} from "@apollo/react-hooks";
-import {GlobalContext} from "../../context/globalContext";
+import {GlobalContext} from "../../../context/globalContext";
 
-const GET_USER = require('../../graphql/queries/user/GET_USER.gql');
+const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
 const ProfilePageStyle = styled(Container)`
     &&& {

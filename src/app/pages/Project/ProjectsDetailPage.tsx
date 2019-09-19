@@ -7,7 +7,7 @@ import Auditions from '../../components/project/Auditions';
 import {Dashboard} from '../../components/project/ProjectsDetailDashboard';
 import {useQuery} from "@apollo/react-hooks";
 
-const GET_PROJECT = require('../../graphql/queries/projects/GET_PROJECT.gql');
+const GET_PROJECT = require('../../../graphql/queries/projects/GET_PROJECT.gql');
 const DetailPageStyles = styled.div`
   display: flex;
   width: 100%;

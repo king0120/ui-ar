@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import arAxios from '../utils/axiosHelper';
+import arAxios from '../../utils/axiosHelper';
 
 export function uploadImage(file: File[]) {
     return async (dispatch: Dispatch) => {

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Form, Input, List} from "semantic-ui-react";
 import {useLazyQuery} from "@apollo/react-hooks";
 import {Container} from '../../components/project/CommonStyledComponents';
-const SEARCH_AUDITIONS = require('../../graphql/queries/SEARCH_AUDITIONS.gql');
+const SEARCH_AUDITIONS = require('../../../graphql/queries/SEARCH_AUDITIONS.gql');
 
 const AuditionSearchPage = () => {
     const [value, changeValue] = useState('')

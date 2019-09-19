@@ -4,9 +4,9 @@ import {Button, Popup} from "semantic-ui-react";
 import {withRouter} from "react-router";
 import {useMutation} from "@apollo/react-hooks";
 
-const DELETE_TIME_SLOT = require('../../graphql/mutations/timeslots/DELETE_TIME_SLOT.gql')
-const REMOVE_TALENT_FROM_TIME_SLOT = require('../../graphql/mutations/timeslots/REMOVE_TALENT_FROM_TIME_SLOT.gql')
-const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql')
+const DELETE_TIME_SLOT = require('../../../graphql/mutations/timeslots/DELETE_TIME_SLOT.gql')
+const REMOVE_TALENT_FROM_TIME_SLOT = require('../../../graphql/mutations/timeslots/REMOVE_TALENT_FROM_TIME_SLOT.gql')
+const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql')
 
 export const ActionsContainer = styled.div`
   display: flex;

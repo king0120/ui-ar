@@ -1,6 +1,6 @@
-import arAxios from '../utils/axiosHelper';
+import arAxios from '../../utils/axiosHelper';
 import {Dispatch} from 'redux';
-import {IProject} from '../types/IProject';
+import {IProject} from '../../types/IProject';
 
 export enum PROJECT_ACTIONS {
     FETCH_PROJECT_SUCCESS,

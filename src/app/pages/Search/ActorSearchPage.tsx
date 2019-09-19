@@ -1,10 +1,10 @@
 import React, {FC, SyntheticEvent, useState} from 'react';
 import {Button, Dropdown, Form, Image, Input, List} from 'semantic-ui-react';
 import {connect} from 'react-redux';
-import {searchUsers} from '../../actions/searchActions';
+import {searchUsers} from '../../../redux/actions/searchActions';
 import {withRouter} from 'react-router-dom';
 import {TalentSpecificationsForm} from '../../components/shared/TalentSpecificationsForm';
-import {getFormState} from "../../reducers/finalFormReducer";
+import {getFormState} from "../../../redux/reducers/finalFormReducer";
 import {Container} from "../../components/project/CommonStyledComponents";
 
 function NoReduxActorSearch(props: any) {

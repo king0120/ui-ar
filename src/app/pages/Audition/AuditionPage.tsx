@@ -8,8 +8,8 @@ import Flex from 'styled-flex-component';
 import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
 import {useLazyQuery, useMutation} from "@apollo/react-hooks";
 
-const GET_AUDITION = require('../../graphql/queries/auditions/GET_AUDITION.gql');
-const UPDATE_TALENT_INSTANCE = require('../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
+const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
+const UPDATE_TALENT_INSTANCE = require('../../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
 
 const AuditionPageStyles = styled.div`
   display: flex;

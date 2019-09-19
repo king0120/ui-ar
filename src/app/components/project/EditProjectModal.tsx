@@ -2,7 +2,7 @@ import React, {FC, SyntheticEvent, useState} from 'react';
 import {Button, Form, Modal} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import {connect} from 'react-redux';
-import {editProject} from '../../actions/projectActions';
+import {editProject} from '../../../redux/actions/projectActions';
 import {withRouter} from "react-router";
 
 const AddProjectModal: FC<any> = (props) => {

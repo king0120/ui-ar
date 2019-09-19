@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import AddOrganization from '../../components/organization/AddEditOrganization';
 import {useQuery} from "@apollo/react-hooks";
 
-const GET_ORGANIZATIONS_FOR_USER = require('../../graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
+const GET_ORGANIZATIONS_FOR_USER = require('../../../graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
 const OrgPageStyle = styled.div`
     width: 90%;
     margin: 20px auto;

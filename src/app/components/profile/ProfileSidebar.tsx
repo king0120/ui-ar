@@ -3,8 +3,8 @@ import {Image, List, Modal} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getFormState} from '../../reducers/finalFormReducer';
-import {addUserBreakdown} from '../../actions/talentActions';
+import {getFormState} from '../../../redux/reducers/finalFormReducer';
+import {addUserBreakdown} from '../../../redux/actions/talentActions';
 import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
 
 const ProfileSidebarStyle = styled(List)`

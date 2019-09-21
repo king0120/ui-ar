@@ -1,10 +1,19 @@
-import React, {Component, SyntheticEvent, useContext} from 'react';
-import {Dropdown, Image, Menu, MenuItemProps} from 'semantic-ui-react';
+import React, { Component, SyntheticEvent, useContext } from 'react';
+import { Dropdown, Image, Menu, MenuItemProps } from 'semantic-ui-react';
 import ARLogo from '../../../static/arLogo.png';
 import styled from 'styled-components';
-import {Link, withRouter} from 'react-router-dom';
-import {GlobalContext} from "../../../context/globalContext";
+import { Link, withRouter } from 'react-router-dom';
+import { GlobalContext } from "../../../context/globalContext";
 import ToolbarLayout1 from 'app/fuse-layouts/layout1/components/ToolbarLayout1';
+import makeStyles from '@material-ui/styles/makeStyles';
+import { useSelector } from 'react-redux';
+import { ThemeProvider } from '@material-ui/styles';
+import { AppBar, Toolbar, Hidden } from '@material-ui/core';
+import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
+import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
+import { FuseSearch } from '@fuse';
+import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
+import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
 
 type IClickHandler = (event: SyntheticEvent, data: MenuItemProps) => void;
 
@@ -19,33 +28,63 @@ const StyledHeader = styled(Menu)`
 	}
 `;
 
-class Header extends Component<any, { activeItem?: string }> {
-    state = {
-        activeItem: '',
-    };
-
-    handleItemClick: IClickHandler = (_e, itemValue) => this.setState({activeItem: itemValue.name});
-
-    render() {
-        if (this.props.location.pathname === "/") {
-            return null
-        }
-        const {activeItem} = this.state;
-
-        const logOut = () => {
-            localStorage.removeItem('accessToken');
-            this.props.history.push('/');
-            window.location.reload();
-        };
-        return (
-            <ToolbarLayout1 />            
-        );
+const useStyles = makeStyles((theme: any) => ({
+    separator: {
+        width: 1,
+        height: 64,
+        backgroundColor: theme.palette.divider
     }
+}));
+
+const Header = (props: any) => {
+    const config = useSelector<any, any>(({ fuse }) => fuse.settings.current.layout.config);
+    const toolbarTheme = useSelector<any, any>(({ fuse }) => fuse.settings.toolbarTheme);
+
+    const classes = useStyles(props);
+    if (props.location.pathname === "/" || props.location.pathname === "/login" || props.location.pathname === "/register" || props.location.pathname === "/passwordReset") {
+        return null
+    }
+    const logOut = () => {
+        localStorage.removeItem('accessToken');
+        props.history.push('/');
+        window.location.reload();
+    };
+    return (
+        <ThemeProvider theme={toolbarTheme}>
+            <AppBar id="fuse-toolbar" className="flex relative z-10" color="default">
+                <Toolbar className="p-0">
+
+                    {config.navbar.display && config.navbar.position === 'left' && (
+                        <Hidden lgUp>
+                            <NavbarMobileToggleButton className="w-64 h-64 p-0" />
+                            <div className={classes.separator} />
+                        </Hidden>
+                    )}
+
+                    <div className="flex flex-1">
+
+                    </div>
+
+                    <div className="flex">
+                        <FuseSearch />
+                        <div className={classes.separator} />
+                        <UserMenu />
+                    </div>
+
+                    {config.navbar.display && config.navbar.position === 'right' && (
+                        <Hidden lgUp>
+                            <NavbarMobileToggleButton />
+                        </Hidden>
+                    )}
+                </Toolbar>
+            </AppBar>
+        </ThemeProvider>
+    );
 }
 
 const HooksWrapper = (props: any) => {
-    const {userId, displayName} = useContext(GlobalContext);
-    return <Header {...props} userId={userId} displayName={displayName}/>
+    const { userId, displayName } = useContext(GlobalContext);
+    return <Header {...props} userId={userId} displayName={displayName} />
 }
 
 export default withRouter(HooksWrapper);

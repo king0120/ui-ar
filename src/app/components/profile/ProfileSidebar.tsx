@@ -1,11 +1,41 @@
-import React, {FC, useState} from 'react';
-import {Image, List, Modal} from 'semantic-ui-react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {getFormState} from '../../../redux/store/reducers/finalFormReducer';
-import {addUserBreakdown} from '../../../redux/actions/talentActions';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getFormState } from '../../../redux/store/reducers/finalFormReducer';
+import { addUserBreakdown } from '../../../redux/actions/talentActions';
 import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
+import { ListItem, List, Divider, ListItemText, ListItemIcon, Modal, makeStyles, createStyles, Theme } from '@material-ui/core';
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+    const top = 50;
+    const left = 50;
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        paper: {
+            position: 'absolute',
+            width: 800,
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: theme.shadows[5],
+            padding: theme.spacing(2, 4, 3),
+        },
+    }),
+);
+
+const ListItemLink = withRouter((props: any) => {
+    return <ListItem button component="a" onClick={() => props.history.push(props.to)} {...props} />;
+})
 
 const ProfileSidebarStyle = styled(List)`
     &&& {
@@ -14,24 +44,27 @@ const ProfileSidebarStyle = styled(List)`
 `;
 
 const AttributesModal: FC<any> = (props) => {
+    const classes = useStyles();
     const [open, changeOpen] = useState(false);
+    const [modalStyle] = React.useState(getModalStyle);
     const handleSubmit = async () => {
         await props.addUserBreakdown(props.specs);
         changeOpen(false);
+        window.location.reload()
     };
 
     return (
-        <Modal onClose={() => changeOpen(false)} closeIcon={true} closeOnEscape={true} open={open} trigger={
-            (<List.Content onClick={() => changeOpen(true)}>
-                    <List.Header>Experience/Skills</List.Header>
-                    Update Recent Activity
-                </List.Content>
-            )}>
-            <Modal.Header>
-                Actor Attributes
-            </Modal.Header>
-            <TalentSpecificationsForm onSubmit={handleSubmit} button={true} breakdown={props.user.breakdown}/>
-        </Modal>
+        <>
+            <ListItemLink onClick={() => changeOpen(true)}>
+                <ListItemText primary="Experience/Skills" secondary="Update Recent Activity" />
+            </ListItemLink>
+            <Modal onClose={() => changeOpen(false)} open={open}>
+                <div style={modalStyle} className={classes.paper}>
+                    <h1>Actor Attributes</h1>
+                    <TalentSpecificationsForm onSubmit={handleSubmit} button={true} breakdown={props.user.breakdown} />
+                </div>
+            </Modal>
+        </>
     );
 };
 declare const Chargebee: any;
@@ -54,31 +87,18 @@ const ProfileSidebar: FC<any> = (props: any) => {
     }
     return (
         <div>
-            <ProfileSidebarStyle divided relaxed>
-                <List.Item>
-                    <Link to={imagePageUrl}>
-                        <Image size={'medium'} src={imageUrl}/>
-                    </Link>
-                </List.Item>
-                {!props.readOnly &&
-                <List.Item as={'a'}>
-                    <AttributesModal {...props}/>
-                </List.Item>
-                }
-                <List.Item>
-                    <Link to={imagePageUrl}>
-                        <List.Content>
-                            <List.Header>Additional Photos</List.Header>
-                            {props.readOnly ? 'See Additional Photos' : 'See and Upload Additional Photos'}
-                        </List.Content>
-                    </Link>
-                </List.Item>
-                <List.Item>
-                    <List.Content>
-                        <List.Header onClick={handleUpgradeClick}>Upgrade Account</List.Header>
-                    </List.Content>
-                </List.Item>
-            </ProfileSidebarStyle>
+            <List component="nav" aria-label="">
+                <ListItem>
+                    <img src={imageUrl} className="rounded-lg w-7/12" />
+                </ListItem>
+                <AttributesModal {...props} />
+                <ListItemLink to={imagePageUrl}>
+                    <ListItemText primary="Additional Photos" secondary={props.readOnly ? 'See Additional Photos' : 'See and Upload Additional Photos'} />
+                </ListItemLink>
+                {/* <ListItemLink>
+                    <ListItemText onClick={handleUpgradeClick} primary="Upgrade Account"/>
+                </ListItemLink> */}
+            </List>
         </div>
     );
 };
@@ -89,4 +109,4 @@ const mapStateToProps = (state: any) => {
     };
 };
 
-export default connect(mapStateToProps, {addUserBreakdown})(ProfileSidebar);
+export default connect(mapStateToProps, { addUserBreakdown })(ProfileSidebar);

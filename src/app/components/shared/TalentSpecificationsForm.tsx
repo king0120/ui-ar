@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
-import {Button, Header} from 'semantic-ui-react';
 import {Field as FField, Form as FinalForm} from 'react-final-form';
 import FormStateToRedux from '../../../utils/FormStateToRedux';
+import { Button, Typography } from '@material-ui/core';
 
 const SmartCheckbox: FC<any> = ({category, option}) => (
-    <label>
+    <label className='m-1'>
         <FField
             name={category}
             component='input'
@@ -42,13 +42,13 @@ export const TalentSpecificationsForm: FC<any> = ({button, breakdown = {}, onSub
             <FormStateToRedux form='talentSpecs'/>
             {fields.map(field => (
                 <div className='spec-container' key={field.title}>
-                    <Header as={'h4'}>{field.title}</Header>
-                    <div className='spec-checkboxes'>
+                    <Typography variant={'h6'}>{field.title}</Typography>
+                    <div className='spec-checkboxes flex flex-wrap'>
                         {field.value.map(option => <SmartCheckbox key={option} option={option} category={field.category}/>)}
                     </div>
                 </div>
             ))}
-            {props.button ? <Button type='submit'>Submit</Button> : null}
+            {props.button ? <Button variant='contained' color="primary" className={'float-right m-1'} type='submit'>Submit</Button> : null}
         </form>
     );
 

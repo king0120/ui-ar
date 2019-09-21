@@ -7,7 +7,7 @@ import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { GlobalContext } from './context/globalContext';
 import { create } from 'jss';
 import jssExtend from 'jss-extend';
-import { jssPreset, StylesProvider, ThemeProvider, makeStyles } from '@material-ui/styles';
+import { jssPreset, StylesProvider, makeStyles } from '@material-ui/styles';
 import createGenerateClassName from '@material-ui/styles/createGenerateClassName';
 import theme from 'defaultTheme';
 import { createMuiTheme } from '@material-ui/core';
@@ -41,7 +41,7 @@ const jss = create({
 
 const generateClassName = createGenerateClassName();
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles(() => ({
     root: {
         position: 'relative',
         display: 'flex',
@@ -96,7 +96,6 @@ const App = (props: any) => {
     const { setUserId, setDisplayName } = useContext(GlobalContext);
     const [isHome, setIsHome] = useState(true);
 
-    const muiTheme = createMuiTheme(theme)
     const classes = useStyles(props);
     useEffect(() => {
         setIsHome(props.location.pathname === '/');

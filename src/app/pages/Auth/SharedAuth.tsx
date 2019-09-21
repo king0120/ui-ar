@@ -2,7 +2,7 @@ import React from 'react'
 import FuseAnimate from "@fuse/components/FuseAnimate/FuseAnimate";
 import { makeStyles } from "@material-ui/styles";
 import { darken, fade } from '@material-ui/core/styles';
-import {Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography} from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 import ArLogo from '../../../static/arLogo.png'
 
 export const useAuthStyles = makeStyles((theme: any) => ({

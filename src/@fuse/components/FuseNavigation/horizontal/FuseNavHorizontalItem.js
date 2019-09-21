@@ -42,15 +42,9 @@ const useStyles = makeStyles(theme => ({
 function FuseNavHorizontalItem(props)
 {
     const dispatch = useDispatch();
-    const userRole = useSelector(({auth}) => auth.user.role);
-
+    
     const classes = useStyles(props);
     const {item, dense} = props;
-
-    if ( !FuseUtils.hasPermission(item.auth, userRole) )
-    {
-        return null;
-    }
 
     return (
         <ListItem

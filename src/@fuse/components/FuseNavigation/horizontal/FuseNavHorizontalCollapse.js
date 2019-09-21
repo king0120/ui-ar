@@ -54,7 +54,6 @@ const useStyles = makeStyles(theme => ({
 
 function FuseNavHorizontalCollapse(props)
 {
-    const userRole = useSelector(({auth}) => auth.user.role);
 
     const classes = useStyles(props);
     const [opened, setOpened] = useState(false);
@@ -63,11 +62,6 @@ function FuseNavHorizontalCollapse(props)
     const handleToggle = useDebounce((open) => {
         setOpened(open);
     }, 150);
-
-    if ( !FuseUtils.hasPermission(item.auth, userRole) )
-    {
-        return null;
-    }
 
     function isUrlInChildren(parent, url)
     {

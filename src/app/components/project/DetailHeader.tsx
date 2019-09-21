@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IProject } from '../../types/IProject';
+import { IProject } from 'types/IProject';
 import { Header, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 

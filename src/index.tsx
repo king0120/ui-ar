@@ -3,21 +3,20 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {createGlobalStyle} from 'styled-components';
+import 'typeface-muli';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
-import '@fullcalendar/timegrid/main.css';
-import configureStore from './redux/configureStore';
+import '@fullcalendar/timegrid/main.css'
+import 'styles/index.css';
 
 import {Provider} from 'react-redux';
 import {GlobalContextProvider} from './context/globalContext';
+import store from 'redux/store';
 
 const GlobalStyle = createGlobalStyle`
-  h1,h2,h3,h4,h5 {
-    font-family: "Open Sans", "Helvetica Neue", sans-serif;
-  }
   body {
     background: #f5f7f8;
   }
@@ -31,9 +30,6 @@ const GlobalStyle = createGlobalStyle`
   }
   }
 `;
-
-
-const store = configureStore({});
 
 ReactDOM.render(
     <GlobalContextProvider>

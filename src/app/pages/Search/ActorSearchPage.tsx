@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {searchUsers} from '../../../redux/actions/searchActions';
 import {withRouter} from 'react-router-dom';
 import {TalentSpecificationsForm} from '../../components/shared/TalentSpecificationsForm';
-import {getFormState} from "../../../redux/reducers/finalFormReducer";
+import {getFormState} from "../../../redux/store/reducers/finalFormReducer";
 import {Container} from "../../components/project/CommonStyledComponents";
 
 function NoReduxActorSearch(props: any) {

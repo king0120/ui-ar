@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import styled from 'styled-components';
 import {Popup} from 'semantic-ui-react';
-import {IProject} from '../../types/IProject';
 import EditProjectModal from '../project/EditProjectModal';
 import ConfirmationModal from '../shared/ConfirmationModal';
+import {IProject} from 'types/IProject';
 
 export const ActionsContainer = styled.div`
   display: flex;

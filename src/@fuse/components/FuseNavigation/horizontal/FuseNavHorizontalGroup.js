@@ -58,8 +58,7 @@ const useStyles = makeStyles(theme => ({
 
 function FuseNavHorizontalGroup(props)
 {
-    const userRole = useSelector(({auth}) => auth.user.role);
-
+ 
     const classes = useStyles(props);
     const [opened, setOpened] = useState(false);
     const {item, nestedLevel, dense} = props;
@@ -68,11 +67,7 @@ function FuseNavHorizontalGroup(props)
         setOpened(open);
     }, 150);
 
-    if ( !FuseUtils.hasPermission(item.auth, userRole) )
-    {
-        return null;
-    }
-
+ 
     function isUrlInChildren(parent, url)
     {
         if ( !parent.children )

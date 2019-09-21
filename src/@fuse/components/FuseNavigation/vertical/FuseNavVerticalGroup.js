@@ -1,37 +1,30 @@
 import React from 'react';
-import {ListSubheader} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
-import {FuseUtils} from '@fuse';
-import {withRouter} from 'react-router-dom';
+import { ListSubheader } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import { FuseUtils } from '@fuse';
+import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import FuseNavVerticalCollapse from './FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
 
 const useStyles = makeStyles({
     item: {
-        height      : 40,
-        width       : 'calc(100% - 16px)',
+        height: 40,
+        width: 'calc(100% - 16px)',
         borderRadius: '0 20px 20px 0',
         paddingRight: 12
     }
 });
 
-function FuseNavVerticalGroup(props)
-{
-    const userRole = useSelector(({auth}) => auth.user.role);
+function FuseNavVerticalGroup(props) {
 
     const classes = useStyles(props);
-    const {item, nestedLevel, active} = props;
+    const { item, nestedLevel, active } = props;
     let paddingValue = 40 + (nestedLevel * 16);
     const listItemPadding = nestedLevel > 0 ? 'pl-' + (paddingValue > 80 ? 80 : paddingValue) : 'pl-24';
-
-    if ( !FuseUtils.hasPermission(item.auth, userRole) )
-    {
-        return null;
-    }
 
     return (
         <React.Fragment>
@@ -50,19 +43,19 @@ function FuseNavVerticalGroup(props)
                             <React.Fragment key={item.id}>
 
                                 {item.type === 'group' && (
-                                    <NavVerticalGroup item={item} nestedLevel={nestedLevel} active={active}/>
+                                    <NavVerticalGroup item={item} nestedLevel={nestedLevel} active={active} />
                                 )}
 
                                 {item.type === 'collapse' && (
-                                    <FuseNavVerticalCollapse item={item} nestedLevel={nestedLevel} active={active}/>
+                                    <FuseNavVerticalCollapse item={item} nestedLevel={nestedLevel} active={active} />
                                 )}
 
                                 {item.type === 'item' && (
-                                    <FuseNavVerticalItem item={item} nestedLevel={nestedLevel} active={active}/>
+                                    <FuseNavVerticalItem item={item} nestedLevel={nestedLevel} active={active} />
                                 )}
 
                                 {item.type === 'link' && (
-                                    <FuseNavVerticalLink item={item} nestedLevel={nestedLevel} active={active}/>
+                                    <FuseNavVerticalLink item={item} nestedLevel={nestedLevel} active={active} />
                                 )}
 
                             </React.Fragment>
@@ -77,8 +70,8 @@ function FuseNavVerticalGroup(props)
 FuseNavVerticalGroup.propTypes = {
     item: PropTypes.shape(
         {
-            id      : PropTypes.string.isRequired,
-            title   : PropTypes.string,
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string,
             children: PropTypes.array
         })
 };

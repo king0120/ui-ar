@@ -4,7 +4,6 @@ import ProjectsList from './app/pages/Organization/OrganizationPage';
 import ProjectsDetailPage from './app/pages/Project/ProjectsDetailPage';
 import AuditionManagerPage from './app/pages/Audition/AuditionManagerPage';
 import OrgSelectPage from './app/pages/Organization/OrgSelectPage';
-import LogInPage from './app/pages/Auth/LogInPage';
 import ProfilePage from './app/pages/Profile/ProfilePage';
 import RegistrationPage from './app/pages/Auth/RegistrationPage';
 import ProfileImagePage from './app/pages/Profile/ProfileImagePage';
@@ -33,7 +32,6 @@ const AppRouter: FC<any> = (props) => {
     const {userId} = useContext(GlobalContext);
     const loggedIn = userId !== 'none'
     return (
-        <div>
             <Switch>
 
                 <Route exact path='/register' component={RegistrationPage}/>
@@ -65,7 +63,6 @@ const AppRouter: FC<any> = (props) => {
                               component={ProjectsDetailPage}/>
                 <PrivateRoute loggedIn={loggedIn} path='/' component={ProfilePage}/>
             </Switch>
-        </div>
     );
 };
 

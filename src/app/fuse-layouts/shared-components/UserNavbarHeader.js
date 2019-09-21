@@ -37,8 +37,11 @@ const useStyles = makeStyles(theme => ({
 
 function UserNavbarHeader(props)
 {
-    const user = useSelector(({auth}) => auth.user);
-
+    // const user = useSelector(({auth}) => auth.user);
+    const user = {data: {
+        displayName: "JIM CHANGETHIS",
+        email: "NOTREAL@gmail.edu",
+    }}
     const classes = useStyles();
 
     return (

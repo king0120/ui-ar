@@ -1,9 +1,9 @@
 import React, {FC, useContext, useEffect, useState} from 'react';
 import {Button, Form, Input} from 'semantic-ui-react';
 import {Link, withRouter} from 'react-router-dom';
-import {CardPageContainer, LoginCard} from '../../styles/shared';
+import {CardPageContainer, LoginCard} from 'styles/shared';
 import {useMutation} from "@apollo/react-hooks";
-import {GlobalContext} from "../../context/globalContext";
+import {GlobalContext} from "context/globalContext";
 
 const LOGIN = require('../../graphql/mutations/LOGIN.gql')
 const LogInPage: FC<any> = (props) => {

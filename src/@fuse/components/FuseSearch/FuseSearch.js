@@ -232,7 +232,6 @@ function reducer(state, action)
 
 function FuseSearch(props)
 {
-    const userRole = useSelector(({auth}) => auth.user.role);
     const navigation = useSelector(({fuse}) => fuse.navigation);
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -241,21 +240,17 @@ function FuseSearch(props)
     const popperNode = useRef(null);
 
     useEffect(() => {
-        function itemAuthAllowed(item)
-        {
-            return FuseUtils.hasPermission(item.auth, userRole)
-        }
-
+    
         function setNavigation()
         {
             dispatch({
                 type : "setNavigation",
-                value: FuseUtils.getFlatNavigation(navigation).filter(item => itemAuthAllowed(item))
+                value: FuseUtils.getFlatNavigation(navigation)
             });
         }
 
         setNavigation();
-    }, [userRole, navigation]);
+    }, [navigation]);
 
     function showSearch()
     {

@@ -1,10 +1,10 @@
 import React from 'react';
 import * as places from 'places.js';
-import {Input} from 'semantic-ui-react';
+import { TextField } from '@material-ui/core';
 
 class AddressInput extends React.Component<any> {
     static defaultProps = {
-        handleChange: () => {}
+        handleChange: () => { }
     }
 
     state = {
@@ -20,21 +20,32 @@ class AddressInput extends React.Component<any> {
 
         placeInstance.configure({
             language: 'en',
+            type: 'city',
             countries: ['us'],
         });
 
         placeInstance.on('change', (e: any) => {
-            this.props.handleChange(e.suggestion);
-            this.setState({value: e.suggestion.value})
+            const {name: city, administrative: state} = e.suggestion
+            this.props.handleChange(city, state);
+            this.setState({ value: `${city}, ${state}` })
         });
 
         if (this.props.defaultValue) {
-            this.setState({value: this.props.defaultValue})
+            this.setState({ value: this.props.defaultValue })
         }
     }
 
     render() {
-        return <Input fluid type='search' id='address-input' value={this.state.value} onChange={(e) => this.setState({value: e.target.value})} placeholder='Where are we going?'/>;
+        return <TextField
+            id='address-input'
+            className="mb-16"
+            label="City, State"
+            autoFocus
+            type="cityState"
+            name="cityState"
+            variant="outlined"
+            required
+        />
     }
 }
 

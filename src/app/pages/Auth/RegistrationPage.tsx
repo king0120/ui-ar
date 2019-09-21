@@ -1,99 +1,174 @@
-import React, {FC, useEffect, useState} from 'react';
-import {Button, Form, Input, Message } from 'semantic-ui-react';
+import React from 'react';
+import { Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
+import { useForm } from '@fuse/hooks';
+import clsx from 'clsx';
+import { Link } from 'react-router-dom';
+import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
+import AddressInput from 'app/components/shared/AddressInput';
+import { connect } from 'react-redux';
+import {register} from 'redux/actions/authActions'
 
-import {connect} from 'react-redux';
-import {register} from '../../../redux/actions/authActions';
-import {withRouter} from 'react-router-dom';
-import {LoginCard} from '../../../styles/shared';
-import {CardPageContainer} from '../../../styles/shared';
-import AddressInput from '../../components/shared/AddressInput';
+function RegistrationPage(props: any) {
+    const classes = useAuthStyles();
 
-const RegistrationPage: FC<any> = (props) => {
-    const [firstName, changeFirstName] = useState('');
-    const [lastName, changeLastName] = useState('');
-    const [city, changeCity] = useState('');
-    const [state, changeState] = useState('');
-    const [website, changeWebsite] = useState('');
-    const [email, changeEmail] = useState('');
-    const [password, changePassword] = useState('');
-    const [passwordConfirmation, changePasswordConfirmation] = useState('');
-    const [phoneNumber, changePhoneNumber] = useState('');
-    const [error, changeError] = useState('');
+    const { form, handleChange, resetForm, setInForm } = useForm({
+        firstName: '',
+        lastName: '',
+        city: '',
+        state: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        acceptTermsConditions: false
+    });
 
-    useEffect(() => {
-        changeError(props.error);
-    }, [props.error]);
-
-    async function handleSubmit(e: any) {
-        e.preventDefault();
-        if (password !== passwordConfirmation) {
-            changeError('Passwords Do Not Match');
-        } else {
-            // TODO: Add change gender
-            try {
-                await props.register({email, password, firstName, lastName, city, state, phoneNumber, gender: 'male'});
-                props.history.push('/organization');
-            } catch (err) {
-            }
-        }
+    function isFormValid() {
+        return (
+            form.firstName.length > 0 &&
+            form.lastName.length > 0 &&
+            form.email.length > 0 &&
+            form.password.length > 0 &&
+            form.password.length > 3 &&
+            form.city.length > 0 &&
+            form.state.length > 0 &&
+            form.password === form.passwordConfirm &&
+            form.acceptTermsConditions
+        );
     }
 
+    async function handleSubmit(ev: any) {
+        ev.preventDefault();
+        try {
+            console.log("SUBMIT")
+            const { email, password, firstName, lastName, city, state } = form;
+            await props.register({ email, password, firstName, lastName, city, state, phoneNumber: '1111111111', gender: 'male' });
+            resetForm();
+            props.history.push('/profile');
+        } catch (err) {
+        }
+    }
+    console.log(form)
     return (
-        <CardPageContainer>
-            <LoginCard>
-                <h1>Create A New Account</h1>
-                <Form error onSubmit={handleSubmit}>
-                    <AddressInput />
-                    <Form.Field>
-                        <label htmlFor='firstName'>First Name</label>
-                        <Input name={'firstName'} value={firstName} onChange={(e, {value}) => changeFirstName(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='lastName'>Last Name</label>
-                        <Input name={'lastName'} value={lastName} onChange={(e, {value}) => changeLastName(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='city'>City</label>
-                        <Input name={'city'} value={city} onChange={(e, {value}) => changeCity(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='state'>State</label>
-                        <Input name={'state'} value={state} onChange={(e, {value}) => changeState(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='phoneNumber'>Phone Number</label>
-                        <Input name={'phoneNumber'} value={phoneNumber} onChange={(e, {value}) => changePhoneNumber(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='website'>WebSite</label>
-                        <Input name={'website'} value={website} onChange={(e, {value}) => changeWebsite(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='email'>E-Mail</label>
-                        <Input name={'email'} value={email} onChange={(e, {value}) => changeEmail(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='password'>Password</label>
-                        <Input name={'password'} type={'password'} value={password} onChange={(e, {value}) => changePassword(value)}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor='passwordConfirmation'>Confirm Password</label>
-                        <Input name={'passwordConfirmation'} type={'password'} value={passwordConfirmation}
-                               onChange={(e, {value}) => changePasswordConfirmation(value)}/>
-                    </Form.Field>
-                    {error
-                        ? (<Message
-                            error
-                            header='Registration Error'
-                            content={error}
-                        />) : null
-                    }
+        <div className={clsx(classes.root, "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0")}>
 
-                    <Button type='submit'>Register</Button>
-                </Form>
-            </LoginCard>
-        </CardPageContainer>
+            <AuthPageSplash />
+
+            <Animate animation={{ translateX: [0, '100%'] }}>
+
+                <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
+
+                    <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-128 ">
+
+                        <Typography variant="h6" className="md:w-full mb-32">CREATE AN ACCOUNT</Typography>
+
+                        <form
+                            name="registerForm"
+                            noValidate
+                            className="flex flex-col justify-center w-full"
+                            onSubmit={handleSubmit}
+                        >
+
+                            <TextField
+                                className="mb-16"
+                                label="First Name"
+                                autoFocus
+                                type="firstName"
+                                name="firstName"
+                                value={form.firstName}
+                                onChange={handleChange}
+                                variant="outlined"
+                                required
+                            />
+
+                            <TextField
+                                className="mb-16"
+                                label="Last Name"
+                                autoFocus
+                                type="lastName"
+                                name="lastName"
+                                value={form.lastName}
+                                onChange={handleChange}
+                                variant="outlined"
+                                required
+                            />
+                            <AddressInput
+                                value={form.address}
+                                handleChange={(city: string, state: string) => {
+                                    setInForm('city', city)
+                                    setInForm('state', state)
+                                }}
+                            />
+                            <TextField
+                                className="mb-16"
+                                label="Email"
+                                type="email"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                variant="outlined"
+                                required
+                                fullWidth
+                            />
+
+                            <TextField
+                                className="mb-16"
+                                label="Password"
+                                type="password"
+                                name="password"
+                                value={form.password}
+                                onChange={handleChange}
+                                variant="outlined"
+                                required
+                                fullWidth
+                            />
+
+                            <TextField
+                                className="mb-16"
+                                label="Password (Confirm)"
+                                type="password"
+                                name="passwordConfirm"
+                                value={form.passwordConfirm}
+                                onChange={handleChange}
+                                variant="outlined"
+                                required
+                                fullWidth
+                            />
+
+                            <FormControl className="items-center">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name="acceptTermsConditions"
+                                            checked={form.acceptTermsConditions}
+                                            onChange={handleChange} />
+                                    }
+                                    label="I read and accept terms and conditions"
+                                />
+                            </FormControl>
+
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className="w-full mx-auto mt-16"
+                                aria-label="Register"
+                                disabled={!isFormValid()}
+                                type="submit"
+                            >
+                                CREATE AN ACCOUNT
+                            </Button>
+
+                        </form>
+
+                        <div className="flex flex-col items-center justify-center pt-32 pb-24">
+                            <span className="font-medium">Already have an account?</span>
+                            <Link className="font-medium" to="/login">Login</Link>
+                        </div>
+
+                    </CardContent>
+                </Card>
+            </Animate>
+        </div>
     );
-};
+}
 
-export default connect(null, {register})(withRouter(RegistrationPage));
+export default connect(null, {register})(RegistrationPage);

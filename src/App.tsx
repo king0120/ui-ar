@@ -1,20 +1,25 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import NavBar from './app/components/shared/Header';
 import Router from './Router';
-import {BrowserRouter, withRouter} from 'react-router-dom';
+import { BrowserRouter, withRouter } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
-import {ApolloProvider, useQuery} from '@apollo/react-hooks';
-import {GlobalContext} from './context/globalContext';
-import {create} from 'jss';
+import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { GlobalContext } from './context/globalContext';
+import { create } from 'jss';
 import jssExtend from 'jss-extend';
-import {jssPreset, StylesProvider, ThemeProvider} from '@material-ui/styles';
+import { jssPreset, StylesProvider, ThemeProvider, makeStyles } from '@material-ui/styles';
 import createGenerateClassName from '@material-ui/styles/createGenerateClassName';
 import theme from 'defaultTheme';
-import {createMuiTheme} from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core';
+import clsx from 'clsx';
+import FuseDialog from '@fuse/components/FuseDialog/FuseDialog';
+import FuseScrollbars from '@fuse/components/FuseScrollbars/FuseScrollbars';
+import FuseTheme from '@fuse/components/FuseTheme/FuseTheme';
 
 const token = localStorage.getItem('accessToken');
 const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql');
 
+const ScrollBars: any = FuseScrollbars;
 const client = new ApolloClient({
     headers: {
         'Authorization': token ? `Bearer ${token}` : '',
@@ -36,14 +41,63 @@ const jss = create({
 
 const generateClassName = createGenerateClassName();
 
+const useStyles = makeStyles((theme: any) => ({
+    root: {
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        '&.boxed': {
+            maxWidth: 1280,
+            margin: '0 auto',
+        },
+        '&.container': {
+            '& .container': {
+                maxWidth: 1120,
+                width: '100%',
+                margin: '0 auto'
+            },
+            '& .navigation': {}
+        }
+    },
+    content: {
+        display: 'flex',
+        overflow: 'auto',
+        flex: '1 1 auto',
+        flexDirection: 'column',
+        width: '100%',
+        '-webkit-overflow-scrolling': 'touch',
+        zIndex: 4
+    },
+    toolbarWrapper: {
+        display: 'flex',
+        position: 'relative',
+        zIndex: 5
+    },
+    toolbar: {
+        display: 'flex',
+        flex: '1 0 auto'
+    },
+    footerWrapper: {
+        position: 'relative',
+        zIndex: 5
+    },
+    footer: {
+        display: 'flex',
+        flex: '1 0 auto'
+    }
+}));
+
 declare const Chargebee: any;
 const App = (props: any) => {
-    const {data, loading} = useQuery(TOKEN_CHECK);
-    const {setUserId, setDisplayName} = useContext(GlobalContext);
+    const { data, loading } = useQuery(TOKEN_CHECK);
+    const { setUserId, setDisplayName } = useContext(GlobalContext);
     const [isHome, setIsHome] = useState(true);
 
     const muiTheme = createMuiTheme(theme)
-
+    const classes = useStyles(props);
     useEffect(() => {
         setIsHome(props.location.pathname === '/');
     }, [props.location.pathname]);
@@ -62,12 +116,19 @@ const App = (props: any) => {
         return (
             <>
                 <StylesProvider jss={jss} generateClassName={generateClassName}>
-                    <ThemeProvider theme={muiTheme}>
-                    <NavBar/>
-                    <div style={{marginTop: isHome ? 0 : 80}}>
-                        <Router/>
-                    </div>
-                    </ThemeProvider>
+                    <FuseTheme>
+                        <div id="fuse-layout" className={clsx(classes.root)}>
+                            <div className="flex flex-1 flex-col overflow-hidden relative">
+                                <ScrollBars className={classes.content} scrollToTopOnRouteChange>
+                                    <FuseDialog />
+                                    <NavBar />
+                                    <div className="flex flex-auto flex-col relative h-full">
+                                        <Router />
+                                    </div>
+                                </ScrollBars>
+                            </div>
+                        </div>
+                    </FuseTheme>
                 </StylesProvider>
             </>);
     }
@@ -77,7 +138,7 @@ const WithRouter = withRouter(App);
 const WithApollo = () => (
     <ApolloProvider client={client}>
         <BrowserRouter>
-            <WithRouter/>
+            <WithRouter />
         </BrowserRouter>
     </ApolloProvider>
 );

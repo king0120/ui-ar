@@ -1,13 +1,18 @@
-import React, {useState} from 'react';
-import {Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Typography} from '@material-ui/core';
-import {useSelector, useDispatch} from 'react-redux';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Typography } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-function UserMenu(props)
-{
+function UserMenu(props) {
     const dispatch = useDispatch();
-    const user = useSelector(({auth}) => auth.user);
-
+    const user = {
+        role: "member",
+        data: {
+            displayName: "JIM CHANGETHIS",
+            email: "NOTREAL@gmail.edu",
+            shortcuts: [],
+        }
+    }
     const [userMenu, setUserMenu] = useState(null);
 
     const userMenuClick = event => {
@@ -24,7 +29,7 @@ function UserMenu(props)
             <Button className="h-64" onClick={userMenuClick}>
                 {user.data.photoURL ?
                     (
-                        <Avatar className="" alt="user photo" src={user.data.photoURL}/>
+                        <Avatar className="" alt="user photo" src={user.data.photoURL} />
                     )
                     :
                     (
@@ -51,11 +56,11 @@ function UserMenu(props)
                 anchorEl={userMenu}
                 onClose={userMenuClose}
                 anchorOrigin={{
-                    vertical  : 'bottom',
+                    vertical: 'bottom',
                     horizontal: 'center'
                 }}
                 transformOrigin={{
-                    vertical  : 'top',
+                    vertical: 'top',
                     horizontal: 'center'
                 }}
                 classes={{
@@ -68,42 +73,42 @@ function UserMenu(props)
                             <ListItemIcon className="min-w-40">
                                 <Icon>lock</Icon>
                             </ListItemIcon>
-                            <ListItemText className="pl-0" primary="Login"/>
+                            <ListItemText className="pl-0" primary="Login" />
                         </MenuItem>
                         <MenuItem component={Link} to="/register">
                             <ListItemIcon className="min-w-40">
                                 <Icon>person_add</Icon>
                             </ListItemIcon>
-                            <ListItemText className="pl-0" primary="Register"/>
+                            <ListItemText className="pl-0" primary="Register" />
                         </MenuItem>
                     </React.Fragment>
                 ) : (
-                    <React.Fragment>
-                        <MenuItem component={Link} to="/pages/profile" onClick={userMenuClose}>
-                            <ListItemIcon className="min-w-40">
-                                <Icon>account_circle</Icon>
-                            </ListItemIcon>
-                            <ListItemText className="pl-0" primary="My Profile"/>
-                        </MenuItem>
-                        <MenuItem component={Link} to="/apps/mail" onClick={userMenuClose}>
-                            <ListItemIcon className="min-w-40">
-                                <Icon>mail</Icon>
-                            </ListItemIcon>
-                            <ListItemText className="pl-0" primary="Inbox"/>
-                        </MenuItem>
-                        <MenuItem
-                            onClick={() => {
-                                console.log("LOGOUT")
-                                userMenuClose();
-                            }}
-                        >
-                            <ListItemIcon className="min-w-40">
-                                <Icon>exit_to_app</Icon>
-                            </ListItemIcon>
-                            <ListItemText className="pl-0" primary="Logout"/>
-                        </MenuItem>
-                    </React.Fragment>
-                )}
+                        <React.Fragment>
+                            <MenuItem component={Link} to="/pages/profile" onClick={userMenuClose}>
+                                <ListItemIcon className="min-w-40">
+                                    <Icon>account_circle</Icon>
+                                </ListItemIcon>
+                                <ListItemText className="pl-0" primary="My Profile" />
+                            </MenuItem>
+                            <MenuItem component={Link} to="/apps/mail" onClick={userMenuClose}>
+                                <ListItemIcon className="min-w-40">
+                                    <Icon>mail</Icon>
+                                </ListItemIcon>
+                                <ListItemText className="pl-0" primary="Inbox" />
+                            </MenuItem>
+                            <MenuItem
+                                onClick={() => {
+                                    console.log("LOGOUT")
+                                    userMenuClose();
+                                }}
+                            >
+                                <ListItemIcon className="min-w-40">
+                                    <Icon>exit_to_app</Icon>
+                                </ListItemIcon>
+                                <ListItemText className="pl-0" primary="Logout" />
+                            </MenuItem>
+                        </React.Fragment>
+                    )}
             </Popover>
         </React.Fragment>
     );

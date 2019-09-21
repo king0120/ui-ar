@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 function FuseShortcuts(props)
 {
     const dispatch = useDispatch();
-    const shortcuts = useSelector(({auth}) => auth.user.data.shortcuts);
+    const shortcuts = [];
     const navigationData = useSelector(({fuse}) => fuse.navigation);
 
     const classes = useStyles(props);

@@ -16,7 +16,7 @@ import AuditionPage from "./app/pages/Audition/AuditionPage";
 import AuditionSearchPage from "./app/pages/Search/AuditionSearchPage";
 import MyAuditions from "./app/pages/Profile/MyAuditions";
 import {GlobalContext} from "./context/globalContext";
-import Login2Page from './app/pages/LoginPage2';
+import LoginPage from './app/pages/Auth/LogInPage';
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     return (
@@ -35,7 +35,7 @@ const AppRouter: FC<any> = (props) => {
             <Switch>
 
                 <Route exact path='/register' component={RegistrationPage}/>
-                <Route exact path='/login' component={Login2Page}/>
+                <Route exact path='/login' component={LoginPage}/>
                 <Route exact path='/passwordReset' component={PasswordResetPage}/>
                 <Route exact path='/passwordReset/:token' component={PasswordResetPage}/>
                 <Route exact path='/auditionResponse' component={AuditionResponse}/>

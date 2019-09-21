@@ -4,7 +4,7 @@ import ARLogo from '../../../static/arLogo.png';
 import styled from 'styled-components';
 import {Link, withRouter} from 'react-router-dom';
 import {GlobalContext} from "../../../context/globalContext";
-import NavbarLayout1 from 'app/fuse-layouts/layout1/components/NavbarLayout1';
+import ToolbarLayout1 from 'app/fuse-layouts/layout1/components/ToolbarLayout1';
 
 type IClickHandler = (event: SyntheticEvent, data: MenuItemProps) => void;
 
@@ -38,7 +38,7 @@ class Header extends Component<any, { activeItem?: string }> {
             window.location.reload();
         };
         return (
-            <NavbarLayout1 />            
+            <ToolbarLayout1 />            
         );
     }
 }

@@ -53,7 +53,8 @@ const RowExpansionTemplate = (data: any) => {
 export const ProjectTable: FC<any> = (props) => {
     const [expandedRows, setExpandedRows] = useState([])
     const organizationId = props.match.params.organizationId;
-    const {data} = useQuery(GET_PROJECTS_FOR_ORG, {variables: {organizationId}});
+    const {data, loading} = useQuery(GET_PROJECTS_FOR_ORG, {variables: {organizationId}});
+    if (loading) { return <></> }
     const projects = data.getAllProjects;
     return (<>
             <TableHeader>

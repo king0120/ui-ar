@@ -21,9 +21,11 @@ const DetailPageStyles = styled.div`
 const ProjectsDetailPage: FC<any> = ({match}) => {
     const {
         loading,
-        data: {getOneProject: project}
+        data
     }: any = useQuery(GET_PROJECT, {variables: {projectId: match!.params.projectId}})
 
+    if (loading) {return <></>}
+    const project = data.getOneProject
     return (
         <DetailPageStyles>
             {loading && <h1>Loading</h1>}

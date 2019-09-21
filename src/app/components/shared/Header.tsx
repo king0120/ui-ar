@@ -8,7 +8,7 @@ import ToolbarLayout1 from 'app/fuse-layouts/layout1/components/ToolbarLayout1';
 import makeStyles from '@material-ui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
-import { AppBar, Toolbar, Hidden } from '@material-ui/core';
+import { AppBar, Toolbar, Hidden, Button } from '@material-ui/core';
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
 import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
 import { FuseSearch } from '@fuse';
@@ -66,6 +66,13 @@ const Header = (props: any) => {
                     </div>
 
                     <div className="flex">
+
+                        <Button onClick={() => props.history.push('/search/actor')}>Actor
+                                     Search</Button>
+                        <div className={classes.separator} />
+                        <Button onClick={() => props.history.push('/search/audition')}>Audition
+                                     Search</Button>
+                        <div className={classes.separator} />
                         <FuseSearch />
                         <div className={classes.separator} />
                         <UserMenu />

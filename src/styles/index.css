@@ -97,4 +97,4 @@ form label {
 
 @import 'prism.css';
 
-@import 'tailwind.css';
+@import 'tailwind.base.css';

@@ -8,7 +8,6 @@ import AppContext from 'app/AppContext';
 import LeftSideLayout3 from './components/LeftSideLayout3';
 import ToolbarLayout3 from './components/ToolbarLayout3';
 import NavbarWrapperLayout3 from './components/NavbarWrapperLayout3';
-import FooterLayout3 from './components/FooterLayout3';
 import RightSideLayout3 from './components/RightSideLayout3';
 import SettingsPanel from 'app/fuse-layouts/shared-components/SettingsPanel';
 
@@ -103,18 +102,13 @@ function Layout3(props)
 
                                 {props.children}
 
-                                {config.footer.display && config.footer.style === 'static' && (
-                                    <FooterLayout3/>
-                                )}
+                                
 
                             </div>
 
                         </FuseScrollbars>
 
-                        {config.footer.display && config.footer.style === 'fixed' && (
-                            <FooterLayout3/>
-                        )}
-
+                        
                         <SettingsPanel/>
 
                     </div>

@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {Header, Tab} from 'semantic-ui-react';
 import ProjectTable from '../../components/organization/ProjectTable';
-import Calendar from '../../components/shared/Calendar';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {deleteOrganization} from '../../../redux/actions/organizationActions';
@@ -29,8 +28,7 @@ const OrganizationPage: FC<IProjectList> = ({deleteOrganization, history, match}
 
     const panes = [
         {menuItem: 'Project Dashboard', render: () => <ProjectTable/>},
-        {menuItem: 'Members', render: () => <MembersList/>},
-        {menuItem: 'Calendar', render: () => <Calendar/>},
+        {menuItem: 'Members', render: () => <MembersList/>}
     ];
 
     const organization = data && data.getOneOrganization;

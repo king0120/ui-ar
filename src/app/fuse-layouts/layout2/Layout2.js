@@ -8,7 +8,6 @@ import AppContext from 'app/AppContext';
 import LeftSideLayout2 from './components/LeftSideLayout2';
 import ToolbarLayout2 from './components/ToolbarLayout2';
 import NavbarWrapperLayout2 from './components/NavbarWrapperLayout2';
-import FooterLayout2 from './components/FooterLayout2';
 import RightSideLayout2 from './components/RightSideLayout2';
 import SettingsPanel from 'app/fuse-layouts/shared-components/SettingsPanel';
 
@@ -103,17 +102,9 @@ function Layout2(props)
 
                                 {props.children}
 
-                                {config.footer.display && config.footer.style === 'static' && (
-                                    <FooterLayout2/>
-                                )}
-
                             </div>
 
                         </FuseScrollbars>
-
-                        {config.footer.display && config.footer.style === 'fixed' && (
-                            <FooterLayout2/>
-                        )}
 
                         <SettingsPanel/>
 

@@ -46,7 +46,7 @@ const AppRouter: FC<any> = (props) => {
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions' component={MyAuditions}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/images' component={(props: any) => <ProfilePage tabIndex={2} {...props}/>}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId/images'
-                              component={(props: any) => <ProfilePage readOnly={true} tabIndex={2} {...props}/>}/>
+                              component={(props: any) => <ProfilePage readOnly={true} user={props.match.params.userId} tabIndex={2} {...props}/>}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile' component={ProfilePage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId'
                               component={(props: any) => <ProfilePage readOnly={true} {...props}/>}/>

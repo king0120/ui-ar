@@ -1,12 +1,12 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import ProfilePage from "../Profile/ProfilePage";
 import styled from "styled-components";
-import {Button, Dropdown, List, Tab} from 'semantic-ui-react';
+import { Button, Dropdown, List, Tab } from 'semantic-ui-react';
 import ProfileImagePage from "../Profile/ProfileImagePage";
 import NotesOnActor from "../../components/audition/NotesOnActor";
 import Flex from 'styled-flex-component';
 import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
-import {useLazyQuery, useMutation} from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 const UPDATE_TALENT_INSTANCE = require('../../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
@@ -32,14 +32,14 @@ const AuditionPageStyles = styled.div`
 `;
 
 const decisionOptions = [
-    {key: 'pending', text: 'None', value: 'pending'},
-    {key: 'no_thanks', text: 'No Thanks', value: 'no_thanks'},
-    {key: 'on_hold', text: 'On Hold', value: 'on_hold'},
-    {key: 'callback', text: 'Add To Callback', value: 'callback'},
-    {key: 'cast', text: 'Cast To SOMEONE', value: 'cast'},
+    { key: 'pending', text: 'None', value: 'pending' },
+    { key: 'no_thanks', text: 'No Thanks', value: 'no_thanks' },
+    { key: 'on_hold', text: 'On Hold', value: 'on_hold' },
+    { key: 'callback', text: 'Add To Callback', value: 'callback' },
+    { key: 'cast', text: 'Cast To SOMEONE', value: 'cast' },
 ];
 
-const TalentListSection: FC<any> = ({title, talentList, handleClick}) => {
+const TalentListSection: FC<any> = ({ title, talentList, handleClick }) => {
     return (
         <>
             <h3>{title}</h3>
@@ -63,21 +63,21 @@ const TalentListSection: FC<any> = ({title, talentList, handleClick}) => {
 };
 
 
-const AuditionPage: FC<any> = ({match}) => {
-    const {auditionId} = match.params;
+const AuditionPage: FC<any> = ({ match }) => {
+    const { auditionId } = match.params;
     const [currentlyViewing, setCurrentlyViewing] = useState(null);
     const [currentTalentId, setCurrentTalentId] = useState(null);
     const [decisionValue, setDecisionValue] = useState('');
-    const [getAudition, {loading, data}] = useLazyQuery(GET_AUDITION);
+    const [getAudition, { loading, data }] = useLazyQuery(GET_AUDITION);
     const [updateTalentInstance] = useMutation(UPDATE_TALENT_INSTANCE, {
         refetchQueries: [{
             query: GET_AUDITION,
-            variables: {auditionId}
+            variables: { auditionId }
         }]
     })
 
     useEffect(() => {
-        getAudition({variables: {auditionId}});
+        getAudition({ variables: { auditionId } });
     }, [getAudition, auditionId]);
 
     if (loading || !data) {
@@ -97,14 +97,6 @@ const AuditionPage: FC<any> = ({match}) => {
         setCurrentTalentId(selectedTalent.id);
     };
 
-    const panes = [
-        {
-            menuItem: "Profile",
-            render: () => <Tab.Pane><ProfilePage readOnly={true}
-                                                 match={{params: {userId: currentlyViewing}}}/></Tab.Pane>
-        }
-    ];
-
     return (
         <AuditionPageStyles>
             <div className="leftColumn">
@@ -112,17 +104,17 @@ const AuditionPage: FC<any> = ({match}) => {
                     projectId={match.params.projectId}
                     auditionId={match.params.auditionId}
                 />
-                <TalentListSection title='Pending' talentList={talent.pending} handleClick={handleTalentClick}/>
-                <TalentListSection title='Cast' talentList={talent['cast']} handleClick={handleTalentClick}/>
-                <TalentListSection title='Callback' talentList={talent['callback']} handleClick={handleTalentClick}/>
-                <TalentListSection title='On Hold' talentList={talent['on_hold']} handleClick={handleTalentClick}/>
-                <TalentListSection title='No Thanks' talentList={talent['no_thanks']} handleClick={handleTalentClick}/>
+                <TalentListSection title='Pending' talentList={talent.pending} handleClick={handleTalentClick} />
+                <TalentListSection title='Cast' talentList={talent['cast']} handleClick={handleTalentClick} />
+                <TalentListSection title='Callback' talentList={talent['callback']} handleClick={handleTalentClick} />
+                <TalentListSection title='On Hold' talentList={talent['on_hold']} handleClick={handleTalentClick} />
+                <TalentListSection title='No Thanks' talentList={talent['no_thanks']} handleClick={handleTalentClick} />
             </div>
             {currentlyViewing ? (
                 <>
                     <div className="middleColumn">
-                        <Tab panes={panes}/>
-
+                        <ProfilePage readOnly={true}
+                            match={{ params: { userId: currentlyViewing } }} />
                     </div>
                     <div className="rightColumn">
                         <h4>Casting Decision</h4>
@@ -138,14 +130,14 @@ const AuditionPage: FC<any> = ({match}) => {
                         </Flex>
                         <Button onClick={() => (changeDecision(currentTalentId))}>Submit Decision</Button>
                         <h4>Add Notes</h4>
-                        <NotesOnActor auditionId={data.getAudition.id} userId={currentlyViewing}/>
+                        <NotesOnActor auditionId={data.getAudition.id} userId={currentlyViewing} />
                     </div>
                 </>
             ) : (
-                <div>
-                    Click a name to the left to show their profile
+                    <div>
+                        Click a name to the left to show their profile
                 </div>
-            )}
+                )}
         </AuditionPageStyles>
     );
 };

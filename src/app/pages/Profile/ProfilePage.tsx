@@ -95,7 +95,7 @@ const ProfilePage: FC<any> = (props) => {
                     Coming Soon
                 </TabPanel>
                 <TabPanel value={selectedTab} index={2}>
-                    <ProfileImagePage readOnly={readOnly} />
+                    <ProfileImagePage userId={id} readOnly={readOnly} />
                 </TabPanel>
             </div>
         </div>

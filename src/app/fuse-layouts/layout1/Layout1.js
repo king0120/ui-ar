@@ -4,7 +4,6 @@ import {FuseScrollbars, FuseMessage, FuseDialog, FuseSuspense} from '@fuse';
 import {makeStyles} from '@material-ui/styles';
 import {useSelector} from 'react-redux';
 import ToolbarLayout1 from './components/ToolbarLayout1';
-import FooterLayout1 from './components/FooterLayout1';
 import LeftSideLayout1 from './components/LeftSideLayout1';
 import RightSideLayout1 from './components/RightSideLayout1';
 import NavbarWrapperLayout1 from './components/NavbarWrapperLayout1';
@@ -134,9 +133,6 @@ function Layout1(props)
 
                                     </div>
 
-                                    {config.footer.display && config.footer.position === 'below' && (
-                                        <FooterLayout1/>
-                                    )}
 
                                     <SettingsPanel/>
 
@@ -147,15 +143,9 @@ function Layout1(props)
                                 )}
                             </div>
 
-                            {config.footer.display && config.footer.style !== 'fixed' && config.footer.position === 'above' && (
-                                <FooterLayout1/>
-                            )}
 
                         </FuseScrollbars>
 
-                        {config.footer.display && config.footer.style === 'fixed' && config.footer.position === 'above' && (
-                            <FooterLayout1/>
-                        )}
 
                     </div>
 
@@ -207,14 +197,8 @@ function Layout1(props)
 
                                     {props.children}
 
-                                    {config.footer.display && config.footer.position === 'below' && config.footer.style !== 'fixed' && (
-                                        <FooterLayout1/>
-                                    )}
                                 </FuseScrollbars>
 
-                                {config.footer.display && config.footer.position === 'below' && config.footer.style === 'fixed' && (
-                                    <FooterLayout1/>
-                                )}
 
                                 <SettingsPanel/>
 
@@ -225,9 +209,6 @@ function Layout1(props)
                             )}
                         </div>
 
-                        {config.footer.display && config.footer.position === 'above' && (
-                            <FooterLayout1/>
-                        )}
                     </div>
 
                     {config.rightSidePanel.display && (

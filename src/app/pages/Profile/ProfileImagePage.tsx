@@ -5,7 +5,7 @@ import {
     uploadImage
 } from '../../../redux/actions/talentActions';
 import { Button, Header, Icon, Segment } from 'semantic-ui-react';
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import { GlobalContext } from "../../../context/globalContext";
 import { withRouter } from 'react-router';
 import LightboxModal from 'app/components/shared/LightboxModal';
@@ -18,38 +18,39 @@ const DELETE_IMAGE = require('../../../graphql/mutations/profile/DELETE_IMAGE.gq
 
 const useStyles = makeStyles({
     imageList: {
-      height: 300,
-      width: 300,
-      "object-fit": "scale-down"
+        height: 300,
+        width: 300,
+        "object-fit": "scale-down"
     },
 });
 
 const ProfileImagePage: FC<any> = (props) => {
     const classes = useStyles();
-    const { readOnly } = props;
+    const { readOnly, userId } = props;
     const [open, setOpen] = useState(false)
     const [currentIndex, setCurrentIndex] = useState(0)
-    const [getUser, { data, loading }] = useLazyQuery(GET_USER);
-    const { userId } = useContext(GlobalContext);
-
     
-    const refetch = {
+    const { data, loading } = useQuery(GET_USER, {variables: {id: userId}});
+    
+
+
+    const refetchQuery = {
         refetchQueries: [{
             query: GET_USER,
-            variables: { id: readOnly ? props.match.params.userId : userId }
+            variables: { id: userId }
         }]
     }
-    const [setProfile] = useMutation(SET_PROFILE, refetch)
-    const [deleteImage] = useMutation(DELETE_IMAGE, refetch)
+    const [setProfile] = useMutation(SET_PROFILE, refetchQuery)
+    const [deleteImage] = useMutation(DELETE_IMAGE, refetchQuery)
 
     const user = data && data.getUser;
 
     useEffect(() => {
         const id = readOnly ? props.match.params.userId : userId;
-        if (id) {
-            getUser({ variables: { id } })
-        }
-    }, [readOnly, userId, props.match.params.userId, getUser]);
+        // if (id) {
+        //     refetch({ id })
+        // }
+    }, [readOnly, userId, props.match.params.userId]);
 
     if (!data || loading) {
         return <h1>loading</h1>
@@ -64,16 +65,16 @@ const ProfileImagePage: FC<any> = (props) => {
                 currentIndex={currentIndex}
             />
             {!props.readOnly && <MyDropzone {...props} />}
-            <div className="flex justify-start" >
+            <div className="flex justify-start flex-wrap" >
                 {user.profileImages && user.profileImages.map((img: any, index: number) => (
                     <div className="p-10" key={img.s3key}>
-                        <img 
+                        <img
                             className={classes.imageList}
-                            src={img.url} 
+                            src={img.url}
                             onClick={() => {
                                 setOpen(true)
                                 setCurrentIndex(index)
-                            }} 
+                            }}
                         />
                         {!props.readOnly && (
                             <div>

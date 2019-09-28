@@ -2,14 +2,19 @@ import React, { FC, useEffect, useState } from 'react';
 import ProfilePage from "../Profile/ProfilePage";
 import styled from "styled-components";
 import { Button, Dropdown, List, Tab } from 'semantic-ui-react';
-import ProfileImagePage from "../Profile/ProfileImagePage";
 import NotesOnActor from "../../components/audition/NotesOnActor";
 import Flex from 'styled-flex-component';
 import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import WidgetNow from 'app/main/apps/dashboards/project/widgets/WidgetNow';
+import { FuseAnimateGroup } from '@fuse';
+import CastingDecision from './CastingDecision'
+import { Paper, Typography } from '@material-ui/core';
 
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 const UPDATE_TALENT_INSTANCE = require('../../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
+const AnimateGroup: any = FuseAnimateGroup
+
 
 const AuditionPageStyles = styled.div`
   display: flex;
@@ -31,7 +36,7 @@ const AuditionPageStyles = styled.div`
   }
 `;
 
-const decisionOptions = [
+export const decisionOptions = [
     { key: 'pending', text: 'None', value: 'pending' },
     { key: 'no_thanks', text: 'No Thanks', value: 'no_thanks' },
     { key: 'on_hold', text: 'On Hold', value: 'on_hold' },
@@ -117,20 +122,34 @@ const AuditionPage: FC<any> = ({ match }) => {
                             match={{ params: { userId: currentlyViewing } }} />
                     </div>
                     <div className="rightColumn">
-                        <h4>Casting Decision</h4>
-                        <Flex>
-                            <Dropdown
-                                selection
-                                name={'decision'}
-                                placeholder={'Select Talent Decision'}
-                                options={decisionOptions}
-                                value={decisionValue}
-                                onChange={(e, data) => setDecisionValue(data.value as string)}
-                            />
-                        </Flex>
-                        <Button onClick={() => (changeDecision(currentTalentId))}>Submit Decision</Button>
-                        <h4>Add Notes</h4>
-                        <NotesOnActor auditionId={data.getAudition.id} userId={currentlyViewing} />
+                        <AnimateGroup
+                            className="w-full"
+                            enter={{
+                                animation: "transition.slideUpBigIn"
+                            }}
+                        >
+                            <div className="widget w-full p-12">
+                                <CastingDecision
+                                    currentTalentId={currentTalentId}
+                                    changeDecision={changeDecision}
+                                    decisionValue={decisionValue}
+                                    setDecisionValue={setDecisionValue}
+                                />
+                            </div>
+                            <div className="widget w-full p-12">
+                                <Paper className="w-full rounded-8 shadow-none border-1">
+                                    <div className="flex items-center justify-between pr-4 pl-16 pt-4">
+                                        <Typography className="text-16">Add Notes</Typography>
+                                    </div>
+                                    <div className="px-24 py-16">
+                                        <NotesOnActor
+                                            auditionId={data.getAudition.id}
+                                            userId={currentlyViewing}
+                                        />
+                                    </div>
+                                </Paper>
+                            </div>
+                        </AnimateGroup>
                     </div>
                 </>
             ) : (

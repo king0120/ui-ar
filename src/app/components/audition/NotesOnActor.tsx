@@ -1,9 +1,12 @@
 import React, {FC} from 'react';
-import {Icon, List} from 'semantic-ui-react';
+// import {Icon, List} from 'semantic-ui-react';
+import { List, ListItemText, ListItem, ListItemSecondaryAction, IconButton } from '@material-ui/core'
 import {useMutation, useQuery} from '@apollo/react-hooks';
 import AddNoteForActor from './AddNoteForActor';
 import moment from "moment";
 import Flex from 'styled-flex-component';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 const GET_NOTES = require('../../../graphql/queries/GET_NOTES.gql');
 const REMOVE_NOTE = require('../../../graphql/mutations/REMOVE_NOTE.gql');
 
@@ -16,15 +19,14 @@ const NoteItem: FC<any> = ({note, userId}) => {
     const formattedUnixTime = Math.floor(note.createdAt / 1000);
     const date = moment.unix(formattedUnixTime).calendar();
     return (
-        <List.Item key={note.id}>
-            <Flex full justifyBetween alignCenter>
-                <div>
-                    <List.Header>{note.text}</List.Header>
-                    <List.Description>{date} during {note.audition.name}</List.Description>
-                </div>
-                <Icon float='right' name={'delete'} onClick={removeNote}/>
-            </Flex>
-        </List.Item>
+        <ListItem key={note.id}>
+             <ListItemText id={note.id} primary={note.text} secondary={`${date} during ${note.audition.name}`}/>
+             <ListItemSecondaryAction >
+              <IconButton onClick={() => removeNote()} edge="end" aria-label="comments">
+                <HighlightOffIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>
     );
 };
 
@@ -40,7 +42,7 @@ const NotesOnActor: FC<any> = ({userId, auditionId}) => {
     return (
         <div>
             <AddNoteForActor userId={userId} auditionId={auditionId}/>
-            <List divided relaxed>
+            <List>
                 {notes.map((note: any) => <NoteItem key={note.id} note={note} userId={userId}/>)}
             </List>
         </div>

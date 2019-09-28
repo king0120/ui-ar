@@ -65,7 +65,7 @@
     "start": "craco start -port 3001",
     "build": "craco build",
     "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.ts -o ./src/styles/tailwind.css",
-    "deploy": "yarn run tailwind && yarn build && aws s3 sync build/ s3://ar-react-app",
+    "deploy": "yarn build && aws s3 sync build/ s3://ar-react-app",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

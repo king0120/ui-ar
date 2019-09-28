@@ -1,32 +1,31 @@
-import React, {FC, useState} from 'react';
-import {Button, Form, Modal} from 'semantic-ui-react';
-import {Field, Form as FinalForm} from 'react-final-form';
+import React, { FC, useState } from 'react';
+import { Button, Form, Modal } from 'semantic-ui-react';
+import { Field, Form as FinalForm } from 'react-final-form';
 import DatePicker from 'react-datepicker';
 import AddressInput from "../shared/AddressInput";
-import {useMutation, useQuery} from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 const CREATE_AUDITION = require('../../../graphql/mutations/CREATE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 const GET_ALL_ROLES = require('../../../graphql/queries/roles/GET_ALL_ROLES.gql');
 
-const CreateAuditionModal: FC<any> = ({projectId}) => {
+const CreateAuditionModal: FC<any> = ({ projectId }) => {
     const refetchQueries = [{
         query: GET_AUDITIONS_FOR_PROJECT,
-        variables: {projectId}
+        variables: { projectId }
     }];
     const [open, setOpen] = useState(false)
     const [latLong, changeLatLong] = useState({} as any);
     const [address, changeAddress] = useState('');
     const [startDate, changeStartDate] = useState(new Date());
-    const [createAudition] = useMutation(CREATE_AUDITION, {refetchQueries});
-    const {data, loading} = useQuery(GET_ALL_ROLES, {variables: {projectId}});
-    const roles = data.getAllRoles;
-
+    const [createAudition] = useMutation(CREATE_AUDITION, { refetchQueries });
+    const { data, loading } = useQuery(GET_ALL_ROLES, { variables: { projectId } });
     if (loading) {
         return <h1>loading</h1>
     }
+    const roles = data.getAllRoles;
 
     const onSubmit = async (data: any) => {
-        const {status, question1, question2, question3, question4, question5, ...cleaned} = data;
+        const { status, question1, question2, question3, question4, question5, ...cleaned } = data;
         await createAudition({
             variables: {
                 projectId: projectId,
@@ -61,11 +60,11 @@ const CreateAuditionModal: FC<any> = ({projectId}) => {
                     <FinalForm
                         onSubmit={onSubmit}
                         initialValues={{}}
-                        render={({handleSubmit}) => (
+                        render={({ handleSubmit }) => (
                             <Form onSubmit={handleSubmit}>
                                 <Form.Field>
                                     <label>Audition Name</label>
-                                    <Field name={'name'} component={'input'} type={'text'}/>
+                                    <Field name={'name'} component={'input'} type={'text'} />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Audition Type</label>
@@ -115,15 +114,15 @@ const CreateAuditionModal: FC<any> = ({projectId}) => {
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Address</label>
-                                    <AddressInput handleChange={handleAddressChange}/>
+                                    <AddressInput handleChange={handleAddressChange} />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Date</label>
-                                    <DatePicker selected={startDate} onChange={(data: Date) => changeStartDate(data)}/>
+                                    <DatePicker selected={startDate} onChange={(data: Date) => changeStartDate(data)} />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Contact Phone Number</label>
-                                    <Field name={'phoneNumber'} component={'input'} type={'number'}/>
+                                    <Field name={'phoneNumber'} component={'input'} type={'number'} />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Audition Team</label>
@@ -133,19 +132,19 @@ const CreateAuditionModal: FC<any> = ({projectId}) => {
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Description</label>
-                                    <Field name={'description'} component={'textarea'}/>
+                                    <Field name={'description'} component={'textarea'} />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Audition Prep</label>
-                                    <Field name={'prep'} component={'textarea'}/>
+                                    <Field name={'prep'} component={'textarea'} />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Audition Questions</label>
-                                    <Field name={'question1'} component={'input'}/>
-                                    <Field name={'question2'} component={'input'}/>
-                                    <Field name={'question3'} component={'input'}/>
-                                    <Field name={'question4'} component={'input'}/>
-                                    <Field name={'question5'} component={'input'}/>
+                                    <Field name={'question1'} component={'input'} />
+                                    <Field name={'question2'} component={'input'} />
+                                    <Field name={'question3'} component={'input'} />
+                                    <Field name={'question4'} component={'input'} />
+                                    <Field name={'question5'} component={'input'} />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>For Role</label>

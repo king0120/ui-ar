@@ -1,7 +1,7 @@
 import {Reducer} from 'redux';
 
 const initialState = {
-    data: {},
+    data: [],
     count: 0
 };
 

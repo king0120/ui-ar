@@ -1,6 +1,5 @@
 import React, {FC, useCallback} from 'react';
 import {useDropzone} from "react-dropzone";
-import {StyleDropzone} from "../Profile/ProfileImagePage";
 import {Divider, Header, Icon, Loader, Segment, List} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {uploadDocument} from "../../../redux/actions/roleActions";
@@ -15,7 +14,7 @@ function MyDropzone(props: any) {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
     return (
-        <StyleDropzone {...getRootProps()}>
+        <div {...getRootProps()}>
             <Segment placeholder style={{width: '100%'}}>
                 <Header icon>
                     <Icon name='file image outline'/>
@@ -27,7 +26,7 @@ function MyDropzone(props: any) {
                 </Header>
                 <input {...getInputProps()} />
             </Segment>
-        </StyleDropzone>
+        </div>
     );
 }
 

@@ -1,32 +1,16 @@
-import React, { Component, SyntheticEvent, useContext } from 'react';
-import { Dropdown, Image, Menu, MenuItemProps } from 'semantic-ui-react';
-import ARLogo from '../../../static/arLogo.png';
+import React, { SyntheticEvent, useContext } from 'react';
+import { Menu, MenuItemProps } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { GlobalContext } from "../../../context/globalContext";
-import ToolbarLayout1 from 'app/fuse-layouts/layout1/components/ToolbarLayout1';
 import makeStyles from '@material-ui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 import { AppBar, Toolbar, Hidden, Button } from '@material-ui/core';
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
-import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
-import { FuseSearch } from '@fuse';
 import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
-import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
 
 type IClickHandler = (event: SyntheticEvent, data: MenuItemProps) => void;
-
-const StyledHeader = styled(Menu)`
-	&&& {
-	    position: fixed;
-	    width: 100%;
-	    z-index: 9999;
-	    top: 0;
-		border-radius: 0;
-		margin: 0;
-	}
-`;
 
 const useStyles = makeStyles((theme: any) => ({
     separator: {
@@ -72,8 +56,6 @@ const Header = (props: any) => {
                         <div className={classes.separator} />
                         <Button onClick={() => props.history.push('/search/audition')}>Audition
                                      Search</Button>
-                        <div className={classes.separator} />
-                        <FuseSearch />
                         <div className={classes.separator} />
                         <UserMenu />
                     </div>

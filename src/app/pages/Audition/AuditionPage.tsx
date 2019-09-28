@@ -102,11 +102,6 @@ const AuditionPage: FC<any> = ({match}) => {
             menuItem: "Profile",
             render: () => <Tab.Pane><ProfilePage readOnly={true}
                                                  match={{params: {userId: currentlyViewing}}}/></Tab.Pane>
-        },
-        {
-            menuItem: "Photos",
-            render: () => <Tab.Pane><ProfileImagePage readOnly={true}
-                                                      match={{params: {userId: currentlyViewing}}}/></Tab.Pane>
         }
     ];
 

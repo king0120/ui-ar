@@ -6,6 +6,7 @@ import { getFormState } from '../../../redux/store/reducers/finalFormReducer';
 import { addUserBreakdown } from '../../../redux/actions/talentActions';
 import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
 import { ListItem, List, Divider, ListItemText, ListItemIcon, Modal, makeStyles, createStyles, Theme } from '@material-ui/core';
+import LightboxModal from '../shared/LightboxModal';
 function rand() {
     return Math.round(Math.random() * 20) - 10;
 }
@@ -21,8 +22,9 @@ function getModalStyle() {
     };
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles((theme: Theme) => {
+    console.log(theme)
+    return createStyles({
         paper: {
             position: 'absolute',
             width: 800,
@@ -30,18 +32,21 @@ const useStyles = makeStyles((theme: Theme) =>
             boxShadow: theme.shadows[5],
             padding: theme.spacing(2, 4, 3),
         },
-    }),
-);
+        text: {
+            color: theme.palette.secondary.light
+        },
+        profilePic: {
+            height: 300,
+            width: 250,
+            borderRadius: 10,
+            "object-fit": "scale-down"
+        }
+    })
+});
 
 const ListItemLink = withRouter((props: any) => {
     return <ListItem button component="a" onClick={() => props.history.push(props.to)} {...props} />;
 })
-
-const ProfileSidebarStyle = styled(List)`
-    &&& {
-        width: 80%;
-    }
-`;
 
 const AttributesModal: FC<any> = (props) => {
     const classes = useStyles();
@@ -56,7 +61,11 @@ const AttributesModal: FC<any> = (props) => {
     return (
         <>
             <ListItemLink onClick={() => changeOpen(true)}>
-                <ListItemText primary="Experience/Skills" secondary="Update Recent Activity" />
+                <ListItemText
+                    classes={{ secondary: classes.text }}
+                    primary="Actor Breakdown"
+                    secondary="Update Your Character Types"
+                />
             </ListItemLink>
             <Modal onClose={() => changeOpen(false)} open={open}>
                 <div style={modalStyle} className={classes.paper}>
@@ -80,21 +89,24 @@ const handleUpgradeClick = () => {
 };
 
 const ProfileSidebar: FC<any> = (props: any) => {
-    const imagePageUrl = props.readOnly ? `/profile/${props.user.id}/images` : '/profile/images';
+    const classes = useStyles();
     let imageUrl = 'https://image.shutterstock.com/z/stock-vector-default-avatar-profile-icon-grey-photo-placeholder-518740741.jpg';
     if (props.user.profilePicture && props.user.profilePicture.url) {
         imageUrl = props.user.profilePicture && props.user.profilePicture.url;
     }
+    const [open, setOpen] = useState(false);
     return (
         <div>
+            <LightboxModal
+                open={open}
+                handleClose={() => setOpen(false)}
+                images={[{ src: imageUrl }]}
+            />
             <List component="nav" aria-label="">
                 <ListItem>
-                    <img src={imageUrl} className="rounded-lg w-7/12" />
+                    <img className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
                 </ListItem>
                 <AttributesModal {...props} />
-                <ListItemLink to={imagePageUrl}>
-                    <ListItemText primary="Additional Photos" secondary={props.readOnly ? 'See Additional Photos' : 'See and Upload Additional Photos'} />
-                </ListItemLink>
                 {/* <ListItemLink>
                     <ListItemText onClick={handleUpgradeClick} primary="Upgrade Account"/>
                 </ListItemLink> */}

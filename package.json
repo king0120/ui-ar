@@ -64,10 +64,10 @@
     "velocity-react": "^1.4.3"
   },
   "scripts": {
-    "start": "yarn run tailwind && craco start -port 3001",
+    "start": "craco start -port 3001",
     "build": "craco build",
-    "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.js -o ./src/styles/tailwind.css",
-    "deploy": "npm run build && aws s3 sync build/ s3://ar-react-app",
+    "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.ts -o ./src/styles/tailwind.css",
+    "deploy": "yarn run tailwind && yarn build && aws s3 sync build/ s3://ar-react-app",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
@@ -94,6 +94,7 @@
     "@types/redux-form": "^8.1.1",
     "@types/styled-components": "^4.1.14",
     "@types/webpack-env": "^1.13.9",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "webpack-bundle-analyzer": "^3.5.2"
   }
 }

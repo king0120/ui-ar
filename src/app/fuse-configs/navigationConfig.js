@@ -1,5 +1,3 @@
-import {MaterialUIComponentsNavigation} from 'app/main/documentation/material-ui-components/MaterialUIComponentsNavigation';;
-
 const navigationConfig = [
     {
         'id'      : 'applications',
@@ -777,7 +775,7 @@ const navigationConfig = [
                 'type'    : 'collapse',
                 'icon'    : 'layers',
                 'children': [
-                    ...MaterialUIComponentsNavigation
+
                 ]
             },
             {

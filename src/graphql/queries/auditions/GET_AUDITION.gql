@@ -24,7 +24,6 @@ query getAudition($auditionId: String!){
             decision
             user {
                 id
-                displayName
             }
         }
     }

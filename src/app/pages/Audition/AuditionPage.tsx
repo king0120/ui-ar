@@ -1,19 +1,24 @@
 import React, { FC, useEffect, useState } from 'react';
 import ProfilePage from "../Profile/ProfilePage";
 import styled from "styled-components";
-import { Button, Dropdown, List, Tab } from 'semantic-ui-react';
+import { Button, Dropdown, Tab } from 'semantic-ui-react';
 import NotesOnActor from "../../components/audition/NotesOnActor";
-import Flex from 'styled-flex-component';
 import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import WidgetNow from 'app/main/apps/dashboards/project/widgets/WidgetNow';
 import { FuseAnimateGroup } from '@fuse';
 import CastingDecision from './CastingDecision'
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography, Divider, makeStyles } from '@material-ui/core';
+import TalentListSection from './partials/TalentListSection';
 
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 const UPDATE_TALENT_INSTANCE = require('../../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
 const AnimateGroup: any = FuseAnimateGroup
+
+const useStyles = makeStyles({
+    divider: {
+        backgroundColor: 'white'
+    },
+});
 
 
 const AuditionPageStyles = styled.div`
@@ -25,8 +30,8 @@ const AuditionPageStyles = styled.div`
   .leftColumn {
     background: #1b1c1d;
     color: whitesmoke;
+    min-width: 300px;
     width: 15%;
-    padding: 15px;
   }
   .middleColumn {
      width: 65%;
@@ -44,31 +49,8 @@ export const decisionOptions = [
     { key: 'cast', text: 'Cast To SOMEONE', value: 'cast' },
 ];
 
-const TalentListSection: FC<any> = ({ title, talentList, handleClick }) => {
-    return (
-        <>
-            <h3>{title}</h3>
-            <List divided inverted relaxed>
-                {talentList && talentList.map((talent: any) => {
-                    return (
-                        <List.Item
-                            key={talent.id}
-                            onClick={() => handleClick(talent)}
-                        >
-                            <List.Content>
-                                {talent.user.displayName}
-                            </List.Content>
-                        </List.Item>
-                    );
-                })}
-                {talentList.length === 0 && <List.Item><List.Content>None</List.Content></List.Item>}
-            </List>
-        </>
-    );
-};
-
-
 const AuditionPage: FC<any> = ({ match }) => {
+    const classes = useStyles()
     const { auditionId } = match.params;
     const [currentlyViewing, setCurrentlyViewing] = useState(null);
     const [currentTalentId, setCurrentTalentId] = useState(null);
@@ -110,9 +92,13 @@ const AuditionPage: FC<any> = ({ match }) => {
                     auditionId={match.params.auditionId}
                 />
                 <TalentListSection title='Pending' talentList={talent.pending} handleClick={handleTalentClick} />
+                <Divider light={true} classes={{ root: classes.divider }} />
                 <TalentListSection title='Cast' talentList={talent['cast']} handleClick={handleTalentClick} />
+                <Divider light={true} classes={{ root: classes.divider }} />
                 <TalentListSection title='Callback' talentList={talent['callback']} handleClick={handleTalentClick} />
+                <Divider light={true} classes={{ root: classes.divider }} />
                 <TalentListSection title='On Hold' talentList={talent['on_hold']} handleClick={handleTalentClick} />
+                <Divider light={true} classes={{ root: classes.divider }} />
                 <TalentListSection title='No Thanks' talentList={talent['no_thanks']} handleClick={handleTalentClick} />
             </div>
             {currentlyViewing ? (

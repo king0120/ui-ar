@@ -15,6 +15,7 @@ import clsx from 'clsx';
 import FuseDialog from '@fuse/components/FuseDialog/FuseDialog';
 import FuseScrollbars from '@fuse/components/FuseScrollbars/FuseScrollbars';
 import FuseTheme from '@fuse/components/FuseTheme/FuseTheme';
+import { FuseLoading } from '@fuse';
 
 const token = localStorage.getItem('accessToken');
 const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql');
@@ -110,7 +111,7 @@ const App = (props: any) => {
         }
     }, [data, setUserId, loading, setDisplayName]);
     if (loading) {
-        return <h1>Loading</h1>;
+        return <FuseLoading/>;
     } else {
         return (
             <>

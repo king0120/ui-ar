@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-const AnimateGroup: any = FuseAnimateGroup
+export const AnimateGroup: any = FuseAnimateGroup
 function ActorSearchResults(props: any) {
   const classes = useStyles();
   return (

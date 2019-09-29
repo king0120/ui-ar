@@ -29,9 +29,9 @@ const ProfileImagePage: FC<any> = (props) => {
     const { readOnly, userId } = props;
     const [open, setOpen] = useState(false)
     const [currentIndex, setCurrentIndex] = useState(0)
-    
-    const { data, loading, refetch } = useQuery(GET_USER, {variables: {id: userId}});
-    
+
+    const { data, loading, refetch } = useQuery(GET_USER, { variables: { id: userId } });
+
 
 
     const refetchQuery = {
@@ -64,7 +64,7 @@ const ProfileImagePage: FC<any> = (props) => {
                 images={user.profileImages.map((p: any) => ({ src: p.url }))}
                 currentIndex={currentIndex}
             />
-            {!props.readOnly && <MyDropzone {...props} refetch={refetch}  />}
+            {!props.readOnly && <MyDropzone {...props} refetch={refetch} />}
             <div className="flex justify-start flex-wrap" >
                 {user.profileImages && user.profileImages.map((img: any, index: number) => (
                     <div className="p-10" key={img.s3key}>

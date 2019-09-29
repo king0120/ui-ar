@@ -4,6 +4,7 @@ import { Field, Form as FinalForm } from 'react-final-form';
 import DatePicker from 'react-datepicker';
 import AddressInput from "../shared/AddressInput";
 import { useMutation, useQuery } from "@apollo/react-hooks";
+import { FuseLoading } from '@fuse';
 const CREATE_AUDITION = require('../../../graphql/mutations/CREATE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 const GET_ALL_ROLES = require('../../../graphql/queries/roles/GET_ALL_ROLES.gql');
@@ -20,7 +21,7 @@ const CreateAuditionModal: FC<any> = ({ projectId }) => {
     const [createAudition] = useMutation(CREATE_AUDITION, { refetchQueries });
     const { data, loading } = useQuery(GET_ALL_ROLES, { variables: { projectId } });
     if (loading) {
-        return <h1>loading</h1>
+        return <FuseLoading />
     }
     const roles = data.getAllRoles;
 

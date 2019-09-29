@@ -7,8 +7,7 @@ const ADD_NOTE = require('../../../graphql/mutations/ADD_NOTE.gql');
 const GET_NOTES = require('../../../graphql/queries/GET_NOTES.gql');
 
 const AddNoteForActor: FC<any> = ({ userId, auditionId }) => {
-    const [text, setText] = useState('');
-    const { form, handleChange, resetForm, setInForm } = useForm({
+    const { form, handleChange, resetForm } = useForm({
         note: ''
     });
     const variables = { input: { for: userId, audition: auditionId, text: form.note } };
@@ -40,13 +39,6 @@ const AddNoteForActor: FC<any> = ({ userId, auditionId }) => {
             />
             <Button type="submit" className="mt-6" variant="contained" size="small" color="primary">Add Note</Button>
         </form>
-        // <Form onSubmit={handleSubmit}>
-        //     <Form.Field>
-        //         <input placeholder="Add Notes Here..." value={text} onChange={(e) => setText(e.target.value)} />
-        //     </Form.Field>
-        //     <Button type={'submit'}>Add
-        //         Note</Button>
-        // </Form>
     );
 };
 

@@ -33,16 +33,22 @@ const AppRouter: FC<any> = (props) => {
     const loggedIn = userId !== 'none'
     return (
             <Switch>
-
+                {/* Login Related */}
                 <Route exact path='/register' component={RegistrationPage}/>
                 <Route exact path='/login' component={LoginPage}/>
                 <Route exact path='/passwordReset' component={PasswordResetPage}/>
                 <Route exact path='/passwordReset/:token' component={PasswordResetPage}/>
+
                 <Route exact path='/auditionResponse' component={AuditionResponse}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/settings' component={SettingsPage}/>
+
+                {/* Search */}
                 <PrivateRoute loggedIn={loggedIn} exact path='/search/actor' component={ActorSearchPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/search/audition' component={AuditionSearchPage}/>
+
                 <PrivateRoute loggedIn={loggedIn} exact path='/organization' component={OrgSelectPage}/>
+
+                {/* User */}
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions' component={MyAuditions}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/images' component={(props: any) => <ProfilePage tabIndex={2} {...props}/>}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId/images'
@@ -50,6 +56,7 @@ const AppRouter: FC<any> = (props) => {
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile' component={ProfilePage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId'
                               component={(props: any) => <ProfilePage readOnly={true} {...props}/>}/>
+                {/* Project/Org */}
                 <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects'
                               component={ProjectsList}/>
                 <PrivateRoute loggedIn={loggedIn} exact
@@ -59,6 +66,7 @@ const AppRouter: FC<any> = (props) => {
                               component={AuditionManagerPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/projects/:projectId/roles/:roleId'
                               component={RoleBreakdownDetailPage}/>
+                              
                 <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId'
                               component={ProjectsDetailPage}/>
                 <PrivateRoute loggedIn={loggedIn} path='/' component={ProfilePage}/>

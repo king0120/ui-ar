@@ -1,0 +1,6 @@
+mutation closeAudition($auditionId: String!) {
+    closeAudition(auditionId: $auditionId){
+      id
+    }
+  }
+   

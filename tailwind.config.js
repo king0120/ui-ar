@@ -659,7 +659,8 @@ module.exports = {
                 'auto': 'auto',
                 ...theme('spacing'),
                 full  : '100%',
-                screen: '100vh'
+                screen: '100vh',
+                half: '50vh',
             }),
             minWidth          : theme => ({
                 ...theme('spacing'),

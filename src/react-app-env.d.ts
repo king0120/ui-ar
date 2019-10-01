@@ -11,3 +11,5 @@ declare module '*.mp4' {
 declare module 'jss-extend';
 
 declare module 'react-images'
+
+declare module 'material-ui-phone-number'

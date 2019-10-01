@@ -16,6 +16,8 @@ import FuseDialog from '@fuse/components/FuseDialog/FuseDialog';
 import FuseScrollbars from '@fuse/components/FuseScrollbars/FuseScrollbars';
 import FuseTheme from '@fuse/components/FuseTheme/FuseTheme';
 import { FuseLoading } from '@fuse';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 const token = localStorage.getItem('accessToken');
 const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql');
@@ -111,7 +113,7 @@ const App = (props: any) => {
         }
     }, [data, setUserId, loading, setDisplayName]);
     if (loading) {
-        return <FuseLoading/>;
+        return <FuseLoading />;
     } else {
         return (
             <>
@@ -136,11 +138,13 @@ const App = (props: any) => {
 
 const WithRouter = withRouter(App);
 const WithApollo = () => (
-    <ApolloProvider client={client}>
-        <BrowserRouter>
-            <WithRouter />
-        </BrowserRouter>
-    </ApolloProvider>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+        <ApolloProvider client={client}>
+            <BrowserRouter>
+                <WithRouter />
+            </BrowserRouter>
+        </ApolloProvider>
+    </MuiPickersUtilsProvider>
 );
 
 export default WithApollo;

@@ -4,5 +4,6 @@ query getAuditionsForProject($projectId: String!){
         name
         startDate
         auditionType
+        open
     }
 }

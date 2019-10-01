@@ -1,14 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
 import ProfilePage from "../Profile/ProfilePage";
 import styled from "styled-components";
-import { Button, Dropdown, Tab } from 'semantic-ui-react';
 import NotesOnActor from "../../components/audition/NotesOnActor";
 import AddTalentToActiveAudition from '../../components/audition/AddTalentToActiveAudition';
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { FuseAnimateGroup } from '@fuse';
 import CastingDecision from './CastingDecision'
-import { Paper, Typography, Divider, makeStyles } from '@material-ui/core';
+import { Paper, Typography, Divider, makeStyles, Button } from '@material-ui/core';
 import TalentListSection from './partials/TalentListSection';
+import CloseAuditionModal from './partials/CloseAuditionModal';
 
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 const UPDATE_TALENT_INSTANCE = require('../../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
@@ -87,10 +87,17 @@ const AuditionPage: FC<any> = ({ match }) => {
     return (
         <AuditionPageStyles>
             <div className="leftColumn">
-                <AddTalentToActiveAudition
-                    projectId={match.params.projectId}
-                    auditionId={match.params.auditionId}
-                />
+                <div className="flex justify-between p-5">
+                    <AddTalentToActiveAudition
+                        projectId={match.params.projectId}
+                        auditionId={match.params.auditionId}
+                    />
+                    <CloseAuditionModal
+                        projectId={match.params.projectId}
+                        auditionId={match.params.auditionId}
+                        talent={talent}
+                    />
+                </div>
                 <TalentListSection title='Pending' talentList={talent.pending} handleClick={handleTalentClick} />
                 <Divider light={true} classes={{ root: classes.divider }} />
                 <TalentListSection title='Cast' talentList={talent['cast']} handleClick={handleTalentClick} />

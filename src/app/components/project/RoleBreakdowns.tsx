@@ -74,7 +74,7 @@ const RoleBreakdowns: FC<any> = ({projectId, projectName, createProjectRole, del
     if (loading) {
         return <h1>Loading</h1>
     }
-    const roles = data.getAllRoles
+    const roles = data && data.getAllRoles
     return (
         <Container>
             <div className='role-header'>

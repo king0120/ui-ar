@@ -1,12 +1,10 @@
-import React, { SyntheticEvent, useContext } from 'react';
-import { MenuItemProps } from 'semantic-ui-react';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { GlobalContext } from "../../../context/globalContext";
 import makeStyles from '@material-ui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
-import { AppBar, Toolbar, Hidden, Button } from '@material-ui/core';
-import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
 import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
 
 const useStyles = makeStyles((theme: any) => ({
@@ -18,7 +16,6 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 const Header = (props: any) => {
-    const config = useSelector<any, any>(({ fuse }) => fuse.settings.current.layout.config);
     const toolbarTheme = useSelector<any, any>(({ fuse }) => fuse.settings.toolbarTheme);
 
     const classes = useStyles(props);
@@ -60,51 +57,3 @@ const HooksWrapper = (props: any) => {
 }
 
 export default withRouter(HooksWrapper);
-
-// <StyledHeader inverted>
-//                 <Menu.Item>
-//                     <Link to='/'>
-//                         <Image src={ARLogo}/>
-//                     </Link>
-//                 </Menu.Item>
-
-//                 <Menu.Menu position='right'>
-//                     {this.props.userId !== 'none'
-//                         ? (
-//                             <>
-//                                 <Menu.Item onClick={() => this.props.history.push('/search/actor')}>Actor
-//                                     Search</Menu.Item>
-//                                 <Menu.Item onClick={() => this.props.history.push('/search/audition')}>Audition
-//                                     Search</Menu.Item>
-//                                 <Menu.Item onClick={() => this.props.history.push('/profile/auditions')}>My
-//                                     Auditions</Menu.Item>
-//                                 <Dropdown as={Menu.Item} text={this.props.displayName}>
-//                                     <Dropdown.Menu>
-//                                         <Dropdown.Item onClick={() => this.props.history.push('/profile')}>View
-//                                             Profile</Dropdown.Item>
-//                                         <Dropdown.Item onClick={() => this.props.history.push('/profile')}>My
-//                                             Notifications</Dropdown.Item>
-//                                         <Dropdown.Item onClick={() => this.props.history.push('/organization')}>Casting
-//                                             Dashboard</Dropdown.Item>
-//                                         <Dropdown.Item
-//                                             onClick={() => this.props.history.push('/settings')}>Settings</Dropdown.Item>
-//                                         <Dropdown.Item onClick={logOut}>Sign Out</Dropdown.Item>
-//                                     </Dropdown.Menu>
-//                                 </Dropdown>
-//                             </>
-//                         )
-//                         : (
-//                             <>
-//                                 <Menu.Item name='sign-in' active={activeItem === 'sign-in'}
-//                                            onClick={() => this.props.history.push('/register')}>
-//                                     Register
-//                                 </Menu.Item>
-//                                 <Menu.Item name='sign-in' active={activeItem === 'sign-in'}
-//                                            onClick={() => this.props.history.push('/login')}>
-//                                     Sign-in
-//                                 </Menu.Item>
-//                             </>
-//                         )
-//                     }
-//                 </Menu.Menu>
-//             </StyledHeader>

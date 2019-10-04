@@ -8,7 +8,6 @@ interface ILightboxModal {
   currentIndex?: number;
 }
 const styleFn = (styleObj: any) => ({ ...styleObj, zIndex: 100 })
-const marginFn = (styleObj: any) => ({ ...styleObj, margin: '0 auto' })
 
 const LightboxModal: FC<ILightboxModal> = (props) => {
   const { open, handleClose, images, currentIndex } = props

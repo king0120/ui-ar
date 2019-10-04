@@ -46,7 +46,6 @@ function LockPage()
                             <div className="w-full flex flex-col items-center justify-center sm:flex-row sm:justify-start sm:items-center">
 
                                 <div className="relative mr-16">
-                                    <Avatar className="w-72 h-72" src="assets/images/avatars/katherine.jpg"/>
                                     <Icon className="text-32 absolute right-0 bottom-0" color="error">lock</Icon>
                                 </div>
 

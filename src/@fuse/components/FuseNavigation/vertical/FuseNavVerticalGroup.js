@@ -1,11 +1,9 @@
 import React from 'react';
 import { ListSubheader } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { FuseUtils } from '@fuse';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import FuseNavVerticalCollapse from './FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';

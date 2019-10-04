@@ -5,15 +5,6 @@ function DemoContent()
     return (
         <div>
 
-            <img
-                src="assets/images/demo-content/morain-lake.jpg"
-                alt="beach"
-                style={{
-                    maxWidth: '640px',
-                    width   : '100%'
-                }}
-            />
-
             <h1 className="py-16">Early Sunrise</h1>
             <h4 className="pb-12">Demo Content</h4>
 

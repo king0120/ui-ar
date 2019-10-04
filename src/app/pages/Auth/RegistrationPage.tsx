@@ -39,7 +39,6 @@ function RegistrationPage(props: any) {
     async function handleSubmit(ev: any) {
         ev.preventDefault();
         try {
-            console.log("SUBMIT")
             const { email, password, firstName, lastName, city, state } = form;
             await props.register({ email, password, firstName, lastName, city, state, phoneNumber: '1111111111', gender: 'male' });
             resetForm();

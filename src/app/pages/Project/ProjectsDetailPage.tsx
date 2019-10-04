@@ -1,77 +1,154 @@
-import React, {FC} from 'react';
-import ProjectSidebar from '../../components/project/ProjectSidebar';
+import React, { FC } from 'react';
 import styled from 'styled-components';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import RoleBreakdowns from '../../components/project/RoleBreakdowns';
 import Auditions from '../Audition/Auditions';
-import {Dashboard} from '../../components/project/ProjectsDetailDashboard';
-import {useQuery} from "@apollo/react-hooks";
+import { Dashboard } from '../../components/project/ProjectsDetailDashboard';
+import { useQuery } from "@apollo/react-hooks";
 import CreateAudition from '../Audition/CreateAudition';
+import { FuseNavigation } from '@fuse';
+import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+
 
 const GET_PROJECT = require('../../../graphql/queries/projects/GET_PROJECT.gql');
+const TsFuseNavigation: any = FuseNavigation
 const DetailPageStyles = styled.div`
   display: flex;
   width: 100%;
+  min-height: 100vh;
   position: relative;
 
   .displayDashboard {
     margin: 10px;
   }
 `;
+const navbarWidth = 280
+const useStyles = makeStyles((theme: Theme) => ({
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        zIndex: 4,
+        [theme.breakpoints.up('lg')]: {
+            width: navbarWidth,
+            minWidth: navbarWidth
+        }
+    },
+    wrapperFolded: {
+        background: theme.palette.secondary.dark,
+        [theme.breakpoints.up('lg')]: {
+            width: 64,
+            minWidth: 64
+        }
+    },
+    navbar: {
+        display: 'flex',
+        overflow: 'hidden',
+        flexDirection: 'column',
+        flex: '1 1 auto',
+        width: navbarWidth,
+        minWidth: navbarWidth,
+        height: '100%',
+        zIndex: 4,
+        transition: theme.transitions.create(['width', 'min-width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.shorter
+        }),
+        boxShadow: theme.shadows[3]
+    }
+}));
 
-const ProjectsDetailPage: FC<any> = ({match}) => {
+const buildNav = (path: string) => [{
+    'id': 'dashboard',
+    'title': 'Dashboard',
+    'type': 'item',
+    'icon': 'dashboard',
+    'url': `${path}/dashboard`
+}, {
+    'id': 'role',
+    'title': 'Role Breakdown',
+    'type': 'item',
+    'icon': 'face',
+    'url': `${path}/roles`
+}, {
+    'id': 'audition',
+    'title': 'Auditions',
+    'type': 'item',
+    'icon': 'calendar_today',
+    'url': `${path}/auditions`
+}, {
+    'id': 'teams',
+    'title': 'Project Teams',
+    'type': 'item',
+    'icon': 'group',
+    'url': `${path}/teams`
+}, {
+    'id': 'messaging',
+    'title': 'Messaging',
+    'type': 'item',
+    'icon': 'chat',
+    'url': `${path}/messaging`
+}]
 
+const ProjectsDetailPage: FC<any> = ({ match }) => {
+    const active = useSelector(({fuse}: any) => fuse.navbar.mobileOpen);
+    const classes = useStyles()
     const {
         loading,
         data,
         error
-    }: any = useQuery(GET_PROJECT, {variables: {projectId: match!.params.projectId}})
+    }: any = useQuery(GET_PROJECT, { variables: { projectId: match!.params.projectId } })
 
-    if (loading) {return <></>}
-    if (error) {return <p>error</p>}
+    if (loading) { return <></> }
+    if (error) { return <p>error</p> }
     const project = data.getOneProject
+    const baseUrl = `/organization/${match.params.organizationId}/projects/${match.params.projectId}`
+    const navigation = buildNav(baseUrl)
     return (
         <DetailPageStyles>
             {loading && <h1>Loading</h1>}
             {!loading && (
-                 <>
-                    <ProjectSidebar/>
+                <>
+                    <div className={classes.wrapper}>
+                        <TsFuseNavigation active={active} className={classes.navbar} layout="vertical" navigation={navigation} />
+                    </div>
                     <div className='detail-view w-full'>
-                        <Route 
+                        <Route
                             path={`${match!.path}/dashboard`}
-                            component={(props: any) => <Dashboard projectId={match.params.projectId} {...props}/>}
+                            component={(props: any) => <Dashboard projectId={match.params.projectId} {...props} />}
                         />
-                        <Route 
+                        <Route
                             path={`${match!.path}/roles`}
                             component={(props: any) => (
-                                <RoleBreakdowns 
-                                    projectName={project.name} 
-                                    projectId={match.params.projectId} 
+                                <RoleBreakdowns
+                                    projectName={project.name}
+                                    projectId={match.params.projectId}
                                     {...props}
                                 />
                             )}
                         />
-                        <Route 
+                        <Route
                             path={`${match!.path}/createAudition`}
                             component={(props: any) => (
-                                <CreateAudition 
+                                <CreateAudition
                                     projectName={project.name}
-                                    projectId={match.params.projectId} 
-                                    {...props}/>
-                                )}
+                                    projectId={match.params.projectId}
+                                    {...props} />
+                            )}
                         />
-                        <Route 
+                        <Route
                             path={`${match!.path}/auditions`}
                             component={(props: any) => (
-                                <Auditions 
+                                <Auditions
                                     projectName={project.name}
                                     projectId={match.params.projectId} {...props}
                                 />
                             )}
                         />
-                        
-                        <Route path={`${match!.path}/teams`} component={(props: any) => <h1>Cast</h1>}/>
-                        <Route path={`${match!.path}/messaging`} component={(props: any) => <h1>Messaging</h1>}/>
+
+                        <Route path={`${match!.path}/teams`} component={(props: any) => <h1>Cast</h1>} />
+                        <Route path={`${match!.path}/messaging`} component={(props: any) => <h1>Messaging</h1>} />
                     </div>
 
                 </>

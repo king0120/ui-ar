@@ -1,10 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Icon, Typography, Paper, IconButton, Select, MenuItem, Button } from '@material-ui/core';
-import { decisionOptions } from './AuditionPage'
+import React from 'react';
+import { Typography, Paper, Select, MenuItem, Button } from '@material-ui/core';
+
+export let decisionOptions = [
+  { key: 'pending', text: 'None', value: 'pending' },
+  { key: 'no_thanks', text: 'No Thanks', value: 'no_thanks' },
+  { key: 'on_hold', text: 'On Hold', value: 'on_hold' },
+  { key: 'callback', text: 'Add To Callback', value: 'callback' },
+];
 
 function CastingDecision(props: any) {
-  const { currentTalentId, changeDecision, decisionValue, setDecisionValue } = props
+  const { currentTalentId, changeDecision, decisionValue, setDecisionValue, forRoles } = props
 
+  const roleOptions = forRoles.map((role: any) => {
+    return {
+      key: role.id, text: `Cast To ${role.characterName}`, value: role.id
+    }
+  })
 
   return (
     <Paper className="w-full rounded-8 shadow-none border-1">
@@ -20,7 +31,7 @@ function CastingDecision(props: any) {
           value={decisionValue}
           onChange={(e: any) => setDecisionValue(e.target.value as string)}
         >
-          {decisionOptions.map((option: any) => (
+          {[...decisionOptions, ...roleOptions].map((option: any) => (
             <MenuItem key={option.key} value={option.value}>{option.text}</MenuItem>
           ))}
         </Select>

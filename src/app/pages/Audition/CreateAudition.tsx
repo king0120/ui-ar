@@ -1,12 +1,7 @@
 import React, { FC, useState } from 'react';
-import { Form, Modal } from 'semantic-ui-react';
-import { Field, Form as FinalForm } from 'react-final-form';
-import DatePicker from 'react-datepicker';
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { FuseLoading } from '@fuse';
-import AddressInput from 'app/components/shared/AddressInput';
 import { useForm } from '@fuse/hooks';
-import { TextField, Radio, Button,  Checkbox, Paper, makeStyles, Theme, Typography, Stepper, StepLabel, Step } from '@material-ui/core';
+import { Button, Paper, makeStyles, Theme, Typography, Stepper, StepLabel, Step } from '@material-ui/core';
 import AuditionDetails from './createAuditionForms/AuditionDetails';
 import AuditionType from './createAuditionForms/AuditionType';
 import AdditionalDetails from './createAuditionForms/AdditionalDetails';
@@ -53,9 +48,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-const CreateAudition: FC<any> = ({ match }) => {
+const CreateAudition: FC<any> = ({ match, history }) => {
     const classes = useStyles()
-    const { projectId } = match.params;
+    const { projectId, organizationId } = match.params;
     const refetchQueries = [{
         query: GET_AUDITIONS_FOR_PROJECT,
         variables: { projectId }
@@ -63,30 +58,42 @@ const CreateAudition: FC<any> = ({ match }) => {
     const [open, setOpen] = useState(false)
     const [latLong, changeLatLong] = useState({} as any);
     const [address, changeAddress] = useState('');
-    const [startDate, changeStartDate] = useState(new Date());
+    const [selectedDate, setNewDate] = React.useState(new Date());
     const [createAudition] = useMutation(CREATE_AUDITION, { refetchQueries });
     const { data, loading } = useQuery(GET_ALL_ROLES, { variables: { projectId } });
-
-    const {form, handleChange, resetForm} = useForm({
-
+    const [selectedValue, setSelectedValue] = React.useState('general');
+    const [phone, setPhone] = React.useState(undefined);
+    const [privateAudition, setPrivate] = React.useState(false);
+    const [cloneAuditions, setCloneAuditions] = useState([])
+    const [forRoles, setForRoles] = useState([])
+    const { form, handleChange, resetForm } = useForm({
+        name: '',
+        description: '',
+        prep: ''
     })
-    const onSubmit = async (data: any) => {
-        const { status, question1, question2, question3, question4, question5, ...cleaned } = data;
+    const onSubmit = async (data?: any) => {
+        const newAudition = {
+            name: form.name,
+            ...latLong,
+            address,
+            startDate: selectedDate,
+            auditionType: selectedValue,
+            private: privateAudition,
+            phoneNumber: "1111111111",
+            description: form.description,
+            prep: form.prep,
+            forRoles: forRoles,
+            questions: [], //TODO ADD THIS,
+            cloneAuditions
+        }
+        // const { status, question1, question2, question3, question4, question5, ...cleaned } = data;
         await createAudition({
             variables: {
                 projectId: projectId,
-                audition: {
-                    ...cleaned,
-                    lat: latLong.lat,
-                    long: latLong.long,
-                    private: status === "private",
-                    address,
-                    startDate,
-                    questions: [question1, question2, question3, question4, question5].filter(Boolean)
-                }
+                audition: newAudition
             }
         });
-        setOpen(false)
+        history.push(`/organization/${organizationId}/projects/${projectId}/auditions`)
     };
 
     const handleAddressChange = (addressObject: any) => {
@@ -101,25 +108,25 @@ const CreateAudition: FC<any> = ({ match }) => {
         ev.preventDefault();
         resetForm();
     }
-    const [selectedValue, setSelectedValue] = React.useState('general');
-    const [selectedDate, setNewDate] = React.useState(new Date());
-    const [phone, setPhone] = React.useState(undefined);
-    const [privateAudition, setPrivate] = React.useState(false);
 
-    const steps = ['Audition Details', 'More Details', 'Review your order', 'Choose Roles', 'Invite Actors'];
+    const steps = ['Audition Details', 'More Details', 'Choose Roles']
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
-      setActiveStep(activeStep + 1);
+        if (activeStep === steps.length - 1) {
+            return onSubmit()
+        }
+        setActiveStep(activeStep + 1);
     };
-  
+
     const handleBack = () => {
-      setActiveStep(activeStep - 1);
+        setActiveStep(activeStep - 1);
     };
+
     function getStepContent(step: any) {
         switch (step) {
             case 0:
-                return <AuditionDetails 
+                return <AuditionDetails
                     name={form.name}
                     handleChange={handleChange}
                     privateAudition={privateAudition}
@@ -127,24 +134,26 @@ const CreateAudition: FC<any> = ({ match }) => {
                     handleAddressChange={handleAddressChange}
                     selectedDate={selectedDate}
                     setNewDate={setNewDate}
-                />;
-            case 1:
-                return <AuditionType  
                     selectedValue={selectedValue}
                     setSelectedValue={setSelectedValue}
+                    projectId={projectId}
+                    cloneAuditions={cloneAuditions}
+                    setCloneAuditions={setCloneAuditions}
                 />;
-            case 2:
-                return <AdditionalDetails 
+            case 1:
+                return <AdditionalDetails
                     setPhone={setPhone}
                     description={form.description}
                     prep={form.prep}
                     handleChange={handleChange}
                 />
-            case 3:
-                return <AuditionRoles 
+            case 2:
+                return <AuditionRoles
                     roles={roles}
+                    forRoles={forRoles}
+                    setForRoles={setForRoles}
                 />;
-            case 4:
+            case 3:
                 return <ActorSearch />;
             default:
                 throw new Error('Unknown step');
@@ -170,7 +179,7 @@ const CreateAudition: FC<any> = ({ match }) => {
                 <form
                     name="createAuditionForm"
                     noValidate
-                    className="flex flex-col justify-center w-full flex-grow"
+                    className="flex flex-col w-full flex-grow"
                     onSubmit={handleSubmit}
                 >
                     {getStepContent(activeStep)}
@@ -187,7 +196,7 @@ const CreateAudition: FC<any> = ({ match }) => {
                         onClick={handleNext}
                         className={classes.button}
                     >
-                        {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                        {activeStep === steps.length - 1 ? 'Create Audition' : 'Next'}
                     </Button>
                 </div>
             </Paper>

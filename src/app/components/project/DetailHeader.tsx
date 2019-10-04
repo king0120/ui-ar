@@ -1,33 +1,34 @@
 import React, { FC } from 'react';
 import { IProject } from 'types/IProject';
-import { Header, Image } from 'semantic-ui-react';
-import styled from 'styled-components';
-
-const DetailHeaderStyles = styled.div`
-  display: flex;
-  align-items: baseline;
-  .image {
-    max-width: 20vw;
-  }
-  .ui.header {
-    font-size: 2.5rem;
-    margin-left: 15px;
-  }
-`
+import { Typography, Divider } from '@material-ui/core';
+import { format } from "date-fns";
 
 interface IDetailHeaderProps {
-  project: IProject;
+  project: any;
 }
 
 const DetailHeader: FC<IDetailHeaderProps> = ({ project }) => {
   return (
-    <DetailHeaderStyles>
-      <div className="image">
-        <Image src="https://dctheatrescene.com/wp-content/uploads/2019/04/hadestown3.jpg" />
+    <div className="flex">
+      <div className="w-3/4">
+        <Typography variant="h2">{project.name}</Typography>
+        <div className="flex">
+          <Typography className="mr-20" variant="body1">Written By: {project.writer}</Typography>
+          <Typography variant="body1">Directed By: {project.director}</Typography>
+        </div>
       </div>
-
-      <Header as="h1">{project.name}</Header>
-    </DetailHeaderStyles>
+      <div className="w-1/4">
+        <div>
+          <Typography variant="body1">Rehearsal Dates</Typography>
+          {format(project.rehearsalDateStart, 'MMM Do, YYYY')} to {format(project.rehearsalDateEnd, 'MMM Do, YYYY')}
+        </div>
+        <Divider />
+        <div>
+          <Typography variant="body1">Performance Dates</Typography>
+          {format(project.performanceDateStart, 'MMM Do, YYYY')} to {format(project.performanceDateEnd, 'MMM Do, YYYY')}
+        </div>
+      </div>
+    </div>
   );
 };
 

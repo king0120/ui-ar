@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { TextField, Checkbox } from '@material-ui/core';
+import { TextField, Checkbox, FormControlLabel } from '@material-ui/core';
 import AddressInput from 'app/components/shared/AddressInput';
-import { DateTimePicker } from '@material-ui/pickers';
+import { KeyboardDateTimePicker } from '@material-ui/pickers';
+import AuditionType from './AuditionType';
 
 interface IAuditionDetails {
   name: string;
@@ -9,8 +10,13 @@ interface IAuditionDetails {
   privateAudition: boolean;
   setPrivate: (p: boolean) => void;
   handleAddressChange: (a: string) => void;
-  selectedDate: Date;
-  setNewDate: (d: Date) => void
+  selectedDate: Date | null;
+  setNewDate: (d: any) => void;
+  selectedValue: any
+  setSelectedValue: any;
+  projectId: string;
+  cloneAuditions: any;
+  setCloneAuditions: any;
 }
 
 const AuditionDetails: FC<IAuditionDetails> = (props) => {
@@ -24,32 +30,42 @@ const AuditionDetails: FC<IAuditionDetails> = (props) => {
         name="name"
         value={props.name}
         onChange={props.handleChange}
-        variant="outlined"
         required
         fullWidth
       />
-      <div className="flex justify-start mr-12">
-        <Checkbox
-          checked={props.privateAudition}
-          onChange={() => props.setPrivate(!props.privateAudition)}
-          value="checkedB"
-          color="primary"
-        />
-        <p>Private Audition</p>
+      <div className="flex justify-start items-center mr-12">
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={props.privateAudition}
+              onChange={() => props.setPrivate(!props.privateAudition)}
+              value="checkedB"
+              color="primary"
+            />
+          }
+          label="Private Audition" />
       </div>
-      {/* Address  */}
-      <div>
-        <AddressInput handleChange={props.handleAddressChange} />
-      </div>
-      <div>
-        <DateTimePicker
-          label="DateTimePicker"
+      <div className="flex justify-between">
+        <AddressInput handleChange={props.handleAddressChange} variant={'standard'} type="address" />
+        <KeyboardDateTimePicker
+          label="Start Date and Time"
           variant="inline"
           value={props.selectedDate}
+          disablePast={true}
           onChange={(date) => { props.setNewDate(date as any) }}
+          ampm={true}
+          format="MM/DD/YYYY HH:mm A"
         />
       </div>
-
+      <div>
+        <AuditionType
+          projectId={props.projectId}
+          selectedValue={props.selectedValue}
+          setSelectedValue={props.setSelectedValue}
+          cloneAuditions={props.cloneAuditions}
+          setCloneAuditions={props.setCloneAuditions}
+        />
+      </div>
     </div>
   );
 };

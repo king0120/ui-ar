@@ -41,14 +41,6 @@ const AuditionPageStyles = styled.div`
   }
 `;
 
-export const decisionOptions = [
-    { key: 'pending', text: 'None', value: 'pending' },
-    { key: 'no_thanks', text: 'No Thanks', value: 'no_thanks' },
-    { key: 'on_hold', text: 'On Hold', value: 'on_hold' },
-    { key: 'callback', text: 'Add To Callback', value: 'callback' },
-    { key: 'cast', text: 'Cast To SOMEONE', value: 'cast' },
-];
-
 const AuditionPage: FC<any> = ({ match }) => {
     const classes = useStyles()
     const { auditionId } = match.params;
@@ -70,6 +62,8 @@ const AuditionPage: FC<any> = ({ match }) => {
     if (loading || !data) {
         return <h1>loading</h1>;
     }
+    const { forRoles } = data.getAudition
+
     const changeDecision = (id: any) => updateTalentInstance({
         variables: {
             decision: decisionValue === 'pending' ? undefined : decisionValue,
@@ -98,15 +92,35 @@ const AuditionPage: FC<any> = ({ match }) => {
                         talent={talent}
                     />
                 </div>
-                <TalentListSection title='Pending' talentList={talent.pending} handleClick={handleTalentClick} />
+                <TalentListSection 
+                    title='Pending' 
+                    talentList={talent.pending} 
+                    handleClick={handleTalentClick} 
+                />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection title='Cast' talentList={talent['cast']} handleClick={handleTalentClick} />
+                <TalentListSection 
+                    title='Cast' 
+                    talentList={talent['cast']} 
+                    roles={forRoles} 
+                    handleClick={handleTalentClick} />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection title='Callback' talentList={talent['callback']} handleClick={handleTalentClick} />
+                <TalentListSection 
+                    title='Callback' 
+                    talentList={talent['callback']} 
+                    handleClick={handleTalentClick} 
+                />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection title='On Hold' talentList={talent['on_hold']} handleClick={handleTalentClick} />
+                <TalentListSection 
+                    title='On Hold' 
+                    talentList={talent['on_hold']} 
+                    handleClick={handleTalentClick} 
+                />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection title='No Thanks' talentList={talent['no_thanks']} handleClick={handleTalentClick} />
+                <TalentListSection 
+                    title='No Thanks' 
+                    talentList={talent['no_thanks']} 
+                    handleClick={handleTalentClick} 
+                />
             </div>
             {currentlyViewing ? (
                 <>
@@ -127,6 +141,7 @@ const AuditionPage: FC<any> = ({ match }) => {
                                     changeDecision={changeDecision}
                                     decisionValue={decisionValue}
                                     setDecisionValue={setDecisionValue}
+                                    forRoles={forRoles}
                                 />
                             </div>
                             <div className="widget w-full p-12">
@@ -165,7 +180,11 @@ function formatAuditionObject(talent: any = []) {
 
     return talent.reduce((acc: any, val: any) => {
         if (val.decision) {
-            acc[val.decision].push(val);
+            if (Object.keys(defaultObject).includes(val.decision)) {
+                acc[val.decision].push(val);
+            } else {
+                acc.cast.push(val);
+            }
         } else {
             acc.pending.push(val);
         }

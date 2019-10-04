@@ -31,7 +31,6 @@ function Login2Page(props: any)
 
     useEffect(() => {
         const user = data && data.login
-        console.log(user)
         if (user) {
             localStorage.setItem('accessToken', user.accessToken);
             setUserId(user.userId);

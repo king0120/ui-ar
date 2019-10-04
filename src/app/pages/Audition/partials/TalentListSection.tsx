@@ -48,8 +48,9 @@ const useStyles = makeStyles({
     }
 });
 
-const TalentListItem: FC<any> = ({ id, handleClick, talent }) => {
+const TalentListItem: FC<any> = ({ id, role, handleClick, talent }) => {
     const { data, loading, refetch } = useQuery(query, { variables: { id } });
+    const classes = useStyles();
     useEffect(() => { refetch() }, [talent])
     if (loading) { return <p></p> }
     const user = data.getUser
@@ -58,16 +59,16 @@ const TalentListItem: FC<any> = ({ id, handleClick, talent }) => {
             <ListItemAvatar>
                 <Avatar alt={user.displayName} src={user.profilePicture && user.profilePicture.url}>{user.displayName[0]}</Avatar>
             </ListItemAvatar>
-            <ListItemText primary={user.displayName} />
+            <ListItemText secondaryTypographyProps={{ className: classes.icon }} primary={user.displayName} secondary={role.characterName} />
         </ListItem>);
 }
 
-const TalentListSection: FC<any> = ({ title, talentList, handleClick }) => {
+const TalentListSection: FC<any> = ({ title, talentList, handleClick, roles }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true)
     return (
         <ExpansionPanel classes={{ root: classes.root, expanded: classes.expanded }} className="w-full p-2" expanded={open} onChange={() => setOpen(!open)}>
-            <ExpansionPanelSummary className="p-0" expandIcon={<ExpandMoreIcon className={classes.icon}/>}>
+            <ExpansionPanelSummary className="p-0" expandIcon={<ExpandMoreIcon className={classes.icon} />}>
                 <div className="p-0 flex items-baseline justify-between">
                     <Avatar className={classes.smallAvatar}>{talentList.length}</Avatar>
                     <Typography>{title}</Typography>
@@ -75,19 +76,30 @@ const TalentListSection: FC<any> = ({ title, talentList, handleClick }) => {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className="pl-0">
                 <List>
-                    {talentList && talentList.map((talent: any) => (
-                        <AnimateGroup
-                            key={talent.id}
-                            className="w-full"
-                            enter={{
-                                animation: "transition.slideUpBigIn"
-                            }}
-                            leave={{
-                                animation: "transition.slideUpBigOut"
-                            }}
-                        >
-                            <TalentListItem id={talent.user.id} handleClick={handleClick} talent={talent} />
-                        </AnimateGroup>)
+                    {talentList && talentList.map((talent: any) => {
+                        let role = ''
+                        if (roles && roles.length) {
+                            role = roles.find((r: any) => r.id === talent.decision);
+                        }
+                        return (
+                            <AnimateGroup
+                                key={talent.id}
+                                className="w-full"
+                                enter={{
+                                    animation: "transition.slideUpBigIn"
+                                }}
+                                leave={{
+                                    animation: "transition.slideUpBigOut"
+                                }}
+                            >
+                                <TalentListItem 
+                                    role={role} 
+                                    id={talent.user.id} 
+                                    handleClick={handleClick} 
+                                    talent={talent} 
+                                />
+                            </AnimateGroup>)
+                    }
                     )}
                     {talentList.length === 0 && (
                         <ListItem>

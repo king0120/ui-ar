@@ -4,7 +4,9 @@ import { TextField } from '@material-ui/core';
 
 class AddressInput extends React.Component<any> {
     static defaultProps = {
-        handleChange: () => { }
+        handleChange: () => { },
+        variant: 'outlined',
+        type: 'city'
     }
 
     state = {
@@ -20,13 +22,19 @@ class AddressInput extends React.Component<any> {
 
         placeInstance.configure({
             language: 'en',
-            type: 'city',
+            type: this.props.type,
             countries: ['us'],
         });
 
         placeInstance.on('change', (e: any) => {
             const {name: city, administrative: state} = e.suggestion
-            this.props.handleChange(city, state);
+
+            if (this.props.type === 'address') {
+                this.props.handleChange(e.suggestion);
+            } else {
+                this.props.handleChange(city, state);
+            }
+            
             this.setState({ value: `${city}, ${state}` })
         });
 
@@ -43,7 +51,7 @@ class AddressInput extends React.Component<any> {
             autoFocus
             type="cityState"
             name="cityState"
-            variant="outlined"
+            variant={this.props.variant}
             required
         />
     }

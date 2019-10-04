@@ -12,7 +12,7 @@ interface IAdditionalDetails {
 const AdditionalDetails: FC<IAdditionalDetails> = ({setPhone, description, prep, handleChange}) => {
   return (
     <div>
-      <div>
+      <div className="mb-4">
         <MuiPhoneNumber defaultCountry={'us'} onChange={setPhone} />
       </div>
       <div>
@@ -25,6 +25,7 @@ const AdditionalDetails: FC<IAdditionalDetails> = ({setPhone, description, prep,
           value={description}
           onChange={handleChange}
           variant="outlined"
+          rows="5"
           multiline
           fullWidth
         />
@@ -37,6 +38,7 @@ const AdditionalDetails: FC<IAdditionalDetails> = ({setPhone, description, prep,
           autoFocus
           type="prep"
           name="prep"
+          rows="5"
           value={prep}
           onChange={handleChange}
           variant="outlined"

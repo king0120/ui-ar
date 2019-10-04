@@ -1,5 +1,5 @@
 import React from 'react';
-import {Divider, List} from '@material-ui/core';
+import { Divider, List } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import FuseNavVerticalGroup from './vertical/FuseNavVerticalGroup';
@@ -11,9 +11,8 @@ import FuseNavHorizontalCollapse from './horizontal/FuseNavHorizontalCollapse';
 import FuseNavHorizontalItem from './horizontal/FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './horizontal/FuseNavHorizontalLink';
 
-function FuseNavigation(props)
-{
-    const {navigation, layout, active, dense, className} = props;
+function FuseNavigation(props) {
+    const { navigation, layout, active, dense, className } = props;
 
     const verticalNav = (
         <List className={clsx("navigation whitespace-no-wrap", className)}>
@@ -23,23 +22,23 @@ function FuseNavigation(props)
                     <React.Fragment key={item.id}>
 
                         {item.type === 'group' && (
-                            <FuseNavVerticalGroup item={item} nestedLevel={0} active={active} dense={dense}/>
+                            <FuseNavVerticalGroup item={item} nestedLevel={0} active={active} dense={dense} />
                         )}
 
                         {item.type === 'collapse' && (
-                            <FuseNavVerticalCollapse item={item} nestedLevel={0} active={active} dense={dense}/>
+                            <FuseNavVerticalCollapse item={item} nestedLevel={0} active={active} dense={dense} />
                         )}
 
                         {item.type === 'item' && (
-                            <FuseNavVerticalItem item={item} nestedLevel={0} active={active} dense={dense}/>
+                            <FuseNavVerticalItem item={item} nestedLevel={0} active={active} dense={dense} />
                         )}
 
                         {item.type === 'link' && (
-                            <FuseNavVerticalLink item={item} nestedLevel={0} active={active} dense={dense}/>
+                            <FuseNavVerticalLink item={item} nestedLevel={0} active={active} dense={dense} />
                         )}
 
                         {item.type === 'divider' && (
-                            <Divider className="my-16"/>
+                            <Divider className="my-16" />
                         )}
                     </React.Fragment>
                 ))
@@ -55,23 +54,23 @@ function FuseNavigation(props)
                     <React.Fragment key={item.id}>
 
                         {item.type === 'group' && (
-                            <FuseNavHorizontalGroup item={item} nestedLevel={0} dense={dense}/>
+                            <FuseNavHorizontalGroup item={item} nestedLevel={0} dense={dense} />
                         )}
 
                         {item.type === 'collapse' && (
-                            <FuseNavHorizontalCollapse item={item} nestedLevel={0} dense={dense}/>
+                            <FuseNavHorizontalCollapse item={item} nestedLevel={0} dense={dense} />
                         )}
 
                         {item.type === 'item' && (
-                            <FuseNavHorizontalItem item={item} nestedLevel={0} dense={dense}/>
+                            <FuseNavHorizontalItem item={item} nestedLevel={0} dense={dense} />
                         )}
 
                         {item.type === 'link' && (
-                            <FuseNavHorizontalLink item={item} nestedLevel={0} dense={dense}/>
+                            <FuseNavHorizontalLink item={item} nestedLevel={0} dense={dense} />
                         )}
 
                         {item.type === 'divider' && (
-                            <Divider className="my-16"/>
+                            <Divider className="my-16" />
                         )}
                     </React.Fragment>
                 ))
@@ -79,23 +78,20 @@ function FuseNavigation(props)
         </List>
     );
 
-    if ( navigation.length > 0 )
-    {
-        switch ( layout )
-        {
+    if (navigation.length > 0) {
+        switch (layout) {
             case 'horizontal':
-            {
-                return horizontalNav;
-            }
+                {
+                    return horizontalNav;
+                }
             case 'vertical':
             default:
-            {
-                return verticalNav;
-            }
+                {
+                    return verticalNav;
+                }
         }
     }
-    else
-    {
+    else {
         return null;
     }
 }

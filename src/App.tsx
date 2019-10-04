@@ -9,8 +9,6 @@ import { create } from 'jss';
 import jssExtend from 'jss-extend';
 import { jssPreset, StylesProvider, makeStyles } from '@material-ui/styles';
 import createGenerateClassName from '@material-ui/styles/createGenerateClassName';
-import theme from 'defaultTheme';
-import { createMuiTheme } from '@material-ui/core';
 import clsx from 'clsx';
 import FuseDialog from '@fuse/components/FuseDialog/FuseDialog';
 import FuseScrollbars from '@fuse/components/FuseScrollbars/FuseScrollbars';
@@ -97,12 +95,12 @@ declare const Chargebee: any;
 const App = (props: any) => {
     const { data, loading } = useQuery(TOKEN_CHECK);
     const { setUserId, setDisplayName } = useContext(GlobalContext);
-    const [isHome, setIsHome] = useState(true);
+    // const [isHome, setIsHome] = useState(true);
 
     const classes = useStyles(props);
-    useEffect(() => {
-        setIsHome(props.location.pathname === '/');
-    }, [props.location.pathname]);
+    // useEffect(() => {
+    //     setIsHome(props.location.pathname === '/');
+    // }, [props.location.pathname]);
 
     useEffect(() => {
         if (data && data.tokenCheck) {

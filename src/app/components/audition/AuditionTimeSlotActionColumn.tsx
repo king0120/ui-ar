@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import styled from "styled-components";
 import {Button, Popup} from "semantic-ui-react";
 import {withRouter} from "react-router";
 import {useMutation} from "@apollo/react-hooks";
@@ -7,13 +6,6 @@ import {useMutation} from "@apollo/react-hooks";
 const DELETE_TIME_SLOT = require('../../../graphql/mutations/timeslots/DELETE_TIME_SLOT.gql')
 const REMOVE_TALENT_FROM_TIME_SLOT = require('../../../graphql/mutations/timeslots/REMOVE_TALENT_FROM_TIME_SLOT.gql')
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql')
-
-export const ActionsContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  padding: 0 15%;
-`;
-
 
 const AuditionTimeSlotActionColumn: FC<any> = ({match, data}) => {
     const {auditionId} = match.params;
@@ -31,7 +23,7 @@ const AuditionTimeSlotActionColumn: FC<any> = ({match, data}) => {
         }]
     })
     return (
-        <ActionsContainer>
+        <div className="flex justify-around pl-10 pr-10">
             <Popup
                 inverted
                 trigger={
@@ -66,7 +58,7 @@ const AuditionTimeSlotActionColumn: FC<any> = ({match, data}) => {
                 }
                 content="Delete This TimeSlot"
             />
-        </ActionsContainer>
+        </div>
     )
 };
 

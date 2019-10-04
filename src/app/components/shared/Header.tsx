@@ -1,6 +1,5 @@
 import React, { SyntheticEvent, useContext } from 'react';
-import { Menu, MenuItemProps } from 'semantic-ui-react';
-import styled from 'styled-components';
+import { MenuItemProps } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { GlobalContext } from "../../../context/globalContext";
 import makeStyles from '@material-ui/styles/makeStyles';
@@ -9,8 +8,6 @@ import { ThemeProvider } from '@material-ui/styles';
 import { AppBar, Toolbar, Hidden, Button } from '@material-ui/core';
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
 import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
-
-type IClickHandler = (event: SyntheticEvent, data: MenuItemProps) => void;
 
 const useStyles = makeStyles((theme: any) => ({
     separator: {

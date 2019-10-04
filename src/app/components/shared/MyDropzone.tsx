@@ -3,10 +3,10 @@ import { useDropzone } from 'react-dropzone';
 import { Header, Icon, Segment  } from 'semantic-ui-react';
 
 export default function MyDropzone(props: any) {
-  const { uploadImage } = props;
+  const { uploadImage, refetch } = props;
   const onDrop = useCallback((acceptedFiles: any) => {
-      uploadImage(acceptedFiles).then(props.refetch);
-  }, [uploadImage]);
+      uploadImage(acceptedFiles).then(refetch);
+  }, [uploadImage, refetch]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (

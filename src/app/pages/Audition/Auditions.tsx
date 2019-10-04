@@ -1,9 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import Flex from 'styled-flex-component'
 import { Container } from '../../components/project/CommonStyledComponents';
 import { Paper, Button, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core'
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import { Link } from 'react-router-dom';
 import ConfirmationModal from '../../components/shared/ConfirmationModal';
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -13,11 +11,8 @@ import moment from 'moment';
 const DELETE_AUDITION = require('../../../graphql/mutations/DELETE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 
-const RowExpansion = () => <h1>stuff here</h1>
-
-const Auditions: FC<any> = ({ location, match, history, projectId, projectName }) => {
+const Auditions: FC<any> = ({ match, history, projectId, projectName }) => {
     const { loading, data } = useQuery(GET_AUDITIONS_FOR_PROJECT, { variables: { projectId } })
-    const [expandedRows, setExpandedRows] = useState();
     const [deleteAudition] = useMutation(DELETE_AUDITION, {
         refetchQueries: [{
             query: GET_AUDITIONS_FOR_PROJECT,

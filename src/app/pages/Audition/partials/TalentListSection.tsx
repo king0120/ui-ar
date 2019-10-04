@@ -21,7 +21,6 @@ query getUser($id: String!) {
         }
     }
 }
-
 `
 
 const useStyles = makeStyles({
@@ -51,7 +50,7 @@ const useStyles = makeStyles({
 const TalentListItem: FC<any> = ({ id, role, handleClick, talent }) => {
     const { data, loading, refetch } = useQuery(query, { variables: { id } });
     const classes = useStyles();
-    useEffect(() => { refetch() }, [talent])
+    useEffect(() => { refetch() }, [talent, refetch])
     if (loading) { return <p></p> }
     const user = data.getUser
     return (

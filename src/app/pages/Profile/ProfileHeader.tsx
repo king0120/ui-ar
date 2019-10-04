@@ -1,6 +1,6 @@
 import React from 'react'
 import { Animate } from '../Auth/SharedAuth';
-import { Avatar, Typography, Button, makeStyles, Tabs, Tab } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { transformPhoneNumber } from '../../../utils';
 
 const ProfileHeader = ({ user }: any) => {

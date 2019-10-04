@@ -6,7 +6,6 @@ import AuditionManagerPage from './app/pages/Audition/AuditionManagerPage';
 import OrgSelectPage from './app/pages/Organization/OrgSelectPage';
 import ProfilePage from './app/pages/Profile/ProfilePage';
 import RegistrationPage from './app/pages/Auth/RegistrationPage';
-import ProfileImagePage from './app/pages/Profile/ProfileImagePage';
 import ActorSearchPage from './app/pages/Search/ActorSearchPage';
 import PasswordResetPage from './app/pages/Auth/PasswordResetPage';
 import SettingsPage from './app/pages/General/SettingsPage';
@@ -28,7 +27,7 @@ const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     );
 }
 
-const AppRouter: FC<any> = (props) => {
+const AppRouter: FC<any> = () => {
     const {userId} = useContext(GlobalContext);
     const loggedIn = userId !== 'none'
     return (

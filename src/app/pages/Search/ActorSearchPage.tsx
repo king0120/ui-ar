@@ -1,5 +1,5 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
-import { Dropdown, Form, Image, Input, List } from 'semantic-ui-react';
+import React, { FC, useState } from 'react';
+import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { searchUsers } from '../../../redux/actions/searchActions';
 import { withRouter } from 'react-router-dom';
@@ -11,9 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
 import ActorSearchResults from './Partials/ActorSearchResults';
 
 const useStyles = makeStyles((theme: Theme) =>

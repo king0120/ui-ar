@@ -73,7 +73,7 @@ export const Dashboard: FC<any> = ({ projectId }) => {
 
 function CastRole(props: any) {
     const { role } = props;
-    const { data, loading, refetch } = useQuery(GET_USER, { variables: { id: role.castTo.id } });
+    const { data, loading } = useQuery(GET_USER, { variables: { id: role.castTo.id } });
     if (loading) { return <p>Loading</p> }
     const actor = data.getUser
     return (

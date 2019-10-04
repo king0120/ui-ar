@@ -1,12 +1,11 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { connect } from 'react-redux';
 import {
     deleteImage,
     uploadImage
 } from '../../../redux/actions/talentActions';
-import { Button, Header, Icon, Segment } from 'semantic-ui-react';
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
-import { GlobalContext } from "../../../context/globalContext";
+import { Button } from 'semantic-ui-react';
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { withRouter } from 'react-router';
 import LightboxModal from 'app/components/shared/LightboxModal';
 import MyDropzone from 'app/components/shared/MyDropzone';
@@ -44,13 +43,6 @@ const ProfileImagePage: FC<any> = (props) => {
     const [deleteImage] = useMutation(DELETE_IMAGE, refetchQuery)
 
     const user = data && data.getUser;
-
-    useEffect(() => {
-        const id = readOnly ? props.match.params.userId : userId;
-        // if (id) {
-        //     refetch({ id })
-        // }
-    }, [readOnly, userId, props.match.params.userId]);
 
     if (!data || loading) {
         return <h1>loading</h1>

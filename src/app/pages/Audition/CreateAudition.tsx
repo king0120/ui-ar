@@ -3,7 +3,6 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { useForm } from '@fuse/hooks';
 import { Button, Paper, makeStyles, Theme, Typography, Stepper, StepLabel, Step } from '@material-ui/core';
 import AuditionDetails from './createAuditionForms/AuditionDetails';
-import AuditionType from './createAuditionForms/AuditionType';
 import AdditionalDetails from './createAuditionForms/AdditionalDetails';
 import AuditionRoles from './createAuditionForms/AuditionRoles';
 import { ActorSearch } from '../Search/ActorSearchPage';
@@ -55,7 +54,6 @@ const CreateAudition: FC<any> = ({ match, history }) => {
         query: GET_AUDITIONS_FOR_PROJECT,
         variables: { projectId }
     }];
-    const [open, setOpen] = useState(false)
     const [latLong, changeLatLong] = useState({} as any);
     const [address, changeAddress] = useState('');
     const [selectedDate, setNewDate] = React.useState(new Date());
@@ -71,7 +69,7 @@ const CreateAudition: FC<any> = ({ match, history }) => {
         description: '',
         prep: ''
     })
-    const onSubmit = async (data?: any) => {
+    const onSubmit = async () => {
         const newAudition = {
             name: form.name,
             ...latLong,
@@ -79,7 +77,7 @@ const CreateAudition: FC<any> = ({ match, history }) => {
             startDate: selectedDate,
             auditionType: selectedValue,
             private: privateAudition,
-            phoneNumber: "1111111111",
+            phoneNumber: "1111111111", //TODO use phone
             description: form.description,
             prep: form.prep,
             forRoles: forRoles,

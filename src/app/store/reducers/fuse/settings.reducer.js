@@ -1,6 +1,5 @@
 import {createMuiTheme} from '@material-ui/core';
 import * as Actions from 'app/store/actions/fuse';
-import FuseLayoutConfigs from 'app/fuse-layouts/FuseLayoutConfigs';
 import FuseSettingsConfig from 'app/fuse-configs/settingsConfig';
 import FuseThemesConfig from 'app/fuse-configs/themesConfig';
 import _ from '@lodash';
@@ -83,7 +82,7 @@ function getInitialSettings()
     const defaultLayoutStyle = (FuseSettingsConfig.layout && FuseSettingsConfig.layout.style) ? FuseSettingsConfig.layout.style : "layout1";
     const layout = {
         style : defaultLayoutStyle,
-        config: FuseLayoutConfigs[defaultLayoutStyle].defaults
+        config: {}
     };
     return _.merge({}, defaultSettings, {layout}, FuseSettingsConfig, getParsedQuerySettings());
 }
@@ -128,5 +127,5 @@ function getThemeOptions(themes, settings)
 
 export function generateSettings(defaultSettings, newSettings)
 {
-    return _.merge({}, defaultSettings, newSettings && newSettings.layout && newSettings.layout.style ? {layout: {config: FuseLayoutConfigs[newSettings.layout.style].defaults}} : {}, newSettings);
+    return _.merge({}, defaultSettings, newSettings && newSettings.layout &&  {layout: {config: {}}}, newSettings);
 }

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core';
-import {FuseLayouts} from '@fuse';
 import _ from '@lodash';
 import {withRouter} from 'react-router-dom';
 import {matchRoutes} from 'react-router-config'
@@ -94,10 +93,10 @@ class FuseLayout extends Component {
 
     render()
     {
-        const {settings, classes} = this.props;
+        const { classes} = this.props;
         // console.warn('FuseLayout:: rendered');
 
-        const Layout = FuseLayouts[settings.layout.style];
+        const Layout = () => <h1>this shouldn't be here</h1>;
 
         return !this.state.awaitRender ? <Layout classes={{root: classes.root}} {...this.props}/> : null;
     }

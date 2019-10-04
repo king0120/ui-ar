@@ -10,7 +10,6 @@ export {default as FuseLayout} from './components/FuseLayout/FuseLayout';
 export {default as FuseSettings} from './components/FuseSettings/FuseSettings';
 export {default as FuseCountdown} from './components/FuseCountdown/FuseCountdown';
 export {default as FuseHighlight} from './components/FuseHighlight/FuseHighlight';
-export {default as FuseExample} from './components/FuseExample/FuseExample';
 export {default as FuseShortcuts} from './components/FuseShortcuts/FuseShortcuts';
 export {default as FuseSearch} from './components/FuseSearch/FuseSearch';
 export {default as FuseMessage} from './components/FuseMessage/FuseMessage';
@@ -25,7 +24,5 @@ export {default as FuseSidePanel} from './components/FuseSidePanel/FuseSidePanel
 export {default as FuseUtils} from './FuseUtils';
 export * from './FuseDefaultSettings';
 export * from './components/formsy/index';
-export {default as FuseLayouts} from 'app/fuse-layouts/FuseLayouts';
-export {default as FuseLayoutConfigs} from 'app/fuse-layouts/FuseLayoutConfigs';
 export {default as NavLinkAdapter} from './components/NavLinkAdapter/NavLinkAdapter';
 export {default as withRouterAndRef} from './components/withRouterAndRef/withRouterAndRef';

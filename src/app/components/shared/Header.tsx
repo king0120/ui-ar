@@ -34,14 +34,6 @@ const Header = (props: any) => {
         <ThemeProvider theme={toolbarTheme}>
             <AppBar id="fuse-toolbar" className="flex relative z-10" color="default">
                 <Toolbar className="p-0">
-
-                    {config.navbar.display && config.navbar.position === 'left' && (
-                        <Hidden lgUp>
-                            <NavbarMobileToggleButton className="w-64 h-64 p-0" />
-                            <div className={classes.separator} />
-                        </Hidden>
-                    )}
-
                     <div className="flex flex-1">
 
                     </div>
@@ -56,12 +48,6 @@ const Header = (props: any) => {
                         <div className={classes.separator} />
                         <UserMenu />
                     </div>
-
-                    {config.navbar.display && config.navbar.position === 'right' && (
-                        <Hidden lgUp>
-                            <NavbarMobileToggleButton />
-                        </Hidden>
-                    )}
                 </Toolbar>
             </AppBar>
         </ThemeProvider>

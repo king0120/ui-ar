@@ -3,7 +3,6 @@ import {Typography, FormControl, FormControlLabel, FormLabel, MenuItem, Radio, R
 import {makeStyles} from '@material-ui/styles';
 import * as Actions from 'app/store/actions';
 import {useSelector, useDispatch} from 'react-redux';
-import {FuseLayoutConfigs} from '@fuse';
 import clsx from 'clsx';
 import _ from '@lodash';
 
@@ -116,10 +115,7 @@ function FuseSettings(props)
                     value={settings.layout.style}
                     onChange={handleChange}
                 >
-                    {Object.entries(FuseLayoutConfigs).map(([key, layout]) => (
-                            <FormControlLabel key={key} value={key} control={<Radio/>} label={layout.title}/>
-                        )
-                    )}
+                    
                 </RadioGroup>
             </FormControl>
         );
@@ -196,7 +192,7 @@ function FuseSettings(props)
 
     function LayoutConfig()
     {
-        const form = FuseLayoutConfigs[settings.layout.style].form;
+        const form = {}
         return getForm(form);
     }
 

@@ -1,8 +1,6 @@
 import React from 'react';
 import {Paper, Chip, Typography, TextField, MenuItem} from '@material-ui/core';
 import {emphasize} from '@material-ui/core/styles/colorManipulator';
-import Creatable from 'react-select/creatable';
-import Select from 'react-select';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 
@@ -224,17 +222,9 @@ function FuseChipSelect(props)
 {
     return (
         props.variant === 'fixed' ? (
-            <Select
-                classNamePrefix="fuse-chip-select"
-                {...props}
-                components={components}
-            />
+            <h1>Destroyed this dependency</h1>
         ) : (
-            <Creatable
-                classNamePrefix="fuse-chip-select"
-                {...props}
-                components={components}
-            />
+            <h1>Destroyed this dependency</h1>
         )
     );
 }

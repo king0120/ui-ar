@@ -4,6 +4,7 @@ const tailwindcss = require('tailwindcss')
 const purgecss = require('@fullhuman/postcss-purgecss')
 const cssnano = require('cssnano')
 const autoprefixer = require('autoprefixer')
+const path = require('path')
 
 module.exports = {
   style: {
@@ -18,6 +19,17 @@ module.exports = {
     }
   },
   webpack: {
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
+    },
+    resolve: {
+      alias: {
+        react: path.resolve('node_modules/react'),
+        'react-dom': path.resolve('node_modules/react-dom'),
+      },
+    },
     plugins: [
       new BundleAnalyzerPlugin()
     ],

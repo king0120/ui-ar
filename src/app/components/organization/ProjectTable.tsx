@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {Link, withRouter} from 'react-router-dom';
-import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import AddProjectModal from '../project/AddProjectModal';
 import ProjectActionColumn from './ProjectActionColumn';

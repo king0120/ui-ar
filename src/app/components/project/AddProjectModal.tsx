@@ -1,6 +1,6 @@
-import React, {FC, SyntheticEvent, useState} from 'react';
-import {Button, Form, Modal} from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
+import React, { FC, SyntheticEvent, useState } from 'react';
+import { Button, Form, Modal } from 'semantic-ui-react';
+import { KeyboardDateTimePicker } from '@material-ui/pickers';
 
 const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
     const [open, setOpen] = useState(false);
@@ -50,42 +50,70 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
                     <Form>
                         <Form.Field onSubmit={handleSubmit}>
                             <label>Name</label>
-                            <input value={name} onChange={e => setName(e.target.value)} placeholder='Name'/>
+                            <input value={name} onChange={e => setName(e.target.value)} placeholder='Name' />
                         </Form.Field>
                         <Form.Field>
                             <label>Director</label>
-                            <input value={director} onChange={e => setDirector(e.target.value)} placeholder='Director'/>
+                            <input value={director} onChange={e => setDirector(e.target.value)} placeholder='Director' />
                         </Form.Field>
                         <Form.Field>
                             <label>Writer</label>
-                            <input value={writer} onChange={e => setWriter(e.target.value)} placeholder='Writer'/>
+                            <input value={writer} onChange={e => setWriter(e.target.value)} placeholder='Writer' />
                         </Form.Field>
                         <Form.Field>
                             <label>Project Summary</label>
-                            <textarea value={summary} onChange={e => setSummary(e.target.value)} placeholder='Summary'/>
+                            <textarea value={summary} onChange={e => setSummary(e.target.value)} placeholder='Summary' />
                         </Form.Field>
                         <Form.Field>
                             <label>Project Notes (Rehearsal plan, location, days off, etc.)</label>
-                            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder='Notes'/>
+                            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder='Notes' />
                         </Form.Field>
                         <div>
                             <Form.Field>
-                                <label>Rehearsal Start Date</label>
-                                <DatePicker selected={rehearsalStart} onChange={(data: Date) => setRehearsalStart(data)}/>
+                                <KeyboardDateTimePicker
+                                    label="Rehearsal Start Date"
+                                    variant="inline"
+                                    value={rehearsalStart}
+                                    disablePast={true}
+                                    onChange={(data: any) => { setRehearsalStart(data) }}
+                                    ampm={true}
+                                    format="MM/DD/YYYY HH:mm A"
+                                />
                             </Form.Field>
                             <Form.Field>
-                                <label>Rehearsal End Date</label>
-                                <DatePicker selected={rehearsalEnd} onChange={(data: Date) => setRehearsalEnd(data)}/>
+                                <KeyboardDateTimePicker
+                                    label="Rehearsal End Date"
+                                    variant="inline"
+                                    value={rehearsalEnd}
+                                    disablePast={true}
+                                    onChange={(data: any) => setRehearsalEnd(data)}
+                                    ampm={true}
+                                    format="MM/DD/YYYY HH:mm A"
+                                />
                             </Form.Field>
                         </div>
                         <div>
                             <Form.Field>
-                                <label>Performance Start Date</label>
-                                <DatePicker selected={performanceStart} onChange={(data: Date) => setPerformanceStart(data)}/>
+                                <KeyboardDateTimePicker
+                                    label="Performance Start Date"
+                                    variant="inline"
+                                    value={performanceStart}
+                                    disablePast={true}
+                                    onChange={(data: any) => setPerformanceStart(data)}
+                                    ampm={true}
+                                    format="MM/DD/YYYY HH:mm A"
+                                />
                             </Form.Field>
                             <Form.Field>
-                                <label>Performance End Date</label>
-                                <DatePicker selected={performanceEnd} onChange={(data: Date) => setPerformanceEnd(data)}/>
+                                <KeyboardDateTimePicker
+                                    label="Performance End Date"
+                                    variant="inline"
+                                    value={performanceEnd}
+                                    disablePast={true}
+                                    onChange={(data: any) => setPerformanceEnd(data)}
+                                    ampm={true}
+                                    format="MM/DD/YYYY HH:mm A"
+                                />
                             </Form.Field>
                         </div>
                         <Button type='submit' onClick={handleSubmit}>Submit</Button>

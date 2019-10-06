@@ -1,9 +1,9 @@
-import React, {FC, SyntheticEvent, useState} from 'react';
-import {Button, Form, Modal} from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
-import {connect} from 'react-redux';
-import {editProject} from '../../../redux/actions/projectActions';
-import {withRouter} from "react-router";
+import React, { FC, SyntheticEvent, useState } from 'react';
+import { Button, Form, Modal } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { editProject } from '../../../redux/actions/projectActions';
+import { withRouter } from "react-router";
+import { KeyboardDateTimePicker } from '@material-ui/pickers';
 
 const AddProjectModal: FC<any> = (props) => {
     const [open, setOpen] = useState(false);
@@ -41,7 +41,7 @@ const AddProjectModal: FC<any> = (props) => {
             closeIcon
             open={open}
             trigger={
-                <Button onClick={() => setOpen(true)} circular color="yellow" icon='edit'/>
+                <Button onClick={() => setOpen(true)} circular color="yellow" icon='edit' />
             }
             onClose={() => {
                 setOpen(false);
@@ -53,28 +53,42 @@ const AddProjectModal: FC<any> = (props) => {
                     <Form>
                         <Form.Field onSubmit={handleSubmit}>
                             <label>Name</label>
-                            <input value={name} onChange={e => setName(e.target.value)} placeholder='Name'/>
+                            <input value={name} onChange={e => setName(e.target.value)} placeholder='Name' />
                         </Form.Field>
                         <Form.Field>
                             <label>Short Name</label>
                             <input value={shortName} onChange={e => setShortName(e.target.value)}
-                                   placeholder='Short Name'/>
+                                placeholder='Short Name' />
                         </Form.Field>
                         <Form.Field>
                             <label>Director</label>
-                            <input value={director} onChange={e => setDirector(e.target.value)} placeholder='Director'/>
+                            <input value={director} onChange={e => setDirector(e.target.value)} placeholder='Director' />
                         </Form.Field>
                         <Form.Field>
                             <label>Writer</label>
-                            <input value={writer} onChange={e => setWriter(e.target.value)} placeholder='Writer'/>
+                            <input value={writer} onChange={e => setWriter(e.target.value)} placeholder='Writer' />
                         </Form.Field>
                         <Form.Field>
-                            <label>Audition Date</label>
-                            <DatePicker selected={auditionDate} onChange={(data: Date) => setAuditionDate(data)}/>
+                            <KeyboardDateTimePicker
+                                label="Audition Date"
+                                variant="inline"
+                                value={auditionDate}
+                                disablePast={true}
+                                onChange={(data: any) => setAuditionDate(data)}
+                                ampm={true}
+                                format="MM/DD/YYYY HH:mm A"
+                            />
                         </Form.Field>
                         <Form.Field>
-                            <label>Callback Date</label>
-                            <DatePicker selected={callbackDate} onChange={(data: Date) => setCallbackDate(data)}/>
+                            <KeyboardDateTimePicker
+                                label="Callback Date"
+                                variant="inline"
+                                value={callbackDate}
+                                disablePast={true}
+                                onChange={(data: any) => setCallbackDate(data)}
+                                ampm={true}
+                                format="MM/DD/YYYY HH:mm A"
+                            />
                         </Form.Field>
                         <Button type='submit' onClick={handleSubmit}>Submit</Button>
                     </Form>
@@ -84,4 +98,4 @@ const AddProjectModal: FC<any> = (props) => {
     );
 };
 
-export default connect(null, {editProject})(withRouter(AddProjectModal));
+export default connect(null, { editProject })(withRouter(AddProjectModal));

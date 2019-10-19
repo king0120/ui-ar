@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import DetailHeader from './DetailHeader';
 
 import { gql } from 'apollo-boost';
-import { useQuery } from "@apollo/react-hooks";
-import { List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-ui/core';
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { List, ListItem, ListItemAvatar, ListItemText, Avatar, Button } from '@material-ui/core';
 const GET_USER = require('graphql/queries/user/GET_USER.gql')
 
 const GET_FOR_DASHBOARD = gql`query getOneProject($projectId: String!) {
@@ -26,19 +26,28 @@ const GET_FOR_DASHBOARD = gql`query getOneProject($projectId: String!) {
             }
         }
         rejected {
-            id
-            displayName
+            rejectionEmailSent   
+            user {
+                id
+                displayName
+            }
         }
     }
 }
 `
 export const Dashboard: FC<any> = ({ projectId }) => {
     const { loading, data } = useQuery(GET_FOR_DASHBOARD, { variables: { projectId } })
+    const [sendRejectionEmails] = useMutation(gql`
+        mutation sendRejectionEmails($projectId: String!) {
+            sendRejectionEmails(projectId: $projectId)
+        }
+    `, { variables: { projectId } })
     if (loading) {
         return <h1>loading</h1>
     }
 
     const project = data && data.getOneProject
+
     return (<div className="displayDashboard">
         <DetailHeader project={project} />
         <div>
@@ -63,8 +72,13 @@ export const Dashboard: FC<any> = ({ projectId }) => {
             </div>
             <div>
                 <h1>Rejected Actors</h1>
+                <Button variant="contained" onClick={() => sendRejectionEmails()}> Send Rejection Letters </Button>
                 {project.rejected.map((rejected: any) => {
-                    return (<p key={rejected.id}>{rejected.displayName}</p>)
+                    return (
+                        <p key={rejected.user.id}>
+                            {rejected.user.displayName}: {rejected.rejectionEmailSent ? "Sent" : "Not Yet Sent"}
+                        </p>
+                    )
                 })}
             </div>
         </div>

@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 const Header = (props: any) => {
+    const { userType } = useContext(GlobalContext)
     const toolbarTheme = useSelector<any, any>(({ fuse }) => fuse.settings.toolbarTheme);
 
     const classes = useStyles(props);
@@ -36,13 +37,22 @@ const Header = (props: any) => {
                     </div>
 
                     <div className="flex">
-
-                        <Button onClick={() => props.history.push('/search/actor')}>Actor
-                                     Search</Button>
-                        <div className={classes.separator} />
-                        <Button onClick={() => props.history.push('/search/audition')}>Audition
-                                     Search</Button>
-                        <div className={classes.separator} />
+                        {
+                            userType.includes('theatre') && (
+                                <>
+                                    <Button onClick={() => props.history.push('/search/actor')}>Actor Search</Button>
+                                    <div className={classes.separator} />
+                                </>
+                            )
+                        }
+                        {
+                            userType.includes('actor') && (
+                                <>
+                                    <Button onClick={() => props.history.push('/search/audition')}>Audition Search</Button>
+                                    <div className={classes.separator} />
+                                </>
+                            )
+                        }
                         <UserMenu />
                     </div>
                 </Toolbar>

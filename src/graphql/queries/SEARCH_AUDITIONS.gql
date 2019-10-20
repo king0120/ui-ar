@@ -8,7 +8,11 @@ query searchForAuditions($query: String!){
             characterName
             characterSummary
             breakdown {
-                value
+                ageRange
+                gender
+                unions
+                ethnicity
+                vocalRange
             }
         }
     }

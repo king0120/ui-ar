@@ -94,7 +94,7 @@ const useStyles = makeStyles(() => ({
 declare const Chargebee: any;
 const App = (props: any) => {
     const { data, loading } = useQuery(TOKEN_CHECK);
-    const { setUserId, setDisplayName } = useContext(GlobalContext);
+    const { setUserId, setDisplayName, setUserType } = useContext(GlobalContext);
     // const [isHome, setIsHome] = useState(true);
 
     const classes = useStyles(props);
@@ -105,6 +105,7 @@ const App = (props: any) => {
     useEffect(() => {
         if (data && data.tokenCheck) {
             setUserId(data.tokenCheck.id);
+            setUserType(data.tokenCheck.userType);
             setDisplayName(data.tokenCheck.displayName);
         } else if (!loading && !data) {
             setUserId('none');

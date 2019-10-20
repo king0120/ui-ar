@@ -1,22 +1,34 @@
-import React, {FC, useState} from 'react';
-import {Button, Form, Modal} from 'semantic-ui-react';
-import {Field, Form as FinalForm} from 'react-final-form';
-import {connect} from 'react-redux';
+import React, { FC, useState } from 'react';
+import { Form } from 'semantic-ui-react';
+import { Field, Form as FinalForm } from 'react-final-form';
+import { connect } from 'react-redux';
 import AddressInput from '../shared/AddressInput';
-import {createOrganization, editOrganization} from "../../../redux/actions/organizationActions";
+import EditIcon from '@material-ui/icons/Edit';
+import { createOrganization, editOrganization } from "../../../redux/actions/organizationActions";
+import { Button, ListItemIcon, ListItemText, MenuItem, Icon, Dialog, DialogTitle, DialogContent, DialogActions, Fab, TextField } from '@material-ui/core';
+import { useForm } from '@fuse/hooks'
 
-const AddEditOrganization: FC<any> = ({editOrganization, createOrganization, defaultValue = {}}) => {
+const AddEditOrganization: FC<any> = ({ editOrganization, createOrganization, defaultValue = {} }) => {
+    const { form, handleChange } = useForm({
+        name: "",
+        contactPhoneNumber: "",
+        irsStatus: "",
+        aboutUs: "",
+        eid: "",
+    });
+
     const latlong: any = {}
     if (defaultValue.lat) {
-        Object.assign(latlong, {lat: defaultValue.lat, long: defaultValue.long});
+        Object.assign(latlong, { lat: defaultValue.lat, long: defaultValue.long });
     }
 
     const [latLong, changeLatLong] = useState(latlong);
     const [address, changeAddress] = useState(defaultValue.address || '');
     const [open, changeOpen] = useState(false)
 
-    const onSubmit = (val: any) => {
-        const toSubmit = {...val, ...latLong, address};
+    const onSubmit = (e: any) => {
+        e.preventDefault()
+        const toSubmit = { ...form, ...latLong, address };
         defaultValue.name ? editOrganization(defaultValue.id, toSubmit) : createOrganization(toSubmit)
         changeOpen(false)
     };
@@ -30,66 +42,97 @@ const AddEditOrganization: FC<any> = ({editOrganization, createOrganization, def
     };
 
     const trigger = defaultValue.name ? (
-        <Button onClick={() => changeOpen(true)} circular={true} color='yellow' icon='edit'/>
+        <Fab onClick={() => changeOpen(true)} color='secondary'>
+            <EditIcon />
+        </Fab>
     ) : (
-        <Button onClick={() => changeOpen(true)} primary size={'small'}>Create New Organization</Button>
-    );
+            <MenuItem onClick={() => changeOpen(true)}>
+                <ListItemIcon className="min-w-40">
+                    <Icon>add</Icon>
+                </ListItemIcon>
+                <ListItemText className="pl-0" primary={"Create New Theatre"} />
+            </MenuItem>
+        );
 
     const header = defaultValue.name ? (
         <span>Edit {defaultValue.name}</span>
     ) : (
-        <span>Create A New Organization</span>
-    )
+            <span>Create A New Organization</span>
+        )
+
+    
     return (
-        <Modal
-            open={open}
-            closeOnDimmerClick
-            closeIcon
-            onClose={() => {
-                changeOpen(false);
-            }}
-            trigger={trigger}>
-            <Modal.Header>{header}</Modal.Header>
-            <Modal.Content>
-                <Modal.Description>
-                    <FinalForm
+        <>
+            {trigger}
+            <Dialog
+                open={open}
+                onClose={() => {
+                    changeOpen(false);
+                }}>
+                <DialogTitle>{header}</DialogTitle>
+                <DialogContent>
+                    <form
+                        name="registerForm"
+                        noValidate
+                        className="flex flex-col justify-center w-full"
                         onSubmit={onSubmit}
-                        initialValues={defaultValue || {}}
-                        render={({handleSubmit}) => (
-                            <Form onSubmit={handleSubmit}>
-                                <Form.Field>
-                                    <label>Organization Name</label>
-                                    <Field name={'name'} component={'input'} type={'text'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Address</label>
-                                    <AddressInput defaultValue={defaultValue.address}
-                                                  handleChange={handleAddressChange}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Contact Phone Number</label>
-                                    <Field name={'contactPhoneNumber'} component={'input'} type={'number'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>IRS Status</label>
-                                    <Field name={'irsStatus'} component={'input'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>About Us</label>
-                                    <Field name={'aboutUs'} component={'textarea'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>EID Statement</label>
-                                    <Field name={'eid'} component={'textarea'}/>
-                                </Form.Field>
-                                <Button type={'submit'}>Save Organization</Button>
-                            </Form>
-                        )}
-                    />
-                </Modal.Description>
-            </Modal.Content>
-        </Modal>
+                    >
+                        <TextField
+                            className="mb-16"
+                            label="Organization Name"
+                            type="name"
+                            name="name"
+                            value={form.name}
+                            onChange={handleChange}
+                        />
+                        <div>
+                            <label>Address</label>
+                            <AddressInput
+                                type={'address'}
+                                defaultValue={defaultValue.address}
+                                handleChange={handleAddressChange} />
+                        </div>
+                        <TextField
+                            className="mb-16"
+                            label="Contact Phone Number"
+                            type="contactPhoneNumber"
+                            name="contactPhoneNumber"
+                            value={form.contactPhoneNumber}
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            className="mb-16"
+                            label="IRS Status"
+                            type="irsStatus"
+                            name="irsStatus"
+                            value={form.irsStatus}
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            className="mb-16"
+                            label="About Us"
+                            type="aboutUs"
+                            name="aboutUs"
+                            value={form.aboutUs}
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            className="mb-16"
+                            label="EID Statement"
+                            type="eid"
+                            name="eid"
+                            value={form.eid}
+                            onChange={handleChange}
+                        />
+                        <Button type={'submit'}>Save Organization</Button>
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => changeOpen(false)}>Cancel</Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
 
-export default connect(null, {editOrganization, createOrganization})(AddEditOrganization);
+export default connect(null, { editOrganization, createOrganization })(AddEditOrganization);

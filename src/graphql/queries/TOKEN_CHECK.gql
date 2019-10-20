@@ -2,5 +2,6 @@
     tokenCheck {
         id
         displayName
+        userType
     }
 }

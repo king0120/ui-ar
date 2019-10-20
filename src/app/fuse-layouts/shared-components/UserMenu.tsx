@@ -3,22 +3,26 @@ import { Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Ty
 import { Link, withRouter } from 'react-router-dom';
 import { useQuery } from "@apollo/react-hooks";
 import { GlobalContext } from 'context/globalContext';
+import AddOrganization from 'app/components/organization/AddEditOrganization'
+const GET_ORGANIZATIONS_FOR_USER = require('graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
 
 const TsIcon: any = Icon
 const GET_USER = require('graphql/queries/user/GET_USER.gql');
 
 function UserMenu(props: any) {
-    const { userId } = useContext(GlobalContext)
+    const { userId, userType } = useContext(GlobalContext)
     const { data, loading } = useQuery(GET_USER, { variables: { id: userId } })
+    const { loading: orgLoading, data: orgData } = useQuery(GET_ORGANIZATIONS_FOR_USER)
+    let orgs = orgData && orgData.getAllOrganizationsForUser;
     const [userMenu, setUserMenu] = useState(null);
-    if (loading) { return <></> }
-
+    if (loading || orgLoading) { return <></> }
+    orgs = [...orgs.owned, ...orgs.member]
     const user = {
         role: "member",
         data: {
             displayName: data.getUser.displayName,
             email: data.getUser.email,
-            photoURL: data.getUser.profilePicture.url,
+            photoURL: data.getUser.profilePicture && data.getUser.profilePicture.url,
             shortcuts: [],
         }
     }
@@ -58,7 +62,7 @@ function UserMenu(props: any) {
                         {user.data.displayName}
                     </Typography>
                     <Typography className="text-11 capitalize" color="textSecondary">
-                        {user.role.toString()}
+                        {userType.join(', ')}
                     </Typography>
                 </div>
 
@@ -85,17 +89,27 @@ function UserMenu(props: any) {
                     <ListItemIcon className="min-w-40">
                         <Icon>account_circle</Icon>
                     </ListItemIcon>
-                    <ListItemText className="pl-0" primary="My Profile" />
+                    <ListItemText className="pl-0" primary="Actor Profile" />
                 </MenuItem>
-                <MenuItem component={Link} to="/organization" onClick={userMenuClose}>
-                    <ListItemIcon className="min-w-40">
-                        <Icon>group</Icon>
-                    </ListItemIcon>
-                    <ListItemText className="pl-0" primary="Casting Dashboard" />
-                </MenuItem>
+                {
+                    userType.includes('theatre') && (
+                        <>
+                            {
+                                orgs.map((org: any) => (
+                                    <MenuItem component={Link} to={`/organization/${org.id}/projects`} onClick={userMenuClose}>
+                                        <ListItemIcon className="min-w-40">
+                                            <Icon>group</Icon>
+                                        </ListItemIcon>
+                                        <ListItemText className="pl-0" primary={org.name} />
+                                    </MenuItem>
+                                ))
+                            }
+                            < AddOrganization />
+                        </>
+                    )
+                }
                 <MenuItem
                     onClick={() => {
-                        console.log("LOGOUT")
                         userMenuClose();
                         logOut()
                     }}

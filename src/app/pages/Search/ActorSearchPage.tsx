@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { searchUsers } from '../../../redux/actions/searchActions';
 import { withRouter } from 'react-router-dom';
@@ -10,7 +9,6 @@ import { ExpansionPanel, Button, ExpansionPanelDetails, ExpansionPanelSummary, T
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import ActorSearchResults from './Partials/ActorSearchResults';
 
@@ -43,14 +41,13 @@ function NoReduxActorSearch(props: any) {
     const [type, changeType] = useState('displayName');
     return (
         <>
-            <Form onSubmit={() => {
+            <form onSubmit={(e: any) => {
+                e.preventDefault();
                 props.searchUsers({ value, type, spec: props.spec })
             }}>
                 <Paper>
                     <div className={classes.root}>
-                        <IconButton className={classes.iconButton} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
+                        <SearchIcon />
                         <InputBase
                             className={classes.input}
                             placeholder="Search For Talent"
@@ -79,8 +76,8 @@ function NoReduxActorSearch(props: any) {
                     )}
 
                 </Paper>
-            </Form>
-            <ActorSearchResults actors={props.results} handleClickTalent={props.handleClickTalent}/>
+            </form>
+            <ActorSearchResults actors={props.results} handleClickTalent={props.handleClickTalent} />
         </>
     );
 }
@@ -99,7 +96,7 @@ const ActorSearchPage: FC<any> = (props) => {
 
     return (
         <Container>
-            <h1>Actor Search</h1>
+            <Typography variant={'h5'}>Actor Search</Typography>
             <ActorSearch handleClickTalent={handleClickTalent} showTalentSpec={true} />
         </Container>
     );

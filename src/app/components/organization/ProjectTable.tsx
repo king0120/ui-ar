@@ -6,12 +6,12 @@ import AddProjectModal from '../project/AddProjectModal';
 import { format } from 'date-fns';
 import { createProject, deleteProject } from '../../../redux/actions/projectActions';
 import { useQuery } from '@apollo/react-hooks';
-import { List, ListItem, ListItemIcon, Divider, ListItemText, Collapse, Paper, Typography, makeStyles } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText, Collapse, Paper, Typography, makeStyles } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Popup } from 'semantic-ui-react';
 import EditProjectModal from '../project/EditProjectModal';
 import ConfirmationModal from '../shared/ConfirmationModal';
-import Auditions, { AuditionsContent } from 'app/pages/Audition/Auditions';
+import { AuditionsContent } from 'app/pages/Audition/Auditions';
 
 const GET_PROJECTS_FOR_ORG = require('../../../graphql/queries/projects/GET_PROJECTS_FOR_ORG.gql')
 
@@ -27,7 +27,6 @@ const ProjectListItem = ({ project, organizationId }: any) => {
     return (
         <Paper>
             <ListItem onClick={() => setExpanded(!expanded)}>
-
                 <ListItemText classes={classes}
                     primary={
                         <Link to={`/organization/${organizationId}/projects/${project.id}/dashboard`}>

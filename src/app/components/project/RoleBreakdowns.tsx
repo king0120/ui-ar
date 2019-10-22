@@ -1,24 +1,26 @@
-import React, {FC, useEffect, useState} from 'react';
-import {createProjectRole, deleteRole} from '../../../redux/actions/roleActions';
-import {connect} from 'react-redux';
-import {Header, Label} from 'semantic-ui-react';
+import React, { FC, useEffect, useState } from 'react';
+import { createProjectRole, deleteRole } from '../../../redux/actions/roleActions';
+import { connect } from 'react-redux';
+import { Header, Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import {IRole} from '../../../types/IRole';
+import { IRole } from '../../../types/IRole';
 import AddRoleBreakdownModal from '../shared/AddRoleBreakdownModal';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 import RoleBreakdownActionColumn from './RoleBreakdownActionColumn';
-import {Container} from './CommonStyledComponents';
-import {Link} from 'react-router-dom';
-import {useQuery} from "@apollo/react-hooks";
+import { Container } from './CommonStyledComponents';
+import { Link } from 'react-router-dom';
+import { useQuery } from "@apollo/react-hooks";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, Divider, Paper, Typography, Collapse, makeStyles } from '@material-ui/core';
 
-const GET_ALL_ROLES = require('../../../graphql/queries/roles/GET_ALL_ROLES.gql');
+const GET_ALL_ROLES = require('graphql/queries/roles/GET_ALL_ROLES.gql');
 
 const LabelsContainer = styled.div`
   max-width: 40%;
   .role-badge {
     display: flex;
-    align-items: center;
+    align-items: left;
     margin: 10px;
     .label {
       margin: 0 5px;
@@ -26,7 +28,13 @@ const LabelsContainer = styled.div`
   }
 `;
 
-const RowExpansion = (role: IRole) => {
+const useStyles = makeStyles(() => ({
+    root: {
+        width: '200px'
+    }
+}));
+
+const RowExpansion = ({ role }: any) => {
     const ageRange = role.breakdown.ageRange || ['None'];
     const gender = role.breakdown.gender || ['None'];
     const unions = role.breakdown.unions || ['None'];
@@ -57,11 +65,11 @@ const RowExpansion = (role: IRole) => {
     );
 };
 
-const RoleBreakdowns: FC<any> = ({projectId, projectName, createProjectRole, deleteRole}) => {
-    const {data, loading, refetch} = useQuery(GET_ALL_ROLES, {variables: {projectId}});
-    const [expandedRows, setExpandedRows] = useState();
+const RoleBreakdowns: FC<any> = ({ projectId, projectName, createProjectRole, deleteRole }) => {
+    const { data, loading, refetch } = useQuery(GET_ALL_ROLES, { variables: { projectId } });
+    const classes = useStyles();
 
-    useEffect(() => {refetch()}, [refetch]);
+    useEffect(() => { refetch() }, [refetch]);
     const handleCreateRow = async (role: any) => {
         await createProjectRole(projectId, role);
         await refetch()
@@ -77,32 +85,52 @@ const RoleBreakdowns: FC<any> = ({projectId, projectName, createProjectRole, del
     const roles = data && data.getAllRoles
     return (
         <Container>
-            <div className='role-header'>
-                <Header as='h1'>Role Breakdown for {projectName}</Header>
-                <AddRoleBreakdownModal handleSubmit={(role) => handleCreateRow(role)}/>
-            </div>
-            <DataTable
-                emptyMessage={'No Roles Available. Please Create A Role.'}
-                value={roles}
-                expandedRows={expandedRows}
-                onRowToggle={(e) => setExpandedRows(e.data)}
-                rowExpansionTemplate={RowExpansion}
-            >
-                <Column expander={true} style={{width: '2em'}}/>
-                <Column header='Character Name' body={(data: any) => (
-                    <Link to={`/projects/${projectId}/roles/${data.id}`}>{data.characterName}</Link>
-                )}/>
-                <Column field='characterSummary' header='Character Summary'/>
-                <Column header='Cast To' body={
-                    (data: any) => (data.castTo && data.castTo.displayName) || "Not Cast"
-                }/>
-                <Column body={
-                    (data: any) => <RoleBreakdownActionColumn projectId={projectId} data={data}
-                                                              deleteRole={() => handleDeleteRow(data.id)}/>
-                } header='Actions'/>
-            </DataTable>
+            <Paper>
+                <div className='flex p-10 justify-between align-baseline'>
+                    <Typography variant='h5'>Role Breakdown for {projectName}</Typography>
+                    <AddRoleBreakdownModal handleSubmit={(role) => handleCreateRow(role)} />
+                </div>
+                <List>
+                    <ListItem alignItems="flex-start">
+                        <ListItemText classes={classes} primary={"Character Name"} />
+                        <ListItemText primary={"Cast Status"} />
+                        <ListItemSecondaryAction>
+                            Actions
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider />
+                    {roles.map((role: any, i: number) => {
+                        return <RoleBreakdownItem key={role.id} roles={roles} role={role} projectId={projectId} handleDeleteRow={handleDeleteRow} i={i} />
+                    })}
+                </List>
+            </Paper>
         </Container>
     );
 };
 
-export default connect(null, {createProjectRole, deleteRole})(RoleBreakdowns);
+
+const RoleBreakdownItem = ({ roles, role, projectId, handleDeleteRow, i }: any) => {
+    const classes = useStyles();
+    const [expanded, setExpanded] = useState(false)
+    return (
+        <>
+            <ListItem alignItems="flex-start" key={role.id}>
+                <ListItemIcon onClick={() => setExpanded(!expanded)}>
+                    <ExpandMoreIcon />
+                </ListItemIcon>
+                <ListItemText classes={classes} primary={<Link to={`/projects/${projectId}/roles/${role.id}`}>{role.characterName}</Link>} />
+                <ListItemText classes={classes} primary={role.castTo ? role.castTo.displayName : "Not Cast"} />
+                <ListItemSecondaryAction>
+                    <RoleBreakdownActionColumn projectId={projectId} data={role}
+                        deleteRole={() => handleDeleteRow(role.id)} />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <RowExpansion role={role} />
+            </Collapse>
+            {i !== roles.length - 1 && <Divider />}
+        </>
+    )
+}
+
+export default connect(null, { createProjectRole, deleteRole })(RoleBreakdowns);

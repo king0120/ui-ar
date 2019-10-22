@@ -1,8 +1,9 @@
 import React, {FC, SyntheticEvent, useState} from 'react';
-import {Button, Checkbox, Form, Modal} from 'semantic-ui-react';
+import {Checkbox, Form, Modal} from 'semantic-ui-react';
 import TalentSpecificationsForm from './TalentSpecificationsForm';
 import {connect} from 'react-redux';
 import {getFormState} from '../../../redux/store/reducers/finalFormReducer';
+import {Button} from '@material-ui/core'
 
 const AddRoleBreakdownModal: FC<{ specs: any, handleSubmit: (val: any) => void }> = (props) => {
     const [open, setOpen] = useState(false);
@@ -29,7 +30,7 @@ const AddRoleBreakdownModal: FC<{ specs: any, handleSubmit: (val: any) => void }
             closeIcon
             open={open}
             trigger={
-                <Button onClick={() => setOpen(true)} primary>Add New Role</Button>
+                <Button onClick={() => setOpen(true)} variant="contained" color="secondary">Add New Role</Button>
             }
             onClose={() => {
                 setOpen(false);
@@ -56,8 +57,8 @@ const AddRoleBreakdownModal: FC<{ specs: any, handleSubmit: (val: any) => void }
                     </Form.Field>
                     <h3>Role Breakdown</h3>
                     <TalentSpecificationsForm/>
-                    <Button type='submit' primary onClick={handleSubmit}>Submit</Button>
-                    <Button secondary onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button variant="contained" color="primary" type='submit' onClick={handleSubmit}>Submit</Button>
+                    <Button variant="contained" color="secondary" onClick={() => setOpen(false)}>Cancel</Button>
                 </Form>
             </Modal.Content>
         </Modal>

@@ -1,14 +1,14 @@
-import React, {FC} from 'react';
-import {Header, Tab} from 'semantic-ui-react';
+import React, { FC, useState } from 'react';
 import ProjectTable from '../../components/organization/ProjectTable';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
-import {deleteOrganization} from '../../../redux/actions/organizationActions';
-import {IOrganization} from '../../../types/IOrganization';
+import { connect } from 'react-redux';
+import { deleteOrganization } from '../../../redux/actions/organizationActions';
+import { IOrganization } from '../../../types/IOrganization';
 import ConfirmationModal from "../../components/shared/ConfirmationModal";
 import AddOrganization from "../../components/organization/AddEditOrganization";
 import MembersList from "../../components/organization/MembersList";
-import {useQuery} from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
+import { Typography, Tabs, Tab } from '@material-ui/core';
 
 const GET_ORGANIZATION = require('../../../graphql/queries/organization/GET_ORGANIZATION.gql')
 const TheatreHeader = styled.div`
@@ -22,14 +22,10 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const OrganizationPage: FC<IProjectList> = ({deleteOrganization, history, match}) => {
+const OrganizationPage: FC<IProjectList> = ({ deleteOrganization, history, match }) => {
     const orgId = match.params.organizationId;
-    const {loading, data} = useQuery(GET_ORGANIZATION, {variables: {orgId}})
-
-    const panes = [
-        {menuItem: 'Project Dashboard', render: () => <ProjectTable/>},
-        {menuItem: 'Members', render: () => <MembersList/>}
-    ];
+    const { loading, data } = useQuery(GET_ORGANIZATION, { variables: { orgId } })
+    const [selectedTab, setSelectedTab] = useState(0);
 
     const organization = data && data.getOneOrganization;
     if (loading || !organization) {
@@ -43,14 +39,26 @@ const OrganizationPage: FC<IProjectList> = ({deleteOrganization, history, match}
     return (
         <Container>
             <TheatreHeader>
-                <Header as="h1">{organization.name}</Header>
-                <div>
-                    <AddOrganization defaultValue={organization}/>
-                    <ConfirmationModal onConfirm={handleDeleteOrg}/>
+                <Typography variant="h3">{organization.name}</Typography>
+                <div className="flex w-96 justify-between">
+                    <AddOrganization defaultValue={organization} />
+                    <ConfirmationModal onConfirm={handleDeleteOrg} />
                 </div>
             </TheatreHeader>
-
-            <Tab menu={{fluid: true, tabular: true}} panes={panes}/>
+            <Tabs
+                value={selectedTab}
+                onChange={(e, v) => setSelectedTab(v)}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="scrollable"
+                scrollButtons="off"
+                className="w-full h-32"
+            >
+                <Tab className="h-32" label="Project Dashboard" />
+                <Tab className="h-32" label="Members" />
+            </Tabs>
+            {selectedTab === 0 && <ProjectTable />}
+            {selectedTab === 1 && <MembersList />}
         </Container>
     );
 };
@@ -62,4 +70,4 @@ interface IProjectList {
     history: any;
 }
 
-export default connect(null, {deleteOrganization})(OrganizationPage);
+export default connect(null, { deleteOrganization })(OrganizationPage);

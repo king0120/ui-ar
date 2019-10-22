@@ -1,9 +1,10 @@
-import React, {FC} from 'react';
-import {List} from 'semantic-ui-react';
+import React, { FC } from 'react';
+import { List, ListItem, ListItemText, Typography, Divider } from '@material-ui/core';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AddOrganization from '../../components/organization/AddEditOrganization';
-import {useQuery} from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
+import classes from '*.module.css';
 
 const GET_ORGANIZATIONS_FOR_USER = require('../../../graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
 const OrgPageStyle = styled.div`
@@ -18,7 +19,7 @@ const OrgPageStyle = styled.div`
 `;
 
 const OrgSelectPage: FC<any> = () => {
-    const {loading, data} = useQuery(GET_ORGANIZATIONS_FOR_USER)
+    const { loading, data } = useQuery(GET_ORGANIZATIONS_FOR_USER)
     let orgs = data && data.getAllOrganizationsForUser;
     if (loading) {
         return <h1>Loading</h1>
@@ -30,19 +31,22 @@ const OrgSelectPage: FC<any> = () => {
     return (
         <OrgPageStyle>
             <div className={'header'}>
-                <h1>Select An Organization Below</h1>
-                <AddOrganization/>
+                <Typography variant='h4'>Select An Organization Below</Typography>
+                <AddOrganization />
             </div>
-            <List bulleted divided relaxed>
+            <List >
                 {orgs.map((org: any) => (
-                    <List.Item key={org.id}>
-                        <Link to={`/organization/${org.id}/projects`}>
-                            <List.Content>
-                                <List.Header>{org.name}</List.Header>
-                                <List.Description>{org.address}</List.Description>
-                            </List.Content>
-                        </Link>
-                    </List.Item>
+                    <>
+                        <ListItem alignItems="flex-start" key={org.id}>
+                            <Link to={`/organization/${org.id}/projects`}>
+                                <ListItemText
+                                    primary={org.name}
+                                    secondary={org.address}
+                                />
+                            </Link>
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </>
                 ))}
             </List>
         </OrgPageStyle>

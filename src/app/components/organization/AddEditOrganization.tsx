@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AddressInput from '../shared/AddressInput';
 import EditIcon from '@material-ui/icons/Edit';
 import { createOrganization, editOrganization } from "../../../redux/actions/organizationActions";
-import { Button, ListItemIcon, ListItemText, MenuItem, Icon, Dialog, DialogTitle, DialogContent, DialogActions, Fab, TextField } from '@material-ui/core';
+import { Button, ListItemIcon, ListItemText, MenuItem, Icon, Dialog, DialogTitle, DialogContent, DialogActions, Fab, TextField, Tooltip } from '@material-ui/core';
 import { useForm } from '@fuse/hooks'
 
 const AddEditOrganization: FC<any> = ({ editOrganization, createOrganization, defaultValue = {} }) => {
@@ -42,9 +42,12 @@ const AddEditOrganization: FC<any> = ({ editOrganization, createOrganization, de
     };
 
     const trigger = defaultValue.name ? (
-        <Fab onClick={() => changeOpen(true)} color='secondary'>
-            <EditIcon />
-        </Fab>
+        <Tooltip title="Edit Organization" placement="bottom">
+            <Fab onClick={() => changeOpen(true)} color='secondary' size="small">
+                <EditIcon />
+            </Fab>
+        </Tooltip>
+
     ) : (
             <MenuItem onClick={() => changeOpen(true)}>
                 <ListItemIcon className="min-w-40">
@@ -54,18 +57,14 @@ const AddEditOrganization: FC<any> = ({ editOrganization, createOrganization, de
             </MenuItem>
         );
 
-    const header = defaultValue.name ? (
-        <span>Edit {defaultValue.name}</span>
-    ) : (
-            <span>Create A New Organization</span>
-        )
+    const header = defaultValue.name ? <span>Edit {defaultValue.name}</span> : <span>Create A New Organization</span>;
 
-    
     return (
         <>
             {trigger}
             <Dialog
                 open={open}
+                fullWidth={true}
                 onClose={() => {
                     changeOpen(false);
                 }}>
@@ -85,13 +84,12 @@ const AddEditOrganization: FC<any> = ({ editOrganization, createOrganization, de
                             value={form.name}
                             onChange={handleChange}
                         />
-                        <div>
-                            <label>Address</label>
-                            <AddressInput
-                                type={'address'}
-                                defaultValue={defaultValue.address}
-                                handleChange={handleAddressChange} />
-                        </div>
+                        <AddressInput
+                            type={'address'}
+                            label="Address"
+                            variant="standard"
+                            defaultValue={defaultValue.address}
+                            handleChange={handleAddressChange} />
                         <TextField
                             className="mb-16"
                             label="Contact Phone Number"
@@ -113,6 +111,8 @@ const AddEditOrganization: FC<any> = ({ editOrganization, createOrganization, de
                             label="About Us"
                             type="aboutUs"
                             name="aboutUs"
+                            multiline={true}
+                            rows={3}
                             value={form.aboutUs}
                             onChange={handleChange}
                         />
@@ -121,15 +121,17 @@ const AddEditOrganization: FC<any> = ({ editOrganization, createOrganization, de
                             label="EID Statement"
                             type="eid"
                             name="eid"
+                            multiline={true}
+                            rows={3}
                             value={form.eid}
                             onChange={handleChange}
                         />
-                        <Button type={'submit'}>Save Organization</Button>
+                        <DialogActions>
+                            <Button variant='contained' color="secondary" onClick={() => changeOpen(false)}>Cancel</Button>
+                            <Button variant='contained' color="primary" type={'submit'}>Save Organization</Button>
+                        </DialogActions>
                     </form>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => changeOpen(false)}>Cancel</Button>
-                </DialogActions>
             </Dialog>
         </>
     );

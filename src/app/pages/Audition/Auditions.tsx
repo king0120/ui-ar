@@ -11,7 +11,7 @@ import moment from 'moment';
 const DELETE_AUDITION = require('../../../graphql/mutations/DELETE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 
-const Auditions: FC<any> = ({ match, history, projectId, projectName }) => {
+export const AuditionsContent: FC<any> = ({ match, history, projectId, projectName }) => {
     const { loading, data } = useQuery(GET_AUDITIONS_FOR_PROJECT, { variables: { projectId } })
     const [deleteAudition] = useMutation(DELETE_AUDITION, {
         refetchQueries: [{
@@ -27,7 +27,7 @@ const Auditions: FC<any> = ({ match, history, projectId, projectName }) => {
     const openAuditions = auditions.filter((a: any) => a.open);
     const closedAuditions = auditions.filter((a: any) => !a.open);
     return (
-        <Container>
+        <>
             <div className='role-header'>
                 <Typography variant="h6">Upcoming Auditions for {projectName}</Typography>
                 <Button
@@ -100,8 +100,12 @@ const Auditions: FC<any> = ({ match, history, projectId, projectName }) => {
                     </TableBody>
                 </Table>
             </Paper>
-        </Container>
+        </>
     );
 };
 
-export default Auditions;
+export default (props: any) => (
+    <Container>
+        <AuditionsContent {...props} />
+    </Container>
+);

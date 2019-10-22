@@ -6,7 +6,8 @@ class AddressInput extends React.Component<any> {
     static defaultProps = {
         handleChange: () => { },
         variant: 'outlined',
-        type: 'city'
+        type: 'city',
+        label: 'City, State'
     }
 
     state = {
@@ -47,7 +48,7 @@ class AddressInput extends React.Component<any> {
         return <TextField
             id='address-input'
             className="mb-16"
-            label="City, State"
+            label={this.props.label}
             autoFocus
             type="cityState"
             name="cityState"

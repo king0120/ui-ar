@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { editProject } from '../../../redux/actions/projectActions';
 import { withRouter } from "react-router";
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
+import EditIcon from '@material-ui/icons/Edit';
+import { Fab, Tooltip } from '@material-ui/core'
 
 const AddProjectModal: FC<any> = (props) => {
     const [open, setOpen] = useState(false);
@@ -41,7 +43,11 @@ const AddProjectModal: FC<any> = (props) => {
             closeIcon
             open={open}
             trigger={
-                <Button onClick={() => setOpen(true)} circular color="yellow" icon='edit' />
+                <Tooltip placement="bottom" title="Edit Project">
+                    <Fab onClick={() => setOpen(true)} color='secondary' size="small">
+                        <EditIcon />
+                    </Fab>
+                </Tooltip>
             }
             onClose={() => {
                 setOpen(false);

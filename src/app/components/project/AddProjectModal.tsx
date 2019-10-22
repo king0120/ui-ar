@@ -1,6 +1,7 @@
 import React, { FC, SyntheticEvent, useState } from 'react';
-import { Button, Form, Modal } from 'semantic-ui-react';
+import { Form, Modal } from 'semantic-ui-react';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
+import { Button } from '@material-ui/core'
 
 const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
     const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
             closeIcon
             open={open}
             trigger={
-                <Button onClick={() => setOpen(true)} primary>Add New Project</Button>
+                <Button onClick={() => setOpen(true)} variant="contained" color="primary">Add New Project</Button>
             }
             onClose={() => {
                 setOpen(false);

@@ -8,5 +8,9 @@ query getProjects($organizationId: String!){
         rehearsalDateStart
         rehearsalDateEnd
         performanceDateStart
+        auditions {
+            id
+            name
+        }
     }
 }

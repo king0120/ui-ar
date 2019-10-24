@@ -15,7 +15,7 @@ import FuseScrollbars from '@fuse/components/FuseScrollbars/FuseScrollbars';
 import FuseTheme from '@fuse/components/FuseTheme/FuseTheme';
 import { FuseLoading } from '@fuse';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+import DateFnsUtils from '@date-io/date-fns';
 
 const token = localStorage.getItem('accessToken');
 const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql');
@@ -137,7 +137,7 @@ const App = (props: any) => {
 
 const WithRouter = withRouter(App);
 const WithApollo = () => (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <ApolloProvider client={client}>
             <BrowserRouter>
                 <WithRouter />

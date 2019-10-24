@@ -1,106 +1,75 @@
-import React, {FC} from 'react';
-import {Button, Form, Input} from 'semantic-ui-react';
-import {Field, Form as FinalForm} from 'react-final-form';
-import 'rc-time-picker/assets/index.css';
-import TimePicker from 'rc-time-picker';
-import moment, {Moment} from 'moment';
-import {withRouter} from "react-router";
-import {useMutation} from "@apollo/react-hooks";
+import React, { FC, useState } from 'react';
+import { withRouter } from "react-router";
+import { useMutation } from "@apollo/react-hooks";
+import { TimePicker } from '@material-ui/pickers';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { TextField, Button, Paper } from '@material-ui/core';
+import { addMinutes } from 'date-fns';
 
 const CREATE_TIME_SLOTS = require('../../../graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql');
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 
 const NewTimeSlot: FC<any> = (props) => {
-    const {auditionId} = props.match.params;
-    const {allSlots, changeAllSlots} = props;
-
+    const { auditionId } = props.match.params;
+    const { allSlots, changeAllSlots } = props;
+    const [startTime, changeStartTime] = useState(new Date())
+    const [numberOfSlots, changeNumberOfSlots] = useState(0)
+    const [duration, changeDuration] = useState(0)
     const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
         refetchQueries: [{
             query: GET_AUDITION,
-            variables: {auditionId}
+            variables: { auditionId }
         }]
     });
 
-    const buildTimeSlots = (startTime: Moment, numSlots: number, duration: number) => {
-        const start = startTime.clone();
+    const buildTimeSlots = (startTime: Date, numSlots: number, duration: number) => {
+        let start = startTime;
         const slots = [];
         for (let i = 0; i < numSlots; i++) {
-            slots.push({
-                startTime: start.clone(),
-                endTime: start.clone().add(duration, 'm'),
-            });
-            start.add(duration, 'm');
+            const newSlot: any = { startTime, endTime: null }
+            const endTime = addMinutes(start, duration)
+            newSlot.endTime = endTime
+            startTime = endTime
+            slots.push(newSlot);
         }
         changeAllSlots(slots);
+        handleSaveTime()
     };
 
     const handleSaveTime = () => {
         allSlots.forEach((slot: any) => {
-            const {startTime, endTime} = slot;
+            const { startTime, endTime } = slot;
             createTimeSlots({
                 variables: {
-                    data: {startTime, endTime, auditionId}
+                    data: { startTime, endTime, auditionId }
                 }
             })
         })
     };
 
     return (
-        <FinalForm
-            onSubmit={handleSaveTime}
-            render={({handleSubmit, form}) => {
-                return (
-                    <Form onSubmit={handleSubmit}>
-                        <Field
-                            name={'startTime'}
-                            render={({input}) => (
-                                <Form.Field>
-                                    <label>Start Time</label>
-                                    {/*
-                                    // @ts-ignore */}
-                                    <TimePicker
-                                        showSecond={false}
-                                        defaultValue={moment().hour(0).minute(0)}
-                                        format={'h:mm a'}
-                                        inputReadOnly
-                                        use12Hours
-                                        {...input}
-                                    />
-                                </Form.Field>
-                            )}
-                        />
-                        <Form.Group widths='equal'>
-                            <Field
-                                type={'number'}
-                                name={'duration'}
-                                render={({input}) => (
-                                    <Form.Field>
-                                        <label>Duration</label>
-                                        <Input {...input}/>
-                                    </Form.Field>
-                                )}
-                            />
-                            <Field
-                                type={'number'}
-                                name={'numberOfSlots'}
-                                render={({input}) => (
-                                    <Form.Field>
-                                        <label>Number Of Slots</label>
-                                        <Input {...input}/>
-                                    </Form.Field>
-                                )}
-                            />
-                        </Form.Group>
-                        <Button secondary onClick={() => {
-                            const vals = ['startTime', 'numberOfSlots', 'duration'].map(form.getFieldState).map((f: any) => f.value);
-                            buildTimeSlots(vals[0], vals[1], vals[2]);
-                        }}>Update TimeSlots</Button>
-                        <Button type={'submit'}>Save Times</Button>
-                    </Form>
-                );
-            }
-            }
-        />
+        <Paper className="p-12 mt-12 mb-12">
+            <TimePicker
+                label="Start Time"
+                value={startTime}
+                onChange={(date: MaterialUiPickersDate) => { changeStartTime(date as any) }}
+            />
+            <TextField
+                className="mb-16"
+                label="Number of Slots"
+                value={numberOfSlots}
+                onChange={(e: any) => changeNumberOfSlots(e.target.value)}
+            />
+            <TextField
+                className="mb-16"
+                label="Duration"
+                value={duration}
+                onChange={(e: any) => changeDuration(e.target.value)}
+            />
+            <Button variant="contained" color="secondary" onClick={() => {
+                buildTimeSlots(startTime, numberOfSlots, duration);
+            }}>Update TimeSlots</Button>
+        </Paper>
     );
 };
 

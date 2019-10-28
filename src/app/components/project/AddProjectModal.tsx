@@ -78,7 +78,7 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
                                     disablePast={true}
                                     onChange={(data: any) => { setRehearsalStart(data) }}
                                     ampm={true}
-                                    format="MM/DD/YYYY HH:mm A"
+                                    format="MM/dd/yyyy hh:mm aaaa"
                                 />
                             </Form.Field>
                             <Form.Field>
@@ -89,7 +89,7 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
                                     disablePast={true}
                                     onChange={(data: any) => setRehearsalEnd(data)}
                                     ampm={true}
-                                    format="MM/DD/YYYY HH:mm A"
+                                    format="MM/dd/yyyy hh:mm aaaa"
                                 />
                             </Form.Field>
                         </div>
@@ -102,7 +102,7 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
                                     disablePast={true}
                                     onChange={(data: any) => setPerformanceStart(data)}
                                     ampm={true}
-                                    format="MM/DD/YYYY HH:mm A"
+                                    format="MM/dd/yyyy hh:mm aaaa"
                                 />
                             </Form.Field>
                             <Form.Field>
@@ -113,7 +113,7 @@ const AddProjectModal: FC<{ handleSubmit: (val: any) => void }> = (props) => {
                                     disablePast={true}
                                     onChange={(data: any) => setPerformanceEnd(data)}
                                     ampm={true}
-                                    format="MM/DD/YYYY HH:mm A"
+                                    format="MM/dd/yyyy hh:mm aaaa"
                                 />
                             </Form.Field>
                         </div>

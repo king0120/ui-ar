@@ -55,7 +55,7 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
                         : <span>{audition.name}</span>
                     }
                 </Typography>
-                <Button variant="contained" color="primary" onClick={() => toggleShowConfig(!showConfig)}>Configure Audition</Button>
+                <Button variant="contained" color="primary" onClick={() => toggleShowConfig(!showConfig)}>Add TimeSlots</Button>
             </AuditionHeader>
             {
                 showConfig

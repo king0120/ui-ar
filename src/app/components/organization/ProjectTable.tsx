@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => ({
 const ProjectListItem = ({ project, organizationId }: any) => {
     const [expanded, setExpanded] = useState(false)
     const classes = useStyles();
+    console.log(project.rehearsalDateStart, project.rehearsalDateEnd)
     return (
         <Paper>
             <ListItem onClick={() => setExpanded(!expanded)}>
@@ -38,11 +39,11 @@ const ProjectListItem = ({ project, organizationId }: any) => {
                         </Link>}
                 />
                 <ListItemText primary={<Typography variant="body1">Rehearsals: </Typography>} secondary={
-                    <Typography variant="body1">{format(project.rehearsalDateStart, 'MMM Do, YYYY')} to {format(project.rehearsalDateEnd, 'MMM Do, YYYY')}</Typography>
+                    <Typography variant="body1">{project.rehearsalDateStart && format(new Date(project.rehearsalDateStart), 'MMM do, yyyy')} to {project.rehearsalDateEnd && format(new Date(project.rehearsalDateEnd), 'MMM do, yyyy')}</Typography>
                 }
                 />
                 <ListItemText primary={<Typography variant="body1">Performance: </Typography>} secondary={
-                    <Typography variant="body1">{format(project.performanceDateStart, 'MMM Do, YYYY')} to {format(project.performanceDateEnd, 'MMM Do, YYYY')}</Typography>
+                    <Typography variant="body1">{project.performanceDateStart && format(new Date(project.performanceDateStart), 'MMM do, yyyy')} to {project.performanceDateEnd && format(new Date(project.performanceDateEnd), 'MMM do, yyyy')}</Typography>
                 }
                 />
                 <ListItemIcon>

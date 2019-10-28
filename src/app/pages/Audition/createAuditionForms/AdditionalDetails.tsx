@@ -1,20 +1,15 @@
 import React, { FC } from 'react';
-import MuiPhoneNumber from 'material-ui-phone-number'
 import { TextField } from '@material-ui/core';
 
 interface IAdditionalDetails {
-  setPhone: (p: any) => void;
   description: string;
   prep: string;
   handleChange: (p: any) => void;
 }
 
-const AdditionalDetails: FC<IAdditionalDetails> = ({setPhone, description, prep, handleChange}) => {
+const AdditionalDetails: FC<IAdditionalDetails> = ({description, prep, handleChange}) => {
   return (
     <div>
-      <div className="mb-4">
-        <MuiPhoneNumber defaultCountry={'us'} onChange={setPhone} />
-      </div>
       <div>
         <TextField
           className="mb-16"

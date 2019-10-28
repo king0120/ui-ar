@@ -1,12 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { createProjectRole, deleteRole } from '../../../redux/actions/roleActions';
 import { connect } from 'react-redux';
-import { Header, Label } from 'semantic-ui-react';
+import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { IRole } from '../../../types/IRole';
 import AddRoleBreakdownModal from '../shared/AddRoleBreakdownModal';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import RoleBreakdownActionColumn from './RoleBreakdownActionColumn';
 import { Container } from './CommonStyledComponents';
 import { Link } from 'react-router-dom';

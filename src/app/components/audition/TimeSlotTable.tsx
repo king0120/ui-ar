@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
-import { Column } from 'primereact/column';
 import { format } from 'date-fns';
 import { Button, Modal, TableBody } from 'semantic-ui-react';
-import { DataTable } from 'primereact/datatable';
 import AuditionTimeSlotActionColumn from './AuditionTimeSlotActionColumn';
 import { ActorSearch } from '../../pages/Search/ActorSearchPage';
 import { Link, withRouter } from 'react-router-dom';
@@ -62,11 +60,11 @@ const TimeSlotTable: FC<any> = ({ match, allSlots, editable = false, header }) =
                 <TableBody>
                     {allSlots.map((data: any) => (
                         <TableRow key={data.id}>
-                            <TableCell>
-                                {format(data.startTime, 'h:mm a')}
+                        <TableCell>
+                                {format(new Date(data.startTime), 'h:mm a')}
                             </TableCell>
                             <TableCell>
-                                {format(data.endTime, 'h:mm a')}
+                                {format(new Date(data.endTime), 'h:mm a')}
                             </TableCell>
                             <TableCell>
                                 {

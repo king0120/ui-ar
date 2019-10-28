@@ -54,7 +54,7 @@ const AuditionDetails: FC<IAuditionDetails> = (props) => {
           disablePast={true}
           onChange={(date) => { props.setNewDate(date as any) }}
           ampm={true}
-          format="MM/DD/YYYY HH:mm A"
+          format="MM/dd/yyyy hh:mm aaaa"
         />
       </div>
       <div>

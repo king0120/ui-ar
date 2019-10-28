@@ -82,7 +82,7 @@ const AddProjectModal: FC<any> = (props) => {
                                 disablePast={true}
                                 onChange={(data: any) => setAuditionDate(data)}
                                 ampm={true}
-                                format="MM/DD/YYYY HH:mm A"
+                                format="MM/dd/yyyy hh:mm aaaa"
                             />
                         </Form.Field>
                         <Form.Field>
@@ -93,7 +93,7 @@ const AddProjectModal: FC<any> = (props) => {
                                 disablePast={true}
                                 onChange={(data: any) => setCallbackDate(data)}
                                 ampm={true}
-                                format="MM/DD/YYYY HH:mm A"
+                                format="MM/dd/yyyy hh:mm aaaa"
                             />
                         </Form.Field>
                         <Button type='submit' onClick={handleSubmit}>Submit</Button>

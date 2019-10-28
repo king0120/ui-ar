@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import ConfirmationModal from '../../components/shared/ConfirmationModal';
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Typography, Divider } from '@material-ui/core';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 const DELETE_AUDITION = require('../../../graphql/mutations/DELETE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
@@ -54,7 +54,7 @@ export const AuditionsContent: FC<any> = ({ match, history, projectId, projectNa
                                 <TableCell component="th" scope="audition">
                                     {audition.name}
                                 </TableCell>
-                                <TableCell align="right">{moment(audition.startDate).format('MMMM Do YYYY, h:mm:ss a')}</TableCell>
+                                <TableCell align="right">{format(new Date(audition.startDate), 'MMMM do yyyy, h:mm:ss a')}</TableCell>
                                 <TableCell align="right">{audition.auditionType}</TableCell>
                                 <TableCell align="right">{audition.showInAuditionSearch}</TableCell>
                                 <TableCell align="right">
@@ -93,7 +93,7 @@ export const AuditionsContent: FC<any> = ({ match, history, projectId, projectNa
                                 <TableCell component="th" scope="audition">
                                     {audition.name}
                                 </TableCell>
-                                <TableCell align="right">{moment(audition.startDate).format('MMMM Do YYYY, h:mm:ss a')}</TableCell>
+                                <TableCell align="right">{format(new Date(audition.startDate), 'MMMM do yyyy, h:mm:ss a')}</TableCell>
                                 <TableCell align="right">{audition.auditionType}</TableCell>
                             </TableRow>
                         ))}

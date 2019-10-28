@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Radio, InputLabel, Select, MenuItem, Theme, Input, useTheme, FormControlLabel } from '@material-ui/core';
 import { useQuery } from '@apollo/react-hooks';
-import { withRouter } from 'react-router';
+
 const GET_AUDITIONS_FOR_PROJECT = require('graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql')
 interface IAuditionType {
   selectedValue: string;

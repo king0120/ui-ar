@@ -20,12 +20,12 @@ const DetailHeader: FC<IDetailHeaderProps> = ({ project }) => {
       <div className="w-1/4">
         <div>
           <Typography variant="body1">Rehearsal Dates</Typography>
-          {format(project.rehearsalDateStart, 'MMM Do, YYYY')} to {format(project.rehearsalDateEnd, 'MMM Do, YYYY')}
+          {format(new Date(project.rehearsalDateStart), 'MMM Do, YYYY')} to {format(new Date(project.rehearsalDateEnd), 'MMM Do, YYYY')}
         </div>
         <Divider />
         <div>
           <Typography variant="body1">Performance Dates</Typography>
-          {format(project.performanceDateStart, 'MMM Do, YYYY')} to {format(project.performanceDateEnd, 'MMM Do, YYYY')}
+          {format(new Date(project.performanceDateStart), 'MMM Do, YYYY')} to {format(new Date(project.performanceDateEnd), 'MMM Do, YYYY')}
         </div>
       </div>
     </div>

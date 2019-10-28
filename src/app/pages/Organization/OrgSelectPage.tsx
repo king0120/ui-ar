@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import AddOrganization from '../../components/organization/AddEditOrganization';
 import { useQuery } from "@apollo/react-hooks";
-import classes from '*.module.css';
 
 const GET_ORGANIZATIONS_FOR_USER = require('../../../graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
 const OrgPageStyle = styled.div`

@@ -6,6 +6,7 @@ import AuditionDetails from './createAuditionForms/AuditionDetails';
 import AdditionalDetails from './createAuditionForms/AdditionalDetails';
 import AuditionRoles from './createAuditionForms/AuditionRoles';
 import { ActorSearch } from '../Search/ActorSearchPage';
+import ActorQuestions from './createAuditionForms/ActorQuestions';
 const CREATE_AUDITION = require('../../../graphql/mutations/CREATE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 const GET_ALL_ROLES = require('../../../graphql/queries/roles/GET_ALL_ROLES.gql');
@@ -60,15 +61,17 @@ const CreateAudition: FC<any> = ({ match, history }) => {
     const [createAudition] = useMutation(CREATE_AUDITION, { refetchQueries });
     const { data, loading } = useQuery(GET_ALL_ROLES, { variables: { projectId } });
     const [selectedValue, setSelectedValue] = React.useState('general');
-    const [phone, setPhone] = React.useState(undefined);
     const [privateAudition, setPrivate] = React.useState(false);
     const [cloneAuditions, setCloneAuditions] = useState([])
     const [forRoles, setForRoles] = useState([])
+
+    const [questions, setQuestions]: [string[], (s: string[]) => void] = useState(['Please list conflicts, leave blank if none.'] as string[]);
     const { form, handleChange, resetForm } = useForm({
         name: '',
         description: '',
         prep: ''
     })
+    console.log(questions)
     const onSubmit = async () => {
         const newAudition = {
             name: form.name,
@@ -77,11 +80,10 @@ const CreateAudition: FC<any> = ({ match, history }) => {
             startDate: selectedDate,
             auditionType: selectedValue,
             private: privateAudition,
-            phoneNumber: "1111111111", //TODO use phone
             description: form.description,
             prep: form.prep,
             forRoles: forRoles,
-            questions: [], //TODO ADD THIS,
+            questions,
             cloneAuditions
         }
         // const { status, question1, question2, question3, question4, question5, ...cleaned } = data;
@@ -107,7 +109,7 @@ const CreateAudition: FC<any> = ({ match, history }) => {
         resetForm();
     }
 
-    const steps = ['Audition Details', 'More Details', 'Choose Roles']
+    const steps = ['Audition Details', 'More Details', 'Choose Roles', 'Actor Questions',]
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
@@ -140,7 +142,6 @@ const CreateAudition: FC<any> = ({ match, history }) => {
                 />;
             case 1:
                 return <AdditionalDetails
-                    setPhone={setPhone}
                     description={form.description}
                     prep={form.prep}
                     handleChange={handleChange}
@@ -152,6 +153,12 @@ const CreateAudition: FC<any> = ({ match, history }) => {
                     setForRoles={setForRoles}
                 />;
             case 3:
+                return <ActorQuestions
+                    questions={questions}
+                    setQuestions={setQuestions}
+                />
+            case 4:
+                // TODO ONE CLICK INVITE
                 return <ActorSearch />;
             default:
                 throw new Error('Unknown step');

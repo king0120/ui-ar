@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { deleteOrganization } from '../../../redux/actions/organizationActions';
 import { IOrganization } from '../../../types/IOrganization';
-import ConfirmationModal from "../../components/shared/ConfirmationModal";
-import AddOrganization from "../../components/organization/AddEditOrganization";
 import MembersList from "../../components/organization/MembersList";
 import { useQuery } from "@apollo/react-hooks";
 import { Typography, Tabs, Tab } from '@material-ui/core';
@@ -40,11 +38,6 @@ const OrganizationPage: FC<IProjectList> = ({ deleteOrganization, history, match
         <Container>
             <TheatreHeader>
                 <Typography variant="h3">{organization.name}</Typography>
-                {/*TODO move to settings one day */}
-                {/* <div className="flex w-96 justify-between">
-                    <AddOrganization defaultValue={organization} />
-                    <ConfirmationModal onConfirm={handleDeleteOrg} />
-                </div> */}
             </TheatreHeader>
             <Tabs
                 value={selectedTab}

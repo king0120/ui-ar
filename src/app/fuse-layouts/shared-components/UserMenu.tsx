@@ -16,7 +16,11 @@ function UserMenu(props: any) {
     let orgs = orgData && orgData.getAllOrganizationsForUser;
     const [userMenu, setUserMenu] = useState(null);
     if (loading || orgLoading) { return <></> }
-    orgs = [...orgs.owned, ...orgs.member]
+
+    orgs = orgs ? [...orgs.owned, ...orgs.member] : []
+    if (!data) {
+        return <div></div>
+    }
     const user = {
         role: "member",
         data: {

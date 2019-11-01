@@ -2,6 +2,10 @@ query getAudition($auditionId: String!){
     getAudition(auditionId: $auditionId){
         id
         name
+        questions {
+            id
+            text
+        }
         timeSlots {
             id
             startTime

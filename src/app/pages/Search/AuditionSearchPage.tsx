@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
-const AuditionSearchPage = () => {
+const AuditionSearchPage = (props: any) => {
     const classes = useStyles()
     const [value, changeValue] = useState('')
     const [searchAuditions, { loading, data }] = useLazyQuery(SEARCH_AUDITIONS);
@@ -83,7 +83,7 @@ const AuditionSearchPage = () => {
                             >
                                 {results.map((result: any) => (
                                     <>
-                                        <div className='w-full flex content-between' key={result.id} onClick={() => console.log('click')}>
+                                        <div className='w-full flex content-between' key={result.id} onClick={() => props.history.push(`/audition/${result.id}`)}>
                                             <div className="pl-64 flex flex-col justify-center align-center truncate font-600">
                                                 <Typography variant="body2">{result.name}</Typography>
                                                 <Typography variant="subtitle2">{result.address}</Typography>

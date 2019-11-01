@@ -29,6 +29,7 @@ type ActorNote {
 type Audition {
     address: String!
     auditionType: String!
+    cloneAuditions: String!
     collateral: [AuditionCollateral!]
     createdAt: DateTime!
     description: String
@@ -37,7 +38,7 @@ type Audition {
     lat: Float!
     long: Float!
     name: String!
-    phoneNumber: String
+    open: Boolean
     prep: String
     private: Boolean
     project: Project!
@@ -47,6 +48,13 @@ type Audition {
     talent: [AuditionTalentInstance!]
     timeSlots: [AuditionTimeSlot!]!
     updatedAt: DateTime!
+}
+
+type AuditionAnswers {
+    id: String
+    question: String
+    text: String
+    user: String
 }
 
 type AuditionCollateral {
@@ -142,6 +150,12 @@ type LoginResponse {
     userId: String!
 }
 
+type MailEntity {
+    id: String!
+    status: String!
+    to: String!
+}
+
 type MusicalTheatreExperience implements Experience {
     company: String!
     description: String
@@ -158,6 +172,7 @@ type Mutation {
     addExperience(data: AddExperienceDTO!): Boolean
     addNote(input: CreateNoteDTO!): ActorNote!
     addUserBreakdown(key: String!): Boolean
+    closeAudition(auditionId: String!): Audition!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
     createTimeslot(data: CreateTimeSlotDTO!): AuditionTimeSlot!
     deleteAudition(auditionId: String!): Audition!
@@ -169,6 +184,8 @@ type Mutation {
     removeExperience(data: AddExperienceDTO!): Boolean
     removeNote(id: String!): Boolean
     removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
+    respondToAuditionInvite(answerToQuestions: [AnswerToQuestions!]!, email: String!, response: String!, responseCode: String!): Audition!
+    sendRejectionEmails(projectId: String!): Boolean
     setProfile(key: String!): Boolean
     updateTalentInstance(decision: String, instanceId: String): Boolean
 }
@@ -215,11 +232,18 @@ type Project {
     photoS3Key: String
     rehearsalDateEnd: DateTime
     rehearsalDateStart: DateTime
+    rejected: [ProjectRejectedUser!]
     roles: [ProjectRole!]!
     status: String
     summary: String
     updatedAt: DateTime!
     writer: String!
+}
+
+type ProjectRejectedUser {
+    project: Project
+    rejectionEmailSent: Boolean
+    user: User
 }
 
 type ProjectRole {
@@ -297,11 +321,12 @@ type User {
     phoneNumber: String!
     profileImages: [UserImage!]!
     profilePicture: UserImage
-    roles: [Role!]!
+    rejections: [ProjectRejectedUser!]
     state: String
     televisionExperience: [TelevisionExperience!]!
     theatreExperience: [TheatreExperience!]!
     updatedAt: Float!
+    userType: [UserType!]!
     verified: Boolean!
     website: String
     weightLbs: Float
@@ -322,9 +347,10 @@ type UserOrganizations {
 }
 
 "What type of user is this? Admin or Actor"
-enum Role {
+enum UserType {
     actor
     admin
+    theatre
 }
 
 input AddExperienceDTO {
@@ -333,15 +359,21 @@ input AddExperienceDTO {
     experienceType: String!
 }
 
+input AnswerToQuestions {
+    questionId: String!
+    text: String!
+    userId: String!
+}
+
 input CreateAuditionDTO {
     address: String!
     auditionType: String!
+    cloneAuditions: [String!]!
     description: String!
     forRoles: [String!]!
     lat: Float!
     long: Float!
     name: String!
-    phoneNumber: String!
     prep: String
     private: Boolean!
     questions: [String!]!

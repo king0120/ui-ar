@@ -1,53 +1,84 @@
-import React, {FC} from 'react';
-import {Button, Form} from "semantic-ui-react";
-import {Field, Form as FinalForm} from "react-final-form";
-import {connect} from "react-redux";
+import React, { FC, useContext, useState } from 'react';
+import { connect } from "react-redux";
 import queryString from 'query-string'
-import {respondToAudition} from "../../../redux/actions/auditionActions";
+import { respondToAudition } from "../../../redux/actions/auditionActions";
+import { makeStyles } from '@material-ui/styles';
+import { Paper, Typography, Button, TextField, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import { GlobalContext } from 'context/globalContext';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql');
+const RESPOND_TO_AUDITION = require('graphql/mutations/audition/RESPOND_TO_AUDITION.gql');
 
-const statuses = [{
-    id: 'confirmed',
-    friendly: 'Confirm Audition',
-}, {
-    id: 'denied',
-    friendly: 'Reject Audition',
-}];
+const useStyles = makeStyles({
+    root: {
+        width: '80%',
+        margin: '2rem auto',
+        padding: '2rem'
+    }
+});
 
 
-const AuditionResponse: FC<any> = ({location, history, respondToAudition}) => {
+const AuditionResponse: FC<any> = ({ location }) => {
+    const classes = useStyles()
+    const values = queryString.parse(location.search)
+    const { userId } = useContext(GlobalContext)
+    const { loading, data } = useQuery(GET_AUDITION, { variables: { auditionId: values.audition } });
+    const [answers, setAnswers] = useState([])
+    const [value, setValue] = React.useState('confirmed');
+    const [respondToAudition] = useMutation(RESPOND_TO_AUDITION);
+
+    if (loading) {
+        return <h1>Loading</h1>
+    }
+    const audition = data && data.getAudition
+
+    const handleSubmit = () => {
+        const answersWithId = audition.questions.map((question: any, i: number) => {
+            return {
+                questionId: question.id,
+                text: answers[i],
+                userId
+            }
+        })
+        respondToAudition({
+            variables: {
+                email: userId,
+                responseCode: values.responseCode || '',
+                response: value,
+                answerToQuestions: JSON.stringify(answersWithId)
+            }
+        })
+        console.log(answersWithId)
+        console.log(value)
+    }
+
     return (
-        <div>
-            Respond to Audition
-            <FinalForm
-                onSubmit={(vals: any) => {
-                    const values = queryString.parse(location.search)
-                    respondToAudition(values.project, values.audition, values.email, values.responseCode, vals.confirmation)
-                    history.push('/')
-                }}
-                render={({handleSubmit}) => {
-                    return (
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Field>
-                                <label>Respond To Audition</label>
-                                {statuses.map((exp) => (
-                                    <label key={exp.id}>
-                                        <Field
-                                            name='confirmation'
-                                            component='input'
-                                            type='radio'
-                                            value={exp.id}
-                                        />{' '} {exp.friendly}
-                                    </label>
-                                ))}
-                            </Form.Field>
-                            <Button type={'submit'}>Respond</Button>
-                        </Form>
-                    );
-                }
-                }
-            />
-        </div>
+        <Paper className={classes.root}>
+            <Typography variant="h3">RSVP for {audition.name}</Typography>
+            {audition.questions.map((question: any, i: number) => {
+                return (
+                    <TextField
+                        fullWidth
+                        className="mb-16"
+                        label={question.text}
+                        value={answers[i]}
+                        onChange={(e: any) => {
+                            const newA: string[] = [...answers]
+                            newA[i] = e.target.value as string
+                            setAnswers(newA as any)
+                        }}
+                    />
+                )
+            })
+            }
+            <RadioGroup name="status" value={value} onChange={(e: any) => setValue(e.target.value)}>
+                <FormControlLabel value="confirmed" control={<Radio />} label="Confirm Audition" />
+                <FormControlLabel value="denied" control={<Radio />} label="Reject Audition" />
+            </RadioGroup>
+
+            <Button variant="contained" color="primary" onClick={handleSubmit}>Complete RSVP</Button>
+        </Paper >
     );
 };
 
-export default connect(null, {respondToAudition})(AuditionResponse);
+export default connect(null, { respondToAudition })(AuditionResponse);

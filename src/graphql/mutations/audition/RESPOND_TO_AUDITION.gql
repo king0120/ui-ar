@@ -1,0 +1,5 @@
+mutation respondToAudition($email: String!, $responseCode: String!, $response: String!, $answerToQuestions: [String!]!) {
+  respondToAuditionInvite(email: $email, responseCode: $responseCode, response: $response, answerToQuestions: $answerToQuestions) {
+    id
+  }
+}

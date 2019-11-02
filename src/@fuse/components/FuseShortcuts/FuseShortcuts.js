@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 
 function FuseShortcuts(props)
 {
-    const dispatch = useDispatch();
     const shortcuts = [];
     const navigationData = useSelector(({fuse}) => fuse.navigation);
 
@@ -71,9 +70,9 @@ function FuseShortcuts(props)
 
     function toggleInShortcuts(id)
     {
-        let newShortcuts = [...shortcuts];
-        newShortcuts = newShortcuts.includes(id) ? newShortcuts.filter(_id => id !== _id) : [...newShortcuts, id];
-        console.log("AUTH ACTION")
+        // let newShortcuts = [...shortcuts];
+        // newShortcuts = newShortcuts.includes(id) ? newShortcuts.filter(_id => id !== _id) : [...newShortcuts, id];
+        // console.log("AUTH ACTION")
     }
 
     function ShortcutMenuItem({item, onToggle})

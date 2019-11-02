@@ -1,5 +1,4 @@
 import React, { useState, SyntheticEvent, useEffect } from 'react';
-import { Form, Input, List } from "semantic-ui-react";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { Container } from '../../components/project/CommonStyledComponents';
 import { Button, Paper, makeStyles, Theme, createStyles, InputBase, Divider, Typography } from '@material-ui/core';
@@ -37,7 +36,7 @@ const AuditionSearchPage = (props: any) => {
 
     useEffect(() => {
         searchAuditions({ variables: { query: '' } })
-    }, [])
+    }, [searchAuditions])
     return (
         <Container>
             <Typography variant={'h5'}>Audition Search</Typography>

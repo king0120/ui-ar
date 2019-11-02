@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react';
 import {Paper, Chip, Typography, TextField, MenuItem} from '@material-ui/core';
 import {emphasize} from '@material-ui/core/styles/colorManipulator';
@@ -206,17 +208,6 @@ function Menu(props)
         </Paper>
     );
 }
-
-const components = {
-    Control,
-    Menu,
-    MultiValue,
-    NoOptionsMessage,
-    Option,
-    Placeholder,
-    SingleValue,
-    ValueContainer
-};
 
 function FuseChipSelect(props)
 {

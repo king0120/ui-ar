@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar, FormControlLabel, Switch } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
 import { useMutation } from "@apollo/react-hooks";
 import { withRouter } from 'react-router';
 import FuseUtils from '@fuse/FuseUtils';
 import { useForm } from '@fuse/hooks';
 import { TimePicker } from '@material-ui/pickers';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import * as Actions from './store/actions';
 
 const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
@@ -25,7 +24,7 @@ function EventDialog(props) {
     const dispatch = useDispatch();
     const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
 
-    const { form, handleChange, setForm } = useForm(defaultFormState);
+    const { form, setForm } = useForm(defaultFormState);
     console.log(eventDialog)
     const { auditionId } = props.match.params;
 

@@ -1,15 +1,11 @@
 import React, { FC, useState } from 'react';
-import styled from 'styled-components';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFormState } from '../../../redux/store/reducers/finalFormReducer';
 import { addUserBreakdown } from '../../../redux/actions/talentActions';
 import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
-import { ListItem, List, Divider, ListItemText, ListItemIcon, Modal, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { ListItem, List, ListItemText, Modal, makeStyles, createStyles, Theme } from '@material-ui/core';
 import LightboxModal from '../shared/LightboxModal';
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
     const top = 50;
@@ -23,7 +19,6 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme: Theme) => {
-    console.log(theme)
     return createStyles({
         paper: {
             position: 'absolute',
@@ -78,15 +73,15 @@ const AttributesModal: FC<any> = (props) => {
 };
 declare const Chargebee: any;
 
-const handleUpgradeClick = () => {
-    const cb = Chargebee.getInstance();
-    cb.openCheckout({
-        hostedPage: (page: any) => {
-            console.log(page);
-            return Promise.resolve('success');
-        }
-    });
-};
+// const handleUpgradeClick = () => {
+//     const cb = Chargebee.getInstance();
+//     cb.openCheckout({
+//         hostedPage: (page: any) => {
+//             console.log(page);
+//             return Promise.resolve('success');
+//         }
+//     });
+// };
 
 const ProfileSidebar: FC<any> = (props: any) => {
     const classes = useStyles();
@@ -104,7 +99,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
             />
             <List component="nav" aria-label="">
                 <ListItem>
-                    <img className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
+                    <img alt={props.user.displayName} className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
                 </ListItem>
                 <AttributesModal {...props} />
                 {/* <ListItemLink>

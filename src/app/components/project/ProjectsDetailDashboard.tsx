@@ -63,7 +63,7 @@ export const Dashboard: FC<any> = ({ projectId }) => {
                 <h1>Cast</h1>
                 <List>
                     {project.roles.map((role: any) => role.castTo ? <CastRole key={role.id} role={role} /> : (
-                        <ListItem>
+                        <ListItem key={role.id}>
                             <h3>{role.characterName}</h3>
                             <p>Pending</p>
                         </ListItem>

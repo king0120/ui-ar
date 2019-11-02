@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, Dialog, makeStyles, createStyles, Theme, Typography, DialogTitle, DialogContentText, DialogContent, DialogActions } from '@material-ui/core';
+import { Button, Dialog, makeStyles, createStyles, Theme, DialogTitle, DialogContentText, DialogContent, DialogActions } from '@material-ui/core';
 import { withRouter } from 'react-router';
 import { useMutation } from '@apollo/react-hooks';
 const CLOSE_AUDITION = require('graphql/mutations/CLOSE_AUDITION.gql')

@@ -1,13 +1,11 @@
 import React, { FC, useContext, useState } from 'react';
-import styled from 'styled-components';
 import ProfileSidebar from '../../components/profile/ProfileSidebar';
 import ExperienceList from '../../components/profile/ExperienceList';
 import AddExperienceModal from '../../components/profile/AddExperienceModal';
 import ProfileBreakdown from '../../components/profile/ProfileBreakdown';
 import { useQuery } from "@apollo/react-hooks";
 import { GlobalContext } from "../../../context/globalContext";
-import { Animate } from '../Auth/SharedAuth';
-import { Avatar, Typography, Button, makeStyles, Tabs, Tab } from '@material-ui/core';
+import { makeStyles, Tabs, Tab } from '@material-ui/core';
 import clsx from 'clsx';
 import TabPanel from 'app/components/shared/TabPanel';
 import ProfileImagePage from './ProfileImagePage';

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { IProject } from 'types/IProject';
 import { Typography, Divider } from '@material-ui/core';
 import { format } from "date-fns";
 

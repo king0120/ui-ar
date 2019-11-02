@@ -1,6 +1,4 @@
 import React, { FC } from 'react';
-import { Label } from 'semantic-ui-react';
-import styled from 'styled-components';
 import { Typography, Chip } from '@material-ui/core';
 import { Animate } from 'app/pages/Auth/SharedAuth';
 

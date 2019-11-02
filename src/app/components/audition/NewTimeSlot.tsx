@@ -11,7 +11,7 @@ const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gq
 
 const NewTimeSlot: FC<any> = (props) => {
     const { auditionId } = props.match.params;
-    const { allSlots, changeAllSlots } = props;
+    const { changeAllSlots } = props;
     const [startTime, changeStartTime] = useState(new Date(props.startDate))
     const [numberOfSlots, changeNumberOfSlots] = useState(0)
     const [duration, changeDuration] = useState(0)

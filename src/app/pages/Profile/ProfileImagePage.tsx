@@ -56,7 +56,7 @@ const ProfileImagePage: FC<any> = (props) => {
                 images={user.profileImages.map((p: any) => ({ src: p.url }))}
                 currentIndex={currentIndex}
             />
-            {!props.readOnly && <MyDropzone {...props} refetch={refetch} />}
+            {!readOnly && <MyDropzone {...props} refetch={refetch} />}
             <div className="flex justify-start flex-wrap" >
                 {user.profileImages && user.profileImages.map((img: any, index: number) => (
                     <div className="p-10" key={img.s3key}>
@@ -68,7 +68,7 @@ const ProfileImagePage: FC<any> = (props) => {
                                 setCurrentIndex(index)
                             }}
                         />
-                        {!props.readOnly && (
+                        {!readOnly && (
                             <div>
                                 {(user.profilePicture && user.profilePicture.s3Key === img.s3Key) &&
                                     <p>Current Profile Pic</p>}

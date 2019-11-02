@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Table, TableHead, TableCell, TableRow, Typography, Paper, TableBody, makeStyles, Divider } from '@material-ui/core';
+import { Avatar, Typography, Paper, makeStyles, Divider } from '@material-ui/core';
 import FuseAnimateGroup from '@fuse/components/FuseAnimateGroup/FuseAnimateGroup';
 
 const useStyles = makeStyles({

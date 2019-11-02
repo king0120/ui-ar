@@ -1,6 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Form } from 'semantic-ui-react';
-import { Field, Form as FinalForm } from 'react-final-form';
 import { connect } from 'react-redux';
 import AddressInput from '../shared/AddressInput';
 import EditIcon from '@material-ui/icons/Edit';

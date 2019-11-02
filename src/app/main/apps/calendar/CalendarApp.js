@@ -202,7 +202,7 @@ function CalendarApp(props) {
             <div ref={headerEl} />
             <DragAndDropCalendar
                 className="flex flex-1 container"
-                defaultDate={props.date}
+                defaultDate={new Date(props.date)}
                 selectable
                 localizer={localizer}
                 events={events}

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Card, CardContent, TextField, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import { darken } from '@material-ui/core/styles/colorManipulator';
 import { useForm } from '@fuse/hooks';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';

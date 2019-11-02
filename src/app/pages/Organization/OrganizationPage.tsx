@@ -20,7 +20,7 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const OrganizationPage: FC<IProjectList> = ({ deleteOrganization, history, match }) => {
+const OrganizationPage: FC<IProjectList> = ({ match }) => {
     const orgId = match.params.organizationId;
     const { loading, data } = useQuery(GET_ORGANIZATION, { variables: { orgId } })
     const [selectedTab, setSelectedTab] = useState(0);
@@ -30,10 +30,10 @@ const OrganizationPage: FC<IProjectList> = ({ deleteOrganization, history, match
         return <h1>Loading</h1>;
     }
 
-    const handleDeleteOrg = () => {
-        deleteOrganization(orgId)
-        history.push('/organization')
-    }
+    // const handleDeleteOrg = () => {
+    //     deleteOrganization(orgId)
+    //     history.push('/organization')
+    // }
     return (
         <Container>
             <TheatreHeader>

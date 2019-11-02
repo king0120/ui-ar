@@ -85,7 +85,8 @@ const AuditionSearchPage = (props: any) => {
                                     <>
                                         <div className='w-full flex content-between' key={result.id} onClick={() => props.history.push(`/audition/${result.id}`)}>
                                             <div className="pl-64 flex flex-col justify-center align-center truncate font-600">
-                                                <Typography variant="body2">{result.name}</Typography>
+                                                <Typography variant="h6">{result.project.name} at {result.project.organization.name}</Typography>
+                                                <Typography variant="body2">Audition Name: {result.name}</Typography>
                                                 <Typography variant="subtitle2">{result.address}</Typography>
                                             </div>
                                         </div>

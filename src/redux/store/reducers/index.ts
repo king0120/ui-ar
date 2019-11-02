@@ -3,6 +3,7 @@ import fuse from './fuse';
 import finalFormReducer from "./finalFormReducer";
 import searchReducer from "./searchReducer";
 import roleReducer from "./roleReducer";
+import eventsReducer from 'app/main/apps/calendar/store/reducers';
 
 const createReducer = (_asyncReducers?: any) =>
     combineReducers({
@@ -10,6 +11,7 @@ const createReducer = (_asyncReducers?: any) =>
         roles: roleReducer,
         fform: finalFormReducer,
         search: searchReducer,
+        calendarApp: eventsReducer
     });
 
 export default createReducer;

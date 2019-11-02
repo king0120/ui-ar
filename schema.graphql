@@ -52,9 +52,9 @@ type Audition {
 
 type AuditionAnswers {
     id: String
-    question: String
+    question: AuditionQuestion
     text: String
-    user: String
+    user: User
 }
 
 type AuditionCollateral {
@@ -184,7 +184,7 @@ type Mutation {
     removeExperience(data: AddExperienceDTO!): Boolean
     removeNote(id: String!): Boolean
     removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
-    respondToAuditionInvite(answerToQuestions: [AnswerToQuestions!]!, email: String!, response: String!, responseCode: String!): Audition!
+    respondToAuditionInvite(answerToQuestions: [String!]!, email: String!, response: String!, responseCode: String!): Audition!
     sendRejectionEmails(projectId: String!): Boolean
     setProfile(key: String!): Boolean
     updateTalentInstance(decision: String, instanceId: String): Boolean
@@ -226,7 +226,7 @@ type Project {
     id: String!
     name: String!
     notes: String
-    organizationId: Organization!
+    organization: Organization!
     performanceDateEnd: DateTime
     performanceDateStart: DateTime
     photoS3Key: String

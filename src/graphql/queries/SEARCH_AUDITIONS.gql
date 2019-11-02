@@ -4,6 +4,13 @@ query searchForAuditions($query: String!){
         name
         auditionType
         address
+        project {
+            id
+            name
+            organization {
+                name
+            }
+        }
         forRoles {
             characterName
             characterSummary

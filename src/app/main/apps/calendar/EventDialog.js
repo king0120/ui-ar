@@ -26,7 +26,7 @@ function EventDialog(props) {
     const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
 
     const { form, handleChange, setForm } = useForm(defaultFormState);
-
+    console.log(eventDialog)
     const { auditionId } = props.match.params;
 
     const [startTime, changeStartTime] = useState(eventDialog.props.date);
@@ -93,6 +93,7 @@ function EventDialog(props) {
     }
 
     function handleRemove() {
+        
         dispatch(Actions.removeEvent(form.id));
         closeComposeDialog();
     }

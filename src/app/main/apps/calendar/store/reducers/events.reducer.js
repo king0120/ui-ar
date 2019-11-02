@@ -66,12 +66,11 @@ const eventsReducer = function (state = initialState, action) {
                 eventDialog: {
                     type : 'edit',
                     props: {
-                        open: true
+                        open: true,
+                        ...action.data,
                     },
                     data : {
-                        ...action.data,
-                        start: new Date(action.data.start),
-                        end  : new Date(action.data.end)
+                        ...action.data
                     }
                 }
             };

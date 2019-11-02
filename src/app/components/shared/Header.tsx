@@ -23,11 +23,7 @@ const Header = (props: any) => {
     if (props.location.pathname === "/" || props.location.pathname === "/login" || props.location.pathname === "/register" || props.location.pathname === "/passwordReset") {
         return null
     }
-    const logOut = () => {
-        localStorage.removeItem('accessToken');
-        props.history.push('/');
-        window.location.reload();
-    };
+
     return (
         <ThemeProvider theme={toolbarTheme}>
             <AppBar id="fuse-toolbar" className="flex relative z-10" color="default">

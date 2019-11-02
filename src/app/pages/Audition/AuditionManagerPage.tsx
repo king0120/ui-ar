@@ -58,16 +58,16 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
                 </Typography>
                 <Button variant="contained" color="primary" onClick={() => toggleShowConfig(!showConfig)}>Add TimeSlots</Button>
             </AuditionHeader>
-            <Paper>
-                <CalendarApp views={['day', 'agenda']} date={audition.startDate} events={allSlots}/>
-            </Paper>
-            
+
             {
                 showConfig
                     ? <AuditionManagerConfiguration allSlots={allSlots} changeAllSlots={changeAllSlots}
                         audition={audition} editable={showConfig} />
                     : <AuditionManagerView allSlots={allSlots} changeAllSlots={changeAllSlots} audition={audition} />
             }
+            <Paper>
+                <CalendarApp views={['day', 'agenda']} date={audition.startDate} events={allSlots} />
+            </Paper>
         </AuditionManagerPageStyles>
     );
 };

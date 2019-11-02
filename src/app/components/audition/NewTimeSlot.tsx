@@ -12,7 +12,7 @@ const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gq
 const NewTimeSlot: FC<any> = (props) => {
     const { auditionId } = props.match.params;
     const { allSlots, changeAllSlots } = props;
-    const [startTime, changeStartTime] = useState(new Date())
+    const [startTime, changeStartTime] = useState(new Date(props.startDate))
     const [numberOfSlots, changeNumberOfSlots] = useState(0)
     const [duration, changeDuration] = useState(0)
     const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
@@ -26,18 +26,18 @@ const NewTimeSlot: FC<any> = (props) => {
         let start = startTime;
         const slots = [];
         for (let i = 0; i < numSlots; i++) {
-            const newSlot: any = { startTime, endTime: null }
+            const newSlot: any = { startTime: start, endTime: null }
             const endTime = addMinutes(start, duration)
             newSlot.endTime = endTime
-            startTime = endTime
+            start = endTime
             slots.push(newSlot);
         }
         changeAllSlots(slots);
-        handleSaveTime()
+        handleSaveTime(slots)
     };
 
-    const handleSaveTime = () => {
-        allSlots.forEach((slot: any) => {
+    const handleSaveTime = (slots: any) => {
+        slots.forEach((slot: any) => {
             const { startTime, endTime } = slot;
             createTimeSlots({
                 variables: {

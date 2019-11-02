@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import NavBar from './app/components/shared/Header';
 import Router from './Router';
 import { BrowserRouter, withRouter } from 'react-router-dom';
@@ -110,7 +110,7 @@ const App = (props: any) => {
         } else if (!loading && !data) {
             setUserId('none');
         }
-    }, [data, setUserId, loading, setDisplayName]);
+    }, [data, setUserId, loading, setUserType, setDisplayName]);
     if (loading) {
         return <FuseLoading />;
     } else {

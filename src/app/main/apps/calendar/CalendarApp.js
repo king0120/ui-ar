@@ -230,6 +230,7 @@ function CalendarApp(props) {
                     dispatch(Actions.openEditEventDialog(event));
                 }}
                 onSelectSlot={slotInfo => dispatch(Actions.openNewEventDialog({
+                    id: slotInfo.id,
                     start: slotInfo.start.toLocaleString(),
                     end: slotInfo.end.toLocaleString()
                 }))}

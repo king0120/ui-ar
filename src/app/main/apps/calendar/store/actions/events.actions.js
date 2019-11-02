@@ -11,13 +11,13 @@ export const REMOVE_EVENT = '[CALENDAR APP] REMOVE EVENT';
 
 export function getEvents()
 {
-    const request = axios.get('/api/calendar-app/events');
+    const request = Promise.resolve([{}]);
 
     return (dispatch) =>
         request.then((response) =>
             dispatch({
-                type   : GET_EVENTS,
-                payload: response.data
+                type: GET_EVENTS,
+                payload: [response.data]
             })
         );
 }
@@ -58,9 +58,7 @@ export function addEvent(newEvent)
 {
     return (dispatch, getState) => {
 
-        const request = axios.post('/api/calendar-app/add-event', {
-            newEvent
-        });
+        const request = Promise.resolve({});
 
         return request.then((response) =>
             Promise.all([
@@ -76,9 +74,7 @@ export function updateEvent(event)
 {
     return (dispatch, getState) => {
 
-        const request = axios.post('/api/calendar-app/update-event', {
-            event
-        });
+        const request = Promise.resolve({});
 
         return request.then((response) =>
             Promise.all([
@@ -94,9 +90,7 @@ export function removeEvent(eventId)
 {
     return (dispatch, getState) => {
 
-        const request = axios.post('/api/calendar-app/remove-event', {
-            eventId
-        });
+        const request = Promise.resolve({});
 
         return request.then((response) =>
             Promise.all([

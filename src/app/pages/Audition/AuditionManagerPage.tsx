@@ -4,7 +4,7 @@ import { Icon } from 'semantic-ui-react';
 import AuditionManagerConfiguration from './AuditionManagerConfiguration';
 import AuditionManagerView from './AuditionManagerView';
 import { useLazyQuery } from "@apollo/react-hooks";
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, Paper } from '@material-ui/core';
 import CalendarApp from 'app/main/apps/calendar/CalendarApp';
 
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
@@ -58,7 +58,10 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
                 </Typography>
                 <Button variant="contained" color="primary" onClick={() => toggleShowConfig(!showConfig)}>Add TimeSlots</Button>
             </AuditionHeader>
-            <CalendarApp />
+            <Paper>
+                <CalendarApp views={['day', 'agenda']} date={audition.startDate} events={allSlots}/>
+            </Paper>
+            
             {
                 showConfig
                     ? <AuditionManagerConfiguration allSlots={allSlots} changeAllSlots={changeAllSlots}

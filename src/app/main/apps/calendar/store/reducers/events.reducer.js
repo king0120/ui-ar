@@ -7,7 +7,9 @@ const initialState = {
         props: {
             open: false
         },
-        data : null
+        data : {
+            date: new Date()
+        }
     }
 };
 
@@ -19,8 +21,7 @@ const eventsReducer = function (state = initialState, action) {
             const entities = action.payload.map((event) => (
                 {
                     ...event,
-                    start: new Date(event.start),
-                    end  : new Date(event.end)
+                    // TODO REMOVE EVENTUALLY
                 }
             ));
 
@@ -36,7 +37,8 @@ const eventsReducer = function (state = initialState, action) {
                 eventDialog: {
                     type : 'new',
                     props: {
-                        open: true
+                        open: true,
+                        ...action.data
                     },
                     data : {
                         ...action.data

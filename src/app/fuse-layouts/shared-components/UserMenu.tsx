@@ -100,7 +100,7 @@ function UserMenu(props: any) {
                         <>
                             {
                                 orgs.map((org: any) => (
-                                    <MenuItem component={Link} to={`/organization/${org.id}/projects`} onClick={userMenuClose}>
+                                    <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`} onClick={userMenuClose}>
                                         <ListItemIcon className="min-w-40">
                                             <Icon>group</Icon>
                                         </ListItemIcon>

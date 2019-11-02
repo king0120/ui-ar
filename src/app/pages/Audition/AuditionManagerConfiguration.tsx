@@ -13,7 +13,7 @@ const AuditionManagerConfiguration: FC<any> = ({ allSlots, changeAllSlots, edita
             <Typography variant="h5">Audition Schedule:</Typography>
             <NewTimeSlot allSlots={allSlots} changeAllSlots={changeAllSlots} />
             <AddSingleTimeSlot />
-            <TimeSlotTable allSlots={allSlots} editable={editable} />
+            <TimeSlotTable  allSlots={allSlots} editable={editable} />
             <h3>Invite Talent</h3>
             {/* <SearchTalent />
             <ActorSearch /> */}

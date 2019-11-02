@@ -1,44 +1,68 @@
-import React, {useCallback, useEffect} from 'react';
-import {TextField, Button, Dialog, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar, FormControlLabel, Switch} from '@material-ui/core';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar, FormControlLabel, Switch } from '@material-ui/core';
+import { useMutation } from "@apollo/react-hooks";
+import { withRouter } from 'react-router';
 import FuseUtils from '@fuse/FuseUtils';
-import {useForm} from '@fuse/hooks';
-import {useDispatch, useSelector} from 'react-redux';
+import { useForm } from '@fuse/hooks';
+import { TimePicker } from '@material-ui/pickers';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import * as Actions from './store/actions';
 
+const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
+const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql')
+
 const defaultFormState = {
-    id    : FuseUtils.generateGUID(),
-    title : '',
+    id: FuseUtils.generateGUID(),
+    title: '',
     allDay: true,
-    start : new Date(),
-    end   : new Date(),
-    desc  : ''
+    start: new Date(),
+    end: new Date(),
+    desc: ''
 };
 
-function EventDialog(props)
-{
+function EventDialog(props) {
     const dispatch = useDispatch();
-    const eventDialog = useSelector(({calendarApp}) => calendarApp.events.eventDialog);
+    const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
 
-    const {form, handleChange, setForm} = useForm(defaultFormState);
-    let start = moment(form.start).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
-    let end = moment(form.end).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
+    const { form, handleChange, setForm } = useForm(defaultFormState);
+
+    const { auditionId } = props.match.params;
+
+    const [startTime, changeStartTime] = useState(eventDialog.props.date);
+    const [endTime, changeEndTime] = useState(eventDialog.props.date);
+    useEffect(() => {
+        changeStartTime(eventDialog.props.date)
+        changeEndTime(eventDialog.props.date)
+    }, [eventDialog.props.open, eventDialog.props.date, props.open, eventDialog.props])
+
+    const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
+        refetchQueries: [{
+            query: GET_AUDITION,
+            variables: { auditionId }
+        }]
+    })
+    const buildTimeSlots = (startTime, endTime) => {
+        createTimeSlots({
+            variables: {
+                data: { startTime, endTime, auditionId }
+            }
+        })
+    };
 
     const initDialog = useCallback(
         () => {
             /**
              * Dialog type: 'edit'
              */
-            if ( eventDialog.type === 'edit' && eventDialog.data )
-            {
-                setForm({...eventDialog.data});
+            if (eventDialog.type === 'edit' && eventDialog.data) {
+                setForm({ ...eventDialog.data });
             }
 
             /**
              * Dialog type: 'new'
              */
-            if ( eventDialog.type === 'new' )
-            {
+            if (eventDialog.type === 'new') {
                 setForm({
                     ...defaultFormState,
                     ...eventDialog.data,
@@ -53,45 +77,25 @@ function EventDialog(props)
         /**
          * After Dialog Open
          */
-        if ( eventDialog.props.open )
-        {
+        if (eventDialog.props.open) {
             initDialog();
         }
     }, [eventDialog.props.open, initDialog]);
 
-    function closeComposeDialog()
-    {
+    function closeComposeDialog() {
         eventDialog.type === 'edit' ? dispatch(Actions.closeEditEventDialog()) : dispatch(Actions.closeNewEventDialog());
     }
 
-    function canBeSubmitted()
-    {
-        return (
-            form.title.length > 0
-        );
-    }
-
-    function handleSubmit(event)
-    {
+    function handleSubmit(event) {
         event.preventDefault();
-
-        if ( eventDialog.type === 'new' )
-        {
-            dispatch(Actions.addEvent(form));
-        }
-        else
-        {
-            dispatch(Actions.updateEvent(form));
-        }
+        buildTimeSlots(startTime, endTime);
         closeComposeDialog();
     }
 
-    function handleRemove()
-    {
+    function handleRemove() {
         dispatch(Actions.removeEvent(form.id));
         closeComposeDialog();
     }
-
     return (
         <Dialog {...eventDialog.props} onClose={closeComposeDialog} fullWidth maxWidth="xs" component="form">
 
@@ -104,84 +108,16 @@ function EventDialog(props)
             </AppBar>
 
             <form noValidate onSubmit={handleSubmit}>
-                <DialogContent classes={{root: "p-16 pb-0 sm:p-24 sm:pb-0"}}>
-                    <TextField
-                        id="title"
-                        label="Title"
-                        className="mt-8 mb-16"
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                        inputProps={{
-                            max: end
-                        }}
-                        name="title"
-                        value={form.title}
-                        onChange={handleChange}
-                        variant="outlined"
-                        autoFocus
-                        required
-                        fullWidth
+                <DialogContent classes={{ root: "p-16 pb-0 sm:p-24 sm:pb-0" }}>
+                    <TimePicker
+                        label="Start Time"
+                        value={startTime}
+                        onChange={(date) => { changeStartTime(date) }}
                     />
-
-                    <FormControlLabel
-                        className="mt-8 mb-16"
-                        label="All Day"
-                        control={
-                            <Switch
-                                checked={form.allDay}
-                                id="allDay"
-                                name="allDay"
-                                onChange={handleChange}
-                            />
-                        }/>
-
-                    <TextField
-                        id="start"
-                        name="start"
-                        label="Start"
-                        type="datetime-local"
-                        className="mt-8 mb-16"
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                        inputProps={{
-                            max: end
-                        }}
-                        value={start}
-                        onChange={handleChange}
-                        variant="outlined"
-                        fullWidth
-                    />
-
-                    <TextField
-                        id="end"
-                        name="end"
-                        label="End"
-                        type="datetime-local"
-                        className="mt-8 mb-16"
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                        inputProps={{
-                            min: start
-                        }}
-                        value={end}
-                        onChange={handleChange}
-                        variant="outlined"
-                        fullWidth
-                    />
-
-                    <TextField
-                        className="mt-8 mb-16"
-                        id="desc" label="Description"
-                        type="text"
-                        name="desc"
-                        value={form.desc}
-                        onChange={handleChange}
-                        multiline rows={5}
-                        variant="outlined"
-                        fullWidth
+                    <TimePicker
+                        label="End Time"
+                        value={endTime}
+                        onChange={(date) => { changeEndTime(date) }}
                     />
                 </DialogContent>
 
@@ -191,28 +127,26 @@ function EventDialog(props)
                             variant="contained"
                             color="primary"
                             type="submit"
-                            disabled={!canBeSubmitted()}
                         >
                             Add
                         </Button>
                     </DialogActions>
                 ) : (
-                    <DialogActions className="justify-between pl-8 sm:pl-16">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            disabled={!canBeSubmitted()}
-                        > Save
+                        <DialogActions className="justify-between pl-8 sm:pl-16">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                            > Save
                         </Button>
-                        <IconButton onClick={handleRemove}>
-                            <Icon>delete</Icon>
-                        </IconButton>
-                    </DialogActions>
-                )}
+                            <IconButton onClick={handleRemove}>
+                                <Icon>delete</Icon>
+                            </IconButton>
+                        </DialogActions>
+                    )}
             </form>
         </Dialog>
     );
 }
 
-export default EventDialog;
+export default withRouter(EventDialog);

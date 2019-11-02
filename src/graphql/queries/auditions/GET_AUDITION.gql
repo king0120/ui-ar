@@ -2,6 +2,7 @@ query getAudition($auditionId: String!){
     getAudition(auditionId: $auditionId){
         id
         name
+        startDate
         questions {
             id
             text

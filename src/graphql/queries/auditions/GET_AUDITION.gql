@@ -31,8 +31,13 @@ query getAudition($auditionId: String!){
         talent {
             id
             decision
+            status
             user {
                 id
+                displayName
+                profilePicture{
+                    url
+                }
             }
         }
     }

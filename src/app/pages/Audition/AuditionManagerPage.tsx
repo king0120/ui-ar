@@ -8,7 +8,7 @@ import { Typography, Button, Paper } from '@material-ui/core';
 import CalendarApp from 'app/main/apps/calendar/CalendarApp';
 import TalentList from 'app/components/shared/TalentList';
 
-const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
+const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql');
 
 const AuditionManagerPageStyles = styled.div`
     padding-bottom: 500px;
@@ -25,7 +25,7 @@ const AuditionHeader = styled.div`
 const AuditionManagerPage: FC<any> = ({ match, history }) => {
     const [allSlots, changeAllSlots] = useState<any>([]);
     const [showConfig, toggleShowConfig] = useState<boolean>(false);
-    const [getAudition, { loading, data }] = useLazyQuery(GET_AUDITION);
+    const [getAudition, { loading, data, error }] = useLazyQuery(GET_AUDITION);
 
     useEffect(() => {
         const { auditionId } = match.params;
@@ -37,7 +37,12 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
 
     useEffect(() => {
         changeAllSlots(timeSlots);
-    }, [timeSlots]);
+    }, [audition]);
+
+    if (error) {
+        return <h1>ERROR IN AUDITIONMANGERPAGE <small>{error.message}</small></h1>
+    }
+
 
     if (loading || !data) {
         return <h1>loading</h1>;
@@ -48,23 +53,14 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
                 <Icon name='arrow left' />
                 <span>Go Back</span>
             </div>
-
-
             <AuditionHeader>
-                <Typography variant="h5">
-                    {showConfig ?
-                        <span>Configure Audition: {audition.name}</span>
-                        : <span>{audition.name}</span>
-                    }
-                </Typography>
+                <Typography variant="h5">{audition.name}</Typography>
                 <Button variant="contained" color="primary" onClick={() => toggleShowConfig(!showConfig)}>Add TimeSlots</Button>
             </AuditionHeader>
 
             {
-                showConfig
-                    ? <AuditionManagerConfiguration allSlots={allSlots} changeAllSlots={changeAllSlots}
-                        audition={audition} editable={showConfig} />
-                    : <AuditionManagerView allSlots={allSlots} changeAllSlots={changeAllSlots} audition={audition} />
+                showConfig && <AuditionManagerConfiguration allSlots={allSlots} changeAllSlots={changeAllSlots}
+                    audition={audition} editable={showConfig} />
             }
             <Paper className="flex">
                 <CalendarApp views={['day', 'agenda']} date={audition.startDate} events={allSlots} />

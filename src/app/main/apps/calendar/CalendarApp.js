@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Fab, Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FuseAnimate } from '@fuse';
@@ -15,7 +15,10 @@ import reducer from './store/reducers';
 import EventDialog from './EventDialog';
 import CalendarHeader from './CalendarHeader';
 import * as ReactDOM from 'react-dom';
+import { isBefore } from 'date-fns/esm';
+import { Link } from 'react-router-dom';
 
+export const DEFAULT_STEP = 5
 const localizer = momentLocalizer(moment);
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
@@ -24,6 +27,8 @@ let allViews = Object.keys(Views).map(k => Views[k]);
 
 const useStyles = makeStyles(theme => ({
     root: {
+        height: '80vh',
+        paddingBottom: 0,
         '& .rbc-header': {
             padding: '12px 6px',
             fontWeight: 600,
@@ -163,13 +168,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function CalendarApp(props) {
-    const events = props.events.map((event) => {
-        return {
-            title: 'string',
-            start: new Date(event.startTime),
-            end: new Date(event.endTime),
-        }
-    })
     const dispatch = useDispatch();
 
     const classes = useStyles(props);
@@ -196,11 +194,30 @@ function CalendarApp(props) {
         }));
     }
 
-    console.log(props.date)
+    const [min, setMin] = useState(new Date(props.date))
+    const [max, setMax] = useState(undefined)
+    const [step, setStep] = useState(DEFAULT_STEP)
+
+    const events = props.events.filter(event => {
+        if (max) {
+            return isBefore(new Date(event.startTime), max)
+        } else {
+            return true
+        }
+    }).map((event) => {
+        const title = event.talent ? `${event.talent.user.displayName}: ${event.talent.status}` : "Available Slot"
+        return {
+            title,
+            start: new Date(event.startTime),
+            end: new Date(event.endTime),
+            talent: event.talent,
+            id: event.id
+        }
+    })
     return (
         <div className={clsx(classes.root, "flex flex-col flex-auto relative")}>
             <div ref={headerEl} />
-            <DragAndDropCalendar
+            <Calendar
                 className="flex flex-1 container"
                 defaultDate={new Date(props.date)}
                 selectable
@@ -214,13 +231,39 @@ function CalendarApp(props) {
                 endAccessor="end"
                 scrollToTime={new Date(props.date)}
                 views={Views.Day}
-                step={30}
-                min={new Date(props.date)}
+                step={step}
+                min={min}
+                max={max}
                 components={{
+                    // eventWrapperContainer: () => {
+                    //     return 
+                    // },
+                    // eventWrapper: ({ event }) => {
+                    //     return (
+                    //         <div>
+                    //             <div>{event.title}</div>
+                    //         </div>
+                    //     )
+                    // },
+                    agenda: {
+                        event: ({ event }) => {
+                            if (event.talent) {
+                                return <Link to={`/profile/${event.talent.user.id}`}>{event.talent.user.displayName}</Link>
+                            } else {
+                                return (<div>
+                                    <div>available</div>
+                                </div>)
+                            }
+                        }
+                    },
                     toolbar: (props) => {
                         return headerEl.current ?
                             ReactDOM.createPortal(
-                                <CalendarHeader {...props} />,
+                                <CalendarHeader {...props} setDefaultStep={() => {
+                                    setMin(new Date(props.date))
+                                    setMax(undefined)
+                                    setStep(DEFAULT_STEP)
+                                }} />,
                                 headerEl.current
                             ) : null;
                     }
@@ -229,11 +272,29 @@ function CalendarApp(props) {
                 onSelectEvent={event => {
                     dispatch(Actions.openEditEventDialog(event));
                 }}
-                onSelectSlot={slotInfo => dispatch(Actions.openNewEventDialog({
-                    id: slotInfo.id,
-                    start: slotInfo.start.toLocaleString(),
-                    end: slotInfo.end.toLocaleString()
-                }))}
+                onSelectSlot={slotInfo => {
+                    var duration = moment.duration(moment(slotInfo.end).diff(slotInfo.start));
+                    var hours = duration.asHours();
+                    switch (true) {
+                        case hours >= 12:
+                            setStep(30)
+                            break
+                        case hours >= 6:
+                            setStep(15)
+                            break
+                        case hours >= 1:
+                            setStep(5)
+                            break
+                        case hours === 1:
+                            setStep(DEFAULT_STEP)
+                            break
+                        default:
+                            setStep(DEFAULT_STEP)
+                            break
+                    }
+                    setMin(slotInfo.start)
+                    setMax(slotInfo.end)
+                }}
             />
             <FuseAnimate animation="transition.expandIn" delay={500}>
                 <Fab

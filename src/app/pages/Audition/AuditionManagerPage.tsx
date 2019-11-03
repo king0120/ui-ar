@@ -6,6 +6,7 @@ import AuditionManagerView from './AuditionManagerView';
 import { useLazyQuery } from "@apollo/react-hooks";
 import { Typography, Button, Paper } from '@material-ui/core';
 import CalendarApp from 'app/main/apps/calendar/CalendarApp';
+import TalentList from 'app/components/shared/TalentList';
 
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 
@@ -65,8 +66,12 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
                         audition={audition} editable={showConfig} />
                     : <AuditionManagerView allSlots={allSlots} changeAllSlots={changeAllSlots} audition={audition} />
             }
-            <Paper>
+            <Paper className="flex">
                 <CalendarApp views={['day', 'agenda']} date={audition.startDate} events={allSlots} />
+                <div className="p-20 w-1/2">
+                    <h3>Invite Talent</h3>
+                    <TalentList talent={audition.talent} />
+                </div>
             </Paper>
         </AuditionManagerPageStyles>
     );

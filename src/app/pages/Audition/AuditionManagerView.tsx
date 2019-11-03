@@ -11,7 +11,7 @@ const AuditionManagerView: FC<any> = (props) => {
     }
     return (
         <AuditionPageContainerStyle>
-            <TimeSlotTable allSlots={props.allSlots}/>
+            {/* <TimeSlotTable allSlots={props.allSlots}/> */}
         </AuditionPageContainerStyle>
     );
 };

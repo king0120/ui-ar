@@ -29,7 +29,7 @@ function OpenTimeSlot(props: any) {
     };
     return (
         <>
-            
+
             <Modal trigger={<Button><em>Available</em></Button>}>
                 <Modal.Header>Invite Actor</Modal.Header>
                 <Modal.Content>
@@ -58,9 +58,13 @@ const TimeSlotTable: FC<any> = ({ match, allSlots, editable = false, header }) =
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {allSlots.map((data: any) => (
-                        <TableRow key={data.id}>
-                        <TableCell>
+                    {allSlots.sort((a: any, b: any) => { 
+                        a = new Date(a.startTime);
+                        b = new Date(b.startTime);
+                        return a > b ? 1 : a < b ? -1 : 0;
+                    }).map((data: any, i: number) => (
+                        <TableRow key={data.id || i}>
+                            <TableCell>
                                 {format(new Date(data.startTime), 'h:mm a')}
                             </TableCell>
                             <TableCell>

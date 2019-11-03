@@ -1,25 +1,42 @@
 import React, { FC, useState } from 'react';
 import { withRouter } from "react-router";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { useSnackbar } from 'notistack'
 import { TimePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { TextField, Button, Paper } from '@material-ui/core';
 import { addMinutes } from 'date-fns';
+import { ApolloError } from 'apollo-boost';
 
-const CREATE_TIME_SLOTS = require('../../../graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql');
-const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
+const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql');
+const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql');
 
 const NewTimeSlot: FC<any> = (props) => {
     const { auditionId } = props.match.params;
-    const { changeAllSlots } = props;
+    const { allSlots, changeAllSlots } = props;
     const [startTime, changeStartTime] = useState(new Date(props.startDate))
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const [numberOfSlots, changeNumberOfSlots] = useState(0)
     const [duration, changeDuration] = useState(0)
-    const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
-        refetchQueries: [{
-            query: GET_AUDITION,
-            variables: { auditionId }
-        }]
+    const [getAudition] = useLazyQuery(GET_AUDITION, {
+        variables: { auditionId },
+    });
+    const [createTimeSlots, { error }] = useMutation(CREATE_TIME_SLOTS, {
+        onCompleted: async (data: any) => {
+            if (data.createTimeslot) {
+                await changeAllSlots([...allSlots, data.createTimeslot]); // multiple times
+            }
+        },
+        onError: (error: ApolloError) => {
+            enqueueSnackbar(error.message, {
+                variant: 'error',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                }
+            });
+            console.log("OH SHIT", error)
+        }
     });
 
     const buildTimeSlots = (startTime: Date, numSlots: number, duration: number) => {
@@ -32,7 +49,6 @@ const NewTimeSlot: FC<any> = (props) => {
             start = endTime
             slots.push(newSlot);
         }
-        changeAllSlots(slots);
         handleSaveTime(slots)
     };
 
@@ -44,6 +60,7 @@ const NewTimeSlot: FC<any> = (props) => {
                     data: { startTime, endTime, auditionId }
                 }
             })
+            getAudition();
         })
     };
 

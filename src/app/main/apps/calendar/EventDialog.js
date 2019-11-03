@@ -1,46 +1,75 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
+import { Button, Dialog, makeStyles, CircularProgress, TextField, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab'
 import { useMutation } from "@apollo/react-hooks";
 import { withRouter } from 'react-router';
-import FuseUtils from '@fuse/FuseUtils';
-import { useForm } from '@fuse/hooks';
 import { TimePicker } from '@material-ui/pickers';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
+import arAxios from 'utils/axiosHelper';
 
 const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
 const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql')
+const INVITE_TO_AUDITION = require('graphql/mutations/INVITE_TO_AUDITION.gql')
+const DELETE_TIME_SLOT = require('graphql/mutations/timeslots/DELETE_TIME_SLOT.gql')
 
-const defaultFormState = {
-    id: FuseUtils.generateGUID(),
-    title: '',
-    allDay: true,
-    start: new Date(),
-    end: new Date(),
-    desc: ''
-};
-
+const useStyles = makeStyles(theme => ({
+    popup: {
+        zIndex: 999999
+    }
+}));
 function EventDialog(props) {
-    const dispatch = useDispatch();
-    const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
-
-    const { form, setForm } = useForm(defaultFormState);
-    console.log(eventDialog)
-    const { auditionId } = props.match.params;
-
-    const [startTime, changeStartTime] = useState(eventDialog.props.date);
-    const [endTime, changeEndTime] = useState(eventDialog.props.date);
-    useEffect(() => {
-        changeStartTime(eventDialog.props.date)
-        changeEndTime(eventDialog.props.date)
-    }, [eventDialog.props.open, eventDialog.props.date, props.open, eventDialog.props])
-
+    const { auditionId, projectId } = props.match.params;
+    const [inviteToAudition] = useMutation(INVITE_TO_AUDITION)
     const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
         refetchQueries: [{
             query: GET_AUDITION,
             variables: { auditionId }
         }]
     })
+    const [deleteTimeSlot] = useMutation(DELETE_TIME_SLOT, {
+        refetchQueries: [{
+            query: GET_AUDITION,
+            variables: { auditionId }
+        }]
+    })
+
+    const classes = useStyles()
+    const dispatch = useDispatch();
+    const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
+    const actorResults = useSelector(({ search }) => search.data);
+
+    const [startTime, changeStartTime] = useState(eventDialog.props.start);
+    const [endTime, changeEndTime] = useState(eventDialog.props.end);
+
+
+    const [open, setOpen] = useState(false)
+    const [options, setOptions] = useState([])
+    const [value, setValue] = useState('')
+    const [selectedActor, setSelectedActor] = useState(eventDialog.props.talent)
+    const loading = open && options.length === 0;
+
+    const invite = async (userId) => {
+        await inviteToAudition({
+            variables: {
+                projectId,
+                auditionId,
+                userId: userId,
+                timeSlotId: eventDialog.props.id
+            },
+            refetchQueries: [{
+                query: GET_AUDITION,
+                variables: { auditionId }
+            }]
+        });
+    };
+
+    useEffect(() => {
+        changeStartTime(eventDialog.props.start)
+        changeEndTime(eventDialog.props.end)
+    }, [eventDialog.props.open, eventDialog.props.date, props.open, eventDialog.props])
+
+
     const buildTimeSlots = (startTime, endTime) => {
         createTimeSlots({
             variables: {
@@ -55,21 +84,20 @@ function EventDialog(props) {
              * Dialog type: 'edit'
              */
             if (eventDialog.type === 'edit' && eventDialog.data) {
-                setForm({ ...eventDialog.data });
+                setSelectedActor(eventDialog.props.talent && eventDialog.props.talent.user)
+                changeStartTime(eventDialog.props.start)
+                changeEndTime(eventDialog.props.end)
             }
 
             /**
              * Dialog type: 'new'
              */
             if (eventDialog.type === 'new') {
-                setForm({
-                    ...defaultFormState,
-                    ...eventDialog.data,
-                    id: FuseUtils.generateGUID()
-                });
+                changeStartTime(eventDialog.props.start)
+                changeEndTime(eventDialog.props.end)
             }
         },
-        [eventDialog.data, eventDialog.type, setForm],
+        [eventDialog.data, eventDialog.props, eventDialog.type],
     );
 
     useEffect(() => {
@@ -87,15 +115,40 @@ function EventDialog(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        buildTimeSlots(startTime, endTime);
-        closeComposeDialog();
+        if (eventDialog.type === "new") {
+            buildTimeSlots(startTime, endTime);
+            closeComposeDialog();
+        } else {
+            if (selectedActor && selectedActor.id && (selectedActor.id !== (eventDialog.props.talent && eventDialog.props.talent.user.id))) {
+                invite(selectedActor.id)
+            }
+            buildTimeSlots(startTime, endTime)
+            closeComposeDialog();
+        }
+
     }
 
-    function handleRemove() {
-        
-        dispatch(Actions.removeEvent(form.id));
-        closeComposeDialog();
-    }
+    React.useEffect(() => {
+        let active = true;
+
+        if (!loading) {
+            return undefined;
+        }
+
+        (async () => {
+            const value = await arAxios.get(`/api/v1/users/search`, {
+                params: { value: '', type: 'displayName' }
+            })
+
+            if (active) {
+                setOptions(value.data);
+            }
+        })();
+
+        return () => {
+            active = false;
+        };
+    }, [actorResults, dispatch, loading, options, value]);
     return (
         <Dialog {...eventDialog.props} onClose={closeComposeDialog} fullWidth maxWidth="xs" component="form">
 
@@ -109,6 +162,50 @@ function EventDialog(props) {
 
             <form noValidate onSubmit={handleSubmit}>
                 <DialogContent classes={{ root: "p-16 pb-0 sm:p-24 sm:pb-0" }}>
+                    {eventDialog.type === "edit" && (
+                        <>
+                            <label>Assigned To Actor: </label>
+                            <Autocomplete
+                                classes={{
+                                    popup: classes.popup,
+                                    paper: classes.popup
+                                }}
+                                style={{ width: 300 }}
+                                open={open}
+                                onOpen={() => {
+                                    setOpen(true);
+                                }}
+                                onClose={() => {
+                                    setOpen(false);
+                                }}
+                                getOptionLabel={option => option.displayName}
+                                value={selectedActor}
+                                onChange={(e, newActor) => { setSelectedActor(newActor) }}
+                                options={options}
+                                loading={loading}
+                                renderInput={params => (
+                                    <TextField
+                                        {...params}
+                                        fullWidth
+                                        value={value}
+                                        onChange={(e) => {
+                                            setValue(e.target.value)
+                                        }}
+                                        variant="standard"
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <React.Fragment>
+                                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                                    {params.InputProps.endAdornment}
+                                                </React.Fragment>
+                                            ),
+                                        }}
+                                    />
+                                )}
+                            />
+                        </>
+                    )}
                     <TimePicker
                         label="Start Time"
                         value={startTime}
@@ -139,7 +236,12 @@ function EventDialog(props) {
                                 type="submit"
                             > Save
                         </Button>
-                            <IconButton onClick={handleRemove}>
+                            <IconButton onClick={() => {
+                                deleteTimeSlot({
+                                    variables: { data: { auditionId, id: eventDialog.data.id } }
+                                })
+                                closeComposeDialog();
+                            }}>
                                 <Icon>delete</Icon>
                             </IconButton>
                         </DialogActions>

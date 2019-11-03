@@ -1,5 +1,7 @@
 mutation createTimeslot($data: CreateTimeSlotDTO!) {
     createTimeslot(data: $data) {
         id
+        startTime
+        endTime
     }
 }

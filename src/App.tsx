@@ -14,8 +14,10 @@ import FuseDialog from '@fuse/components/FuseDialog/FuseDialog';
 import FuseScrollbars from '@fuse/components/FuseScrollbars/FuseScrollbars';
 import FuseTheme from '@fuse/components/FuseTheme/FuseTheme';
 import { FuseLoading } from '@fuse';
+import { SnackbarProvider } from 'notistack';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { Button } from '@material-ui/core';
 
 const token = localStorage.getItem('accessToken');
 const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql');
@@ -118,27 +120,40 @@ const App = (props: any) => {
             <>
                 <StylesProvider jss={jss} generateClassName={generateClassName}>
                     <FuseTheme>
-                        <div id="fuse-layout" className={clsx(classes.root)}>
-                            <div className="flex flex-1 flex-col overflow-hidden relative">
-                                <ScrollBars className={classes.content} scrollToTopOnRouteChange>
-                                    <FuseDialog />
-                                    <NavBar />
-                                    <div className="flex flex-auto flex-col relative h-full">
-                                        <Router />
-                                    </div>
-                                </ScrollBars>
+                        <SnackbarProvider ref={notistackRef}
+                            maxSnack={5}
+                            action={(key: string) => (
+                                <Button onClick={onClickDismiss(key)}>
+                                    Close
+                    </Button>
+                            )}>
+                            <div id="fuse-layout" className={clsx(classes.root)}>
+                                <div className="flex flex-1 flex-col overflow-hidden relative">
+                                    <ScrollBars className={classes.content} scrollToTopOnRouteChange>
+                                        <FuseDialog />
+                                        <NavBar />
+                                        <div className="flex flex-auto flex-col relative h-full">
+                                            <Router />
+                                        </div>
+                                    </ScrollBars>
+                                </div>
                             </div>
-                        </div>
+                        </SnackbarProvider>
                     </FuseTheme>
                 </StylesProvider>
             </>);
     }
 };
-
+const notistackRef = React.createRef();
+const onClickDismiss = (key: string) => () => {
+    // @ts-ignore
+    notistackRef.current.closeSnackbar(key);
+}
 const WithRouter = withRouter(App);
 const WithApollo = () => (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <ApolloProvider client={client}>
+
             <BrowserRouter>
                 <WithRouter />
             </BrowserRouter>

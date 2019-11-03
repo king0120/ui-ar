@@ -6,6 +6,7 @@ interface ITalentList {
 }
 
 const TalentList: FC<ITalentList> = ({talent = []}) => {
+    console.log(talent)
     return (
         <List>
             { talent.map((actor) => {

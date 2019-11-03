@@ -1,6 +1,6 @@
 import React from 'react';
 import { lightBlue } from '@material-ui/core/colors';
-import { withStyles, Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
+import { withStyles, Button, Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { FuseAnimate } from '@fuse';
 import Toolbar from 'react-big-calendar/lib/Toolbar';
@@ -85,6 +85,13 @@ class CalendarHeader extends Toolbar {
                         <FuseAnimate delay={500}>
                             <div className="flex items-center justify-center">
                                 <Typography variant="h6">{label}</Typography>
+                                <div className="self-end">
+                                    <Button
+                                        onClick={() => this.props.setDefaultStep()}
+                                    >
+                                        Reset Zoom
+                                </Button>
+                                </div>
                             </div>
                         </FuseAnimate>
                     </div>

@@ -5,8 +5,8 @@ import AuditionManagerConfiguration from './AuditionManagerConfiguration';
 import AuditionManagerView from './AuditionManagerView';
 import { useLazyQuery } from "@apollo/react-hooks";
 import { Typography, Button, Paper } from '@material-ui/core';
-import CalendarApp from 'app/main/apps/calendar/CalendarApp';
-import TalentList from 'app/components/shared/TalentList';
+import CalendarApp from './partials/AuditionManagerCalendar/calendar/CalendarApp'
+import TalentList from '../../components/shared/TalentList'
 
 const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql');
 

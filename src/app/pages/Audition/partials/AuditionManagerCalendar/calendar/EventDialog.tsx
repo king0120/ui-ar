@@ -8,7 +8,7 @@ import { useSnackbar } from 'notistack'
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import arAxios from 'utils/axiosHelper';
-import AuditionRoles from '../../../pages/Audition/createAuditionForms/AuditionRoles'
+import AuditionRoles from '../../../createAuditionForms/AuditionRoles'
 
 const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
 const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql')
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
         zIndex: 999999
     }
 }));
-function EventDialog(props) {
+const EventDialog = (props: any) => {
     const { enqueueSnackbar } = useSnackbar();
     const { auditionId, projectId } = props.match.params;
     const [inviteToAudition] = useMutation(INVITE_TO_AUDITION, {
@@ -49,8 +49,11 @@ function EventDialog(props) {
 
     const classes = useStyles()
     const dispatch = useDispatch();
-    const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
-    const actorResults = useSelector(({ search }) => search.data);
+    const eventDialog = useSelector<any, any>(({ calendarApp }) => {
+        console.log(calendarApp)
+        return calendarApp.events ? calendarApp.events.eventDialog : {props: {}}
+    });
+    const actorResults = useSelector<any, any>(({ search }) => search.data);
     console.log(eventDialog)
     const [startTime, changeStartTime] = useState(eventDialog.props.start);
     const [endTime, changeEndTime] = useState(eventDialog.props.end);
@@ -64,7 +67,7 @@ function EventDialog(props) {
     const [selectedActor, setSelectedActor] = useState(eventDialog.props.talent)
     const loading = open && options.length === 0;
 
-    const invite = async (userId) => {
+    const invite = async (userId: any) => {
         await inviteToAudition({
             variables: {
                 projectId,
@@ -85,7 +88,7 @@ function EventDialog(props) {
     }, [eventDialog.props.open, eventDialog.props.date, props.open, eventDialog.props])
 
 
-    const buildTimeSlots = (startTime, endTime) => {
+    const buildTimeSlots = (startTime: any, endTime: any) => {
         createTimeSlots({
             variables: {
                 data: { startTime, endTime, auditionId }
@@ -128,7 +131,7 @@ function EventDialog(props) {
         eventDialog.type === 'edit' ? dispatch(Actions.closeEditEventDialog()) : dispatch(Actions.closeNewEventDialog());
     }
 
-    function handleSubmit(event) {
+    function handleSubmit(event: any) {
         event.preventDefault();
         if (eventDialog.type === "new") {
             buildTimeSlots(startTime, endTime);
@@ -164,6 +167,7 @@ function EventDialog(props) {
             active = false;
         };
     }, [actorResults, dispatch, loading, options, value]);
+    
     return (
         <Dialog {...eventDialog.props} onClose={closeComposeDialog} fullWidth maxWidth="xs" component="form">
 
@@ -239,7 +243,7 @@ function EventDialog(props) {
                         value={capacity}
                         type="number"
                         onChange={(e) => {
-                            setCapacity(e.target.value)
+                            setCapacity(e.target.value as any)
                         }}
                         variant="standard"
                     />

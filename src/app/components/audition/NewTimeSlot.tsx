@@ -15,7 +15,7 @@ const NewTimeSlot: FC<any> = (props) => {
     const { auditionId } = props.match.params;
     const { allSlots, changeAllSlots } = props;
     const [startTime, changeStartTime] = useState(new Date(props.startDate))
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
     const [numberOfSlots, changeNumberOfSlots] = useState(0)
     const [duration, changeDuration] = useState(0)
     const [getAudition] = useLazyQuery(GET_AUDITION, {
@@ -35,7 +35,6 @@ const NewTimeSlot: FC<any> = (props) => {
                     horizontal: 'right',
                 }
             });
-            console.log("OH SHIT", error)
         }
     });
 

@@ -11,7 +11,6 @@ import TalentList from 'app/components/shared/TalentList';
 const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql');
 
 const AuditionManagerPageStyles = styled.div`
-    padding-bottom: 500px;
     width: 90vw;
     margin: 0 auto;
 `;
@@ -63,7 +62,7 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
                     audition={audition} editable={showConfig} />
             }
             <Paper className="flex">
-                <CalendarApp views={['day', 'agenda']} date={audition.startDate} events={allSlots} />
+                <CalendarApp forRoles={audition.forRoles} views={['day', 'agenda']} date={audition.startDate} events={allSlots} />
                 <div className="p-20 w-1/2">
                     <h3>Invite Talent</h3>
                     <TalentList talent={audition.talent} />

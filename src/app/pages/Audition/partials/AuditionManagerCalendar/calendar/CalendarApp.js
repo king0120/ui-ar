@@ -169,7 +169,7 @@ const useStyles = makeStyles(theme => ({
 
 function CalendarApp(props) {
     const dispatch = useDispatch();
-
+    const {forRoles} = props
     const classes = useStyles(props);
     const headerEl = useRef(null);
 
@@ -205,13 +205,15 @@ function CalendarApp(props) {
             return true
         }
     }).map((event) => {
-        const title = event.talent ? `${event.talent.user.displayName}: ${event.talent.status}` : "Available Slot"
+        const title = event.talent.length ? `${event.talent[0].user.displayName}: ${event.talent[0].status}` : "Available Slot"
+        
         return {
             title,
             start: new Date(event.startTime),
             end: new Date(event.endTime),
-            talent: event.talent,
-            id: event.id
+            talent: event.talent[0],
+            id: event.id,
+            forRoles
         }
     })
     return (
@@ -235,16 +237,6 @@ function CalendarApp(props) {
                 min={min}
                 max={max}
                 components={{
-                    // eventWrapperContainer: () => {
-                    //     return 
-                    // },
-                    // eventWrapper: ({ event }) => {
-                    //     return (
-                    //         <div>
-                    //             <div>{event.title}</div>
-                    //         </div>
-                    //     )
-                    // },
                     agenda: {
                         event: ({ event }) => {
                             if (event.talent) {

@@ -1,28 +1,41 @@
 import React, { useContext, useEffect } from 'react';
-import {Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography} from '@material-ui/core';
-import {useForm} from '@fuse/hooks';
-import {useMutation} from "@apollo/react-hooks";
-import {Link} from 'react-router-dom';
+import { Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
+import { useForm } from '@fuse/hooks';
+import { useMutation } from "@apollo/react-hooks";
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { GlobalContext } from 'context/globalContext';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
-
+import { useSnackbar } from 'notistack'
+import { ApolloError } from 'apollo-boost';
 
 const LOGIN = require('../../../graphql/mutations/LOGIN.gql')
 
-function Login2Page(props: any)
-{
+function Login2Page(props: any) {
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const classes = useAuthStyles();
-    const {setUserId, setDisplayName} = useContext(GlobalContext)
-    const [login, {data}] = useMutation(LOGIN)
-    const {form, handleChange, resetForm} = useForm({
-        email   : '',
+    const { setUserId, setDisplayName } = useContext(GlobalContext)
+    const [login, { data }] = useMutation(LOGIN, {
+        onCompleted: () => {
+            resetForm();
+        },
+        onError: (error: ApolloError) => {
+            enqueueSnackbar(error.message, {
+                variant: 'error',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                }
+            });
+        }
+    })
+    const { form, handleChange, resetForm } = useForm({
+        email: '',
         password: '',
         remember: true
     });
 
-    function isFormValid()
-    {
+    function isFormValid() {
         return (
             form.email.length > 0 &&
             form.password.length > 0
@@ -40,12 +53,10 @@ function Login2Page(props: any)
         }
     }, [data, setUserId, setDisplayName]);
 
-    function handleSubmit(ev: any)
-    {
+    function handleSubmit(ev: any) {
         ev.preventDefault();
-        const {email, password} = form;
-        login({variables: {email, password}})
-        resetForm();
+        const { email, password } = form;
+        login({ variables: { email, password } })
     }
 
     // @ts-ignore
@@ -53,7 +64,7 @@ function Login2Page(props: any)
         <div className={clsx(classes.root, "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0")}>
 
             <AuthPageSplash />
-            <Animate animation={{translateX: [0, '100%']}}>
+            <Animate animation={{ translateX: [0, '100%'] }}>
 
                 <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
 
@@ -101,7 +112,7 @@ function Login2Page(props: any)
                                             <Checkbox
                                                 name="remember"
                                                 checked={form.remember}
-                                                onChange={handleChange}/>
+                                                onChange={handleChange} />
                                         }
                                         label="Remember Me"
                                     />
@@ -126,9 +137,9 @@ function Login2Page(props: any)
                         </form>
 
                         <div className="my-24 flex items-center justify-center">
-                            <Divider className="w-32"/>
+                            <Divider className="w-32" />
                             <span className="mx-8 font-bold">OR</span>
-                            <Divider className="w-32"/>
+                            <Divider className="w-32" />
                         </div>
 
                         {/* <Button variant="contained" color="secondary" size="small"

@@ -4,9 +4,11 @@ import { Autocomplete } from '@material-ui/lab'
 import { useMutation } from "@apollo/react-hooks";
 import { withRouter } from 'react-router';
 import { TimePicker } from '@material-ui/pickers';
+import { useSnackbar } from 'notistack'
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 import arAxios from 'utils/axiosHelper';
+import AuditionRoles from '../../../pages/Audition/createAuditionForms/AuditionRoles'
 
 const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
 const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql')
@@ -19,8 +21,19 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 function EventDialog(props) {
+    const { enqueueSnackbar } = useSnackbar();
     const { auditionId, projectId } = props.match.params;
-    const [inviteToAudition] = useMutation(INVITE_TO_AUDITION)
+    const [inviteToAudition] = useMutation(INVITE_TO_AUDITION, {
+        onError(e) {
+            enqueueSnackbar(e.message, {
+                variant: 'error',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                }
+            });
+        }
+    })
     const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
         refetchQueries: [{
             query: GET_AUDITION,
@@ -38,14 +51,16 @@ function EventDialog(props) {
     const dispatch = useDispatch();
     const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
     const actorResults = useSelector(({ search }) => search.data);
-
+    console.log(eventDialog)
     const [startTime, changeStartTime] = useState(eventDialog.props.start);
     const [endTime, changeEndTime] = useState(eventDialog.props.end);
+    const [forRoles, setForRoles] = useState([])
 
 
     const [open, setOpen] = useState(false)
     const [options, setOptions] = useState([])
     const [value, setValue] = useState('')
+    const [capacity, setCapacity] = useState(1)
     const [selectedActor, setSelectedActor] = useState(eventDialog.props.talent)
     const loading = open && options.length === 0;
 
@@ -208,14 +223,27 @@ function EventDialog(props) {
                     )}
                     <TimePicker
                         label="Start Time"
+                        fullWidth
                         value={startTime}
                         onChange={(date) => { changeStartTime(date) }}
                     />
                     <TimePicker
                         label="End Time"
+                        fullWidth
                         value={endTime}
                         onChange={(date) => { changeEndTime(date) }}
                     />
+                    <TextField
+                        label="Maximum Capacity"
+                        fullWidth
+                        value={capacity}
+                        type="number"
+                        onChange={(e) => {
+                            setCapacity(e.target.value)
+                        }}
+                        variant="standard"
+                    />
+                    <AuditionRoles roles={[]} forRoles={forRoles} setForRoles={setForRoles} />
                 </DialogContent>
 
                 {eventDialog.type === 'new' ? (

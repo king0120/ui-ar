@@ -32,6 +32,10 @@ query getAudition($auditionId: String!){
             id
             decision
             status
+            timeSlot {
+                startTime
+                endTime
+            }
             user {
                 id
                 displayName

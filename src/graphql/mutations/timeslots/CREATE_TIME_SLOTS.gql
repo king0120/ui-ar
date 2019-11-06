@@ -3,5 +3,6 @@ mutation createTimeslot($data: CreateTimeSlotDTO!) {
         id
         startTime
         endTime
+        capacity
     }
 }

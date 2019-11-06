@@ -33,6 +33,7 @@ type Audition {
     collateral: [AuditionCollateral!]
     createdAt: DateTime!
     description: String
+    endDate: DateTime
     forRoles: [ProjectRole!]
     id: String!
     lat: Float!
@@ -91,10 +92,11 @@ type AuditionTalentInstance {
 
 type AuditionTimeSlot {
     audition: Audition
+    capacity: Float
     endTime: DateTime
     id: String!
     startTime: DateTime
-    talent: AuditionTalentInstance
+    talent: [AuditionTalentInstance!]
 }
 
 type BreakdownAttribute {
@@ -390,6 +392,7 @@ input CreateNoteDTO {
 
 input CreateTimeSlotDTO {
     auditionId: String
+    capacity: Int
     endTime: DateTime!
     startTime: DateTime!
 }

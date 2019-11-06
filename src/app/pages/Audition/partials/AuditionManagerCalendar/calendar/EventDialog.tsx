@@ -7,19 +7,16 @@ import { TimePicker } from '@material-ui/pickers';
 import { useSnackbar } from 'notistack'
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
-import arAxios from 'utils/axiosHelper';
+
 import AuditionRoles from '../../../createAuditionForms/AuditionRoles'
+import ActorAutocomplete from './ActorAutocomplete'
 
 const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
 const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql')
 const INVITE_TO_AUDITION = require('graphql/mutations/INVITE_TO_AUDITION.gql')
 const DELETE_TIME_SLOT = require('graphql/mutations/timeslots/DELETE_TIME_SLOT.gql')
 
-const useStyles = makeStyles(theme => ({
-    popup: {
-        zIndex: 999999
-    }
-}));
+
 const EventDialog = (props: any) => {
     const { enqueueSnackbar } = useSnackbar();
     const { auditionId, projectId } = props.match.params;
@@ -47,25 +44,22 @@ const EventDialog = (props: any) => {
         }]
     })
 
-    const classes = useStyles()
+
     const dispatch = useDispatch();
     const eventDialog = useSelector<any, any>(({ calendarApp }) => {
-        console.log(calendarApp)
-        return calendarApp.events ? calendarApp.events.eventDialog : {props: {}}
+        return calendarApp.events ? calendarApp.events.eventDialog : { props: {} }
     });
-    const actorResults = useSelector<any, any>(({ search }) => search.data);
-    console.log(eventDialog)
+
     const [startTime, changeStartTime] = useState(eventDialog.props.start);
     const [endTime, changeEndTime] = useState(eventDialog.props.end);
     const [forRoles, setForRoles] = useState([])
 
 
-    const [open, setOpen] = useState(false)
-    const [options, setOptions] = useState([])
-    const [value, setValue] = useState('')
-    const [capacity, setCapacity] = useState(1)
+
+
+    const [capacity, setCapacity] = useState<number>(1)
     const [selectedActor, setSelectedActor] = useState(eventDialog.props.talent)
-    const loading = open && options.length === 0;
+
 
     const invite = async (userId: any) => {
         await inviteToAudition({
@@ -89,9 +83,11 @@ const EventDialog = (props: any) => {
 
 
     const buildTimeSlots = (startTime: any, endTime: any) => {
+        const data = { startTime, endTime, auditionId, capacity: capacity as number }
+        console.log(data)
         createTimeSlots({
             variables: {
-                data: { startTime, endTime, auditionId }
+                data
             }
         })
     };
@@ -119,9 +115,6 @@ const EventDialog = (props: any) => {
     );
 
     useEffect(() => {
-        /**
-         * After Dialog Open
-         */
         if (eventDialog.props.open) {
             initDialog();
         }
@@ -146,28 +139,7 @@ const EventDialog = (props: any) => {
 
     }
 
-    React.useEffect(() => {
-        let active = true;
 
-        if (!loading) {
-            return undefined;
-        }
-
-        (async () => {
-            const value = await arAxios.get(`/api/v1/users/search`, {
-                params: { value: '', type: 'displayName' }
-            })
-
-            if (active) {
-                setOptions(value.data);
-            }
-        })();
-
-        return () => {
-            active = false;
-        };
-    }, [actorResults, dispatch, loading, options, value]);
-    
     return (
         <Dialog {...eventDialog.props} onClose={closeComposeDialog} fullWidth maxWidth="xs" component="form">
 
@@ -181,50 +153,9 @@ const EventDialog = (props: any) => {
 
             <form noValidate onSubmit={handleSubmit}>
                 <DialogContent classes={{ root: "p-16 pb-0 sm:p-24 sm:pb-0" }}>
-                    {eventDialog.type === "edit" && (
-                        <>
-                            <label>Assigned To Actor: </label>
-                            <Autocomplete
-                                classes={{
-                                    popup: classes.popup,
-                                    paper: classes.popup
-                                }}
-                                style={{ width: 300 }}
-                                open={open}
-                                onOpen={() => {
-                                    setOpen(true);
-                                }}
-                                onClose={() => {
-                                    setOpen(false);
-                                }}
-                                getOptionLabel={option => option.displayName}
-                                value={selectedActor}
-                                onChange={(e, newActor) => { setSelectedActor(newActor) }}
-                                options={options}
-                                loading={loading}
-                                renderInput={params => (
-                                    <TextField
-                                        {...params}
-                                        fullWidth
-                                        value={value}
-                                        onChange={(e) => {
-                                            setValue(e.target.value)
-                                        }}
-                                        variant="standard"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                                <React.Fragment>
-                                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                                                    {params.InputProps.endAdornment}
-                                                </React.Fragment>
-                                            ),
-                                        }}
-                                    />
-                                )}
-                            />
-                        </>
-                    )}
+                    {eventDialog.type === "edit" && <ActorAutocomplete
+                        selectedActor={selectedActor} setSelectedActor={setSelectedActor}
+                    />}
                     <TimePicker
                         label="Start Time"
                         fullWidth
@@ -243,11 +174,11 @@ const EventDialog = (props: any) => {
                         value={capacity}
                         type="number"
                         onChange={(e) => {
-                            setCapacity(e.target.value as any)
+                            setCapacity(parseInt(e.target.value as any))
                         }}
                         variant="standard"
                     />
-                    <AuditionRoles roles={[]} forRoles={forRoles} setForRoles={setForRoles} />
+                    {/* <AuditionRoles roles={[]} forRoles={forRoles} setForRoles={setForRoles} /> */}
                 </DialogContent>
 
                 {eventDialog.type === 'new' ? (

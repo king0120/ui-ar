@@ -4,7 +4,23 @@ import DetailHeader from './DetailHeader';
 import { gql } from 'apollo-boost';
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { List, ListItem, ListItemAvatar, ListItemText, Avatar, Button } from '@material-ui/core';
-const GET_USER = require('graphql/queries/user/GET_USER.gql')
+
+
+const GET_ACTOR = gql`
+query getActor($id: String!) {
+    getActor(id: $id) {
+        id
+        displayName
+        profilePicture {
+            url
+        }
+        profileImages {
+            s3Key
+            url
+        }
+    }
+}
+`
 
 const GET_FOR_DASHBOARD = gql`query getOneProject($projectId: String!) {
     getOneProject(projectId: $projectId) {
@@ -87,9 +103,9 @@ export const Dashboard: FC<any> = ({ projectId }) => {
 
 function CastRole(props: any) {
     const { role } = props;
-    const { data, loading } = useQuery(GET_USER, { variables: { id: role.castTo.id } });
+    const { data, loading } = useQuery(GET_ACTOR, { variables: { id: role.castTo.id } });
     if (loading) { return <p>Loading</p> }
-    const actor = data.getUser
+    const actor = data.getActor
     return (
         <ListItem>
             <ListItemAvatar>

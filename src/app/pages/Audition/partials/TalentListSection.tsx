@@ -8,8 +8,8 @@ import { useQuery } from '@apollo/react-hooks';;
 
 
 const query = gql`
-query getUser($id: String!) {
-    getUser(id: $id) {
+query getActor($id: String!) {
+    getActor(id: $id) {
         id
         displayName
         profilePicture {
@@ -50,9 +50,9 @@ const useStyles = makeStyles({
 const TalentListItem: FC<any> = ({ id, role, handleClick, talent }) => {
     const { data, loading, refetch } = useQuery(query, { variables: { id } });
     const classes = useStyles();
-    useEffect(() => { refetch() }, [talent, refetch])
+    // useEffect(() => { refetch() }, [talent, refetch])
     if (loading) { return <p></p> }
-    const user = data.getUser
+    const user = data.getActor
     return (
         <ListItem key={user.id} onClick={() => handleClick(talent)}>
             <ListItemAvatar>

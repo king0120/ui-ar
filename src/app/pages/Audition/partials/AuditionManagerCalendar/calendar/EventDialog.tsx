@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Dialog, makeStyles, CircularProgress, TextField, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab'
+import { Button, Dialog, TextField, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
 import { useMutation } from "@apollo/react-hooks";
 import { withRouter } from 'react-router';
 import { TimePicker } from '@material-ui/pickers';
@@ -8,7 +7,6 @@ import { useSnackbar } from 'notistack'
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from './store/actions';
 
-import AuditionRoles from '../../../createAuditionForms/AuditionRoles'
 import ActorAutocomplete from './ActorAutocomplete'
 
 const CREATE_TIME_SLOTS = require('graphql/mutations/timeslots/CREATE_TIME_SLOTS.gql')
@@ -54,11 +52,8 @@ const EventDialog = (props: any) => {
     const [endTime, changeEndTime] = useState(eventDialog.props.end);
     const [forRoles, setForRoles] = useState([])
 
-
-
-
-    const [capacity, setCapacity] = useState<number>(1)
-    const [selectedActor, setSelectedActor] = useState(eventDialog.props.talent)
+    const [capacity, setCapacity] = useState<number>(eventDialog.props.capacity)
+    const [selectedActors, setSelectedActors] = useState(eventDialog.props.talent)
 
 
     const invite = async (userId: any) => {
@@ -84,7 +79,6 @@ const EventDialog = (props: any) => {
 
     const buildTimeSlots = (startTime: any, endTime: any) => {
         const data = { startTime, endTime, auditionId, capacity: capacity as number }
-        console.log(data)
         createTimeSlots({
             variables: {
                 data
@@ -98,9 +92,10 @@ const EventDialog = (props: any) => {
              * Dialog type: 'edit'
              */
             if (eventDialog.type === 'edit' && eventDialog.data) {
-                setSelectedActor(eventDialog.props.talent && eventDialog.props.talent.user)
+                setSelectedActors(eventDialog.props.talent && eventDialog.props.talent.map((r: any) => r.user))
                 changeStartTime(eventDialog.props.start)
                 changeEndTime(eventDialog.props.end)
+                setCapacity(eventDialog.props.capacity)
             }
 
             /**
@@ -130,9 +125,13 @@ const EventDialog = (props: any) => {
             buildTimeSlots(startTime, endTime);
             closeComposeDialog();
         } else {
-            if (selectedActor && selectedActor.id && (selectedActor.id !== (eventDialog.props.talent && eventDialog.props.talent.user.id))) {
-                invite(selectedActor.id)
-            }
+            selectedActors.map((selectedActor: any) => {
+                const alreadyExists = eventDialog.props.talent.filter((tal: any) => tal.user.id === selectedActor.id).length
+                if (selectedActor && selectedActor.id && !alreadyExists) {
+                    invite(selectedActor.id)
+                }
+            })
+
             buildTimeSlots(startTime, endTime)
             closeComposeDialog();
         }
@@ -153,9 +152,20 @@ const EventDialog = (props: any) => {
 
             <form noValidate onSubmit={handleSubmit}>
                 <DialogContent classes={{ root: "p-16 pb-0 sm:p-24 sm:pb-0" }}>
-                    {eventDialog.type === "edit" && <ActorAutocomplete
-                        selectedActor={selectedActor} setSelectedActor={setSelectedActor}
-                    />}
+                    {eventDialog.type === "edit" ? [...Array(capacity)].map((num, i) => {
+                        if (!selectedActors) {
+                            return <></>
+                        }
+                        console.log('selectedActors', selectedActors)
+                        return <ActorAutocomplete
+                            selectedActor={selectedActors[i]}
+                            setSelectedActor={(actor: any) => {
+                                const newSelected = [...selectedActors]
+                                newSelected[i] = actor
+                                setSelectedActors(newSelected)
+                            }}
+                        />
+                    }) : null}
                     <TimePicker
                         label="Start Time"
                         fullWidth

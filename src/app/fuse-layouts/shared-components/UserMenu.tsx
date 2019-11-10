@@ -93,24 +93,24 @@ function UserMenu(props: any) {
                     <ListItemIcon className="min-w-40">
                         <Icon>account_circle</Icon>
                     </ListItemIcon>
-                    <ListItemText className="pl-0" primary="Actor Profile" />
+                    <ListItemText className="pl-0" primary="My Profile" />
+                </MenuItem>
+                <MenuItem component={Link} to="/profile/auditions" onClick={userMenuClose}>
+                    <ListItemIcon className="min-w-40">
+                        <Icon>audiotrack</Icon>
+                    </ListItemIcon>
+                    <ListItemText className="pl-0" primary="My Auditions" />
                 </MenuItem>
                 {
                     userType.includes('theatre') && (
-                        <>
-                            {
-                                orgs.map((org: any) => (
-                                    <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`} onClick={userMenuClose}>
-                                        <ListItemIcon className="min-w-40">
-                                            <Icon>group</Icon>
-                                        </ListItemIcon>
-                                        <ListItemText className="pl-0" primary={org.name} />
-                                    </MenuItem>
-                                ))
-                            }
-                            < AddOrganization />
-                        </>
-                    )
+                        orgs.map((org: any) => (
+                            <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`} onClick={userMenuClose}>
+                                <ListItemIcon className="min-w-40">
+                                    <Icon>group</Icon>
+                                </ListItemIcon>
+                                <ListItemText className="pl-0" primary={org.name} />
+                            </MenuItem>
+                        )))
                 }
                 <MenuItem
                     onClick={() => {

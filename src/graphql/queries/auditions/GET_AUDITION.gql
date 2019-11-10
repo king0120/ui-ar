@@ -33,6 +33,7 @@ query getAudition($auditionId: String!){
             id
             decision
             status
+            responseCode
             timeSlot {
                 startTime
                 endTime

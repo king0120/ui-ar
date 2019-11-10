@@ -61,7 +61,6 @@ function CalendarApp(props) {
             return true
         }
     }).map((event) => {
-        
         let title;
         if (event.talent.length) {
             if (event.capacity === 1) {
@@ -69,16 +68,17 @@ function CalendarApp(props) {
             } else {
                 title = event.capacity - event.talent.length + " Slots Available"
             }
-         } else {
+        } else {
             title = event.capacity - event.talent.length + " Slots Available"
-         }
+        }
 
         return {
             title,
             start: new Date(event.startTime),
             end: new Date(event.endTime),
-            talent: event.talent,
+            talent: event.talent || [],
             id: event.id,
+            capacity: event.capacity,
             forRoles
         }
     })
@@ -106,7 +106,11 @@ function CalendarApp(props) {
                     agenda: {
                         event: ({ event }) => {
                             if (event.talent) {
-                                return <Link to={`/profile/${event.talent.user.id}`}>{event.talent.user.displayName}</Link>
+                                return <div>
+                                    {event.talent.map((actor) => (
+                                        <p><Link to={`/profile/${actor.user.id}`}>{actor.user.displayName}</Link>: {actor.status}</p>
+                                    ))}
+                                </div>
                             } else {
                                 return (<div>
                                     <div>available</div>

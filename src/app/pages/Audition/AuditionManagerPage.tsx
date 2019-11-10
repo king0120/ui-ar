@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
 import AuditionManagerConfiguration from './AuditionManagerConfiguration';
-import AuditionManagerView from './AuditionManagerView';
 import { useLazyQuery } from "@apollo/react-hooks";
 import { Typography, Button, Paper } from '@material-ui/core';
 import CalendarApp from './partials/AuditionManagerCalendar/calendar/CalendarApp'
@@ -36,7 +35,7 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
 
     useEffect(() => {
         changeAllSlots(timeSlots);
-    }, [audition]);
+    }, [audition, timeSlots]);
 
     if (error) {
         return <h1>ERROR IN AUDITIONMANGERPAGE <small>{error.message}</small></h1>

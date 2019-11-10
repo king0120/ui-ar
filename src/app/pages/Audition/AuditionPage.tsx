@@ -63,7 +63,7 @@ const AuditionPage: FC<any> = ({ match }) => {
         return <h1>loading</h1>;
     }
     const { forRoles } = data.getAudition
-
+    console.log(data.getAudition)
     const changeDecision = (id: any) => updateTalentInstance({
         variables: {
             decision: decisionValue === 'pending' ? undefined : decisionValue,

@@ -21,19 +21,18 @@ interface IAuditionDetails {
 
 const AuditionDetails: FC<IAuditionDetails> = (props) => {
   return (
-    <div>
-      <TextField
-        className="mb-16"
-        label="Audition Name"
-        autoFocus
-        type="name"
-        name="name"
-        value={props.name}
-        onChange={props.handleChange}
-        required
-        fullWidth
-      />
-      <div className="flex justify-start items-center mr-12">
+    <>
+      <div className="flex justify-between align-baseline">
+        <TextField
+          className="mb-16 w-8/12"
+          label="Audition Name"
+          autoFocus
+          type="name"
+          name="name"
+          value={props.name}
+          onChange={props.handleChange}
+          required
+        />
         <FormControlLabel
           control={
             <Checkbox
@@ -47,11 +46,14 @@ const AuditionDetails: FC<IAuditionDetails> = (props) => {
       </div>
       <div className="flex justify-between">
         <AddressInput handleChange={props.handleAddressChange} variant={'standard'} type="address" />
+      </div>
+      <div className="flex justify-between">
         <KeyboardDateTimePicker
           label="Start Date and Time"
           variant="inline"
           value={props.selectedDate}
           disablePast={true}
+          fullWidth
           onChange={(date) => { props.setNewDate(date as any) }}
           ampm={true}
           format="MM/dd/yyyy hh:mm aaaa"
@@ -66,7 +68,7 @@ const AuditionDetails: FC<IAuditionDetails> = (props) => {
           setCloneAuditions={props.setCloneAuditions}
         />
       </div>
-    </div>
+    </>
   );
 };
 

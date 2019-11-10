@@ -22,8 +22,10 @@ const useStyles = makeStyles({
 
 
 const AuditionResponse: FC<any> = ({ location, history }) => {
+
     const classes = useStyles()
     const values = queryString.parse(location.search)
+    console.log(values)
     const { userId } = useContext(GlobalContext)
     const { loading, data } = useQuery(GET_AUDITION, { variables: { auditionId: values.audition } });
     const [answers, setAnswers] = useState([])

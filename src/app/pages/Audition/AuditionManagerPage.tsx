@@ -35,7 +35,7 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
 
     useEffect(() => {
         changeAllSlots(timeSlots);
-    }, [audition, timeSlots]);
+    }, [audition]);
 
     if (error) {
         return <h1>ERROR IN AUDITIONMANGERPAGE <small>{error.message}</small></h1>

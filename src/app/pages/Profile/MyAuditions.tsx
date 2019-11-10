@@ -22,7 +22,11 @@ const MyAuditions = () => {
         return <h1>Loading</h1>
     }
     const user = data.getUser
-    console.log(user)
+    user.instances.sort((a: any, b: any) => {
+        a = new Date(a.audition.startDate)
+        b = new Date(b.audition.startDate)
+        return a>b ? 1 : a<b ? -1 : 0;
+    })
     return (
         <Container className="h-full">
             <Paper className={clsx(classes.root, "p-16 mt-36")}>
@@ -32,23 +36,31 @@ const MyAuditions = () => {
                     {user.instances.map((instance: any) => {
                         const project = instance.audition.project || {}
                         return (
-                            <ListItem alignItems="flex-start">
-                                <ListItemText
-                                    key={instance.id}
-                                    primary={`${project.name}  ${format(new Date(instance.audition.startDate), "MMM do, hh:mm a")}`}
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                color="textPrimary">
-                                                {instance.audition.address}
-                                            </Typography>
+                            <>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText
+                                        key={instance.id}
+                                        primary={
+                                            <div className="flex justify-between">
+                                                <Typography variant="h6">{project.name}</Typography>
+                                                <p>{format(new Date(instance.audition.startDate), "MMM do, hh:mm a")}</p>
+                                            </div>
+                                        }
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textPrimary">
+                                                    {instance.audition.address}
+                                                </Typography>
 
-                                        </React.Fragment>
-                                    }
-                                /><Divider variant="inset" component="li" />
-                            </ListItem>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                                <Divider />
+                            </>
                         )
                     })}
                 </List>
@@ -65,6 +77,7 @@ const GET_USER_AUDITION = () => gql`
             id
             displayName
             instances {
+                id
                 projectId
                 registered
                 audition {

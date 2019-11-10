@@ -98,3 +98,11 @@ form label {
 @import 'prism.css';
 
 @import 'tailwind.base.css';
+
+.ap-suggestion {
+    display: flex;
+    align-items: baseline;
+}
+.ap-footer svg {
+    display: inline;
+}

@@ -65,6 +65,7 @@ const TalentListItem: FC<any> = ({ id, role, handleClick, talent }) => {
 const TalentListSection: FC<any> = ({ title, talentList, handleClick, roles }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true)
+    console.log("TALENT", talentList)
     return (
         <ExpansionPanel classes={{ root: classes.root, expanded: classes.expanded }} className="w-full p-2" expanded={open} onChange={() => setOpen(!open)}>
             <ExpansionPanelSummary className="p-0" expandIcon={<ExpandMoreIcon className={classes.icon} />}>

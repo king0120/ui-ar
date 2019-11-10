@@ -126,6 +126,9 @@ const EventDialog = (props: any) => {
             closeComposeDialog();
         } else {
             selectedActors.map((selectedActor: any) => {
+                if (!selectedActor) {
+                    return
+                }
                 const alreadyExists = eventDialog.props.talent.filter((tal: any) => tal.user.id === selectedActor.id).length
                 if (selectedActor && selectedActor.id && !alreadyExists) {
                     invite(selectedActor.id)

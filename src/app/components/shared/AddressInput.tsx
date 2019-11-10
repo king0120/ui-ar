@@ -49,7 +49,7 @@ class AddressInput extends React.Component<any> {
             id='address-input'
             className="mb-16"
             label={this.props.label}
-            autoFocus
+            fullWidth
             type="cityState"
             name="cityState"
             variant={this.props.variant}

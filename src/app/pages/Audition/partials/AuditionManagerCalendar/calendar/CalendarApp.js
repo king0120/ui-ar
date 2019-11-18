@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Fab, Icon } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import moment from 'moment'
 import clsx from 'clsx';
 import withReducer from 'app/store/withReducer';
@@ -20,8 +19,6 @@ import useStyles from './CalendarAppStyles'
 
 export const DEFAULT_STEP = 5
 const localizer = momentLocalizer(moment);
-
-const DragAndDropCalendar = withDragAndDrop(Calendar);
 
 function CalendarApp(props) {
     const { forRoles } = props

@@ -8,7 +8,6 @@ interface ITalentList {
 
 const TalentList: FC<ITalentList> = ({ talent = [] }) => {
     const [value, setValue] = useState(0)
-    console.log(talent)
     const confirmed = talent.filter(a => a.status === "confirmed")
     const denied = talent.filter(a => a.status === "denied")
     const unconfirmed = talent.filter(a => a.status === "unconfirmed")

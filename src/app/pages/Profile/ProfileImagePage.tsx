@@ -63,6 +63,7 @@ const ProfileImagePage: FC<any> = (props) => {
                         <img
                             className={classes.imageList}
                             src={img.url}
+                            alt={user.displayName + index}
                             onClick={() => {
                                 setOpen(true)
                                 setCurrentIndex(index)

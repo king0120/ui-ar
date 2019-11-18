@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { gql } from 'apollo-boost';
 import { AnimateGroup } from 'app/pages/Search/Partials/ActorSearchResults';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -48,9 +48,8 @@ const useStyles = makeStyles({
 });
 
 const TalentListItem: FC<any> = ({ id, role, handleClick, talent }) => {
-    const { data, loading, refetch } = useQuery(query, { variables: { id } });
+    const { data, loading } = useQuery(query, { variables: { id } });
     const classes = useStyles();
-    // useEffect(() => { refetch() }, [talent, refetch])
     if (loading) { return <p></p> }
     const user = data.getActor
     return (

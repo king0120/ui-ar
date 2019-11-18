@@ -1597,6 +1597,14 @@
     "@types/react" "*"
     moment "^2.19.4"
 
+"@types/react-big-calendar@^0.22.3":
+  version "0.22.3"
+  resolved "https://registry.yarnpkg.com/@types/react-big-calendar/-/react-big-calendar-0.22.3.tgz#9c78191132c4922240b33230313723e9007e9e0b"
+  integrity sha512-y207TfUNF+zm+REKAJVwO8/9hDXBpHSSQZU3VlAbKe+Sk3RRg6DYx83FXN6W43y/jKrparHq3Yg+bpnh2/thzQ==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/react" "*"
+
 "@types/react-dom@^16.8.4":
   version "16.9.0"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.0.tgz#ba6ddb00bf5de700b0eb91daa452081ffccbfdea"
@@ -10948,10 +10956,10 @@ react-autowhatever@^10.1.2:
     react-themeable "^1.1.0"
     section-iterator "^2.0.0"
 
-react-big-calendar@^0.22.1:
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/react-big-calendar/-/react-big-calendar-0.22.1.tgz#7b523cee4c423410a05e4499a720e8dae12ebec6"
-  integrity sha512-Pd0x0W4vjs5oDzPl3kvIlJok4ESO7p/+jpxKil0xkJ5sfsYlB/lZMCht7htEy9/WInnnJQGcXx+tLIcEzDbV8g==
+react-big-calendar@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/react-big-calendar/-/react-big-calendar-0.23.0.tgz#cc780481548fcefabb04cea05dd1a08456702a67"
+  integrity sha512-f/v1J/oqvEJqXcT5clJ5wzFIWKRNUeMCvLLzH6PYszcR15mUgqQb31HH+2Ev+YZHVW3YSStcZn2HWEhmvFr9ew==
   dependencies:
     "@babel/runtime" "^7.1.5"
     clsx "^1.0.4"

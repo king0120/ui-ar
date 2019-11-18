@@ -50,7 +50,6 @@ const EventDialog = (props: any) => {
 
     const [startTime, changeStartTime] = useState(eventDialog.props.start);
     const [endTime, changeEndTime] = useState(eventDialog.props.end);
-    const [forRoles, setForRoles] = useState([])
 
     const [capacity, setCapacity] = useState<number>(eventDialog.props.capacity)
     const [selectedActors, setSelectedActors] = useState(eventDialog.props.talent)
@@ -61,7 +60,7 @@ const EventDialog = (props: any) => {
             variables: {
                 projectId,
                 auditionId,
-                userId: userId,
+                users: userId,
                 timeSlotId: eventDialog.props.id
             },
             refetchQueries: [{
@@ -125,16 +124,18 @@ const EventDialog = (props: any) => {
             buildTimeSlots(startTime, endTime);
             closeComposeDialog();
         } else {
-            selectedActors.map((selectedActor: any) => {
+            const actorIds = selectedActors.map((selectedActor: any) => {
                 if (!selectedActor) {
-                    return
+                    return null
                 }
                 const alreadyExists = eventDialog.props.talent.filter((tal: any) => tal.user.id === selectedActor.id).length
                 if (selectedActor && selectedActor.id && !alreadyExists) {
-                    invite(selectedActor.id)
+                    return selectedActor.id
                 }
-            })
+                return null
+            }).filter(Boolean)
 
+            invite(actorIds)
             buildTimeSlots(startTime, endTime)
             closeComposeDialog();
         }
@@ -159,8 +160,8 @@ const EventDialog = (props: any) => {
                         if (!selectedActors) {
                             return <></>
                         }
-                        console.log('selectedActors', selectedActors)
                         return <ActorAutocomplete
+                            key={i}
                             selectedActor={selectedActors[i]}
                             setSelectedActor={(actor: any) => {
                                 const newSelected = [...selectedActors]

@@ -1,20 +1,39 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Typography } from '@material-ui/core';
 import { Link, withRouter } from 'react-router-dom';
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { GlobalContext } from 'context/globalContext';
-import AddOrganization from 'app/components/organization/AddEditOrganization'
+import { gql } from 'apollo-boost';
+
 const GET_ORGANIZATIONS_FOR_USER = require('graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
 
 const TsIcon: any = Icon
-const GET_USER = require('graphql/queries/user/GET_USER.gql');
+const GET_ACTOR = gql`
+query getActor($id: String!) {
+    getActor(id: $id) {
+        id
+        displayName
+        profilePicture {
+            url
+        }
+        profileImages {
+            s3Key
+            url
+        }
+    }
+}
+`
 
 function UserMenu(props: any) {
     const { userId, userType } = useContext(GlobalContext)
-    const { data, loading } = useQuery(GET_USER, { variables: { id: userId } })
+    const [getActor, { data, loading }] = useLazyQuery(GET_ACTOR, { variables: { id: userId } })
     const { loading: orgLoading, data: orgData } = useQuery(GET_ORGANIZATIONS_FOR_USER)
     let orgs = orgData && orgData.getAllOrganizationsForUser;
     const [userMenu, setUserMenu] = useState(null);
+    useEffect(() => {
+        getActor()
+    }, [userId, getActor])
+
     if (loading || orgLoading) { return <></> }
 
     orgs = orgs ? [...orgs.owned, ...orgs.member] : []
@@ -24,9 +43,9 @@ function UserMenu(props: any) {
     const user = {
         role: "member",
         data: {
-            displayName: data.getUser.displayName,
-            email: data.getUser.email,
-            photoURL: data.getUser.profilePicture && data.getUser.profilePicture.url,
+            displayName: data.getActor.displayName,
+            email: data.getActor.email,
+            photoURL: data.getActor.profilePicture && data.getActor.profilePicture.url,
             shortcuts: [],
         }
     }

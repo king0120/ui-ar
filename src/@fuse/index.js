@@ -17,7 +17,6 @@ export {default as FuseDialog} from './components/FuseDialog/FuseDialog';
 export {default as FuseAnimate} from './components/FuseAnimate/FuseAnimate';
 export {default as FuseAnimateGroup} from './components/FuseAnimateGroup/FuseAnimateGroup';
 export {default as FuseSplashScreen} from './components/FuseSplashScreen/FuseSplashScreen';
-export {default as FuseChipSelect} from './components/FuseChipSelect/FuseChipSelect';
 export {default as FuseSuspense} from './components/FuseSuspense/FuseSuspense';
 export {default as FuseLoading} from './components/FuseLoading/FuseLoading';
 export {default as FuseSidePanel} from './components/FuseSidePanel/FuseSidePanel';

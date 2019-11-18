@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { format } from 'date-fns'
 import gql from 'graphql-tag';
 import { GlobalContext } from 'context/globalContext';
-import { Container, Typography, Paper, makeStyles, List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider } from '@material-ui/core';
+import { Container, Typography, Paper, makeStyles, List, ListItem, ListItemText, Divider } from '@material-ui/core';
 import clsx from 'clsx';
 
 const useStyles = makeStyles(() => ({
@@ -21,7 +21,8 @@ const MyAuditions = () => {
     if (loading) {
         return <h1>Loading</h1>
     }
-    const user = data.getUser
+
+    const user = data.getInstances
     user.instances.sort((a: any, b: any) => {
         a = new Date(a.audition.startDate)
         b = new Date(b.audition.startDate)
@@ -73,7 +74,7 @@ export default MyAuditions;
 
 const GET_USER_AUDITION = () => gql`
     query getUser($id: String!) {
-        getUser(id: $id) {
+        getInstances(id: $id) {
             id
             displayName
             instances {

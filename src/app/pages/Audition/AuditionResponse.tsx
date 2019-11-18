@@ -58,15 +58,15 @@ const AuditionResponse: FC<any> = ({ location, history }) => {
     }
     const audition = data && data.getAudition
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const answersWithId = audition.questions.map((question: any, i: number) => {
             return {
                 questionId: question.id,
                 text: answers[i],
                 userId
             }
-        })
-        respondToAudition({
+        });
+        await respondToAudition({
             variables: {
                 email: userId,
                 responseCode: values.responseCode || '',
@@ -82,6 +82,7 @@ const AuditionResponse: FC<any> = ({ location, history }) => {
             {audition.questions.map((question: any, i: number) => {
                 return (
                     <TextField
+                        key={i}
                         fullWidth
                         className="mb-16"
                         label={question.text}

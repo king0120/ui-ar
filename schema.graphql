@@ -68,6 +68,7 @@ type AuditionCollateral {
 }
 
 type AuditionQuestion {
+    answers: AuditionAnswers
     audition: Audition!
     id: String!
     text: String!
@@ -82,6 +83,7 @@ type AuditionTalentInstance {
     id: String!
     projectId: Float
     registered: Boolean
+    responseCode: String!
     selfSignup: String
     status: String!
     timeSlot: AuditionTimeSlot
@@ -181,7 +183,7 @@ type Mutation {
     deleteImage(key: String!): Boolean
     deleteProject(id: String!): Boolean
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
-    inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String!): AuditionTalentInstance!
+    inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String, users: [String!]): AuditionTalentInstance!
     login(email: String!, password: String!): LoginResponse!
     removeExperience(data: AddExperienceDTO!): Boolean
     removeNote(id: String!): Boolean
@@ -261,11 +263,13 @@ type ProjectRole {
 }
 
 type Query {
+    getActor(id: String!): User!
     getAllOrganizationsForUser: UserOrganizations!
     getAllProjects(organizationId: String!): [Project!]!
     getAllRoles(projectId: String!): [ProjectRole!]!
     getAudition(auditionId: String!): Audition!
     getAuditionsForProject(projectId: String!): [Audition!]!
+    getInstances(id: String!): User!
     getNotes(actorId: String!): [ActorNote!]!
     getOneOrganization(organizationId: String!): Organization!
     getOneProject(projectId: String!): Project!

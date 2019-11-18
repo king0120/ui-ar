@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function NoReduxActorSearch(props: any) {
     const classes = useStyles()
     const [value, changeValue] = useState('');
-    const [type, changeType] = useState('displayName');
+    const [type] = useState('displayName');
     return (
         <>
             <form onSubmit={(e: any) => {

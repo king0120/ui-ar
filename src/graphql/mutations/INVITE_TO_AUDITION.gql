@@ -1,5 +1,5 @@
-mutation inviteToAudition($auditionId: String!, $userId: String!, $timeSlotId: String, $projectId: String!) {
-    inviteToAudition(auditionId: $auditionId, userId: $userId, timeSlotId: $timeSlotId, projectId: $projectId){
+mutation inviteToAudition($auditionId: String!, $userId: String, $users: [String!], $timeSlotId: String, $projectId: String!) {
+    inviteToAudition(auditionId: $auditionId, userId: $userId, users: $users, timeSlotId: $timeSlotId, projectId: $projectId){
         id
     }
 }

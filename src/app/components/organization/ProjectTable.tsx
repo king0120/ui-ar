@@ -4,17 +4,23 @@ import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import AddProjectModal from '../project/AddProjectModal';
 import { format } from 'date-fns';
-import { createProject, deleteProject } from '../../../redux/actions/projectActions';
-import { useQuery } from '@apollo/react-hooks';
+import { createProject } from '../../../redux/actions/projectActions';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { List, ListItem, ListItemIcon, ListItemText, Collapse, Paper, Typography, makeStyles } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { Popup } from 'semantic-ui-react';
 import EditProjectModal from '../project/EditProjectModal';
 import ConfirmationModal from '../shared/ConfirmationModal';
 import { AuditionsContent } from 'app/pages/Audition/Auditions';
+import gql from 'graphql-tag';
 
 const GET_PROJECTS_FOR_ORG = require('../../../graphql/queries/projects/GET_PROJECTS_FOR_ORG.gql')
-
+const DELETE_PROJECT = gql`
+    mutation deleteProject($projectId: String!) {
+        deleteProject(projectId: $projectId)
+    }
+`
 const useStyles = makeStyles(() => ({
     root: {
         width: '20%'
@@ -24,7 +30,13 @@ const useStyles = makeStyles(() => ({
 const ProjectListItem = ({ project, organizationId }: any) => {
     const [expanded, setExpanded] = useState(false)
     const classes = useStyles();
-    console.log(project.rehearsalDateStart, project.rehearsalDateEnd)
+    const [deleteProject] = useMutation(DELETE_PROJECT, {
+        variables: { projectId: project.id },
+        refetchQueries: [{
+            query: GET_PROJECTS_FOR_ORG, 
+            variables: { organizationId } 
+        }]
+    })
     return (
         <Paper>
             <ListItem onClick={() => setExpanded(!expanded)}>
@@ -65,7 +77,7 @@ const ProjectListItem = ({ project, organizationId }: any) => {
                     />
                 </ListItemIcon>
                 <ListItemIcon>
-                    <ExpandMoreIcon />
+                    {expanded ? <ExpandLessIcon/> : <ExpandMoreIcon />}
                 </ListItemIcon>
             </ListItem>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -84,7 +96,9 @@ const TableHeader = styled.div`
 
 const RowExpansionTemplate = withRouter(({ match, history, data }: any) => {
     return (
-        <AuditionsContent match={match} history={history} projectId={data.id} projectName={data.name} />
+        <div className="w-full mt-12 mb-12">
+            <AuditionsContent match={match} history={history} projectId={data.id} projectName={data.name} />
+        </div>
     );
 })
 
@@ -96,7 +110,7 @@ export const ProjectTable: FC<any> = (props) => {
     return (<>
         <TableHeader>
             <Typography variant='h4'>Upcoming Projects</Typography>
-            <AddProjectModal handleSubmit={async (data) => {
+            <AddProjectModal organizationId={organizationId} handleSubmit={async (data) => {
                 await props.createProject(data, organizationId);
             }} />
         </TableHeader>
@@ -109,4 +123,4 @@ export const ProjectTable: FC<any> = (props) => {
     )
 };
 
-export default connect(null, { createProject, deleteProject })(withRouter(ProjectTable));
+export default connect(null, { createProject })(withRouter(ProjectTable));

@@ -28,7 +28,7 @@ export const AuditionsContent: FC<any> = ({ match, history, projectId, projectNa
     const closedAuditions = auditions.filter((a: any) => !a.open);
     return (
         <>
-            <div className='role-header'>
+            <div className='flex justify-between align-baseline'>
                 <Typography variant="h6">Upcoming Auditions for {projectName}</Typography>
                 <Button
                     variant="outlined"

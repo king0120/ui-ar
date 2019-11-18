@@ -4,6 +4,7 @@ query getAllRoles($projectId: String!){
         characterName
         characterSummary
         castTo {
+            id
             displayName
         }
         breakdown {

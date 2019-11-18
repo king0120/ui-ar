@@ -6,7 +6,7 @@ import AddTalentToActiveAudition from '../../components/audition/AddTalentToActi
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { FuseAnimateGroup } from '@fuse';
 import CastingDecision from './CastingDecision'
-import { Paper, Typography, Divider, makeStyles, Button } from '@material-ui/core';
+import { Paper, Typography, Divider, makeStyles } from '@material-ui/core';
 import TalentListSection from './partials/TalentListSection';
 import CloseAuditionModal from './partials/CloseAuditionModal';
 

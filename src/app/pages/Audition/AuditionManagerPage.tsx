@@ -31,10 +31,11 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
     }, [getAudition, match.params, match.params.projectId, match.params.auditionId]);
 
     const audition = data && data.getAudition;
-    const timeSlots = audition ? audition.timeSlots : []
 
     useEffect(() => {
-        changeAllSlots(timeSlots);
+        if (audition && audition.timeSlots) {
+            changeAllSlots(audition.timeSlots);
+        }
     }, [audition]);
 
     if (error) {

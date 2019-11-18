@@ -1,6 +1,5 @@
 import React from 'react';
 import {FormControl, FormHelperText, InputLabel} from '@material-ui/core';
-import {FuseChipSelect} from '@fuse';
 import {withFormsy} from 'formsy-react';
 import _ from '@lodash';
 import clsx from 'clsx';
@@ -31,19 +30,6 @@ function FuseChipSelectFormsy(props)
 
     // An error message is returned only if the component is invalid
     const errorMessage = props.getErrorMessage();
-    const value = props.getValue();
-
-    function changeValue(value, selectedOptions)
-    {
-        if ( props.multiple )
-        {
-            props.setValue(selectedOptions.map(option => option.value));
-        }
-        else
-        {
-            props.setValue(value);
-        }
-    }
 
     return (
         <FormControl
@@ -53,11 +39,6 @@ function FuseChipSelectFormsy(props)
             {props.label && (
                 <InputLabel htmlFor={props.name}>{props.label}</InputLabel>
             )}
-            <FuseChipSelect
-                {...importedProps}
-                value={value}
-                onChange={changeValue}
-            />
             {Boolean(errorMessage) && (
                 <FormHelperText>{errorMessage}</FormHelperText>
             )}

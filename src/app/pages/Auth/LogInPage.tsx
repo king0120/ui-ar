@@ -12,7 +12,7 @@ import { ApolloError } from 'apollo-boost';
 const LOGIN = require('../../../graphql/mutations/LOGIN.gql')
 
 function Login2Page(props: any) {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
     const classes = useAuthStyles();
     const { setUserId, setDisplayName } = useContext(GlobalContext)
     const [login, { data }] = useMutation(LOGIN, {
@@ -51,7 +51,7 @@ function Login2Page(props: any) {
             props.history.push('/profile');
             window.location.reload();
         }
-    }, [data, setUserId, setDisplayName]);
+    }, [data, setUserId, setDisplayName, props.history]);
 
     function handleSubmit(ev: any) {
         ev.preventDefault();

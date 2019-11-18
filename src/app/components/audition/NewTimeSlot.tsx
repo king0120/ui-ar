@@ -21,7 +21,7 @@ const NewTimeSlot: FC<any> = (props) => {
     const [getAudition] = useLazyQuery(GET_AUDITION, {
         variables: { auditionId },
     });
-    const [createTimeSlots, { error }] = useMutation(CREATE_TIME_SLOTS, {
+    const [createTimeSlots] = useMutation(CREATE_TIME_SLOTS, {
         onCompleted: async (data: any) => {
             if (data.createTimeslot) {
                 await changeAllSlots([...allSlots, data.createTimeslot]); // multiple times

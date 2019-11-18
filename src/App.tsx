@@ -153,7 +153,6 @@ const WithRouter = withRouter(App);
 const WithApollo = () => (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <ApolloProvider client={client}>
-
             <BrowserRouter>
                 <WithRouter />
             </BrowserRouter>

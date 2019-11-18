@@ -1,10 +1,10 @@
 import React from 'react';
 import {Icon, ListItem, ListItemText} from '@material-ui/core';
-import {FuseUtils, NavLinkAdapter} from '@fuse';
+import {NavLinkAdapter} from '@fuse';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 import {makeStyles} from '@material-ui/styles';

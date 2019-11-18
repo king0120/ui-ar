@@ -2,14 +2,12 @@ import React from 'react';
 import { lightBlue } from '@material-ui/core/colors';
 import { withStyles, Button, Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import { FuseAnimate } from '@fuse';
 import Toolbar from 'react-big-calendar/lib/Toolbar';
-import { navigate } from 'react-big-calendar/lib/utils/constants';
 import connect from 'react-redux/es/connect/connect';
 import clsx from 'clsx';
-import moment from 'moment';
+import { Animate } from 'app/pages/Auth/SharedAuth';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         backgroundColor: lightBlue['400'],
         color: '#FFFFFF',
@@ -29,7 +27,7 @@ const styles = theme => ({
     }
 });
 
-const viewNamesObj = {
+const viewNamesObj: { [a: string]: { title: string, icon: string } } = {
     day: {
         title: 'Day',
         icon: 'view_day'
@@ -40,34 +38,37 @@ const viewNamesObj = {
     }
 };
 
-class CalendarHeader extends Toolbar {
+class CalendarHeader extends Toolbar<any> {
 
     viewButtons() {
         let viewNames = this.props.views;
         const view = this.props.view;
 
+
         if (viewNames.length > 1) {
-            return Object.keys(viewNamesObj).map(name => (
-                <Tooltip title={viewNamesObj[name].title} key={name}>
-                    <div>
-                        <FuseAnimate animation="transition.expandIn" delay={500}>
-                            <IconButton
-                                aria-label={name}
-                                onClick={() => this.props.onView(name)}
-                                disabled={view === name}
-                            >
-                                <Icon>{viewNamesObj[name].icon}</Icon>
-                            </IconButton>
-                        </FuseAnimate>
-                    </div>
-                </Tooltip>
-            )
-            )
+            return Object.keys(viewNamesObj).map((name: string) => {
+                const viewName: any = viewNamesObj[name]
+                return (
+                    <Tooltip title={viewName.title} key={name}>
+                        <div>
+                            <Animate animation="transition.expandIn" delay={500}>
+                                <IconButton
+                                    aria-label={name}
+                                    onClick={() => this.props.onView(name)}
+                                    disabled={view === name}
+                                >
+                                    <Icon>{viewName.icon}</Icon>
+                                </IconButton>
+                            </Animate>
+                        </div>
+                    </Tooltip>
+                )
+            })
         }
     }
 
     render() {
-        const { classes, mainThemeDark, label, date } = this.props;
+        const { classes, mainThemeDark, label } = this.props;
 
         return (
             <ThemeProvider theme={mainThemeDark}>
@@ -82,7 +83,7 @@ class CalendarHeader extends Toolbar {
                             </div>
                         </div>
 
-                        <FuseAnimate delay={500}>
+                        <Animate delay={500}>
                             <div className="flex items-center justify-center">
                                 <Typography variant="h6">{label}</Typography>
                                 <div className="self-end">
@@ -93,7 +94,7 @@ class CalendarHeader extends Toolbar {
                                 </Button>
                                 </div>
                             </div>
-                        </FuseAnimate>
+                        </Animate>
                     </div>
                 </div>
             </ThemeProvider>
@@ -101,11 +102,11 @@ class CalendarHeader extends Toolbar {
     };
 }
 
-function mapStateToProps({ fuse }) {
+function mapStateToProps({ fuse }: any) {
     return {
         mainThemeDark: fuse.settings.mainThemeDark
     }
 }
 
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(CalendarHeader));
+export default connect(mapStateToProps)(withStyles(styles as any, { withTheme: true })(CalendarHeader as any));
 

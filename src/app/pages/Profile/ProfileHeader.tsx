@@ -17,10 +17,10 @@ const ProfileHeader = ({ user }: any) => {
 
           <div className="flex flex-col items-between justify-end">
               <Animate animation="transition.expandIn" delay={300}>
-                  <Typography variant="h6" color="inherit">{user.email}</Typography>
+                  <Typography variant="h6" color="inherit">Email: <a href={`mailto://${user.email}}`}>{user.email}</a></Typography>
               </Animate>
               <Animate animation="transition.expandIn" delay={300}>
-                  <Typography variant="h6" color="inherit">{transformPhoneNumber(user.phoneNumber)}</Typography>
+                  <Typography variant="h6" color="inherit">Phone: <a href={`tel:${user.phoneNumber}`}>{transformPhoneNumber(user.phoneNumber)}</a></Typography>
               </Animate>
           </div>
       </div>

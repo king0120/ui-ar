@@ -37,6 +37,7 @@ function ActorSearchResults(props: any) {
                 </div>
                 <div className="pl-64 flex flex-col justify-center align-center truncate font-600">
                   <Typography variant="body2">{actor.displayName}</Typography>
+                  {props.includeEmail && <Typography variant="subtitle1"><a href={`mailto://${actor.email}}`}>{actor.email}</a></Typography>}
                   <Typography variant="subtitle2">{actor.city}, {actor.state}</Typography>
                 </div>
               </div>

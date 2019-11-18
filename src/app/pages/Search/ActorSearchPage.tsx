@@ -77,7 +77,7 @@ function NoReduxActorSearch(props: any) {
 
                 </Paper>
             </form>
-            <ActorSearchResults actors={props.results} handleClickTalent={props.handleClickTalent} />
+            <ActorSearchResults includeEmail={true} actors={props.results} handleClickTalent={props.handleClickTalent} />
         </>
     );
 }

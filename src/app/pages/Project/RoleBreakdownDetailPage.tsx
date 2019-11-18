@@ -8,8 +8,9 @@ import {useQuery} from "@apollo/react-hooks";
 const GET_ROLE = require('../../../graphql/queries/roles/GET_ROLE.gql');
 
 function MyDropzone(props: any) {
-    const onDrop = useCallback(acceptedFiles => {
-        props.uploadDocument(props.projectId, props.id, acceptedFiles);
+    const onDrop = useCallback(async (acceptedFiles) => {
+        await props.uploadDocument(props.projectId, props.id, acceptedFiles);
+        await props.refetch()
     }, [props]);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
@@ -33,7 +34,7 @@ function MyDropzone(props: any) {
 
 const RoleBreakdownDetailPage: FC<any> = ({match, uploadDocument}) => {
     const {roleId} = match.params;
-    const {data, loading} = useQuery(GET_ROLE, {variables: {roleId}});
+    const {data, loading, refetch} = useQuery(GET_ROLE, {variables: {roleId}});
 
     if (loading) {
         return <Loader/>
@@ -53,7 +54,7 @@ const RoleBreakdownDetailPage: FC<any> = ({match, uploadDocument}) => {
             </div>
             <Divider/>
             <h3>Upload Documents for Role</h3>
-            <MyDropzone projectId={match.params.projectId} id={match.params.roleId} uploadDocument={uploadDocument}/>
+            <MyDropzone refetch={refetch} projectId={match.params.projectId} id={match.params.roleId} uploadDocument={uploadDocument}/>
             <List>
                 {role.collateral.map((item: any) => (
                     <List.Item key={item.key}>

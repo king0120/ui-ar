@@ -16,9 +16,10 @@ const NoteItem: FC<any> = ({ note, userId }) => {
     const [removeNote] = useMutation(REMOVE_NOTE, { variables: { id: note.id }, refetchQueries });
     const formattedUnixTime = Math.floor(note.createdAt / 1000);
     const date = moment.unix(formattedUnixTime).calendar();
+    const secondary = note.audition ? `${date} during ${note.audition.name}` : `${date} on Profile`
     return (
         <ListItem key={note.id}>
-            <ListItemText id={note.id} primary={note.text} secondary={`${date} during ${note.audition.name}`} />
+            <ListItemText id={note.id} primary={note.text} secondary={secondary} />
             <ListItemSecondaryAction >
                 <IconButton onClick={() => removeNote()} edge="end" aria-label="comments">
                     <HighlightOffIcon />

@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
 
 const ProfilePage: FC<any> = (props) => {
     const { readOnly, tabIndex = 0 } = props;
-    const { userId } = useContext(GlobalContext);
+    const { userId, userType } = useContext(GlobalContext);
+    console.log(userType)
     const id = readOnly ? props.match.params.userId : userId;
     const { data, loading, refetch } = useQuery(GET_USER, { variables: { id } })
     const user = data && data.getUser;

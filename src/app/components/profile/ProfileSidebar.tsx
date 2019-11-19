@@ -1,11 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFormState } from '../../../redux/store/reducers/finalFormReducer';
 import { addUserBreakdown } from '../../../redux/actions/talentActions';
 import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
-import { ListItem, List, ListItemText, Modal, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { ListItem, List, ListItemText, Modal, makeStyles, createStyles, Theme, Dialog, DialogContent, DialogActions, Button, DialogTitle } from '@material-ui/core';
 import LightboxModal from '../shared/LightboxModal';
+import { GlobalContext } from 'context/globalContext';
+import AddNoteForActor from '../audition/AddNoteForActor';
+import NotesOnActor from '../audition/NotesOnActor';
 
 function getModalStyle() {
     const top = 50;
@@ -85,11 +88,14 @@ declare const Chargebee: any;
 
 const ProfileSidebar: FC<any> = (props: any) => {
     const classes = useStyles();
+    const { userType } = useContext(GlobalContext);
     let imageUrl = 'https://image.shutterstock.com/z/stock-vector-default-avatar-profile-icon-grey-photo-placeholder-518740741.jpg';
     if (props.user.profilePicture && props.user.profilePicture.url) {
         imageUrl = props.user.profilePicture && props.user.profilePicture.url;
     }
+    const canAddNotes = userType.includes('theatre')
     const [open, setOpen] = useState(false);
+    const [notesOpen, setNotesOpen] = useState(false);
     return (
         <div>
             <LightboxModal
@@ -102,6 +108,30 @@ const ProfileSidebar: FC<any> = (props: any) => {
                     <img alt={props.user.displayName} className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
                 </ListItem>
                 <AttributesModal {...props} />
+                {canAddNotes && (
+                    <>
+                        <ListItemLink onClick={() => setNotesOpen(true)}>
+                            <ListItemText
+                                classes={{ secondary: classes.text }}
+                                primary="Notes"
+                                secondary="See and Add Notes On This Actor"
+                            />
+                        </ListItemLink>
+                        <Dialog className={'mh-1/2'} open={notesOpen} fullWidth={true}>
+                            <DialogTitle>Notes on {props.user.displayName}</DialogTitle>
+                            <DialogContent>
+                                <NotesOnActor userId={props.user.id} auditionId={''} />
+                                {/* <AddNoteForActor userId={props.user.id} auditionId={''} /> */}
+                                <DialogActions>
+                                    <Button onClick={() => setNotesOpen(false)} color="primary">
+                                        Close
+                                </Button>
+                                </DialogActions>
+                            </DialogContent>
+                        </Dialog>
+                    </>
+                )}
+
                 {/* <ListItemLink>
                     <ListItemText onClick={handleUpgradeClick} primary="Upgrade Account"/>
                 </ListItemLink> */}

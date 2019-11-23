@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfilePage: FC<any> = (props) => {
-    const { readOnly, tabIndex = 0 } = props;
+    const { readOnly, tabIndex = 0, auditionView = false } = props;
     const { userId, userType } = useContext(GlobalContext);
     console.log(userType)
     const id = readOnly ? props.match.params.userId : userId;
@@ -44,7 +44,7 @@ const ProfilePage: FC<any> = (props) => {
     return (
         <div>
             <div className={clsx(classes.header) + ' p-5 flex flex-col-reverse items-start justify-start md:flex-row md:items-between shadow-xl'}>
-                <ProfileSidebar user={user} readOnly={props.readOnly} refetchUser={refetch} />
+                <ProfileSidebar user={user} auditionView={auditionView} readOnly={props.readOnly} refetchUser={refetch} />
                 <div className='w-8/12 flex flex-col items-between h-full'>
                     <ProfileHeader user={user} />
                     <ProfileBreakdown breakdown={user.breakdown || {}} />

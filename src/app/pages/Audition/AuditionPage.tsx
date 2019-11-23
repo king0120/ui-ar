@@ -24,6 +24,7 @@ const useStyles = makeStyles({
 const AuditionPageStyles = styled.div`
   display: flex;
   min-height: 98vh;
+  max-height: 100vh;
   .list .item {
     margin: 15px;
   }
@@ -32,9 +33,11 @@ const AuditionPageStyles = styled.div`
     color: whitesmoke;
     min-width: 300px;
     width: 15%;
+    overflow-y: scroll;
   }
   .middleColumn {
      width: 65%;
+     overflow-y: scroll;
   }
   .rightColumn {
      width: 20%;
@@ -125,8 +128,11 @@ const AuditionPage: FC<any> = ({ match }) => {
             {currentlyViewing ? (
                 <>
                     <div className="middleColumn">
-                        <ProfilePage readOnly={true}
-                            match={{ params: { userId: currentlyViewing } }} />
+                        <ProfilePage 
+                            readOnly={true}
+                            auditionView={true}
+                            match={{ params: { userId: currentlyViewing } }} 
+                        />
                     </div>
                     <div className="rightColumn">
                         <AnimateGroup

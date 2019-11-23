@@ -107,8 +107,10 @@ const ProfileSidebar: FC<any> = (props: any) => {
                 <ListItem>
                     <img alt={props.user.displayName} className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
                 </ListItem>
-                <AttributesModal {...props} />
-                {canAddNotes && (
+                {!props.readOnly && (
+                    <AttributesModal {...props} />
+                )}
+                {canAddNotes && !props.auditionView && (
                     <>
                         <ListItemLink onClick={() => setNotesOpen(true)}>
                             <ListItemText

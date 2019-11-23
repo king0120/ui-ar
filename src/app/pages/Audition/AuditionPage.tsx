@@ -6,9 +6,11 @@ import AddTalentToActiveAudition from '../../components/audition/AddTalentToActi
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { FuseAnimateGroup } from '@fuse';
 import CastingDecision from './CastingDecision'
-import { Paper, Typography, Divider, makeStyles } from '@material-ui/core';
+import { Paper, Typography, Divider, makeStyles, Button } from '@material-ui/core';
 import TalentListSection from './partials/TalentListSection';
 import CloseAuditionModal from './partials/CloseAuditionModal';
+import arAxios from 'utils/axiosHelper';
+import { AxiosResponse } from 'axios';
 
 const GET_AUDITION = require('../../../graphql/queries/auditions/GET_AUDITION.gql');
 const UPDATE_TALENT_INSTANCE = require('../../../graphql/mutations/UPDATE_TALENT_INSTANCE.gql');
@@ -46,7 +48,7 @@ const AuditionPageStyles = styled.div`
 
 const AuditionPage: FC<any> = ({ match }) => {
     const classes = useStyles()
-    const { auditionId } = match.params;
+    const { auditionId, projectId } = match.params;
     const [currentlyViewing, setCurrentlyViewing] = useState(null);
     const [currentTalentId, setCurrentTalentId] = useState(null);
     const [decisionValue, setDecisionValue] = useState('');
@@ -58,6 +60,24 @@ const AuditionPage: FC<any> = ({ match }) => {
         }]
     })
 
+    const getPDF = () => {
+        arAxios({
+            url: `/api/v1/projects/${projectId}/auditions/${auditionId}/pdf`,
+            method: 'GET',
+            responseType: 'blob'
+        }).then((response: AxiosResponse) => {
+            const content = response.headers['content-disposition']
+            var startIndex = content.indexOf("filename=") + 9; // Adjust '+ 10' if filename is not the right one.
+            var endIndex = content.length; //Check if '- 1' is necessary
+            var filename = content.substring(startIndex, endIndex);
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', filename); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        })
+    }
     useEffect(() => {
         getAudition({ variables: { auditionId } });
     }, [getAudition, auditionId]);
@@ -85,6 +105,7 @@ const AuditionPage: FC<any> = ({ match }) => {
         <AuditionPageStyles>
             <div className="leftColumn">
                 <div className="flex justify-between p-5">
+                    <Button variant="contained" onClick={getPDF}>Generate PDF</Button>
                     <AddTalentToActiveAudition
                         projectId={match.params.projectId}
                         auditionId={match.params.auditionId}
@@ -95,43 +116,43 @@ const AuditionPage: FC<any> = ({ match }) => {
                         talent={talent}
                     />
                 </div>
-                <TalentListSection 
-                    title='Pending' 
-                    talentList={talent.pending} 
-                    handleClick={handleTalentClick} 
+                <TalentListSection
+                    title='Pending'
+                    talentList={talent.pending}
+                    handleClick={handleTalentClick}
                 />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection 
-                    title='Cast' 
-                    talentList={talent['cast']} 
-                    roles={forRoles} 
+                <TalentListSection
+                    title='Cast'
+                    talentList={talent['cast']}
+                    roles={forRoles}
                     handleClick={handleTalentClick} />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection 
-                    title='Callback' 
-                    talentList={talent['callback']} 
-                    handleClick={handleTalentClick} 
+                <TalentListSection
+                    title='Callback'
+                    talentList={talent['callback']}
+                    handleClick={handleTalentClick}
                 />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection 
-                    title='On Hold' 
-                    talentList={talent['on_hold']} 
-                    handleClick={handleTalentClick} 
+                <TalentListSection
+                    title='On Hold'
+                    talentList={talent['on_hold']}
+                    handleClick={handleTalentClick}
                 />
                 <Divider light={true} classes={{ root: classes.divider }} />
-                <TalentListSection 
-                    title='No Thanks' 
-                    talentList={talent['no_thanks']} 
-                    handleClick={handleTalentClick} 
+                <TalentListSection
+                    title='No Thanks'
+                    talentList={talent['no_thanks']}
+                    handleClick={handleTalentClick}
                 />
             </div>
             {currentlyViewing ? (
                 <>
                     <div className="middleColumn">
-                        <ProfilePage 
+                        <ProfilePage
                             readOnly={true}
                             auditionView={true}
-                            match={{ params: { userId: currentlyViewing } }} 
+                            match={{ params: { userId: currentlyViewing } }}
                         />
                     </div>
                     <div className="rightColumn">

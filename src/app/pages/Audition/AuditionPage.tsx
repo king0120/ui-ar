@@ -66,14 +66,11 @@ const AuditionPage: FC<any> = ({ match }) => {
             method: 'GET',
             responseType: 'blob'
         }).then((response: AxiosResponse) => {
-            const content = response.headers['content-disposition']
-            var startIndex = content.indexOf("filename=") + 9; // Adjust '+ 10' if filename is not the right one.
-            var endIndex = content.length; //Check if '- 1' is necessary
-            var filename = content.substring(startIndex, endIndex);
+            const {name} =data.getAudition
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', filename); //or any other extension
+            link.setAttribute('download', `${name}-printout.pdf`); //or any other extension
             document.body.appendChild(link);
             link.click();
         })
@@ -86,7 +83,6 @@ const AuditionPage: FC<any> = ({ match }) => {
         return <h1>loading</h1>;
     }
     const { forRoles } = data.getAudition
-    console.log(data.getAudition)
     const changeDecision = (id: any) => updateTalentInstance({
         variables: {
             decision: decisionValue === 'pending' ? undefined : decisionValue,

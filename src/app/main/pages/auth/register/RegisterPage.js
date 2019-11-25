@@ -1,34 +1,32 @@
 import React from 'react';
-import {Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, TextField, Typography} from '@material-ui/core';
-import {darken} from '@material-ui/core/styles/colorManipulator';
-import {makeStyles} from '@material-ui/styles';
-import {FuseAnimate} from '@fuse';
-import {useForm} from '@fuse/hooks';
+import { Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
+import { darken } from '@material-ui/core/styles/colorManipulator';
+import { makeStyles } from '@material-ui/styles';
+import { FuseAnimate } from '@fuse';
+import { useForm } from '@fuse/hooks';
 import clsx from 'clsx';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'radial-gradient(' + darken(theme.palette.primary.dark, 0.5) + ' 0%, ' + theme.palette.primary.dark + ' 80%)',
-        color     : theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText
     }
 }));
 
-function RegisterPage()
-{
+function RegisterPage() {
 
     const classes = useStyles();
 
-    const {form, handleChange, resetForm} = useForm({
-        name                 : '',
-        email                : '',
-        password             : '',
-        passwordConfirm      : '',
+    const { form, handleChange, resetForm } = useForm({
+        name: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
         acceptTermsConditions: false
     });
 
-    function isFormValid()
-    {
+    function isFormValid() {
         return (
             form.email.length > 0 &&
             form.password.length > 0 &&
@@ -38,8 +36,7 @@ function RegisterPage()
         );
     }
 
-    function handleSubmit(ev)
-    {
+    function handleSubmit(ev) {
         ev.preventDefault();
         resetForm();
     }
@@ -119,7 +116,7 @@ function RegisterPage()
                                             <Checkbox
                                                 name="acceptTermsConditions"
                                                 checked={form.acceptTermsConditions}
-                                                onChange={handleChange}/>
+                                                onChange={handleChange} />
                                         }
                                         label="I read and accept terms and conditions"
                                     />

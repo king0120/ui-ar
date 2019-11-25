@@ -57,8 +57,9 @@ function LoginPage()
                                 className="flex flex-col justify-center w-full"
                                 onSubmit={handleSubmit}
                             >
-
+wat
                                 <TextField
+                                    id="login-email"
                                     className="mb-16"
                                     label="Email"
                                     autoFocus
@@ -72,6 +73,7 @@ function LoginPage()
                                 />
 
                                 <TextField
+                                    id="login-password"
                                     className="mb-16"
                                     label="Password"
                                     type="password"

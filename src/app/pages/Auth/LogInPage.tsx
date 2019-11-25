@@ -8,6 +8,7 @@ import { GlobalContext } from 'context/globalContext';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
 import { useSnackbar } from 'notistack'
 import { ApolloError } from 'apollo-boost';
+import { Formik } from 'formik'
 
 const LOGIN = require('../../../graphql/mutations/LOGIN.gql')
 
@@ -80,6 +81,7 @@ function Login2Page(props: any) {
                         >
 
                             <TextField
+                                id="login-email"
                                 className="mb-16"
                                 label="Email"
                                 autoFocus
@@ -93,6 +95,7 @@ function Login2Page(props: any) {
                             />
 
                             <TextField
+                                id="login-password"
                                 className="mb-16"
                                 label="Password"
                                 type="password"

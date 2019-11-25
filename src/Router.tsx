@@ -28,16 +28,28 @@ const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     );
 }
 
+const RedirectIfLoggedIn: FC<any> = ({component: Component, loggedIn, ...rest}) => {
+    console.log("REDIRECT", loggedIn)
+    return (
+        <Route {...rest} render={(props) => (
+            loggedIn
+                ? <Redirect to='/profile'/>
+                : <Component {...props} />
+        )}/>
+    );
+}
+
 const AppRouter: FC<any> = () => {
     const {userId} = useContext(GlobalContext);
+    console.log("UPDATE USERID", userId)
     const loggedIn = userId !== 'none'
     return (
             <Switch>
                 {/* Login Related */}
-                <Route exact path='/register' component={RegistrationPage}/>
-                <Route exact path='/login' component={LoginPage}/>
-                <Route exact path='/passwordReset' component={PasswordResetPage}/>
-                <Route exact path='/passwordReset/:token' component={PasswordResetPage}/>
+                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/register' component={RegistrationPage}/>
+                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/login' component={LoginPage}/>
+                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset' component={PasswordResetPage}/>
+                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset/:token' component={PasswordResetPage}/>
 
                 <Route path='/audition/:auditionId' component={AuditionRSVPPage}/>
                 <Route exact path='/auditionResponse' component={AuditionResponse}/>

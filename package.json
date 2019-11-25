@@ -25,6 +25,8 @@
     "cssnano": "^4.1.10",
     "date-fns": "^2.6.0",
     "final-form": "^4.18.5",
+    "formik": "^2.0.6",
+    "formik-material-ui": "^1.0.0",
     "formsy-react": "^1.1.5",
     "graphql": "^14.4.2",
     "graphql.macro": "^1.4.2",
@@ -66,7 +68,8 @@
     "tailwindcss": "^1.1.2",
     "typeface-muli": "^0.0.71",
     "velocity-animate": "^1.5.2",
-    "velocity-react": "^1.4.3"
+    "velocity-react": "^1.4.3",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "craco start --port 3001",
@@ -74,6 +77,8 @@
     "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.ts -o ./src/styles/tailwind.css",
     "deploy": "yarn build && aws s3 sync build/ s3://ar-react-app",
     "test": "craco test",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -86,6 +91,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.1",
     "@types/date-fns": "^2.6.0",
     "@types/jest": "^24.0.11",
     "@types/lodash": "^4.14.123",
@@ -98,6 +104,9 @@
     "@types/redux-form": "^8.1.1",
     "@types/styled-components": "^4.1.14",
     "@types/webpack-env": "^1.13.9",
+    "@types/yup": "^0.26.24",
+    "cypress": "^3.6.1",
+    "ts-loader": "^6.2.1",
     "typescript": "^3.5.3",
     "webpack-bundle-analyzer": "^3.5.2",
     "webpack-cli": "^3.3.9"

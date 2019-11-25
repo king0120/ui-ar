@@ -1,52 +1,70 @@
-import React from 'react';
-import { Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
-import { useForm } from '@fuse/hooks';
+import React, { FC, useContext } from 'react';
+import { Button, Card, CardContent, FormControl, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
 import AddressInput from 'app/components/shared/AddressInput';
 import { connect } from 'react-redux';
-import {register} from 'redux/actions/authActions'
+import { Formik, Form, Field } from 'formik'
+import { TextField, CheckboxWithLabel } from 'formik-material-ui'
+import * as Yup from 'yup'
+import arAxios from 'utils/axiosHelper';
+import { GlobalContext } from 'context/globalContext';
+
+const FormikTextField: FC<{ name: string, type?: string, label: string }> = (props) => (
+    <Field
+        className="mb-16"
+        type={props.type || "text"}
+        name={props.name}
+        label={props.label}
+        component={TextField}
+        autoFocus
+        required
+        variant="outlined"
+    />
+)
+
+const initialValues = {
+    firstName: '',
+    lastName: '',
+    city: '',
+    state: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    acceptTermsConditions: false
+}
+
+const validationSchema = Yup.object({
+    firstName: Yup.string().required('Required'),
+    lastName: Yup.string().required('Required'),
+    city: Yup.string().required('Required'),
+    state: Yup.string().required('Required'),
+    email: Yup.string().required('Required').email('Please Enter A Valid Email'),
+    password: Yup.string().required('Required').min(6, 'Password must be at least 6 characters').max(30, 'Password must be under 30 characters'),
+    passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+    acceptTermsConditions: Yup.boolean().oneOf([true], 'Please Review Terms and Conditions')
+})
 
 function RegistrationPage(props: any) {
     const classes = useAuthStyles();
+    const { setUserId, setDisplayName } = useContext(GlobalContext)
 
-    const { form, handleChange, resetForm, setInForm } = useForm({
-        firstName: '',
-        lastName: '',
-        city: '',
-        state: '',
-        email: '',
-        password: '',
-        passwordConfirm: '',
-        acceptTermsConditions: false
-    });
-
-    function isFormValid() {
-        return (
-            form.firstName.length > 0 &&
-            form.lastName.length > 0 &&
-            form.email.length > 0 &&
-            form.password.length > 0 &&
-            form.password.length > 3 &&
-            form.city.length > 0 &&
-            form.state.length > 0 &&
-            form.password === form.passwordConfirm &&
-            form.acceptTermsConditions
-        );
-    }
-
-    async function handleSubmit(ev: any) {
-        ev.preventDefault();
+    async function handleSubmit(values: any) {
         try {
-            const { email, password, firstName, lastName, city, state } = form;
-            await props.register({ email, password, firstName, lastName, city, state, phoneNumber: '1111111111', gender: 'male' });
-            resetForm();
-            props.history.push('/profile');
+            const { email, password, firstName, lastName, city, state } = values;
+            const { data } = await arAxios.post('/auth/register', { email, password, firstName, lastName, city, state })
+            if (data) {
+                localStorage.setItem('accessToken', data.accessToken);
+                await setUserId(data.userId);
+                await setDisplayName(data.displayName);
+                props.history.push('/profile');
+                window.location.reload();
+            }
         } catch (err) {
         }
     }
-    console.log(form)
+
     return (
         <div className={clsx(classes.root, "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0")}>
 
@@ -60,104 +78,73 @@ function RegistrationPage(props: any) {
 
                         <Typography variant="h6" className="md:w-full mb-32">CREATE AN ACCOUNT</Typography>
 
-                        <form
-                            name="registerForm"
-                            noValidate
-                            className="flex flex-col justify-center w-full"
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={validationSchema}
                             onSubmit={handleSubmit}
                         >
+                            {props => (
+                                <Form
+                                    name="registerForm"
+                                    className="flex flex-col justify-center w-full"
+                                >
+                                    <FormikTextField
+                                        type="text"
+                                        name="firstName"
+                                        label="First Name"
+                                    />
+                                    <FormikTextField
+                                        type="text"
+                                        name="lastName"
+                                        label="Last Name"
+                                    />
+                                    <AddressInput
+                                        value={''}
+                                        handleChange={(city: string, state: string) => {
+                                            props.setFieldValue('city', city)
+                                            props.setFieldValue('state', state)
+                                        }}
+                                    />
+                                    <FormikTextField
+                                        type="email"
+                                        name="email"
+                                        label="Email"
+                                    />
+                                    <FormikTextField
+                                        type="password"
+                                        name="password"
+                                        label="Password"
+                                    />
+                                    <FormikTextField
+                                        label="Password (Confirm)"
+                                        type="password"
+                                        name="passwordConfirm"
 
-                            <TextField
-                                className="mb-16"
-                                label="First Name"
-                                autoFocus
-                                type="firstName"
-                                name="firstName"
-                                value={form.firstName}
-                                onChange={handleChange}
-                                variant="outlined"
-                                required
-                            />
-
-                            <TextField
-                                className="mb-16"
-                                label="Last Name"
-                                autoFocus
-                                type="lastName"
-                                name="lastName"
-                                value={form.lastName}
-                                onChange={handleChange}
-                                variant="outlined"
-                                required
-                            />
-                            <AddressInput
-                                value={form.address}
-                                handleChange={(city: string, state: string) => {
-                                    setInForm('city', city)
-                                    setInForm('state', state)
-                                }}
-                            />
-                            <TextField
-                                className="mb-16"
-                                label="Email"
-                                type="email"
-                                name="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                variant="outlined"
-                                required
-                                fullWidth
-                            />
-
-                            <TextField
-                                className="mb-16"
-                                label="Password"
-                                type="password"
-                                name="password"
-                                value={form.password}
-                                onChange={handleChange}
-                                variant="outlined"
-                                required
-                                fullWidth
-                            />
-
-                            <TextField
-                                className="mb-16"
-                                label="Password (Confirm)"
-                                type="password"
-                                name="passwordConfirm"
-                                value={form.passwordConfirm}
-                                onChange={handleChange}
-                                variant="outlined"
-                                required
-                                fullWidth
-                            />
-
-                            <FormControl className="items-center">
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
+                                    />
+                                    <FormControl className="items-center">
+                                        <Field
+                                            Label={{ label: 'I read and accept terms and conditions' }}
                                             name="acceptTermsConditions"
-                                            checked={form.acceptTermsConditions}
-                                            onChange={handleChange} />
-                                    }
-                                    label="I read and accept terms and conditions"
-                                />
-                            </FormControl>
+                                            id="termsAndConditions"
+                                            component={CheckboxWithLabel}
+                                        />
+                                    </FormControl>
 
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className="w-full mx-auto mt-16"
-                                aria-label="Register"
-                                disabled={!isFormValid()}
-                                type="submit"
-                            >
-                                CREATE AN ACCOUNT
+                                    <Button
+                                        id="createAccount"
+                                        variant="contained"
+                                        color="primary"
+                                        className="w-full mx-auto mt-16"
+                                        aria-label="Register"
+                                        disabled={!props.isValid}
+                                        type="submit"
+                                    >
+                                        CREATE AN ACCOUNT
                             </Button>
 
-                        </form>
-
+                                </Form>
+                            )}
+                        </Formik>
                         <div className="flex flex-col items-center justify-center pt-32 pb-24">
                             <span className="font-medium">Already have an account?</span>
                             <Link className="font-medium" to="/login">Login</Link>
@@ -170,4 +157,4 @@ function RegistrationPage(props: any) {
     );
 }
 
-export default connect(null, {register})(RegistrationPage);
+export default RegistrationPage;

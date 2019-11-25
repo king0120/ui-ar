@@ -105,7 +105,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
             />
             <List component="nav" aria-label="">
                 <ListItem>
-                    <img alt={props.user.displayName} className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
+                    <img data-cy="profile-picture" alt={props.user.displayName} className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
                 </ListItem>
                 {!props.readOnly && (
                     <AttributesModal {...props} />
@@ -117,6 +117,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
                                 classes={{ secondary: classes.text }}
                                 primary="Notes"
                                 secondary="See and Add Notes On This Actor"
+                                data-cy="add-notes"
                             />
                         </ListItemLink>
                         <Dialog className={'mh-1/2'} open={notesOpen} fullWidth={true}>

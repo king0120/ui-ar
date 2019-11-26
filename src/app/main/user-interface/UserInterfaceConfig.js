@@ -16,10 +16,6 @@ export const UserInterfaceConfig = {
             component: React.lazy(() => import('./icons/IconsUI'))
         },
         {
-            path     : '/ui/typography',
-            component: React.lazy(() => import('./typography/TypographyUI'))
-        },
-        {
             path     : '/ui/helper-classes',
             component: React.lazy(() => import('./helper-classes/HelperClassesUI'))
         }

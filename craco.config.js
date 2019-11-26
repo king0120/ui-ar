@@ -31,7 +31,7 @@ module.exports = {
       },
     },
     plugins: [
-      // new BundleAnalyzerPlugin()
+      new BundleAnalyzerPlugin()
     ],
     configure: (config) => {
       config.module.rules[2].oneOf.unshift({

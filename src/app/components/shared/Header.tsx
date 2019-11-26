@@ -5,7 +5,7 @@ import makeStyles from '@material-ui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 import { AppBar, Toolbar, Button } from '@material-ui/core';
-import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
+import UserMenu from 'app/components/shared/UserMenu';
 
 const useStyles = makeStyles((theme: any) => ({
     separator: {

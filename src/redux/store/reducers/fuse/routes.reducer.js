@@ -1,4 +1,3 @@
-// import routesConfig from 'app/fuse-configs/routesConfig';
 
 const initialState = {};
 

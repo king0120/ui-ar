@@ -1,5 +1,3 @@
-// import routesConfig from 'app/fuse-configs/routesConfig';
-
 const initialState = {};
 
 const routes = function (state = initialState, action) {

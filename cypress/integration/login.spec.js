@@ -51,36 +51,36 @@ describe("login", () => {
       cy.get('.ap-suggestions:first-child').click()
     })
 
-    // it('should fill out email and be required', () => {
-    //   cy.get(':nth-child(4) > .MuiInputBase-root > .MuiInputBase-input').focus().blur()
-    //   cy.get('.MuiFormHelperText-root').should('have.text', 'Required')
+    it('should fill out email and be required', () => {
+      cy.get(':nth-child(4) > .MuiInputBase-root > .MuiInputBase-input').focus().blur()
+      cy.get('.MuiFormHelperText-root').should('have.text', 'Required')
 
-    //   cy.get(':nth-child(4) > .MuiInputBase-root > .MuiInputBase-input').type('Cypress')
-    //   cy.get('.MuiFormHelperText-root').should('have.text', 'Please Enter A Valid Email')
+      cy.get(':nth-child(4) > .MuiInputBase-root > .MuiInputBase-input').type('Cypress')
+      cy.get('.MuiFormHelperText-root').should('have.text', 'Please Enter A Valid Email')
 
-    //   cy.get(':nth-child(4) > .MuiInputBase-root > .MuiInputBase-input').type('sample@auditionrevolution.com')
-    //   cy.get('.MuiFormHelperText-root').should('not.exist')
-    // })
+      cy.get(':nth-child(4) > .MuiInputBase-root > .MuiInputBase-input').type('sample@auditionrevolution.com')
+      cy.get('.MuiFormHelperText-root').should('not.exist')
+    })
 
-    // it('should fill handle passwords', () => {
-    //   cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').focus().blur()
-    //   cy.get('.MuiFormHelperText-root').should('have.text', 'Required')
+    it('should fill handle passwords', () => {
+      cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').focus().blur()
+      cy.get('.MuiFormHelperText-root').should('have.text', 'Required')
 
-    //   cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').type('short')
-    //   cy.get('.MuiFormHelperText-root').should('have.text', 'Password must be at least 6 characters')
+      cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').type('short')
+      cy.get('.MuiFormHelperText-root').should('have.text', 'Password must be at least 6 characters')
 
-    //   cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').type('longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong')
-    //   cy.get('.MuiFormHelperText-root').should('have.text', 'Password must be under 30 characters')
+      cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').type('longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong')
+      cy.get('.MuiFormHelperText-root').should('have.text', 'Password must be under 30 characters')
 
-    //   cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').clear().type('thisone')
-    //   cy.get('.MuiFormHelperText-root').should('not.exist')
+      cy.get(':nth-child(5) > .MuiInputBase-root > .MuiInputBase-input').clear().type('thisone')
+      cy.get('.MuiFormHelperText-root').should('not.exist')
 
-    //   cy.get(':nth-child(6) > .MuiInputBase-root > .MuiInputBase-input').type('nomatch').blur()
-    //   cy.get('.MuiFormHelperText-root').should('have.text', 'Passwords must match')
+      cy.get(':nth-child(6) > .MuiInputBase-root > .MuiInputBase-input').type('nomatch').blur()
+      cy.get('.MuiFormHelperText-root').should('have.text', 'Passwords must match')
 
-    //   cy.get(':nth-child(6) > .MuiInputBase-root > .MuiInputBase-input').clear().type('thisone').blur()
-    //   cy.get('.MuiFormHelperText-root').should('not.exist')
-    // })
+      cy.get(':nth-child(6) > .MuiInputBase-root > .MuiInputBase-input').clear().type('thisone').blur()
+      cy.get('.MuiFormHelperText-root').should('not.exist')
+    })
 
     it('should check terms and conditions', () => {
       cy.get('#termsAndConditions').click()

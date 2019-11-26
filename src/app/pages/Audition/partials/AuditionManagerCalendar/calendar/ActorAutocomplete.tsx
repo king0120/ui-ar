@@ -17,7 +17,7 @@ const ActorAutocomplete: FC<any> = ({selectedActor, setSelectedActor}) => {
   const [value, setValue] = useState('')
   const actorResults = useSelector<any, any>(({ search }) => search.data);
   const loading = open && options.length === 0;
-  const classes = useStyles()
+  const classes: any = useStyles()
 
 
   React.useEffect(() => {
@@ -46,7 +46,6 @@ const ActorAutocomplete: FC<any> = ({selectedActor, setSelectedActor}) => {
       <label>Assigned To Actor: </label>
       <Autocomplete
         classes={{
-          popup: classes.popup,
           paper: classes.popup
         }}
         style={{ width: 300 }}

@@ -1,13 +1,9 @@
 export {default as FusePageSimple} from './components/FusePageLayouts/simple/FusePageSimple';
 export {default as FusePageCarded} from './components/FusePageLayouts/carded/FusePageCarded';
-export {default as DemoSidebarContent} from './components/DemoSidebarContent';
-export {default as DemoContent} from './components/DemoContent';
 export {default as FuseNavigation} from './components/FuseNavigation/FuseNavigation';
 export {default as FuseScrollbars} from './components/FuseScrollbars/FuseScrollbars';
 export {default as FuseTheme} from './components/FuseTheme/FuseTheme';
-export {default as FuseLayout} from './components/FuseLayout/FuseLayout';
 export {default as FuseSettings} from './components/FuseSettings/FuseSettings';
-export {default as FuseHighlight} from './components/FuseHighlight/FuseHighlight';
 export {default as FuseMessage} from './components/FuseMessage/FuseMessage';
 export {default as FuseDialog} from './components/FuseDialog/FuseDialog';
 export {default as FuseAnimate} from './components/FuseAnimate/FuseAnimate';

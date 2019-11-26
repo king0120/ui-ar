@@ -1,3 +1,4 @@
+//  @ts-ignore
 before(() => {
   cy.visit('localhost:3001/anything');
   cy.get('#login-email').type('king0120@gmail.com')

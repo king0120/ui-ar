@@ -1,1 +1,9 @@
-{}
+{
+  "video": false,
+  "numTestsKeptInMemory": 0,
+  "env": {
+    "codeCoverage": {
+      "url": "http://localhost:3000/__coverage__"
+    }
+  }
+}

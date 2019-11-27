@@ -7,7 +7,6 @@ import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
 import { ListItem, List, ListItemText, Modal, makeStyles, createStyles, Theme, Dialog, DialogContent, DialogActions, Button, DialogTitle } from '@material-ui/core';
 import LightboxModal from '../shared/LightboxModal';
 import { GlobalContext } from 'context/globalContext';
-import AddNoteForActor from '../audition/AddNoteForActor';
 import NotesOnActor from '../audition/NotesOnActor';
 
 function getModalStyle() {

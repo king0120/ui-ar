@@ -24,14 +24,8 @@ module.exports = {
         chunks: 'all',
       },
     },
-    resolve: {
-      alias: {
-        react: path.resolve('node_modules/react'),
-        'react-dom': path.resolve('node_modules/react-dom'),
-      },
-    },
     plugins: [
-      new BundleAnalyzerPlugin()
+      // new BundleAnalyzerPlugin()
     ],
     configure: (config) => {
       config.module.rules[2].oneOf.unshift({
@@ -39,6 +33,11 @@ module.exports = {
         exclude: /node_modules/,
         loader: require.resolve('graphql-tag/loader'),
       })
+      config.externals = {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        lodash: '_'
+      }
       return config
     }
   }

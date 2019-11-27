@@ -8,7 +8,6 @@ import { GlobalContext } from 'context/globalContext';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
 import { useSnackbar } from 'notistack'
 import { ApolloError } from 'apollo-boost';
-import { Formik } from 'formik'
 
 const LOGIN = require('../../../graphql/mutations/LOGIN.gql')
 

@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
 import AddressInput from 'app/components/shared/AddressInput';
-import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik'
 import { TextField, CheckboxWithLabel } from 'formik-material-ui'
 import * as Yup from 'yup'

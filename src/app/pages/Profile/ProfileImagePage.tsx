@@ -1,11 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
     deleteImage,
     uploadImage
 } from '../../../redux/actions/talentActions';
 import { Button } from 'semantic-ui-react';
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { withRouter } from 'react-router';
 import LightboxModal from 'app/components/shared/LightboxModal';
 import MyDropzone from 'app/components/shared/MyDropzone';
@@ -29,9 +29,11 @@ const ProfileImagePage: FC<any> = (props) => {
     const [open, setOpen] = useState(false)
     const [currentIndex, setCurrentIndex] = useState(0)
 
-    const { data, loading, refetch } = useQuery(GET_USER, { variables: { id: userId } });
+    const [getUser, { data, loading, refetch }] = useLazyQuery(GET_USER, { variables: { id: userId } });
 
-
+    useEffect(() => {
+        getUser()
+    }, [userId])
 
     const refetchQuery = {
         refetchQueries: [{
@@ -53,7 +55,7 @@ const ProfileImagePage: FC<any> = (props) => {
             <LightboxModal
                 open={open}
                 handleClose={() => setOpen(false)}
-                images={user.profileImages.map((p: any) => ({ src: p.url }))}
+                images={user.profileImages.map((p: any) => ({ key: p.url, src: p.url }))}
                 currentIndex={currentIndex}
             />
             {!readOnly && <MyDropzone {...props} refetch={refetch} />}

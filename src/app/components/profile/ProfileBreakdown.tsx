@@ -13,6 +13,7 @@ const Breakdown: React.FC<any> = ({title, breakdownArray, width}) => {
                     <Chip
                         size="small"
                         className='m-1'
+                        data-cy={`${title}${a}`}
                         key={`${i}${a}`}
                         label={a}
                     />

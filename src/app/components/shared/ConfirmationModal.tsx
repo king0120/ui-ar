@@ -1,16 +1,19 @@
-import React, { FC, useState } from "react";
+import React, {FC, useState} from "react";
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Fab, Dialog, Button, DialogContent, DialogActions, Tooltip } from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, Fab, Tooltip} from "@material-ui/core";
 
-const ConfirmationModal: FC<any> = ({ onConfirm, id }) => {
+const ConfirmationModal: FC<any> = ({onConfirm, id, trigger}) => {
     const [open, changeOpen] = useState(false);
+    const trig = React.cloneElement(trigger, {onClick: () => changeOpen(true)}) || (
+        <Fab onClick={() => changeOpen(true)} color='primary' size="small">
+            <DeleteIcon/>
+        </Fab>
+    );
 
     return (
         <>
             <Tooltip title="Delete Item" placement="bottom">
-                <Fab onClick={() => changeOpen(true)} color='primary' size="small">
-                    <DeleteIcon />
-                </Fab>
+                {trig}
             </Tooltip>
             <Dialog
                 open={open}
@@ -22,13 +25,13 @@ const ConfirmationModal: FC<any> = ({ onConfirm, id }) => {
                 <DialogActions>
                     <Button onClick={() => changeOpen(false)} color="primary">
                         No
-          </Button>
+                    </Button>
                     <Button onClick={() => {
-                        changeOpen(false)
-                        onConfirm()
+                        changeOpen(false);
+                        onConfirm();
                     }} variant="outlined" color="primary" autoFocus>
                         Yes
-            </Button>
+                    </Button>
 
                 </DialogActions>
             </Dialog>
@@ -36,4 +39,4 @@ const ConfirmationModal: FC<any> = ({ onConfirm, id }) => {
     );
 };
 
-export default ConfirmationModal
+export default ConfirmationModal;

@@ -54,6 +54,7 @@ class AddressInput extends React.Component<any> {
             name="cityState"
             variant={this.props.variant}
             required
+            {...this.props}
         />
     }
 }

@@ -4,7 +4,8 @@ import { AnimateGroup } from 'app/pages/Search/Partials/ActorSearchResults';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { Avatar, List, ListItemText, ListItem, ListItemAvatar, ExpansionPanelDetails, ExpansionPanel, ExpansionPanelSummary, Typography, makeStyles } from '@material-ui/core';
-import { useQuery } from '@apollo/react-hooks';;
+import { useQuery } from '@apollo/react-hooks';
+import {deepOrange} from "@material-ui/core/colors";
 
 
 const query = gql`
@@ -25,13 +26,16 @@ query getActor($id: String!) {
 
 const useStyles = makeStyles({
     smallAvatar: {
+        background: deepOrange[500],
+        fontSize: '1.5rem',
         margin: 10,
-        width: 20,
-        height: 20,
+        width: 25,
+        height: 25,
     },
     icon: {
         color: 'white',
     },
+
     bigAvatar: {
         margin: 10,
         width: 60,
@@ -53,7 +57,7 @@ const TalentListItem: FC<any> = ({ id, role, handleClick, talent }) => {
     if (loading) { return <p></p> }
     const user = data.getActor
     return (
-        <ListItem key={user.id} onClick={() => handleClick(talent)}>
+        <ListItem dense={true} disableGutters={true} key={user.id} onClick={() => handleClick(talent)}>
             <ListItemAvatar>
                 <Avatar alt={user.displayName} src={user.profilePicture && user.profilePicture.url}>{user.displayName[0]}</Avatar>
             </ListItemAvatar>

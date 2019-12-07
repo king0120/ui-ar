@@ -1,27 +1,15 @@
-import React, { FC, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, CardContent, FormControl, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
 import AddressInput from 'app/components/shared/AddressInput';
 import { Formik, Form, Field } from 'formik'
-import { TextField, CheckboxWithLabel } from 'formik-material-ui'
+import { CheckboxWithLabel } from 'formik-material-ui'
 import * as Yup from 'yup'
 import arAxios from 'utils/axiosHelper';
 import { GlobalContext } from 'context/globalContext';
-
-const FormikTextField: FC<{ name: string, type?: string, label: string }> = (props) => (
-    <Field
-        className="mb-16"
-        type={props.type || "text"}
-        name={props.name}
-        label={props.label}
-        component={TextField}
-        autoFocus
-        required
-        variant="outlined"
-    />
-)
+import { FormikTextField } from '../../components/shared/FormikTextField';
 
 const initialValues = {
     firstName: '',

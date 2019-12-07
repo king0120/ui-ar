@@ -3,7 +3,6 @@ import { Typography, TextField, Button } from '@material-ui/core';
 
 const ActorQuestions: FC<any> = (props) => {
   const { questions, setQuestions } = props
-  console.log("QUESTIONS", questions)
   return (
     <div>
       <Typography variant="h6">Questions for Actor</Typography>
@@ -19,6 +18,7 @@ const ActorQuestions: FC<any> = (props) => {
             label={`Question ${i + 1}`}
             autoFocus
             value={question}
+            data-cy={`audition-question-${i+1}`}
             onChange={handleChange}
             variant="outlined"
             fullWidth

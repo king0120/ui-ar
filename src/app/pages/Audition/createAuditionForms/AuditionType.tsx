@@ -56,6 +56,19 @@ const AuditionType: FC<IAuditionType> = ({ selectedValue, setSelectedValue, proj
           <FormControlLabel
             control={
               <Radio
+                checked={selectedValue === 'openCall'}
+                onChange={() => setSelectedValue('openCall')}
+                value="openCall"
+                data-cy="open-call"
+                name="auditionType"
+              />
+            }
+            label="Open Call" />
+        </div>
+        <div className="flex items-center">
+          <FormControlLabel
+            control={
+              <Radio
                 checked={selectedValue === 'callback'}
                 onChange={() => setSelectedValue('callback')}
                 value="callback"

@@ -1,24 +1,15 @@
 import React, { FC } from 'react';
-import { TextField } from '@material-ui/core';
+import { FormikTextField } from 'app/components/shared/FormikTextField';
 
-interface IAdditionalDetails {
-  description: string;
-  prep: string;
-  handleChange: (p: any) => void;
-}
-
-const AdditionalDetails: FC<IAdditionalDetails> = ({description, prep, handleChange}) => {
+const AdditionalDetails: FC = () => {
   return (
     <div>
       <div>
-        <TextField
+        <FormikTextField
+          name={'description'}
+          label={"Description"}
+          data-cy="audition-desctiption"
           className="mb-16"
-          label="Description"
-          autoFocus
-          type="description"
-          name="description"
-          value={description}
-          onChange={handleChange}
           variant="outlined"
           rows="5"
           multiline
@@ -27,16 +18,13 @@ const AdditionalDetails: FC<IAdditionalDetails> = ({description, prep, handleCha
       </div>
       {/* Audition Prep */}
       <div>
-        <TextField
+      <FormikTextField
+          name={'prep'}
+          label={"Audition Prep"}
+          data-cy="audition-prep"
           className="mb-16"
-          label="Audition Prep"
-          autoFocus
-          type="prep"
-          name="prep"
-          rows="5"
-          value={prep}
-          onChange={handleChange}
           variant="outlined"
+          rows="5"
           multiline
           fullWidth
         />

@@ -3,10 +3,11 @@ import { TextField, Checkbox, FormControlLabel } from '@material-ui/core';
 import AddressInput from 'app/components/shared/AddressInput';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import AuditionType from './AuditionType';
+import { FormikTextField } from 'app/components/shared/FormikTextField';
+import { CheckboxWithLabel } from 'formik-material-ui';
+import { Field } from 'formik';
 
 interface IAuditionDetails {
-  name: string;
-  handleChange: () => void;
   privateAudition: boolean;
   setPrivate: (p: boolean) => void;
   handleAddressChange: (a: string) => void;
@@ -17,35 +18,34 @@ interface IAuditionDetails {
   projectId: string;
   cloneAuditions: any;
   setCloneAuditions: any;
+  setFieldValue: any
 }
 
 const AuditionDetails: FC<IAuditionDetails> = (props) => {
   return (
     <>
       <div className="flex justify-between align-baseline">
-        <TextField
-          className="mb-16 w-8/12"
-          label="Audition Name"
-          autoFocus
-          type="name"
-          name="name"
-          value={props.name}
-          onChange={props.handleChange}
-          required
+        <FormikTextField
+          name={'name'}
+          label={"Audition Name"}
+          data-cy="audition-name"
+          className="w-8/12"
         />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={props.privateAudition}
-              onChange={() => props.setPrivate(!props.privateAudition)}
-              value="checkedB"
-              color="primary"
-            />
-          }
-          label="Private Audition" />
+        <Field
+          data-cy="private-audition"
+          Label={{ label: 'Private Audition' }}
+          name="privateAudition"
+          id="privateAudition"
+          component={CheckboxWithLabel}
+        />
       </div>
       <div className="flex justify-between">
-        <AddressInput handleChange={props.handleAddressChange} variant={'standard'} type="address" />
+        <AddressInput 
+          data-cy="audition-address"
+          handleChange={props.handleAddressChange} 
+          label="Address"
+          type="address" 
+        />
       </div>
       <div className="flex justify-between">
         <KeyboardDateTimePicker
@@ -54,9 +54,10 @@ const AuditionDetails: FC<IAuditionDetails> = (props) => {
           value={props.selectedDate}
           disablePast={true}
           fullWidth
-          onChange={(date) => { props.setNewDate(date as any) }}
+          onChange={(date) => { props.setFieldValue('selectedDate', date as any) }}
           ampm={true}
-          format="MM/dd/yyyy hh:mm aaaa"
+          format="MM/dd/yyyy hh:mm a"
+          data-cy="audition-start-date"
         />
       </div>
       <div>

@@ -1,12 +1,14 @@
-import React, { FC, useState } from 'react';
-import { useMutation, useQuery } from "@apollo/react-hooks";
-import { useForm } from '@fuse/hooks';
-import { Button, Paper, makeStyles, Theme, Typography, Stepper, StepLabel, Step } from '@material-ui/core';
+import React, {FC} from 'react';
+import {useMutation, useQuery} from "@apollo/react-hooks";
+import {Button, makeStyles, Paper, Step, StepLabel, Stepper, Theme, Typography} from '@material-ui/core';
 import AuditionDetails from './createAuditionForms/AuditionDetails';
 import AdditionalDetails from './createAuditionForms/AdditionalDetails';
 import AuditionRoles from './createAuditionForms/AuditionRoles';
-import { ActorSearch } from '../Search/ActorSearchPage';
+import {ActorSearch} from '../Search/ActorSearchPage';
 import ActorQuestions from './createAuditionForms/ActorQuestions';
+import {Form, Formik, useFormikContext} from 'formik';
+import * as Yup from 'yup';
+
 const CREATE_AUDITION = require('../../../graphql/mutations/CREATE_AUDITION.gql');
 const GET_AUDITIONS_FOR_PROJECT = require('../../../graphql/queries/auditions/GET_AUDITIONS_FOR_PROJECT.gql');
 const GET_ALL_ROLES = require('../../../graphql/queries/roles/GET_ALL_ROLES.gql');
@@ -48,73 +50,51 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-const CreateAudition: FC<any> = ({ match, history }) => {
-    const classes = useStyles()
-    const { projectId, organizationId } = match.params;
+const initialValues = {
+    name: '',
+    description: '',
+    latLong: {},
+    address: '',
+    selectedDate: new Date(),
+    selectedValues: 'general',
+    privateAudition: false,
+    cloneAuditions: [],
+    forRoles: [],
+    questions: ['Please list conflicts, leave blank if none.']
+};
+
+
+const validationSchema = Yup.object({
+    name: Yup.string().required('Required'),
+});
+
+const CreateAudition: FC<any> = (props) => {
+    const {match, history} = props;
+    const classes = useStyles();
+    const {projectId, organizationId} = match.params;
     const refetchQueries = [{
         query: GET_AUDITIONS_FOR_PROJECT,
-        variables: { projectId }
+        variables: {projectId}
     }];
-    const [latLong, changeLatLong] = useState({} as any);
-    const [address, changeAddress] = useState('');
-    const [selectedDate, setNewDate] = React.useState(new Date());
-    const [createAudition] = useMutation(CREATE_AUDITION, { refetchQueries });
-    const { data, loading } = useQuery(GET_ALL_ROLES, { variables: { projectId } });
-    const [selectedValue, setSelectedValue] = React.useState('general');
-    const [privateAudition, setPrivate] = React.useState(false);
-    const [cloneAuditions, setCloneAuditions] = useState([])
-    const [forRoles, setForRoles] = useState([])
+    const {values, submitForm} = useFormikContext();
+    console.log(values, submitForm);
 
-    const [questions, setQuestions]: [string[], (s: string[]) => void] = useState(['Please list conflicts, leave blank if none.'] as string[]);
-    const { form, handleChange, resetForm } = useForm({
-        name: '',
-        description: '',
-        prep: ''
-    })
-    console.log(questions)
-    const onSubmit = async () => {
-        const newAudition = {
-            name: form.name,
-            ...latLong,
-            address,
-            startDate: selectedDate,
-            auditionType: selectedValue,
-            private: privateAudition,
-            description: form.description,
-            prep: form.prep,
-            forRoles: forRoles,
-            questions,
-            cloneAuditions
-        }
-        // const { status, question1, question2, question3, question4, question5, ...cleaned } = data;
-        await createAudition({
-            variables: {
-                projectId: projectId,
-                audition: newAudition
-            }
-        });
-        history.push(`/organization/${organizationId}/projects/${projectId}/auditions`)
-    };
+    const {data, loading} = useQuery(GET_ALL_ROLES, {variables: {projectId}});
 
-    const handleAddressChange = (addressObject: any) => {
-        changeLatLong({
+    const handleAddressChange = (addressObject: any, setFieldValue: any) => {
+        setFieldValue('latLong', {
             lat: addressObject.latlng.lat,
             long: addressObject.latlng.lng
         });
-        changeAddress(addressObject.value);
+        setFieldValue('address', addressObject.value);
     };
 
-    function handleSubmit(ev: any) {
-        ev.preventDefault();
-        resetForm();
-    }
-
-    const steps = ['Audition Details', 'More Details', 'Choose Roles', 'Actor Questions',]
+    const steps = ['Audition Details', 'More Details', 'Choose Roles', 'Actor Questions',];
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
         if (activeStep === steps.length - 1) {
-            return onSubmit()
+            return props.handleSubmit();
         }
         setActiveStep(activeStep + 1);
     };
@@ -127,46 +107,38 @@ const CreateAudition: FC<any> = ({ match, history }) => {
         switch (step) {
             case 0:
                 return <AuditionDetails
-                    name={form.name}
-                    handleChange={handleChange}
-                    privateAudition={privateAudition}
-                    setPrivate={setPrivate}
-                    handleAddressChange={handleAddressChange}
-                    selectedDate={selectedDate}
-                    setNewDate={setNewDate}
-                    selectedValue={selectedValue}
-                    setSelectedValue={setSelectedValue}
+                    handleAddressChange={(val: any) => handleAddressChange(val, props.setFieldValue)}
+                    selectedDate={props.values.selectedDate}
+                    selectedValue={props.values.selectedValue}
+                    setSelectedValue={(val: any) => props.setFieldValue('selectedValue', val as any)}
                     projectId={projectId}
-                    cloneAuditions={cloneAuditions}
-                    setCloneAuditions={setCloneAuditions}
+                    cloneAuditions={props.values.cloneAuditions}
+                    setCloneAuditions={(val: any) => props.setFieldValue('cloneAuditions', val as any)}
+                    {...props}
                 />;
             case 1:
-                return <AdditionalDetails
-                    description={form.description}
-                    prep={form.prep}
-                    handleChange={handleChange}
-                />
+                return <AdditionalDetails/>;
             case 2:
                 return <AuditionRoles
                     roles={roles}
-                    forRoles={forRoles}
-                    setForRoles={setForRoles}
+                    forRoles={props.values.forRoles}
+                    setForRoles={(val: any) => props.setFieldValue('forRoles', val as any)}
                 />;
             case 3:
                 return <ActorQuestions
-                    questions={questions}
-                    setQuestions={setQuestions}
-                />
+                    questions={props.values.questions}
+                    setQuestions={(val: any) => props.setFieldValue('questions', val as any)}
+                />;
             case 4:
                 // TODO ONE CLICK INVITE
-                return <ActorSearch />;
+                return <ActorSearch/>;
             default:
                 throw new Error('Unknown step');
         }
     }
 
     if (loading) {
-        return <h1>Loading</h1>
+        return <h1>Loading</h1>;
     }
     const roles = data.getAllRoles;
 
@@ -181,19 +153,18 @@ const CreateAudition: FC<any> = ({ match, history }) => {
                         </Step>
                     ))}
                 </Stepper>
-                <form
-                    name="createAuditionForm"
-                    noValidate
-                    className="flex flex-col w-full flex-grow"
-                    onSubmit={handleSubmit}
+
+                <Form
+                    name="registerForm"
+                    className="flex flex-col justify-center w-full"
                 >
                     {getStepContent(activeStep)}
-                </form>
+                </Form>
                 <div className={classes.buttons}>
                     {activeStep !== 0 && (
                         <Button onClick={handleBack} className={classes.button}>
                             Back
-                    </Button>
+                        </Button>
                     )}
                     <Button
                         variant="contained"
@@ -209,5 +180,55 @@ const CreateAudition: FC<any> = ({ match, history }) => {
     );
 };
 
+const FormikWrapper = (props: any) => {
+    const {history} = props;
+    const {projectId, organizationId} = props.match.params;
+    const refetchQueries = [{
+        query: GET_AUDITIONS_FOR_PROJECT,
+        variables: {projectId}
+    }];
+    const [createAudition] = useMutation(CREATE_AUDITION, {refetchQueries});
 
-export default CreateAudition;
+    const onSubmit = async (values: any) => {
+        const {
+            name, address, selectedDate,
+            selectedValue, privateAudition, forRoles,
+            questions, cloneAuditions
+        } = values;
+        const newAudition = {
+            name,
+            ...values.latLong,
+            address,
+            startDate: selectedDate,
+            auditionType: selectedValue,
+            private: privateAudition,
+            description: values.description,
+            prep: values.prep,
+            forRoles: forRoles,
+            questions,
+            cloneAuditions
+        };
+        await createAudition({
+            variables: {
+                projectId: projectId,
+                audition: newAudition
+            }
+        });
+        history.push(`/organization/${organizationId}/projects/${projectId}/auditions`);
+    };
+
+
+    return <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}>
+        {(fProps: any) => (
+            <CreateAudition
+                {...props}
+                {...fProps}
+            />
+        )}
+    </Formik>;
+};
+
+export default FormikWrapper;

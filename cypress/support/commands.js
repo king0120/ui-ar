@@ -27,3 +27,28 @@
 Cypress.Commands.add('dataCy', (name) => {
   return cy.get(`[data-cy='${name}']`)
 })
+
+Cypress.Commands.add('login', () => {
+  let token;
+  cy.request('POST', '/graphql', {
+    operationName: 'login',
+    query: "mutation login($email: String!, $password: String!) {  login(email: $email, password: $password) {    userId    accessToken    displayName    __typename  }}",
+    variables: {
+      email: "king0120@gmail.com", password: "1111"
+    }
+  })
+    .its('body')
+    .then((res) => {
+      console.log(res)
+      token = res.data.login.accessToken
+    })
+
+  cy.visit('/', {
+    onBeforeLoad(win) {
+      // and before the page finishes loading
+      // set the user object in local storage
+      win.localStorage.removeItem('accessToken')
+      win.localStorage.setItem('accessToken', token)
+    },
+  })
+})

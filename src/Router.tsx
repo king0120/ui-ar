@@ -17,6 +17,7 @@ import MyAuditions from "./app/pages/Profile/MyAuditions";
 import {GlobalContext} from "./context/globalContext";
 import LoginPage from './app/pages/Auth/LogInPage';
 import AuditionRSVPPage from 'app/pages/AuditionRSVPPage';
+import CheckInPage from "./app/pages/CheckInPage";
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     return (
@@ -41,7 +42,6 @@ const RedirectIfLoggedIn: FC<any> = ({component: Component, loggedIn, ...rest}) 
 
 const AppRouter: FC<any> = () => {
     const {userId} = useContext(GlobalContext);
-    console.log("UPDATE USERID", userId)
     const loggedIn = userId !== 'none'
     return (
             <Switch>
@@ -51,6 +51,7 @@ const AppRouter: FC<any> = () => {
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset' component={PasswordResetPage}/>
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset/:token' component={PasswordResetPage}/>
 
+                <Route path='/audition/:auditionId/checkIn' component={CheckInPage}/>
                 <Route path='/audition/:auditionId' component={AuditionRSVPPage}/>
                 <Route exact path='/auditionResponse' component={AuditionResponse}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/settings' component={SettingsPage}/>

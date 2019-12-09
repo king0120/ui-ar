@@ -4,7 +4,7 @@ import {Button, Dialog, DialogActions, DialogContent, Fab, Tooltip} from "@mater
 
 const ConfirmationModal: FC<any> = ({onConfirm, id, trigger}) => {
     const [open, changeOpen] = useState(false);
-    const trig = React.cloneElement(trigger, {onClick: () => changeOpen(true)}) || (
+    const trig = trigger ? React.cloneElement(trigger, {onClick: () => changeOpen(true)}) : (
         <Fab onClick={() => changeOpen(true)} color='primary' size="small">
             <DeleteIcon/>
         </Fab>

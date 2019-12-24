@@ -1,11 +1,21 @@
-import React, { FC, useState } from 'react';
-import { connect } from 'react-redux';
-import { searchUsers } from '../../../redux/actions/searchActions';
-import { withRouter } from 'react-router-dom';
-import { TalentSpecificationsForm } from '../../components/shared/TalentSpecificationsForm';
-import { getFormState } from "../../../redux/store/reducers/finalFormReducer";
-import { Container } from "../../components/project/CommonStyledComponents";
-import { ExpansionPanel, Button, ExpansionPanelDetails, ExpansionPanelSummary, Typography, Paper, makeStyles, Theme, createStyles } from '@material-ui/core';
+import React, {FC, useState} from 'react';
+import {connect} from 'react-redux';
+import {searchUsers} from '../../../redux/actions/searchActions';
+import {withRouter} from 'react-router-dom';
+import {TalentSpecificationsForm} from '../../components/shared/TalentSpecificationsForm';
+import {getFormState} from "../../../redux/store/reducers/finalFormReducer";
+import {Container} from "../../components/project/CommonStyledComponents";
+import {
+    Button,
+    createStyles,
+    ExpansionPanel,
+    ExpansionPanelDetails,
+    ExpansionPanelSummary,
+    makeStyles,
+    Paper,
+    Theme,
+    Typography
+} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
@@ -36,48 +46,50 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function NoReduxActorSearch(props: any) {
-    const classes = useStyles()
+    const classes = useStyles();
+
     const [value, changeValue] = useState('');
     const [type] = useState('displayName');
+
     return (
         <>
             <form onSubmit={(e: any) => {
                 e.preventDefault();
-                props.searchUsers({ value, type, spec: props.spec })
+                props.searchUsers({value, type, spec: props.spec});
             }}>
                 <Paper>
                     <div className={classes.root}>
-                        <SearchIcon />
+                        <SearchIcon/>
                         <InputBase
                             className={classes.input}
                             placeholder="Search For Talent"
-                            inputProps={{ 'aria-label': 'search for talent' }}
+                            inputProps={{'aria-label': 'search for talent'}}
                             value={value}
                             onChange={(e) => changeValue(e.target.value)}
                         />
 
-                        <Divider className={classes.divider} orientation="vertical" />
+                        <Divider className={classes.divider} orientation="vertical"/>
                         <Button type="submit" color="primary" className={classes.iconButton} aria-label="directions">
                             Search
-                    </Button>
+                        </Button>
                     </div>
                     {props.showTalentSpec && (
                         <ExpansionPanel>
                             <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
+                                expandIcon={<ExpandMoreIcon/>}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header">
-                                <Typography variant="body1" >Advanced Search</Typography>
+                                <Typography variant="body1">Advanced Search</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <TalentSpecificationsForm />
+                                <TalentSpecificationsForm/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     )}
 
                 </Paper>
             </form>
-            <ActorSearchResults includeEmail={true} actors={props.results} handleClickTalent={props.handleClickTalent} />
+            <ActorSearchResults includeEmail={true} actors={props.results} handleClickTalent={props.handleClickTalent}/>
         </>
     );
 }
@@ -87,7 +99,7 @@ const mapStateToProps = (state: any) => ({
     spec: getFormState(state, 'talentSpecs').values
 });
 
-export const ActorSearch = connect(mapStateToProps, { searchUsers })(NoReduxActorSearch);
+export const ActorSearch = connect(mapStateToProps, {searchUsers})(NoReduxActorSearch);
 
 
 const ActorSearchPage: FC<any> = (props) => {
@@ -97,7 +109,8 @@ const ActorSearchPage: FC<any> = (props) => {
     return (
         <Container>
             <Typography variant={'h5'}>Actor Search</Typography>
-            <ActorSearch handleClickTalent={handleClickTalent} showTalentSpec={true} />
+            <ActorSearch handleClickTalent={handleClickTalent} showTalentSpec={true}/>
+
         </Container>
     );
 };

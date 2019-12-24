@@ -8,13 +8,15 @@ interface IPaginationProps {
     itemCount: number;
     handlePageChange: (a: any) => any
     resultsPerPage?: number;
+    colorTheme?: 'light' | 'dark';
 }
+
 const NUMBER_OF_ACTORS_ON_PAGE = 10;
 
 const useStyles = makeStyles((theme: Theme) => ({
     paginationRoot: {
         display: 'flex',
-        height: '50px',
+        height: '30px',
         justifyContent: 'center',
         marginTop: '15px',
     },
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         padding: '3px',
     },
     pageLinkClassName: {
-        color: theme.palette.common.black
+        color: (props:any) => props.colorTheme === 'dark' ? theme.palette.common.white : theme.palette.common.black
     },
     activeLinkClassName: {
         color: theme.palette.common.white
@@ -40,12 +42,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Pagination = (props: IPaginationProps) => {
-    const classes = useStyles();
-    const perPage = props.resultsPerPage || NUMBER_OF_ACTORS_ON_PAGE
+    const classes = useStyles(props);
+    const perPage = props.resultsPerPage || NUMBER_OF_ACTORS_ON_PAGE;
     const numberOfPages = Math.floor(props.itemCount / perPage);
     return <ReactPaginate
-        previousLabel={<ChevronLeftIcon />}
-        nextLabel={<ChevronRightIcon />}
+        previousLabel={<ChevronLeftIcon/>}
+        nextLabel={<ChevronRightIcon/>}
         breakLabel={'...'}
         breakClassName={'break-me'}
         pageCount={numberOfPages + 1}
@@ -57,7 +59,7 @@ const Pagination = (props: IPaginationProps) => {
         pageLinkClassName={classes.pageLinkClassName}
         activeLinkClassName={classes.activeLinkClassName}
         activeClassName={classes.pageClassActive}
-    />
-}
+    />;
+};
 
-export default Pagination
+export default Pagination;

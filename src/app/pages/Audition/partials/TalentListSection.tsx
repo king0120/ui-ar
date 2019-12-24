@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Avatar, List, ListItemText, ListItem, ListItemAvatar, ExpansionPanelDetails, ExpansionPanel, ExpansionPanelSummary, Typography, makeStyles } from '@material-ui/core';
 import { useQuery } from '@apollo/react-hooks';
 import {deepOrange} from "@material-ui/core/colors";
+import Pagination from "../../../components/shared/Pagination";
 
 
 const query = gql`
@@ -68,7 +69,9 @@ const TalentListItem: FC<any> = ({ id, role, handleClick, talent }) => {
 const TalentListSection: FC<any> = ({ title, talentList, handleClick, roles }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true)
-    console.log("TALENT", talentList)
+    const [selected, setSelectedPage] = useState(0);
+    const changePage = (data: any) => setSelectedPage(data.selected);
+    const sliceToShow = talentList && talentList.slice(selected * 10, (selected * 10) + 10);
     return (
         <ExpansionPanel classes={{ root: classes.root, expanded: classes.expanded }} className="w-full p-2" expanded={open} onChange={() => setOpen(!open)}>
             <ExpansionPanelSummary className="p-0" expandIcon={<ExpandMoreIcon className={classes.icon} />}>
@@ -77,9 +80,9 @@ const TalentListSection: FC<any> = ({ title, talentList, handleClick, roles }) =
                     <Typography>{title}</Typography>
                 </div>
             </ExpansionPanelSummary>
-            <ExpansionPanelDetails className="pl-0">
+            <ExpansionPanelDetails className="pl-0 flex-col">
                 <List>
-                    {talentList && talentList.map((talent: any) => {
+                    {sliceToShow.map((talent: any) => {
                         let role = ''
                         if (roles && roles.length) {
                             role = roles.find((r: any) => r.id === talent.decision);
@@ -104,12 +107,17 @@ const TalentListSection: FC<any> = ({ title, talentList, handleClick, roles }) =
                             </AnimateGroup>)
                     }
                     )}
-                    {talentList.length === 0 && (
+                    {sliceToShow.length === 0 && (
                         <ListItem>
                             <ListItemText primary="none" />
                         </ListItem>
                     )}
                 </List>
+                <Pagination
+                    itemCount={talentList.length}
+                    handlePageChange={changePage}
+                    colorTheme={'dark'}
+                />
             </ExpansionPanelDetails>
         </ExpansionPanel>);
 };

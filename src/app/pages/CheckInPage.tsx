@@ -13,7 +13,7 @@ const CHECK_IN = gql`
 
 const CheckInPage = (props: any) => {
     const {auditionId} = props.match.params;
-    const {data, loading, error} = useQuery(GET_AUDITION, {variables: {auditionId}});
+    const {data, loading} = useQuery(GET_AUDITION, {variables: {auditionId}});
     const [checkIn] = useMutation(CHECK_IN, {refetchQueries: [{query: GET_AUDITION, variables: {auditionId}}]});
     if (loading) {
         return <h1>Loading</h1>;

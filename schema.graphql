@@ -17,7 +17,7 @@ interface Experience {
 }
 
 type ActorNote {
-    audition: Audition!
+    audition: Audition
     createdAt: String!
     for: User!
     id: String!
@@ -53,9 +53,9 @@ type Audition {
 
 type AuditionAnswers {
     id: String
-    question: AuditionQuestion
+    question: AuditionQuestion!
     text: String
-    user: User
+    user: User!
 }
 
 type AuditionCollateral {
@@ -82,6 +82,7 @@ type AuditionTalentInstance {
     hasConflicts: Boolean
     id: String!
     projectId: Float
+    questions: [FormattedQuestionAnswer!]!
     registered: Boolean
     responseCode: String!
     selfSignup: String
@@ -135,6 +136,11 @@ type FilmExperience implements Experience {
     user: User!
 }
 
+type FormattedAnswer {
+    id: String!
+    text: String!
+}
+
 type FormattedBreakdown {
     ageRange: [String!]
     ethnicity: [String!]
@@ -146,6 +152,12 @@ type FormattedBreakdown {
 type FormattedCollateral {
     key: String
     url: String
+}
+
+type FormattedQuestionAnswer {
+    answer: FormattedAnswer
+    id: String!
+    text: String!
 }
 
 type LoginResponse {
@@ -176,12 +188,14 @@ type Mutation {
     addExperience(data: AddExperienceDTO!): Boolean
     addNote(input: CreateNoteDTO!): ActorNote!
     addUserBreakdown(key: String!): Boolean
+    checkIn(instanceId: String, status: String): Boolean
     closeAudition(auditionId: String!): Audition!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
+    createProject(data: CreateProjectDTO!): Project!
     createTimeslot(data: CreateTimeSlotDTO!): AuditionTimeSlot!
     deleteAudition(auditionId: String!): Audition!
     deleteImage(key: String!): Boolean
-    deleteProject(id: String!): Boolean
+    deleteProject(projectId: String!): Boolean!
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String, users: [String!]): AuditionTalentInstance!
     login(email: String!, password: String!): LoginResponse!
@@ -191,6 +205,7 @@ type Mutation {
     respondToAuditionInvite(answerToQuestions: [String!]!, email: String!, response: String!, responseCode: String!): Audition!
     sendRejectionEmails(projectId: String!): Boolean
     setProfile(key: String!): Boolean
+    updateAnswer(answerId: String!, text: String!): Boolean!
     updateTalentInstance(decision: String, instanceId: String): Boolean
 }
 
@@ -231,11 +246,11 @@ type Project {
     name: String!
     notes: String
     organization: Organization!
-    performanceDateEnd: DateTime
-    performanceDateStart: DateTime
+    performanceDateEnd: String
+    performanceDateStart: String
     photoS3Key: String
-    rehearsalDateEnd: DateTime
-    rehearsalDateStart: DateTime
+    rehearsalDateEnd: String
+    rehearsalDateStart: String
     rejected: [ProjectRejectedUser!]
     roles: [ProjectRole!]!
     status: String
@@ -268,7 +283,9 @@ type Query {
     getAllProjects(organizationId: String!): [Project!]!
     getAllRoles(projectId: String!): [ProjectRole!]!
     getAudition(auditionId: String!): Audition!
+    getAuditionForRSVP(auditionId: String!): Audition!
     getAuditionsForProject(projectId: String!): [Audition!]!
+    getInstance(instanceId: String!): AuditionTalentInstance!
     getInstances(id: String!): User!
     getNotes(actorId: String!): [ActorNote!]!
     getOneOrganization(organizationId: String!): Organization!
@@ -314,7 +331,7 @@ type User {
     emailConfirmed: Boolean!
     filmExperience: [FilmExperience!]!
     firstName: String!
-    gender: String!
+    gender: String
     heightInches: Float
     id: String!
     instances: [AuditionTalentInstance!]!
@@ -324,7 +341,7 @@ type User {
     operaExperience: [OperaExperience!]!
     organizations: [Organization!]!
     ownedOrgs: [Organization!]!
-    phoneNumber: String!
+    phoneNumber: String
     profileImages: [UserImage!]!
     profilePicture: UserImage
     rejections: [ProjectRejectedUser!]
@@ -392,6 +409,20 @@ input CreateNoteDTO {
     for: String!
     owner: String
     text: String!
+}
+
+input CreateProjectDTO {
+    director: String!
+    name: String!
+    notes: String!
+    organizationId: String!
+    performanceDateEnd: DateTime!
+    performanceDateStart: DateTime!
+    rehearsalDateEnd: DateTime!
+    rehearsalDateStart: DateTime!
+    shortName: String!
+    summary: String!
+    writer: String!
 }
 
 input CreateTimeSlotDTO {

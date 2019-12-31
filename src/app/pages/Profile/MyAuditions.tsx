@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { GlobalContext } from 'context/globalContext';
 import { Container, Typography, Paper, makeStyles, List, ListItem, ListItemText, Divider } from '@material-ui/core';
 import clsx from 'clsx';
+import {useHistory} from "react-router";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles(() => ({
 
 const MyAuditions = () => {
     const { userId } = useContext(GlobalContext);
+    const {push} = useHistory()
     const classes = useStyles()
     const { loading, data } = useQuery(GET_USER_AUDITION(), {
         variables: { id: userId }
@@ -28,6 +30,7 @@ const MyAuditions = () => {
         b = new Date(b.audition.startDate)
         return a>b ? 1 : a<b ? -1 : 0;
     })
+    console.log(user.instances)
     return (
         <Container className="h-full">
             <Paper className={clsx(classes.root, "p-16 mt-36")}>
@@ -38,7 +41,7 @@ const MyAuditions = () => {
                         const project = instance.audition.project || {}
                         return (
                             <>
-                                <ListItem alignItems="flex-start">
+                                <ListItem alignItems="flex-start" onClick={() => push(`/profile/auditions/${instance.id}`)}>
                                     <ListItemText
                                         key={instance.id}
                                         primary={
@@ -55,6 +58,15 @@ const MyAuditions = () => {
                                                     color="textPrimary">
                                                     {instance.audition.address}
                                                 </Typography>
+                                                <br/>
+                                                {instance.timeSlot && (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary">
+                                                        Time Slot Start: {format(new Date(instance.timeSlot.startTime), "MMM do, hh:mm a")}
+                                                    </Typography>
+                                                )}
 
                                             </React.Fragment>
                                         }

@@ -1,15 +1,15 @@
-import React, { FC, useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, {FC, useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import {
     deleteImage,
     uploadImage
 } from '../../../redux/actions/talentActions';
-import { Button } from 'semantic-ui-react';
-import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
-import { withRouter } from 'react-router';
+import {Button} from '@material-ui/core';
+import {useMutation, useLazyQuery} from "@apollo/react-hooks";
+import {withRouter} from 'react-router';
 import LightboxModal from 'app/components/shared/LightboxModal';
 import MyDropzone from 'app/components/shared/MyDropzone';
-import { makeStyles } from '@material-ui/styles';
+import {makeStyles} from '@material-ui/styles';
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 const SET_PROFILE = require('../../../graphql/mutations/profile/SET_PROFILE.gql');
@@ -25,24 +25,24 @@ const useStyles = makeStyles({
 
 const ProfileImagePage: FC<any> = (props) => {
     const classes = useStyles();
-    const { readOnly, userId } = props;
-    const [open, setOpen] = useState(false)
-    const [currentIndex, setCurrentIndex] = useState(0)
+    const {readOnly, userId} = props;
+    const [open, setOpen] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    const [getUser, { data, loading, refetch }] = useLazyQuery(GET_USER, { variables: { id: userId } });
+    const [getUser, {data, loading, refetch}] = useLazyQuery(GET_USER, {variables: {id: userId}});
 
     useEffect(() => {
         getUser()
-    }, [userId])
+    }, [userId, getUser]);
 
     const refetchQuery = {
         refetchQueries: [{
             query: GET_USER,
-            variables: { id: userId }
+            variables: {id: userId}
         }]
-    }
-    const [setProfile] = useMutation(SET_PROFILE, refetchQuery)
-    const [deleteImage] = useMutation(DELETE_IMAGE, refetchQuery)
+    };
+    const [setProfile] = useMutation(SET_PROFILE, refetchQuery);
+    const [deleteImage] = useMutation(DELETE_IMAGE, refetchQuery);
 
     const user = data && data.getUser;
 
@@ -55,11 +55,11 @@ const ProfileImagePage: FC<any> = (props) => {
             <LightboxModal
                 open={open}
                 handleClose={() => setOpen(false)}
-                images={user.profileImages.map((p: any) => ({ key: p.url, src: p.url }))}
+                images={user.profileImages.map((p: any) => ({key: p.url, src: p.url}))}
                 currentIndex={currentIndex}
             />
-            {!readOnly && <MyDropzone {...props} refetch={refetch} />}
-            <div className="flex justify-start flex-wrap" >
+            {!readOnly && <MyDropzone {...props} refetch={refetch}/>}
+            <div className="flex justify-start flex-wrap">
                 {user.profileImages && user.profileImages.map((img: any, index: number) => (
                     <div className="p-10" key={img.s3key}>
                         <img
@@ -67,23 +67,25 @@ const ProfileImagePage: FC<any> = (props) => {
                             src={img.url}
                             alt={user.displayName + index}
                             onClick={() => {
-                                setOpen(true)
-                                setCurrentIndex(index)
+                                setOpen(true);
+                                setCurrentIndex(index);
                             }}
                         />
                         {!readOnly && (
                             <div>
                                 {(user.profilePicture && user.profilePicture.s3Key === img.s3Key) &&
-                                    <p>Current Profile Pic</p>}
+                                <p>Current Profile Pic</p>}
                                 <Button
-                                    onClick={() => setProfile({ variables: { key: img.s3Key } })}
-                                    color={'green'}
+                                    onClick={() => setProfile({variables: {key: img.s3Key}})}
+                                    variant={"outlined"}
+                                    color={'primary'}
                                 >
                                     Set Profile Pic
                                 </Button>
                                 <Button
-                                    onClick={() => deleteImage({ variables: { key: img.s3Key } })}
-                                    color={'red'}
+                                    onClick={() => deleteImage({variables: {key: img.s3Key}})}
+                                    variant={"outlined"}
+                                    color={'secondary'}
                                 >
                                     Delete Image
                                 </Button>

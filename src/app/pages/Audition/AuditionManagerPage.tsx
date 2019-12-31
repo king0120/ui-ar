@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Icon } from 'semantic-ui-react';
 import AuditionManagerConfiguration from './AuditionManagerConfiguration';
 import { useLazyQuery } from "@apollo/react-hooks";
 import { Typography, Button, Paper } from '@material-ui/core';
 import CalendarApp from './partials/AuditionManagerCalendar/calendar/CalendarApp'
 import TalentList from '../../components/shared/TalentList'
+import GoBackButton from "../../components/shared/GoBackButton";
 
 const GET_AUDITION = require('graphql/queries/auditions/GET_AUDITION.gql');
 
@@ -20,7 +20,7 @@ const AuditionHeader = styled.div`
     align-items: center;
 `;
 
-const AuditionManagerPage: FC<any> = ({ match, history }) => {
+const AuditionManagerPage: FC<any> = ({ match }) => {
     const [allSlots, changeAllSlots] = useState<any>([]);
     const [showConfig, toggleShowConfig] = useState<boolean>(false);
     const [getAudition, { loading, data, error }] = useLazyQuery(GET_AUDITION);
@@ -48,10 +48,7 @@ const AuditionManagerPage: FC<any> = ({ match, history }) => {
     }
     return (
         <AuditionManagerPageStyles>
-            <div className="p-5" onClick={history.goBack}>
-                <Icon name='arrow left' />
-                <span>Go Back</span>
-            </div>
+            <GoBackButton />
             <AuditionHeader>
                 <Typography variant="h5">{audition.name}</Typography>
                 <Button variant="contained" color="primary" onClick={() => toggleShowConfig(!showConfig)}>Add TimeSlots</Button>

@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { createProjectRole, deleteRole } from '../../../redux/actions/roleActions';
 import { connect } from 'react-redux';
-import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import AddRoleBreakdownModal from '../shared/AddRoleBreakdownModal';
 import RoleBreakdownActionColumn from './RoleBreakdownActionColumn';
@@ -9,7 +8,7 @@ import { Container } from './CommonStyledComponents';
 import { Link } from 'react-router-dom';
 import { useQuery } from "@apollo/react-hooks";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, Divider, Paper, Typography, Collapse, makeStyles } from '@material-ui/core';
+import { Badge, List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, Divider, Paper, Typography, Collapse, makeStyles } from '@material-ui/core';
 
 const GET_ALL_ROLES = require('graphql/queries/roles/GET_ALL_ROLES.gql');
 
@@ -17,7 +16,7 @@ const LabelsContainer = styled.div`
   max-width: 40%;
   .role-badge {
     display: flex;
-    align-items: left;
+    align-items: flex-start;
     margin: 10px;
     .label {
       margin: 0 5px;
@@ -41,21 +40,21 @@ const RowExpansion = ({ role }: any) => {
         <>
             <LabelsContainer>
                 <div className='role-badge'>
-                    Age Range: {ageRange.map((a: string, i: number) => a && <Label key={`${i}${a}`}>{a}</Label>)}
+                    Age Range: {ageRange.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
                 </div>
                 <div className='role-badge'>
-                    Gender: {gender.map((a: string, i: number) => a && <Label key={`${i}${a}`}>{a}</Label>)}
+                    Gender: {gender.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
                 </div>
             </LabelsContainer>
             <LabelsContainer>
                 <div className='role-badge'>
-                    Ethnicity: {ethnicity.map((a: string, i: number) => a && <Label key={`${i}${a}`}>{a}</Label>)}
+                    Ethnicity: {ethnicity.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
                 </div>
                 <div className='role-badge'>
-                    Unions: {unions.map((a: string, i: number) => a && <Label key={`${i}${a}`}>{a}</Label>)}
+                    Unions: {unions.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
                 </div>
                 <div className='role-badge'>
-                    Vocal Range: {vocalRange.map((a: string, i: number) => a && <Label key={`${i}${a}`}>{a}</Label>)}
+                    Vocal Range: {vocalRange.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
                 </div>
             </LabelsContainer>
         </>

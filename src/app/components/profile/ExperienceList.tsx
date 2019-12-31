@@ -1,5 +1,6 @@
 import React, {FC, useContext} from 'react';
 import {Button, Card, Item} from 'semantic-ui-react';
+import {Paper} from '@material-ui/core'
 import styled from 'styled-components';
 import {useMutation} from "@apollo/react-hooks";
 import {GlobalContext} from "../../../context/globalContext";

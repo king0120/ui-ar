@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { TextField, Checkbox, FormControlLabel } from '@material-ui/core';
 import AddressInput from 'app/components/shared/AddressInput';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import AuditionType from './AuditionType';
@@ -40,11 +39,11 @@ const AuditionDetails: FC<IAuditionDetails> = (props) => {
         />
       </div>
       <div className="flex justify-between">
-        <AddressInput 
+        <AddressInput
           data-cy="audition-address"
-          handleChange={props.handleAddressChange} 
+          handleChange={props.handleAddressChange}
           label="Address"
-          type="address" 
+          type="address"
         />
       </div>
       <div className="flex justify-between">

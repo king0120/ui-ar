@@ -45,6 +45,14 @@ query getUser($id: String!) {
             company
             director
         }
+        theatreExperience {
+            id
+            role
+            project
+            description
+            company
+            director
+        }
         televisionExperience {
             id
             role

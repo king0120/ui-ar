@@ -69,13 +69,9 @@ const validationSchema = Yup.object({
 });
 
 const CreateAudition: FC<any> = (props) => {
-    const {match, history} = props;
+    const {match} = props;
     const classes = useStyles();
-    const {projectId, organizationId} = match.params;
-    const refetchQueries = [{
-        query: GET_AUDITIONS_FOR_PROJECT,
-        variables: {projectId}
-    }];
+    const {projectId} = match.params;
     const {values, submitForm} = useFormikContext();
     console.log(values, submitForm);
 

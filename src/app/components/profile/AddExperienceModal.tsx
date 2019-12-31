@@ -1,11 +1,13 @@
 import React, {FC, useContext, useState} from 'react';
-import {Button, Form, Modal} from 'semantic-ui-react';
-import {Field, Form as FinalForm} from 'react-final-form';
 import {useMutation} from "@apollo/react-hooks";
 import {GlobalContext} from "../../../context/globalContext";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Radio} from "@material-ui/core";
+import {Form, Formik, useFormik} from "formik";
+import {FormikTextField} from "../shared/FormikTextField";
+import * as Yup from "yup";
 
-const ADD_EXPERIENCE = require('../../../graphql/mutations/profile/ADD_EXPERIENCE.gql')
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql')
+const ADD_EXPERIENCE = require('../../../graphql/mutations/profile/ADD_EXPERIENCE.gql');
+const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
 const experiences = [{
     id: 'theatreExperience',
@@ -27,76 +29,118 @@ const experiences = [{
     friendly: 'Commercial',
 }];
 
+const initialValues = {
+    role: '',
+    project: '',
+    company: '',
+    director: '',
+    description: '',
+};
+
+const validationSchema = Yup.object({
+    role: Yup.string(),
+    project: Yup.string(),
+    company: Yup.string(),
+    director: Yup.string(),
+    description: Yup.string(),
+});
 const AddExperienceModal: FC<any> = () => {
     const [open, toggleOpen] = useState(false);
+    const [selectedValue, setSelectedValue] = useState('theatreExperience');
     const {userId} = useContext(GlobalContext);
     const [addExperience] = useMutation(ADD_EXPERIENCE, {
         refetchQueries: [{
             query: GET_USER,
             variables: {id: userId}
         }]
-    })
+    });
     const onSubmit = (data: any) => {
-        const {experienceType, ...experience} = data;
-        addExperience({variables: {data: {experienceType, experience}}});
+        addExperience({variables: {data: {experienceType: selectedValue, experience: data}}});
         toggleOpen(false);
     };
-
     return (
-        <Modal
-            open={open}
-            trigger={
-                <Button onClick={() => toggleOpen(true)}>Add Experience</Button>
-            }>
-            <Modal.Header>Add An Experience</Modal.Header>
-            <Modal.Content>
-                <Modal.Description>
-                    <FinalForm
-                        onSubmit={onSubmit}
-                        initialValues={{}}
-                        render={({handleSubmit}) => (
-                            <Form onSubmit={handleSubmit}>
-                                <Form.Field>
-                                    <label>Experience Type</label>
-                                    {experiences.map((exp) => (
-                                        <label key={exp.id}>
-                                            <Field
-                                                name='experienceType'
-                                                component='input'
-                                                type='radio'
-                                                value={exp.id}
-                                            />{' '} {exp.friendly}
-                                        </label>
-                                    ))}
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Role Name</label>
-                                    <Field name={'role'} component={'input'} type={'text'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Project Name</label>
-                                    <Field name={'project'} component={'input'} type={'text'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Company Name</label>
-                                    <Field name={'company'} component={'input'} type={'text'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Director</label>
-                                    <Field name={'director'} component={'input'} type={'text'}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Description</label>
-                                    <Field name={'description'} component={'textarea'} type={'text'}/>
-                                </Form.Field>
-                                <Button primary type={'submit'}>Save Experience</Button>
-                                <Button secondary onClick={() => toggleOpen(false)}>Cancel</Button>
-                            </Form>
-                        )}
-                    />
-                </Modal.Description>
-            </Modal.Content>
-        </Modal>
+        <>
+            <Button onClick={() => toggleOpen(true)} variant={"contained"} color="primary">
+                Add Experience
+            </Button>
+            <Dialog
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={open}
+                onClose={() => toggleOpen(false)}
+            >
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                >
+                    {props => (
+                        <>
+                            <DialogTitle>Add An Experience</DialogTitle>
+                            <DialogContent>
+                                <Form
+                                    name="addExperience"
+                                    className="flex flex-col justify-center w-full"
+                                >
+                                    <div>
+                                        <h3>Choose Experience Type</h3>
+                                        {experiences.map((experience: any) => (
+                                            <FormControlLabel
+                                                control={
+                                                    <Radio
+                                                        checked={selectedValue === experience.id}
+                                                        onChange={() => setSelectedValue(experience.id)}
+                                                        value="general"
+                                                        name="experienceType"
+                                                    />
+                                                }
+                                                label={experience.friendly}/>
+                                        ))}
+                                    </div>
+                                    <FormikTextField
+                                        type={"text"}
+                                        name={"role"}
+                                        label={"Role Name"}
+                                    />
+                                    <FormikTextField
+                                        type={"text"}
+                                        name={"project"}
+                                        label={"Project Name"}
+                                    />
+                                    <FormikTextField
+                                        type={"text"}
+                                        name={"company"}
+                                        label={"Company Name"}
+                                    />
+                                    <FormikTextField
+                                        type={"text"}
+                                        name={"director"}
+                                        label={"Director"}
+                                    />
+                                    <FormikTextField
+                                        type={"text"}
+                                        name={"description"}
+                                        label={"Description"}
+                                        variant="outlined"
+                                        rows="5"
+                                        multiline
+                                        fullWidth
+                                    />
+                                </Form>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => toggleOpen(false)} color="secondary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={props.submitForm} color="primary" autoFocus>
+                                    Add Experience
+                                </Button>
+                            </DialogActions>
+                        </>
+                    )}
+                </Formik>
+            </Dialog>
+        </>
     );
 };
 

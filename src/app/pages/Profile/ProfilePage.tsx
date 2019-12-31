@@ -5,7 +5,7 @@ import AddExperienceModal from '../../components/profile/AddExperienceModal';
 import ProfileBreakdown from '../../components/profile/ProfileBreakdown';
 import { useQuery } from "@apollo/react-hooks";
 import { GlobalContext } from "../../../context/globalContext";
-import { makeStyles, Tabs, Tab } from '@material-ui/core';
+import {makeStyles, Tabs, Tab, Typography} from '@material-ui/core';
 import clsx from 'clsx';
 import TabPanel from 'app/components/shared/TabPanel';
 import ProfileImagePage from './ProfileImagePage';
@@ -70,8 +70,8 @@ const ProfilePage: FC<any> = (props) => {
                         className="h-64" label="Photos & Videos" />
                 </Tabs>
                 <TabPanel value={selectedTab} index={0}>
-                    <div>
-                        <h1>Experience</h1>
+                    <div className={'flex justify-between'}>
+                        <Typography variant={"h4"}>Experience</Typography>
                         {!props.readOnly && <AddExperienceModal />}
                     </div>
                     <ExperienceList value={'theatreExperience'} type={'Theatre'} experiences={user.theatreExperience}

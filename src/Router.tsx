@@ -18,6 +18,7 @@ import {GlobalContext} from "./context/globalContext";
 import LoginPage from './app/pages/Auth/LogInPage';
 import AuditionRSVPPage from 'app/pages/AuditionRSVPPage';
 import CheckInPage from "./app/pages/CheckInPage";
+import MyAuditionInstance from "./app/pages/Profile/MyAuditionInstance";
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     return (
@@ -64,6 +65,7 @@ const AppRouter: FC<any> = () => {
 
                 {/* User */}
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions' component={MyAuditions}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions/:instanceId' component={MyAuditionInstance}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/images' component={(props: any) => <ProfilePage tabIndex={2} {...props}/>}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId/images'
                               component={(props: any) => <ProfilePage readOnly={true} user={props.match.params.userId} tabIndex={2} {...props}/>}/>
@@ -80,7 +82,7 @@ const AppRouter: FC<any> = () => {
                               component={AuditionManagerPage}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/projects/:projectId/roles/:roleId'
                               component={RoleBreakdownDetailPage}/>
-                              
+
                 <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId'
                               component={ProjectsDetailPage}/>
                 <PrivateRoute loggedIn={loggedIn} path='/' component={ProfilePage}/>

@@ -34,9 +34,9 @@ module.exports = {
         loader: require.resolve('graphql-tag/loader'),
       })
       config.externals = {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        lodash: '_'
+        // react: 'React',
+        // 'react-dom': 'ReactDOM',
+        // lodash: '_'
       }
       return config
     }

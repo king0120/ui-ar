@@ -8,6 +8,7 @@ import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'styles/index.css';
+import io from 'socket.io-client'
 
 import { Provider } from 'react-redux';
 import { GlobalContextProvider } from './context/globalContext';
@@ -25,8 +26,26 @@ const GlobalStyle = createGlobalStyle`
   #address-input {
     width: 100%;
   }
-  }
 `;
+
+
+const socket = io('http://localhost:3000')
+
+socket.on('connect', () => {
+    console.log("CONNECTED WS")
+    socket.emit('notifications', {data: "Hello ssfsfs from client"})
+})
+
+socket.on('notifications', (data: string) => {
+    console.log("NOTIFICATION", data)
+})
+
+socket.on('exception', function(data: any) {
+    console.error('event', data);
+});
+socket.on('disconnect', function() {
+    console.log('Disconnected');
+});
 
 ReactDOM.render(
   <GlobalContextProvider>

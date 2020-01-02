@@ -7,6 +7,9 @@ query getUser($id: String!) {
         gender
         phoneNumber
         email
+        notifications {
+            text
+        }
         breakdown {
             ageRange
             gender

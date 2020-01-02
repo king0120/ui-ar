@@ -9,12 +9,12 @@ const Breakdown: React.FC<any> = ({title, breakdownArray, width}) => {
         <p>{title}: </p>
         <div className={`mb-16 ${classWidth} flex flex-wrap`}>
             {breakdownArray.map((a: string, i: number) => a && (
-                <Animate animation="transition.fadeIn" delay={i * 100}>
+                <Animate animation="transition.fadeIn" delay={i * 100} key={`${i}${a}`}>
                     <Chip
                         size="small"
                         className='m-1'
                         data-cy={`${title}${a}`}
-                        key={`${i}${a}`}
+
                         label={a}
                     />
                 </Animate>

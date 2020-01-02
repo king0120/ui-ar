@@ -55,13 +55,13 @@ const ProfileImagePage: FC<any> = (props) => {
             <LightboxModal
                 open={open}
                 handleClose={() => setOpen(false)}
-                images={user.profileImages.map((p: any) => ({key: p.url, src: p.url}))}
+                images={user.profileImages.map((p: any, i: number) => ({key: `${p.url}${i}`, src: p.url}))}
                 currentIndex={currentIndex}
             />
             {!readOnly && <MyDropzone {...props} refetch={refetch}/>}
             <div className="flex justify-start flex-wrap">
                 {user.profileImages && user.profileImages.map((img: any, index: number) => (
-                    <div className="p-10" key={img.s3key}>
+                    <div className="p-10" key={`${index}${img.s3key}`}>
                         <img
                             className={classes.imageList}
                             src={img.url}

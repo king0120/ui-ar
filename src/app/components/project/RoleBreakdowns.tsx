@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from "@apollo/react-hooks";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Badge, List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, Divider, Paper, Typography, Collapse, makeStyles } from '@material-ui/core';
+import uuid from 'uuid/v1'
 
 const GET_ALL_ROLES = require('graphql/queries/roles/GET_ALL_ROLES.gql');
 
@@ -40,21 +41,21 @@ const RowExpansion = ({ role }: any) => {
         <>
             <LabelsContainer>
                 <div className='role-badge'>
-                    Age Range: {ageRange.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
+                    Age Range: {ageRange.map((a: string, i: number) => a ? <Badge key={`${uuid()}${i}${a}`}>{a},  </Badge> : null)}
                 </div>
                 <div className='role-badge'>
-                    Gender: {gender.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
+                    Gender: {gender.map((a: string, i: number) => a ? <Badge key={`${uuid()}${i}${a}`}>{a},  </Badge> : null)}
                 </div>
             </LabelsContainer>
             <LabelsContainer>
                 <div className='role-badge'>
-                    Ethnicity: {ethnicity.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
+                    Ethnicity: {ethnicity.map((a: string, i: number) => a ? <Badge key={`${uuid()}${i}${a}`}>{a},  </Badge> : null)}
                 </div>
                 <div className='role-badge'>
-                    Unions: {unions.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
+                    Unions: {unions.map((a: string, i: number) => a ? <Badge key={`${uuid()}${i}${a}`}>{a},  </Badge> : null)}
                 </div>
                 <div className='role-badge'>
-                    Vocal Range: {vocalRange.map((a: string, i: number) => a && <Badge key={`${i}${a}`}>{a},  </Badge>)}
+                    Vocal Range: {vocalRange.map((a: string, i: number) => a ? <Badge key={`${uuid()}${i}${a}`}>{a},  </Badge> : null)}
                 </div>
             </LabelsContainer>
         </>

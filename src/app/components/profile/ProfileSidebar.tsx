@@ -1,5 +1,5 @@
 import React, { FC, useState, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFormState } from '../../../redux/store/reducers/finalFormReducer';
 import { addUserBreakdown } from '../../../redux/actions/talentActions';
@@ -41,9 +41,10 @@ const useStyles = makeStyles((theme: Theme) => {
     })
 });
 
-const ListItemLink = withRouter((props: any) => {
-    return <ListItem button component="a" onClick={() => props.history.push(props.to)} {...props} />;
-})
+const ListItemLink = (props: any) => {
+    const history = useHistory()
+    return <ListItem onClick={() => history.push(props.to)} {...props} />;
+}
 
 const AttributesModal: FC<any> = (props) => {
     const classes = useStyles();

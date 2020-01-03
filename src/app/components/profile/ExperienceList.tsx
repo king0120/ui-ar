@@ -3,6 +3,7 @@ import {Button, Card, Item} from 'semantic-ui-react';
 import styled from 'styled-components';
 import {useMutation} from "@apollo/react-hooks";
 import {GlobalContext} from "../../../context/globalContext";
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
 
 const REMOVE_EXPERIENCE = require('../../../graphql/mutations/profile/REMOVE_EXPERIENCE.gql')
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql')
@@ -26,7 +27,7 @@ const ItemHeaderStyle = styled(Item.Header)`
     }
 `;
 
-const ExperienceList: FC<any> = ({experiences = [], value, type, readOnly}) => {
+const ExperienceList: FC<any> = ({experiences = [], value, type, readOnly, draggable=false}) => {
     const {userId} = useContext(GlobalContext);
     const [removeExperience] = useMutation(REMOVE_EXPERIENCE, {
         refetchQueries: [{
@@ -40,14 +41,16 @@ const ExperienceList: FC<any> = ({experiences = [], value, type, readOnly}) => {
 
     return (
         <Card fluid>
-            <Card.Header><h1>{type}</h1></Card.Header>
+            <Card.Header>
+                <h1 className={'flex align-center'}>{draggable && <DragIndicatorIcon/>} {type}</h1>
+            </Card.Header>
             <Card.Content>
                 <Item.Group divided>
                     {experiences.map((exp: any) => (
                         <Item key={exp.id}>
                             <Item.Content>
                                 <ItemHeaderStyle>
-                                    <div>
+                                    <div>au
                                         <p>Role: {exp.role}</p>
                                         <p className={'smaller'}>Project: {exp.project}</p>
                                     </div>

@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { List, ListItem, ListItemText, Typography, Divider } from '@material-ui/core';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import AddOrganization from '../../components/organization/AddEditOrganization';
 import { useQuery } from "@apollo/react-hooks";
 
 const GET_ORGANIZATIONS_FOR_USER = require('../../../graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
@@ -31,7 +30,7 @@ const OrgSelectPage: FC<any> = () => {
         <OrgPageStyle>
             <div className={'header'}>
                 <Typography variant='h4'>Select An Organization Below</Typography>
-                <AddOrganization />
+                {/*<AddOrganization />*/}
             </div>
             <List >
                 {orgs.map((org: any) => (

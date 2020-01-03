@@ -1,18 +1,26 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext, useEffect, useState} from 'react';
 import ProfileSidebar from '../../components/profile/ProfileSidebar';
 import ExperienceList from '../../components/profile/ExperienceList';
 import AddExperienceModal from '../../components/profile/AddExperienceModal';
 import ProfileBreakdown from '../../components/profile/ProfileBreakdown';
-import {useQuery} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import {GlobalContext} from "../../../context/globalContext";
-import {makeStyles, Tab, Tabs, Typography} from '@material-ui/core';
+import {Button, IconButton, makeStyles, Menu, MenuItem, Tab, Tabs, Typography} from '@material-ui/core';
 import clsx from 'clsx';
 import TabPanel from 'app/components/shared/TabPanel';
 import ProfileImagePage from './ProfileImagePage';
 import ProfileHeader from './ProfileHeader';
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import {gql} from "apollo-boost";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
+const CHANGE_EXPERIENCE_ORDER = gql`
+    mutation changeExperienceOrder($newExperiences: [ExperienceType!]!) {
+        changeExperienceOrder(newExperiences: $newExperiences)
+    }
+`;
 const useStyles = makeStyles(theme => ({
     header: {
         display: 'flex',
@@ -29,14 +37,84 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfilePage: FC<any> = (props) => {
+    const classes = useStyles();
     const {readOnly, tabIndex = 0, auditionView = false} = props;
     const {userId} = useContext(GlobalContext);
-    const id = readOnly ? props.match.params.userId : userId;
-    const {data, loading, refetch} = useQuery(GET_USER, {variables: {id}, skip: !id});
-    const user = data && data.getUser;
     const [selectedTab, setSelectedTab] = useState(tabIndex);
-    const classes = useStyles();
+    const [reorderExperience, setReorderExperience] = useState(false);
+    const [expOrder, setExpOrder] = useState([] as string[]);
+    const id = readOnly ? props.match.params.userId : userId;
 
+    const {data, loading, refetch} = useQuery(GET_USER, {variables: {id}, skip: !id});
+    const [changeExperienceOrder] = useMutation(CHANGE_EXPERIENCE_ORDER);
+
+
+    const user = data && data.getUser;
+    const order = user ? user.experienceOrder : [];
+    useEffect(() => user && setExpOrder(order), [order]);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+
+    if (!user) {
+        return <h1>loading</h1>
+    }
+    const experienceData: any = {
+        theatreExperience: {
+            value: 'theatreExperience',
+            type: 'Theatre',
+            experience: user.theatreExperience
+        },
+        musicalTheatreExperience: {
+            value: 'musicalTheatreExperience',
+            type: 'Musical Theatre',
+            experiences: user.musicalTheatreExperience
+        },
+        operaExperience: {
+            value: 'operaExperience',
+            type: 'Opera',
+            experiences: user.operaExperience,
+        },
+        filmExperience: {
+            value: 'filmExperience',
+            type: 'Film',
+            experiences: user.filmExperience,
+        },
+        televisionExperience: {
+            value: 'televisionExperience',
+            type: 'Television',
+            experiences: user.televisionExperience
+        },
+        commercialExperience: {
+            value: 'commercialExperience',
+            type: 'Commercial',
+            experiences: user.commercialExperience
+        }
+    };
+
+    const experienceList = expOrder.map((name: any) => {
+        return experienceData[name]
+    });
+
+    const onDragEnd = (result: any) => {
+        //Thanks stackoverflow
+        const newOrder: string[] = [...expOrder];
+        newOrder.splice(
+            result.destination.index,
+            0,
+            newOrder.splice(result.source.index, 1)[0]
+        );
+        setExpOrder(newOrder);
+    };
+
+    const handleReorderToggle = () => {
+        if (reorderExperience) {
+            changeExperienceOrder({variables: {newExperiences: expOrder}})
+        }
+        setReorderExperience(!reorderExperience)
+    };
     if (!data || loading) {
         return <h1>loading</h1>
     }
@@ -73,23 +151,75 @@ const ProfilePage: FC<any> = (props) => {
                 <TabPanel value={selectedTab} index={0}>
                     <div className={'flex justify-between'}>
                         <Typography variant={"h4"}>Experience</Typography>
-                        {!props.readOnly && <AddExperienceModal/>}
+                        {!props.readOnly && (
+                            <div>
+                                <AddExperienceModal/>
+                                <IconButton
+                                    aria-label="more"
+                                    aria-controls="long-menu"
+                                    aria-haspopup="true"
+                                    onClick={handleClick}
+                                >
+                                    <MoreVertIcon/>
+                                </IconButton>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={() => setAnchorEl(null)}
+                                >
+                                    <MenuItem onClick={() => {
+                                        setAnchorEl(null);
+                                        handleReorderToggle()
+                                    }}>
+                                        <Button>{reorderExperience ? "Save Order" : "Reorder Experiences"}</Button>
+                                    </MenuItem>
+                                </Menu>
+
+                            </div>
+                        )}
                     </div>
-                    <ExperienceList value={'theatreExperience'} type={'Theatre'} experiences={user.theatreExperience}
-                                    readOnly={props.readOnly}/>
-                    <ExperienceList value={'musicalTheatreExperience'} type={'Musical Theatre'}
-                                    experiences={user.musicalTheatreExperience}
-                                    readOnly={props.readOnly}/>
-                    <ExperienceList value={'operaExperience'} type={'Opera'} experiences={user.operaExperience}
-                                    readOnly={props.readOnly}/>
-                    <ExperienceList value={'filmExperience'} type={'Film'} experiences={user.filmExperience}
-                                    readOnly={props.readOnly}/>
-                    <ExperienceList value={'televisionExperience'} type={'Television'}
-                                    experiences={user.televisionExperience}
-                                    readOnly={props.readOnly}/>
-                    <ExperienceList value={'commercialExperience'} type={'Commercial'}
-                                    experiences={user.commercialExperience}
-                                    readOnly={props.readOnly}/>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        {
+                            reorderExperience ? (
+                                <Droppable droppableId="experiencesDroppable">
+                                    {(provided: any, snapshot: any) => (
+                                        <div
+                                            {...provided.droppableProps}
+                                            ref={provided.innerRef}
+                                        >
+                                            {experienceList.map((experience: any, index: number) => (
+                                                <Draggable
+                                                    key={experience.value} draggableId={experience.value} index={index}>
+                                                    {(provided, snapshot) => (
+                                                        <div
+                                                            className={'mt-12 mb-12'}
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                        >
+                                                            <ExperienceList value={experience.value}
+                                                                            draggable={true}
+                                                                            type={experience.type}
+                                                                            experiences={experience.experiences}
+                                                                            readOnly={props.readOnly}/>
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Droppable>
+                            ) : experienceList.map((experience: any, index: number) => (
+                                <div className={'mt-12 mb-12'}>
+                                    <ExperienceList value={experience.value} type={experience.type}
+                                                    experiences={experience.experiences}
+                                                    readOnly={props.readOnly}/>
+                                </div>
+                            ))
+                        }
+                    </DragDropContext>
                 </TabPanel>
                 <TabPanel value={selectedTab} index={1}>
                     Coming Soon

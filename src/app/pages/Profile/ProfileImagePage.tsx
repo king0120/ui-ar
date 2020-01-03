@@ -1,11 +1,8 @@
-import React, {FC, useState, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {
-    deleteImage,
-    uploadImage
-} from '../../../redux/actions/talentActions';
+import {deleteImage, uploadImage} from '../../../redux/actions/talentActions';
 import {Button} from '@material-ui/core';
-import {useMutation, useLazyQuery} from "@apollo/react-hooks";
+import {useLazyQuery, useMutation} from "@apollo/react-hooks";
 import {withRouter} from 'react-router';
 import LightboxModal from 'app/components/shared/LightboxModal';
 import MyDropzone from 'app/components/shared/MyDropzone';
@@ -48,7 +45,6 @@ const ProfileImagePage: FC<any> = (props) => {
     if (!data || loading) {
         return <h1>loading</h1>
     }
-
     return (
         <div>
             <LightboxModal
@@ -72,15 +68,24 @@ const ProfileImagePage: FC<any> = (props) => {
                         />
                         {!readOnly && (
                             <div>
-                                {(user.profilePicture && user.profilePicture.s3Key === img.s3Key) &&
-                                <p>Current Profile Pic</p>}
-                                <Button
-                                    onClick={() => setProfile({variables: {key: img.s3Key}})}
+                                {(user.profilePicture && user.profilePicture.s3Key === img.s3Key) ? (
+                                  <Button
                                     variant={"outlined"}
                                     color={'primary'}
-                                >
-                                    Set Profile Pic
-                                </Button>
+                                    disabled
+                                  >
+                                    Current Pic
+                                  </Button>
+                                ) : (
+                                    <Button
+                                        onClick={() => setProfile({variables: {key: img.s3Key}})}
+                                        variant={"outlined"}
+                                        color={'primary'}
+                                    >
+                                        Set Profile Pic
+                                    </Button>)
+                                }
+
                                 <Button
                                     onClick={() => deleteImage({variables: {key: img.s3Key}})}
                                     variant={"outlined"}

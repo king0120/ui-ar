@@ -188,6 +188,7 @@ type Mutation {
     addExperience(data: AddExperienceDTO!): Boolean
     addNote(input: CreateNoteDTO!): ActorNote!
     addUserBreakdown(key: String!): Boolean
+    changeExperienceOrder(newExperiences: [ExperienceType!]!): Boolean
     checkIn(instanceId: String, status: String): Boolean
     closeAudition(auditionId: String!): Audition!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
@@ -199,6 +200,7 @@ type Mutation {
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String, users: [String!]): AuditionTalentInstance!
     login(email: String!, password: String!): LoginResponse!
+    readNotification(id: String!): Boolean
     removeExperience(data: AddExperienceDTO!): Boolean
     removeNote(id: String!): Boolean
     removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
@@ -340,6 +342,7 @@ type User {
     displayName: String
     email: String!
     emailConfirmed: Boolean!
+    experienceOrder: [ExperienceType!]!
     filmExperience: [FilmExperience!]!
     firstName: String!
     gender: String
@@ -379,6 +382,16 @@ type UserImage {
 type UserOrganizations {
     member: [Organization!]!
     owned: [Organization!]!
+}
+
+"Experience Order"
+enum ExperienceType {
+    commercialExperience
+    filmExperience
+    musicalTheatreExperience
+    operaExperience
+    televisionExperience
+    theatreExperience
 }
 
 "What type of user is this? Admin or Actor"

@@ -28,7 +28,6 @@ const ProfileImagePage: FC<any> = (props) => {
     const {readOnly, userId} = props;
     const [open, setOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-
     const [getUser, {data, loading, refetch}] = useLazyQuery(GET_USER, {variables: {id: userId}});
 
     useEffect(() => {

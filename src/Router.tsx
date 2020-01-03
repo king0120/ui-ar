@@ -19,6 +19,7 @@ import LoginPage from './app/pages/Auth/LogInPage';
 import AuditionRSVPPage from 'app/pages/AuditionRSVPPage';
 import CheckInPage from "./app/pages/CheckInPage";
 import MyAuditionInstance from "./app/pages/Profile/MyAuditionInstance";
+import MyNotifications from "./app/pages/Profile/MyNotifications";
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     return (
@@ -65,6 +66,7 @@ const AppRouter: FC<any> = () => {
 
                 {/* User */}
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions' component={MyAuditions}/>
+                <PrivateRoute loggedIn={loggedIn} exact path='/profile/notifications' component={MyNotifications}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions/:instanceId' component={MyAuditionInstance}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/images' component={(props: any) => <ProfilePage tabIndex={2} {...props}/>}/>
                 <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId/images'

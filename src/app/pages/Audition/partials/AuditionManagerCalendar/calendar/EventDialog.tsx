@@ -136,7 +136,7 @@ const EventDialog = (props: any) => {
             }).filter(Boolean)
 
             invite(actorIds)
-            buildTimeSlots(startTime, endTime)
+            // buildTimeSlots(startTime, endTime)
             closeComposeDialog();
         }
 

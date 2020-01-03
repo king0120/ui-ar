@@ -72,9 +72,6 @@ const CreateAudition: FC<any> = (props) => {
     const {match} = props;
     const classes = useStyles();
     const {projectId} = match.params;
-    const {values, submitForm} = useFormikContext();
-    console.log(values, submitForm);
-
     const {data, loading} = useQuery(GET_ALL_ROLES, {variables: {projectId}});
 
     const handleAddressChange = (addressObject: any, setFieldValue: any) => {

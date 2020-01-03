@@ -1,42 +1,60 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Typography } from '@material-ui/core';
-import { Link, withRouter } from 'react-router-dom';
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import { GlobalContext } from 'context/globalContext';
-import { gql } from 'apollo-boost';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+    Avatar,
+    Badge,
+    Button,
+    Icon,
+    ListItemIcon,
+    ListItemText,
+    MenuItem,
+    Popover,
+    Typography
+} from '@material-ui/core';
+import {Link, withRouter} from 'react-router-dom';
+import {useLazyQuery, useQuery} from "@apollo/react-hooks";
+import {GlobalContext} from 'context/globalContext';
+import {gql} from 'apollo-boost';
+import {GET_NOTIFICATIONS} from "../../pages/Profile/MyNotifications";
 
-const GET_ORGANIZATIONS_FOR_USER = require('graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql')
+const GET_ORGANIZATIONS_FOR_USER = require('graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql');
 
-const TsIcon: any = Icon
+const TsIcon: any = Icon;
 const GET_ACTOR = gql`
-query getActor($id: String!) {
-    getActor(id: $id) {
-        id
-        displayName
-        profilePicture {
-            url
-        }
-        profileImages {
-            s3Key
-            url
+    query getActor($id: String!) {
+        getActor(id: $id) {
+            id
+            displayName
+            profilePicture {
+                url
+            }
+            profileImages {
+                s3Key
+                url
+            }
         }
     }
-}
-`
+`;
 
 function UserMenu(props: any) {
-    const { userId, userType } = useContext(GlobalContext)
-    const [getActor, { data, loading }] = useLazyQuery(GET_ACTOR, { variables: { id: userId } })
-    const { loading: orgLoading, data: orgData } = useQuery(GET_ORGANIZATIONS_FOR_USER)
+    const {userId, userType} = useContext(GlobalContext);
+    const [getActor, {data, loading}] = useLazyQuery(GET_ACTOR, {variables: {id: userId}});
+    const {loading: orgLoading, data: orgData} = useQuery(GET_ORGANIZATIONS_FOR_USER);
+    const {data: notifications} = useQuery(GET_NOTIFICATIONS(), {
+        variables: {id: userId},
+        skip: !userId
+    });
     let orgs = orgData && orgData.getAllOrganizationsForUser;
     const [userMenu, setUserMenu] = useState(null);
     useEffect(() => {
         getActor()
-    }, [userId, getActor])
+    }, [userId, getActor]);
 
-    if (loading || orgLoading) { return <></> }
+    if (loading || orgLoading) {
+        return <></>
+    }
 
-    orgs = orgs ? [...orgs.owned, ...orgs.member] : []
+    const notificationNumber = notifications?.getNotifications?.notifications.filter((n: any) => !n.read).length;
+    orgs = orgs ? [...orgs.owned, ...orgs.member] : [];
     if (!data) {
         return <div></div>
     }
@@ -48,7 +66,7 @@ function UserMenu(props: any) {
             photoURL: data.getActor.profilePicture && data.getActor.profilePicture.url,
             shortcuts: [],
         }
-    }
+    };
 
 
     const userMenuClick = (event: any) => {
@@ -68,18 +86,19 @@ function UserMenu(props: any) {
     return (
         <>
             <Button className="h-64" onClick={userMenuClick}>
-                {user.data.photoURL ?
-                    (
-                        <Avatar className="" alt="user photo" src={user.data.photoURL} />
-                    )
-                    :
-                    (
-                        <Avatar className="">
-                            {user.data.displayName[0]}
-                        </Avatar>
-                    )
-                }
-
+                <Badge badgeContent={notificationNumber} color="primary">
+                    {user.data.photoURL ?
+                        (
+                            <Avatar className="" alt="user photo" src={user.data.photoURL}/>
+                        )
+                        :
+                        (
+                            <Avatar className="">
+                                {user.data.displayName[0]}
+                            </Avatar>
+                        )
+                    }
+                </Badge>
                 <div className="hidden md:flex flex-col ml-12 items-start">
                     <Typography component="span" className="normal-case font-600 flex">
                         {user.data.displayName}
@@ -112,22 +131,31 @@ function UserMenu(props: any) {
                     <ListItemIcon className="min-w-40">
                         <Icon>account_circle</Icon>
                     </ListItemIcon>
-                    <ListItemText className="pl-0" primary="My Profile" />
+                    <ListItemText className="pl-0" primary="My Profile"/>
+                </MenuItem>
+                <MenuItem component={Link} to="/profile/notifications" onClick={userMenuClose}>
+                    <ListItemIcon className="min-w-40">
+                        <Badge badgeContent={notificationNumber} color="primary">
+                            <Icon>notifications</Icon>
+                        </Badge>
+                    </ListItemIcon>
+                    <ListItemText className="pl-0" primary="My Notifications"/>
                 </MenuItem>
                 <MenuItem component={Link} to="/profile/auditions" onClick={userMenuClose}>
                     <ListItemIcon className="min-w-40">
                         <Icon>audiotrack</Icon>
                     </ListItemIcon>
-                    <ListItemText className="pl-0" primary="My Auditions" />
+                    <ListItemText className="pl-0" primary="My Auditions"/>
                 </MenuItem>
                 {
                     userType.includes('theatre') && (
                         orgs.map((org: any) => (
-                            <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`} onClick={userMenuClose}>
+                            <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`}
+                                      onClick={userMenuClose}>
                                 <ListItemIcon className="min-w-40">
                                     <Icon>group</Icon>
                                 </ListItemIcon>
-                                <ListItemText className="pl-0" primary={org.name} />
+                                <ListItemText className="pl-0" primary={org.name}/>
                             </MenuItem>
                         )))
                 }
@@ -140,7 +168,7 @@ function UserMenu(props: any) {
                     <ListItemIcon className="min-w-40">
                         <Icon>exit_to_app</Icon>
                     </ListItemIcon>
-                    <ListItemText className="pl-0" primary="Logout" />
+                    <ListItemText className="pl-0" primary="Logout"/>
                 </MenuItem>
             </Popover>
         </>

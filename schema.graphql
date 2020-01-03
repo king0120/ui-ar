@@ -209,6 +209,16 @@ type Mutation {
     updateTalentInstance(decision: String, instanceId: String): Boolean
 }
 
+type Notification {
+    createdAt: DateTime!
+    id: String!
+    linkTo: String!
+    read: Boolean!
+    text: String!
+    updatedAt: DateTime!
+    user: User!
+}
+
 type OperaExperience implements Experience {
     company: String!
     description: String
@@ -288,6 +298,7 @@ type Query {
     getInstance(instanceId: String!): AuditionTalentInstance!
     getInstances(id: String!): User!
     getNotes(actorId: String!): [ActorNote!]!
+    getNotifications(id: String!): User!
     getOneOrganization(organizationId: String!): Organization!
     getOneProject(projectId: String!): Project!
     getRole(roleId: String!): ProjectRole!
@@ -338,6 +349,7 @@ type User {
     lastName: String!
     musicalTheatreExperience: [MusicalTheatreExperience!]!
     notes: [ActorNote!]!
+    notifications: [Notification!]
     operaExperience: [OperaExperience!]!
     organizations: [Organization!]!
     ownedOrgs: [Organization!]!

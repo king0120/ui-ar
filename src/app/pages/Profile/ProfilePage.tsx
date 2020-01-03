@@ -32,7 +32,7 @@ const ProfilePage: FC<any> = (props) => {
     const {readOnly, tabIndex = 0, auditionView = false} = props;
     const {userId} = useContext(GlobalContext);
     const id = readOnly ? props.match.params.userId : userId;
-    const {data, loading, refetch} = useQuery(GET_USER, {variables: {id}});
+    const {data, loading, refetch} = useQuery(GET_USER, {variables: {id}, skip: !id});
     const user = data && data.getUser;
     const [selectedTab, setSelectedTab] = useState(tabIndex);
     const classes = useStyles();

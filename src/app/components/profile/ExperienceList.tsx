@@ -96,7 +96,6 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
     };
 
 
-
     if (!experiences) {
         return <h1>loading</h1>
     }
@@ -150,7 +149,17 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                                             <DragIndicatorIcon/>
                                                         </ListItemIcon>
                                                         <ListItemText
-                                                            primary={`Role: ${exp.role} Project: ${exp.project} Company: ${exp.company} Director: ${exp.director}`}
+                                                            primary={(
+                                                                <div className={'flex'}>
+                                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
+                                                                    <div className={'w-1/4'}><strong>Project: </strong> {exp.project}
+                                                                    </div>
+                                                                    <div className={'w-1/4'}><strong>Company: </strong> {exp.company}
+                                                                    </div>
+                                                                    <div className={'w-1/4'}><strong>Director: </strong> {exp.director}
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                             secondary={exp.description}
                                                         />
                                                     </ListItem>
@@ -169,7 +178,17 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                 <>
                                     <ListItem alignItems="flex-start">
                                         <ListItemText
-                                            primary={`Role: ${exp.role} Project: ${exp.project} Company: ${exp.company} Director: ${exp.director}`}
+                                            primary={(
+                                                <div className={'flex'}>
+                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
+                                                    <div className={'w-1/4'}><strong>Project: </strong> {exp.project}
+                                                    </div>
+                                                    <div className={'w-1/4'}><strong>Company: </strong> {exp.company}
+                                                    </div>
+                                                    <div className={'w-1/4'}><strong>Director: </strong> {exp.director}
+                                                    </div>
+                                                </div>
+                                            )}
                                             secondary={exp.description}
                                         />
                                         {!readOnly && (

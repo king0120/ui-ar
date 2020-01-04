@@ -18,7 +18,6 @@ const CheckInPage = (props: any) => {
     if (loading) {
         return <h1>Loading</h1>;
     }
-    console.log(data);
     const audition = data.getAudition;
     return (
         <div>

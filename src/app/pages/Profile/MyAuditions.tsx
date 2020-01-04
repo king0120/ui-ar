@@ -30,7 +30,6 @@ const MyAuditions = () => {
         b = new Date(b.audition.startDate)
         return a>b ? 1 : a<b ? -1 : 0;
     })
-    console.log(user.instances)
     return (
         <Container className="h-full">
             <Paper className={clsx(classes.root, "p-16 mt-36")}>

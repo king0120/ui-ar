@@ -75,7 +75,6 @@ const MyAuditionInstance = () => {
     if (loading) {
         return <h1>loading</h1>
     }
-    console.log(data);
     const instance = data.getInstance;
     return (
         <div>

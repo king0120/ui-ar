@@ -26,59 +26,5 @@ query getUser($id: String!) {
             s3Key
             url
         }
-        musicalTheatreExperience {
-            id
-            role
-            project
-            description
-            company
-            director
-            index
-        }
-        operaExperience {
-            id
-            role
-            project
-            description
-            company
-            director
-            index
-        }
-        filmExperience {
-            id
-            role
-            project
-            description
-            company
-            director
-            index
-        }
-        theatreExperience {
-            id
-            role
-            project
-            description
-            company
-            director
-            index
-        }
-        televisionExperience {
-            id
-            role
-            project
-            description
-            company
-            director
-            index
-        }
-        commercialExperience {
-            id
-            role
-            project
-            description
-            company
-            director
-            index
-        }
     }
 }

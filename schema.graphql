@@ -11,7 +11,7 @@ interface Experience {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -119,7 +119,7 @@ type CommercialExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -132,7 +132,7 @@ type FilmExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -181,7 +181,7 @@ type MusicalTheatreExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -232,7 +232,7 @@ type OperaExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -303,6 +303,7 @@ type Query {
     getAudition(auditionId: String!): Audition!
     getAuditionForRSVP(auditionId: String!): Audition!
     getAuditionsForProject(projectId: String!): [Audition!]!
+    getExperience(data: ReorderExperienceDTO!): [TheatreExperience!]
     getInstance(instanceId: String!): AuditionTalentInstance!
     getInstances(id: String!): User!
     getNotes(actorId: String!): [ActorNote!]!
@@ -321,7 +322,7 @@ type TelevisionExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -334,7 +335,7 @@ type TheatreExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -476,7 +477,7 @@ input ExperienceInput {
     director: String!
     id: String
     imageGuid: String
-    index: Float!
+    index: Float
     project: String!
     role: String!
     showOnResume: Boolean
@@ -490,6 +491,7 @@ input ExperienceOrder {
 input ReorderExperienceDTO {
     experienceOrder: [ExperienceOrder!]
     experienceType: String!
+    userId: String
 }
 
 

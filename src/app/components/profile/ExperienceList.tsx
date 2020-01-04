@@ -1,6 +1,5 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
-import {useMutation} from "@apollo/react-hooks";
-import {GlobalContext} from "../../../context/globalContext";
+import React, {FC, useEffect, useState} from 'react';
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
 import {Button, Card, CardContent, CardHeader, Menu, MenuItem} from '@material-ui/core'
 import List from "@material-ui/core/List";
@@ -24,9 +23,21 @@ const REORDER_EXPERIENCE = gql`
     }
 `;
 
+const GET_EXPERIENCE = gql`
+    query getExperience($data: ReorderExperienceDTO!) {
+        getExperience(data: $data) {
+            id
+            role
+            project
+            company
+            director
+            index
+        }
+    }
+`;
 
-const ExperienceList: FC<any> = ({experiences = [], value, type, readOnly, draggable = false}) => {
-    const {userId} = useContext(GlobalContext);
+
+const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false}) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -35,11 +46,21 @@ const ExperienceList: FC<any> = ({experiences = [], value, type, readOnly, dragg
     const [removeExperience] = useMutation(REMOVE_EXPERIENCE, {
         refetchQueries: [{
             query: GET_USER,
-            variables: {id: userId}
+            variables: {id}
         }]
+    });
+    const {data} = useQuery(GET_EXPERIENCE, {
+        variables: {
+            data: {
+                userId: id,
+                experienceType: value
+            }
+        },
+        skip: !id
     });
     const [reorderExperience] = useMutation(REORDER_EXPERIENCE);
     const [expItems, setExpItems] = useState([] as any);
+    const experiences = data?.getExperience || []
     useEffect(() => {
         const sorted = experiences.sort((a: any, b: any) => a.index - b.index);
         setExpItems(sorted)
@@ -74,29 +95,35 @@ const ExperienceList: FC<any> = ({experiences = [], value, type, readOnly, dragg
         setReorderExperienceItems(!reorderExperienceItems)
     };
 
+
+
+    if (!experiences) {
+        return <h1>loading</h1>
+    }
+
     return (
         <Card>
             <CardHeader
                 title={(<>{draggable && <DragIndicatorIcon/>} {type}</>)}
-                action={
-                    <>
-                        <IconButton
-                            aria-label="settings"
-                            onClick={handleClick}
-                        >
-                            <MoreVertIcon/>
-                        </IconButton>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={() => setAnchorEl(null)}
-                        >
-                            <MenuItem onClick={handleReorderItemsToggle}>
-                                <Button>{reorderExperienceItems ? "Save Items" : "Reorder Experiences Items"}</Button>
-                            </MenuItem>
-                        </Menu>
-                    </>
+                action={!readOnly &&
+                <>
+                  <IconButton
+                    aria-label="settings"
+                    onClick={handleClick}
+                  >
+                    <MoreVertIcon/>
+                  </IconButton>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem onClick={handleReorderItemsToggle}>
+                      <Button>{reorderExperienceItems ? "Save Items" : "Reorder Experiences Items"}</Button>
+                    </MenuItem>
+                  </Menu>
+                </>
                 }
             />
             <CardContent>

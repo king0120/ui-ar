@@ -44,7 +44,6 @@ const ProfilePage: FC<any> = (props) => {
     const [reorderExperience, setReorderExperience] = useState(false);
     const [expOrder, setExpOrder] = useState([] as string[]);
     const id = readOnly ? props.match.params.userId : userId;
-
     const {data, loading, refetch} = useQuery(GET_USER, {variables: {id}, skip: !id});
     const [changeExperienceOrder] = useMutation(CHANGE_EXPERIENCE_ORDER);
 
@@ -65,32 +64,26 @@ const ProfilePage: FC<any> = (props) => {
         theatreExperience: {
             value: 'theatreExperience',
             type: 'Theatre',
-            experience: user.theatreExperience
         },
         musicalTheatreExperience: {
             value: 'musicalTheatreExperience',
             type: 'Musical Theatre',
-            experiences: user.musicalTheatreExperience
         },
         operaExperience: {
             value: 'operaExperience',
             type: 'Opera',
-            experiences: user.operaExperience,
         },
         filmExperience: {
             value: 'filmExperience',
             type: 'Film',
-            experiences: user.filmExperience,
         },
         televisionExperience: {
             value: 'televisionExperience',
             type: 'Television',
-            experiences: user.televisionExperience
         },
         commercialExperience: {
             value: 'commercialExperience',
             type: 'Commercial',
-            experiences: user.commercialExperience
         }
     };
 
@@ -144,7 +137,7 @@ const ProfilePage: FC<any> = (props) => {
                         label="Experience"/>
                     <Tab
                         className="h-64"
-                        label="Skills & Abilities"/>
+                        label="Training & Special Skills"/>
                     <Tab
                         className="h-64" label="Photos & Videos"/>
                 </Tabs>
@@ -200,8 +193,8 @@ const ProfilePage: FC<any> = (props) => {
                                                         >
                                                             <ExperienceList value={experience.value}
                                                                             draggable={true}
+                                                                            id={user.id}
                                                                             type={experience.type}
-                                                                            experiences={experience.experiences}
                                                                             readOnly={props.readOnly}/>
                                                         </div>
                                                     )}
@@ -213,7 +206,7 @@ const ProfilePage: FC<any> = (props) => {
                                 </Droppable>
                             ) : experienceList.map((experience: any, index: number) => (
                                 <div className={'mt-12 mb-12'}>
-                                    <ExperienceList value={experience.value} type={experience.type}
+                                    <ExperienceList value={experience.value} id={user.id} type={experience.type}
                                                     experiences={experience.experiences}
                                                     readOnly={props.readOnly}/>
                                 </div>

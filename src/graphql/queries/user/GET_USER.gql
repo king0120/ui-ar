@@ -33,6 +33,7 @@ query getUser($id: String!) {
             description
             company
             director
+            index
         }
         operaExperience {
             id
@@ -41,6 +42,7 @@ query getUser($id: String!) {
             description
             company
             director
+            index
         }
         filmExperience {
             id
@@ -49,6 +51,7 @@ query getUser($id: String!) {
             description
             company
             director
+            index
         }
         theatreExperience {
             id
@@ -57,6 +60,7 @@ query getUser($id: String!) {
             description
             company
             director
+            index
         }
         televisionExperience {
             id
@@ -65,6 +69,7 @@ query getUser($id: String!) {
             description
             company
             director
+            index
         }
         commercialExperience {
             id
@@ -73,6 +78,7 @@ query getUser($id: String!) {
             description
             company
             director
+            index
         }
     }
 }

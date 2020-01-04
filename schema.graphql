@@ -11,6 +11,7 @@ interface Experience {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
@@ -118,6 +119,7 @@ type CommercialExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
@@ -130,6 +132,7 @@ type FilmExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
@@ -178,6 +181,7 @@ type MusicalTheatreExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
@@ -204,6 +208,7 @@ type Mutation {
     removeExperience(data: AddExperienceDTO!): Boolean
     removeNote(id: String!): Boolean
     removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
+    reorderExperience(data: ReorderExperienceDTO!): Boolean
     respondToAuditionInvite(answerToQuestions: [String!]!, email: String!, response: String!, responseCode: String!): Audition!
     sendRejectionEmails(projectId: String!): Boolean
     setProfile(key: String!): Boolean
@@ -227,6 +232,7 @@ type OperaExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
@@ -315,6 +321,7 @@ type TelevisionExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
@@ -327,6 +334,7 @@ type TheatreExperience implements Experience {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
@@ -468,9 +476,20 @@ input ExperienceInput {
     director: String!
     id: String
     imageGuid: String
+    index: Float!
     project: String!
     role: String!
     showOnResume: Boolean
+}
+
+input ExperienceOrder {
+    id: String!
+    index: Float!
+}
+
+input ReorderExperienceDTO {
+    experienceOrder: [ExperienceOrder!]
+    experienceType: String!
 }
 
 

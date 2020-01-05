@@ -73,9 +73,8 @@ function EditUserModal({user}: any) {
         setOpen(false);
     };
     const handleSubmit = async (values: any, {resetForm, setErrors}: any) => {
-        console.log('hello')
-        console.log(values)
         try {
+            values.heightInches = parseInt(values.heightInches)
             await updateUser({variables: {data: values}});
             resetForm()
             handleClose()

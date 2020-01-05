@@ -8,6 +8,7 @@ import { ListItem, List, ListItemText, Modal, makeStyles, createStyles, Theme, D
 import LightboxModal from '../shared/LightboxModal';
 import { GlobalContext } from 'context/globalContext';
 import NotesOnActor from '../audition/NotesOnActor';
+import EditUserModal from "../project/EditUserModal";
 
 function getModalStyle() {
     const top = 50;
@@ -110,6 +111,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
                 {!props.readOnly && (
                     <AttributesModal {...props} />
                 )}
+                {!props.readOnly && <EditUserModal user={props.user}/>}
                 {canAddNotes && !props.auditionView && (
                     <>
                         <ListItemLink onClick={() => setNotesOpen(true)}>

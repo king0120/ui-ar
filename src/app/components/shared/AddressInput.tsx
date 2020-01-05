@@ -7,7 +7,8 @@ class AddressInput extends React.Component<any> {
         handleChange: () => { },
         variant: 'outlined',
         type: 'city',
-        label: 'City, State'
+        label: 'City, State',
+        required: true
     }
 
     state = {
@@ -35,7 +36,7 @@ class AddressInput extends React.Component<any> {
             } else {
                 this.props.handleChange(city, state);
             }
-            
+
             this.setState({ value: `${city}, ${state}` })
         });
 
@@ -50,10 +51,11 @@ class AddressInput extends React.Component<any> {
             className="mb-16"
             label={this.props.label}
             fullWidth
+            autoFocus
             type="cityState"
             name="cityState"
             variant={this.props.variant}
-            required
+            required={this.props.required}
             {...this.props}
         />
     }

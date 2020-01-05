@@ -4,6 +4,8 @@ import { Typography } from '@material-ui/core';
 import { transformPhoneNumber } from '../../../utils';
 
 const ProfileHeader = ({ user }: any) => {
+    const feet = Math.floor(user.heightInches / 12)
+    const inches = user.heightInches % 12
   return (
       <div className={"flex flex-1 flex-col items-center justify-center md:flex-row md:items-between"}>
           <div className="flex flex-1 flex-col items-between justify-start">
@@ -12,6 +14,12 @@ const ProfileHeader = ({ user }: any) => {
               </Animate>
               <Animate animation="transition.expandIn" delay={300}>
                   <Typography data-cy="profile-address" variant="h4" color="inherit">{user.city}, {user.state}</Typography>
+              </Animate>
+              <Animate animation="transition.expandIn" delay={300}>
+                  <Typography data-cy="profile-address" variant="h4" color="inherit">Height: {feet} Feet, {inches} Inches</Typography>
+              </Animate>
+              <Animate animation="transition.expandIn" delay={300}>
+                  <Typography data-cy="profile-address" variant="h4" color="inherit">Eye: {user.eyeColor.capitalize()}, Hair: {user.hairColor.capitalize()}</Typography>
               </Animate>
           </div>
 

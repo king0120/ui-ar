@@ -13,6 +13,7 @@ import ProfileHeader from './ProfileHeader';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {gql} from "apollo-boost";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import EditUserModal from "../../components/project/EditUserModal";
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 

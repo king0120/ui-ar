@@ -16,3 +16,9 @@ declare module 'material-ui-phone-number'
 
 declare module 'react-big-calendar/lib/Toolbar'
 declare module 'react-redux/es/connect/connect'
+
+declare global {
+    interface String {
+        capitalize() : string;
+    }
+}

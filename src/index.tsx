@@ -13,6 +13,7 @@ import io from 'socket.io-client'
 import { Provider } from 'react-redux';
 import { GlobalContextProvider } from './context/globalContext';
 import store from 'redux/store';
+import './utils/prototypeUtils'
 
 const GlobalStyle = createGlobalStyle`
   body {

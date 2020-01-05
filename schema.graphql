@@ -214,6 +214,7 @@ type Mutation {
     setProfile(key: String!): Boolean
     updateAnswer(answerId: String!, text: String!): Boolean!
     updateTalentInstance(decision: String, instanceId: String): Boolean
+    updateUser(data: UserDataDTO!): Boolean
 }
 
 type Notification {
@@ -352,9 +353,11 @@ type User {
     email: String!
     emailConfirmed: Boolean!
     experienceOrder: [ExperienceType!]!
+    eyeColor: EyeColor!
     filmExperience: [FilmExperience!]!
     firstName: String!
     gender: String
+    hairColor: HairColor!
     heightInches: Float
     id: String!
     instances: [AuditionTalentInstance!]!
@@ -401,6 +404,28 @@ enum ExperienceType {
     operaExperience
     televisionExperience
     theatreExperience
+}
+
+"Eye Color"
+enum EyeColor {
+    amber
+    blue
+    brown
+    gray
+    green
+    hazel
+    other
+    unknown
+}
+
+"Hair Color"
+enum HairColor {
+    black
+    blonde
+    brown
+    other
+    red
+    unknown
 }
 
 "What type of user is this? Admin or Actor"
@@ -492,6 +517,19 @@ input ReorderExperienceDTO {
     experienceOrder: [ExperienceOrder!]
     experienceType: String!
     userId: String
+}
+
+input UserDataDTO {
+    city: String
+    eyeColor: String
+    firstName: String
+    gender: String
+    hairColor: String
+    heightInches: String
+    lastName: String
+    phoneNumber: String
+    state: String
+    website: String
 }
 
 

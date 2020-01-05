@@ -82,7 +82,7 @@ function NoReduxActorSearch(props: any) {
                                 <Typography variant="body1">Advanced Search</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <TalentSpecificationsForm/>
+                                <TalentSpecificationsForm search={true}/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     )}

@@ -1,13 +1,19 @@
 query getUser($id: String!) {
     getUser(id: $id) {
         id
+        firstName
+        lastName
         displayName
         city
         state
         gender
         phoneNumber
+        website
         email
         experienceOrder
+        eyeColor
+        heightInches
+        hairColor
         notifications {
             text
         }

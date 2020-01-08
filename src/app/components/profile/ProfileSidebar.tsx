@@ -4,11 +4,26 @@ import { connect } from 'react-redux';
 import { getFormState } from '../../../redux/store/reducers/finalFormReducer';
 import { addUserBreakdown } from '../../../redux/actions/talentActions';
 import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
-import { ListItem, List, ListItemText, Modal, makeStyles, createStyles, Theme, Dialog, DialogContent, DialogActions, Button, DialogTitle } from '@material-ui/core';
+import {
+    ListItem,
+    List,
+    ListItemText,
+    Modal,
+    makeStyles,
+    createStyles,
+    Theme,
+    Dialog,
+    DialogContent,
+    DialogActions,
+    Button,
+    DialogTitle,
+    Typography
+} from '@material-ui/core';
 import LightboxModal from '../shared/LightboxModal';
 import { GlobalContext } from 'context/globalContext';
 import NotesOnActor from '../audition/NotesOnActor';
 import EditUserModal from "../project/EditUserModal";
+import TagsOnActor from "../audition/TagsOnActor";
 
 function getModalStyle() {
     const top = 50;
@@ -97,6 +112,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
     const canAddNotes = userType.includes('theatre')
     const [open, setOpen] = useState(false);
     const [notesOpen, setNotesOpen] = useState(false);
+    const [tagsOpen, setTagsOpen] = useState(false);
     return (
         <div>
             <LightboxModal
@@ -131,6 +147,31 @@ const ProfileSidebar: FC<any> = (props: any) => {
                                     <Button onClick={() => setNotesOpen(false)} color="primary">
                                         Close
                                 </Button>
+                                </DialogActions>
+                            </DialogContent>
+                        </Dialog>
+                    </>
+                )}
+                {true && !props.auditionView && (
+                    <>
+                        <ListItemLink onClick={() => setTagsOpen(true)}>
+                            <ListItemText
+                                classes={{ secondary: classes.text }}
+                                primary="Tags"
+                                secondary="See and Add Tags On This Actor"
+                                data-cy="add-notes"
+                            />
+                        </ListItemLink>
+                        <Dialog className={'mh-1/2'} open={tagsOpen} fullWidth={true}>
+                            <DialogTitle>Tags for {props.user.displayName}</DialogTitle>
+                            <DialogContent>
+                                <Typography variant={"body2"}>Tags are private and are not shared with actor or other users</Typography>
+                                <TagsOnActor userId={props.user.id}/>
+                                {/* <AddNoteForActor userId={props.user.id} auditionId={''} /> */}
+                                <DialogActions>
+                                    <Button onClick={() => setTagsOpen(false)} color="primary">
+                                        Close
+                                    </Button>
                                 </DialogActions>
                             </DialogContent>
                         </Dialog>

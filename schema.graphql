@@ -27,6 +27,15 @@ type ActorNote {
     updatedAt: Float!
 }
 
+type ActorTag {
+    createdAt: String!
+    for: User!
+    id: String!
+    owner: User!
+    tag: String!
+    updatedAt: Float!
+}
+
 type Audition {
     address: String!
     auditionType: String!
@@ -197,10 +206,12 @@ type Mutation {
     closeAudition(auditionId: String!): Audition!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
     createProject(data: CreateProjectDTO!): Project!
+    createTag(input: CreateTagDTO!): Boolean
     createTimeslot(data: CreateTimeSlotDTO!): AuditionTimeSlot!
     deleteAudition(auditionId: String!): Audition!
     deleteImage(key: String!): Boolean
     deleteProject(projectId: String!): Boolean!
+    deleteTag(input: CreateTagDTO!): Boolean
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String, users: [String!]): AuditionTalentInstance!
     login(email: String!, password: String!): LoginResponse!
@@ -304,6 +315,7 @@ type Query {
     getAudition(auditionId: String!): Audition!
     getAuditionForRSVP(auditionId: String!): Audition!
     getAuditionsForProject(projectId: String!): [Audition!]!
+    getDistinctTags: Tags!
     getExperience(data: ReorderExperienceDTO!): [TheatreExperience!]
     getInstance(instanceId: String!): AuditionTalentInstance!
     getInstances(id: String!): User!
@@ -312,9 +324,14 @@ type Query {
     getOneOrganization(organizationId: String!): Organization!
     getOneProject(projectId: String!): Project!
     getRole(roleId: String!): ProjectRole!
+    getTagsForActor(id: String!): Tags!
     getUser(id: String!): User!
     searchForAuditions(query: String!): [Audition!]!
     tokenCheck: User!
+}
+
+type Tags {
+    tags: [String!]
 }
 
 type TelevisionExperience implements Experience {
@@ -484,6 +501,11 @@ input CreateProjectDTO {
     writer: String!
 }
 
+input CreateTagDTO {
+    for: String!
+    tag: String!
+}
+
 input CreateTimeSlotDTO {
     auditionId: String
     capacity: Int
@@ -525,7 +547,7 @@ input UserDataDTO {
     firstName: String
     gender: String
     hairColor: String
-    heightInches: String
+    heightInches: Float
     lastName: String
     phoneNumber: String
     state: String

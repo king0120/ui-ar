@@ -3,7 +3,7 @@ import FuseAnimate from "@fuse/components/FuseAnimate/FuseAnimate";
 import { makeStyles } from "@material-ui/styles";
 import { darken, fade } from '@material-ui/core/styles';
 import {Typography} from '@material-ui/core';
-import ArLogo from '../../../static/arLogo.png'
+import ArLogo from '../../../static/AR_Logo.png'
 
 export const useAuthStyles = makeStyles((theme: any) => ({
   root: {

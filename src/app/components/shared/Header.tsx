@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {ThemeProvider} from '@material-ui/styles';
 import {AppBar, Button, Toolbar} from '@material-ui/core';
 import UserMenu from 'app/components/shared/UserMenu';
-import ArLogo from "../../../static/arLogo.png";
+import ArLogo from "../../../static/AR_Logo.png";
 
 const useStyles = makeStyles((theme: any) => ({
     separator: {

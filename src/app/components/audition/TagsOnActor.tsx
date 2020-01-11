@@ -40,17 +40,22 @@ const TagsOnActor: FC<any> = ({userId}) => {
     const {data: allTags} = useQuery(GET_TAGS_FOR_ACTOR, {variables: {id: userId}});
     const [createTag] = useMutation(CREATE_TAG, {
         refetchQueries: [
-            {query: GET_TAGS_FOR_ACTOR, variables: {id: userId}}
+            {query: GET_TAGS_FOR_ACTOR, variables: {id: userId}},
+            {query: GET_DISTINCT_TAGS}
         ]
     });
 
     const [deleteTag] = useMutation(DELETE_TAG, {
         refetchQueries: [
-            {query: GET_TAGS_FOR_ACTOR, variables: {id: userId}}
+            {query: GET_TAGS_FOR_ACTOR, variables: {id: userId}},
+            {query: GET_DISTINCT_TAGS}
         ]
     });
 
     const {tags} = data && data.getDistinctTags || {tags: []};
+    if (!tags.find((tag: any) => tag.tag === "My Talent")) {
+        tags.unshift("My Talent")
+    }
     const [options, setOptions] = useState([value, ...tags]);
     useEffect(() => {
         const withVal = [value, ...tags];
@@ -62,6 +67,7 @@ const TagsOnActor: FC<any> = ({userId}) => {
     }
 
     const actorTags = allTags?.getTagsForActor?.tags || [];
+
     const handleClick = () => {
         createTag({
             variables: {
@@ -74,7 +80,6 @@ const TagsOnActor: FC<any> = ({userId}) => {
         setValue('')
     };
 
-    console.log('OPTIONS', options);
     return (
         <div>
             <div className={'flex justify-between'}>

@@ -151,9 +151,9 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                                         <ListItemText
                                                             primary={(
                                                                 <div className={'flex'}>
-                                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
                                                                     <div className={'w-1/4'}><strong>Project: </strong> {exp.project}
                                                                     </div>
+                                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
                                                                     <div className={'w-1/4'}><strong>Company: </strong> {exp.company}
                                                                     </div>
                                                                     <div className={'w-1/4'}><strong>Director: </strong> {exp.director}
@@ -180,9 +180,9 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                         <ListItemText
                                             primary={(
                                                 <div className={'flex'}>
-                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
                                                     <div className={'w-1/4'}><strong>Project: </strong> {exp.project}
                                                     </div>
+                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
                                                     <div className={'w-1/4'}><strong>Company: </strong> {exp.company}
                                                     </div>
                                                     <div className={'w-1/4'}><strong>Director: </strong> {exp.director}

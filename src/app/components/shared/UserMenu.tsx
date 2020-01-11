@@ -14,6 +14,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {useLazyQuery, useQuery} from "@apollo/react-hooks";
 import {GlobalContext} from 'context/globalContext';
 import {gql} from 'apollo-boost';
+import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
 import {GET_NOTIFICATIONS} from "../../pages/Profile/MyNotifications";
 
 const GET_ORGANIZATIONS_FOR_USER = require('graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql');
@@ -149,15 +150,24 @@ function UserMenu(props: any) {
                 </MenuItem>
                 {
                     userType.includes('theatre') && (
-                        orgs.map((org: any) => (
-                            <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`}
+                        <>
+                            <MenuItem component={Link} to={`/profile/tags`}
                                       onClick={userMenuClose}>
                                 <ListItemIcon className="min-w-40">
-                                    <Icon>group</Icon>
+                                    <LocalOfferOutlinedIcon />
                                 </ListItemIcon>
-                                <ListItemText className="pl-0" primary={org.name}/>
+                                <ListItemText className="pl-0" primary={"My Tags"}/>
                             </MenuItem>
-                        )))
+                            {orgs.map((org: any) => (
+                                <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`}
+                                          onClick={userMenuClose}>
+                                    <ListItemIcon className="min-w-40">
+                                        <Icon>group</Icon>
+                                    </ListItemIcon>
+                                    <ListItemText className="pl-0" primary={org.name}/>
+                                </MenuItem>
+                            ))}
+                        </>)
                 }
                 <MenuItem
                     onClick={() => {

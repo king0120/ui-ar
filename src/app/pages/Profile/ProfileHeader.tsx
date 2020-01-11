@@ -21,7 +21,7 @@ const ProfileHeader = ({ user }: any) => {
               <Animate animation="transition.expandIn" delay={300}>
                   <Typography data-cy="profile-address" variant="h4" color="inherit">Eye: {user.eyeColor.capitalize()}, Hair: {user.hairColor.capitalize()}</Typography>
               </Animate>
-          </div>
+          </div>Ï
 
           <div className="flex flex-col items-between justify-end">
               <Animate animation="transition.expandIn" delay={300}>

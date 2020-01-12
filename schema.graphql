@@ -325,6 +325,7 @@ type Query {
     getOneProject(projectId: String!): Project!
     getRole(roleId: String!): ProjectRole!
     getTagsForActor(id: String!): Tags!
+    getTagsForOwner: [ActorTag!]!
     getUser(id: String!): User!
     searchForAuditions(query: String!): [Audition!]!
     tokenCheck: User!

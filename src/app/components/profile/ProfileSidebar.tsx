@@ -128,7 +128,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
                     <AttributesModal {...props} />
                 )}
                 {!props.readOnly && <EditUserModal user={props.user}/>}
-                {canAddNotes && !props.auditionView && (
+                {props.readOnly && canAddNotes && !props.auditionView && (
                     <>
                         <ListItemLink onClick={() => setNotesOpen(true)}>
                             <ListItemText
@@ -152,7 +152,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
                         </Dialog>
                     </>
                 )}
-                {true && !props.auditionView && (
+                {props.readOnly && !props.auditionView && (
                     <>
                         <ListItemLink onClick={() => setTagsOpen(true)}>
                             <ListItemText
@@ -177,10 +177,6 @@ const ProfileSidebar: FC<any> = (props: any) => {
                         </Dialog>
                     </>
                 )}
-
-                {/* <ListItemLink>
-                    <ListItemText onClick={handleUpgradeClick} primary="Upgrade Account"/>
-                </ListItemLink> */}
             </List>
         </div>
     );

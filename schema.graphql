@@ -200,6 +200,7 @@ type MusicalTheatreExperience implements Experience {
 type Mutation {
     addExperience(data: AddExperienceDTO!): Boolean
     addNote(input: CreateNoteDTO!): ActorNote!
+    addSkillOrTraining(text: String!, type: String!): Boolean
     addUserBreakdown(key: String!): Boolean
     changeExperienceOrder(newExperiences: [ExperienceType!]!): Boolean
     checkIn(instanceId: String, status: String): Boolean
@@ -331,6 +332,13 @@ type Query {
     tokenCheck: User!
 }
 
+type SpecialSkill {
+    id: String
+    index: Float
+    text: String!
+    user: User
+}
+
 type Tags {
     tags: [String!]
 }
@@ -361,6 +369,13 @@ type TheatreExperience implements Experience {
     user: User!
 }
 
+type Training {
+    id: String
+    index: Float
+    text: String!
+    user: User
+}
+
 type User {
     breakdown: FormattedBreakdown!
     castIn: [ProjectRole!]!
@@ -388,11 +403,15 @@ type User {
     ownedOrgs: [Organization!]!
     phoneNumber: String
     profileImages: [UserImage!]!
+    profileOrder: [String!]!
     profilePicture: UserImage
     rejections: [ProjectRejectedUser!]
+    representation: String
+    specialSkills: [SpecialSkill!]
     state: String
     televisionExperience: [TelevisionExperience!]!
     theatreExperience: [TheatreExperience!]!
+    trainings: [Training!]
     updatedAt: Float!
     userType: [UserType!]!
     verified: Boolean!
@@ -551,6 +570,7 @@ input UserDataDTO {
     heightInches: Float
     lastName: String
     phoneNumber: String
+    representation: String
     state: String
     website: String
 }

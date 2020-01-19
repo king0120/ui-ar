@@ -4,6 +4,7 @@ query getUser($id: String!) {
         firstName
         lastName
         displayName
+        representation
         city
         state
         gender
@@ -14,7 +15,16 @@ query getUser($id: String!) {
         eyeColor
         heightInches
         hairColor
+        profileOrder
         notifications {
+            text
+        }
+        specialSkills {
+            id
+            text
+        }
+        trainings {
+            id
             text
         }
         breakdown {

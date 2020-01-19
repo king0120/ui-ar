@@ -25,6 +25,7 @@ const validationSchema = Yup.object({
     lastName: Yup.string().required('Required'),
     city: Yup.string(),
     state: Yup.string(),
+    representation: Yup.string(),
     website: Yup.string()
 });
 
@@ -51,7 +52,6 @@ function EditUserModal({user}: any) {
     if (!user) {
         return <p>loading</p>
     }
-    console.log(user)
     const initialValues = {
         firstName: user.firstName,
         lastName: user.lastName,
@@ -59,6 +59,7 @@ function EditUserModal({user}: any) {
         state: user.state,
         website: user.website,
         gender: user.gender,
+        representation: user.representation,
         phoneNumber: user.phoneNumber,
         heightInches: user.heightInches,
         eyeColor: user.eyeColor,
@@ -137,6 +138,12 @@ function EditUserModal({user}: any) {
                                     type="website"
                                     name="website"
                                     label="Website"
+                                />
+                                <FormikTextField
+                                    required={false}
+                                    type="input"
+                                    name="representation"
+                                    label="Representation"
                                 />
                                 <FormikTextField
                                     type="phoneNumber"

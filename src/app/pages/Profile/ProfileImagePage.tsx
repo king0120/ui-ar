@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {deleteImage, uploadImage} from '../../../redux/actions/talentActions';
-import {Button} from '@material-ui/core';
+import {Button, Typography} from '@material-ui/core';
 import {useLazyQuery, useMutation} from "@apollo/react-hooks";
 import {withRouter} from 'react-router';
 import LightboxModal from 'app/components/shared/LightboxModal';
@@ -28,7 +28,7 @@ const ProfileImagePage: FC<any> = (props) => {
     const [getUser, {data, loading, refetch}] = useLazyQuery(GET_USER, {variables: {id: userId}});
 
     useEffect(() => {
-        getUser()
+        getUser();
     }, [userId, getUser]);
 
     const refetchQuery = {
@@ -43,7 +43,13 @@ const ProfileImagePage: FC<any> = (props) => {
     const user = data && data.getUser;
 
     if (!data || loading) {
-        return <h1>loading</h1>
+        return <h1>loading</h1>;
+    }
+    if (user.profileImages.length > 4) {
+        return <div>
+            <Typography variant={'h5'}>Free Accounts Currently Support A Maximum of 4 Images</Typography>
+            <Typography variant={'body1'}>Unlimited Image Upload Available Soon</Typography>
+        </div>;
     }
     return (
         <div>
@@ -53,7 +59,15 @@ const ProfileImagePage: FC<any> = (props) => {
                 images={user.profileImages.map((p: any, i: number) => ({key: `${p.url}${i}`, src: p.url}))}
                 currentIndex={currentIndex}
             />
-            {!readOnly && <MyDropzone {...props} refetch={refetch}/>}
+            {!readOnly && (
+                user.profileImages.length >= 4 ? (
+                        <div>
+                            <Typography variant={'h5'}>Free Accounts Currently Support A Maximum of 4 Images</Typography>
+                            <Typography variant={'body1'}>Unlimited Image Upload Available Soon</Typography>
+                        </div>
+                    )
+                    : <MyDropzone {...props} refetch={refetch}/>
+            )}
             <div className="flex justify-start flex-wrap">
                 {user.profileImages && user.profileImages.map((img: any, index: number) => (
                     <div className="p-10" key={`${index}${img.s3key}`}>
@@ -69,13 +83,13 @@ const ProfileImagePage: FC<any> = (props) => {
                         {!readOnly && (
                             <div>
                                 {(user.profilePicture && user.profilePicture.s3Key === img.s3Key) ? (
-                                  <Button
-                                    variant={"outlined"}
-                                    color={'primary'}
-                                    disabled
-                                  >
-                                    Current Pic
-                                  </Button>
+                                    <Button
+                                        variant={"outlined"}
+                                        color={'primary'}
+                                        disabled
+                                    >
+                                        Current Pic
+                                    </Button>
                                 ) : (
                                     <Button
                                         onClick={() => setProfile({variables: {key: img.s3Key}})}

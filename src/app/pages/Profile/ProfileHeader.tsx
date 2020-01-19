@@ -10,7 +10,7 @@ const ProfileHeader = ({ user }: any) => {
       <div className={"flex flex-1 flex-col items-center justify-center md:flex-row md:items-between"}>
           <div className="flex flex-1 flex-col items-between justify-start">
               <Animate animation="transition.slideLeftIn" delay={300}>
-                  <Typography data-cy="profile-display-name" variant="h2" color="inherit">{user.displayName}</Typography>
+                  <Typography data-cy="profile-display-name" variant="h2" color="inherit">{user.firstName} {user.lastName}</Typography>
               </Animate>
               <Animate animation="transition.expandIn" delay={300}>
                   <Typography data-cy="profile-address" variant="h4" color="inherit">{user.city}, {user.state}</Typography>
@@ -21,9 +21,14 @@ const ProfileHeader = ({ user }: any) => {
               <Animate animation="transition.expandIn" delay={300}>
                   <Typography data-cy="profile-address" variant="h4" color="inherit">Eye: {user.eyeColor.capitalize()}, Hair: {user.hairColor.capitalize()}</Typography>
               </Animate>
-          </div>Ï
+          </div>
 
           <div className="flex flex-col items-between justify-end">
+              {user.representation && (
+                  <Animate animation="transition.expandIn" delay={300}>
+                      <Typography data-cy="profile-representation" variant="h6" color="inherit">Representation: {user.representation}</Typography>
+                  </Animate>
+              )}
               <Animate animation="transition.expandIn" delay={300}>
                   <Typography data-cy="profile-email" variant="h6" color="inherit">Email: <a href={`mailto://${user.email}`}>{user.email}</a></Typography>
               </Animate>

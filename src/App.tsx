@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import NavBar from './app/components/shared/Header';
 import Router from './Router';
+import NavBar from './app/components/shared/Header';
+import Footer from './app/components/shared/Footer';
 import { BrowserRouter, withRouter } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
@@ -132,9 +133,10 @@ const App = (props: any) => {
                                     <ScrollBars className={classes.content} scrollToTopOnRouteChange>
                                         <FuseDialog />
                                         <NavBar />
-                                        <div className="flex flex-auto flex-col relative h-full">
+                                        <div className="flex-grow-1 flex flex-auto flex-col relative">
                                             <Router />
                                         </div>
+                                        <Footer />
                                     </ScrollBars>
                                 </div>
                             </div>

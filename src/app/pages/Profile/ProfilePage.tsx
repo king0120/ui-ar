@@ -52,7 +52,7 @@ const ProfilePage: FC<any> = (props) => {
                 className={clsx(classes.header) + ' p-5 flex flex-col-reverse items-start justify-start md:flex-row md:items-between shadow-xl'}>
                 <ProfileSidebar user={user} auditionView={auditionView} readOnly={props.readOnly}
                                 refetchUser={refetch}/>
-                <div className='w-8/12 flex flex-col items-between h-full'>
+                <div className='w-10/12 flex flex-col items-between h-full'>
                     <ProfileHeader user={user}/>
                     <ProfileBreakdown breakdown={user.breakdown || {}}/>
                 </div>

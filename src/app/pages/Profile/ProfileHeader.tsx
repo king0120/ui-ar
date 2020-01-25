@@ -35,6 +35,11 @@ const ProfileHeader = ({ user }: any) => {
               <Animate animation="transition.expandIn" delay={300}>
                   <Typography data-cy="profile-phone" variant="h6" color="inherit">Phone: <a href={`tel://${user.phoneNumber}`}>{transformPhoneNumber(user.phoneNumber)}</a></Typography>
               </Animate>
+              {user.website && (
+                  <Animate animation="transition.expandIn" delay={300}>
+                      <Typography data-cy="profile-website" variant="h6" color="inherit"><a target={"_blank"} href={user.website}>Personal Site</a></Typography>
+                  </Animate>
+              )}
           </div>
       </div>
   )

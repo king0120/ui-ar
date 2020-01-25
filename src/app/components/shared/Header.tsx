@@ -1,12 +1,13 @@
-import React, {useContext} from 'react';
-import {useHistory, withRouter} from 'react-router-dom';
+import React, {useContext, useState} from 'react';
+import {Link, useHistory, withRouter} from 'react-router-dom';
 import {GlobalContext} from "../../../context/globalContext";
 import makeStyles from '@material-ui/styles/makeStyles';
 import {useSelector} from 'react-redux';
 import {ThemeProvider} from '@material-ui/styles';
-import {AppBar, Button, Toolbar} from '@material-ui/core';
+import {AppBar, Badge, Button, Icon, ListItemIcon, ListItemText, MenuItem, Popover, Toolbar} from '@material-ui/core';
 import UserMenu from 'app/components/shared/UserMenu';
 import ArLogo from "../../../static/AR_Logo.png";
+import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 
 const useStyles = makeStyles((theme: any) => ({
     separator: {
@@ -20,7 +21,7 @@ const Header = (props: any) => {
     const {userType} = useContext(GlobalContext);
     const {push} = useHistory();
     const toolbarTheme = useSelector<any, any>(({fuse}) => fuse.settings.toolbarTheme);
-
+    const [dbButtonToggle, setDbButtonToggle] = useState(null as any);
     const classes = useStyles(props);
     if (props.location.pathname === "/" || props.location.pathname === "/login" || props.location.pathname === "/register" || props.location.pathname === "/passwordReset") {
         return null
@@ -33,6 +34,7 @@ const Header = (props: any) => {
             push('/profile')
         }
     };
+
     return (
         <ThemeProvider theme={toolbarTheme}>
             <AppBar id="fuse-toolbar" className="flex relative z-10" color="default">
@@ -45,20 +47,50 @@ const Header = (props: any) => {
                         {
                             userType.includes('theatre') && (
                                 <>
-                                    <Button onClick={() => props.history.push('/search/actor')}>Actor Search</Button>
+                                    <Button onClick={(event) => setDbButtonToggle(event.currentTarget)}>Talent Database</Button>
                                     <div className={classes.separator}/>
+                                    <Popover
+                                        open={Boolean(dbButtonToggle)}
+                                        anchorEl={dbButtonToggle}
+                                        onClose={() => setDbButtonToggle(null)}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'center'
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'center'
+                                        }}
+                                        classes={{
+                                            paper: "py-8"
+                                        }}
+                                    >
+                                        <MenuItem component={Link} to="/search/actor" onClick={() => setDbButtonToggle(null)}>
+                                            <ListItemIcon className="min-w-40">
+                                                <Icon>search</Icon>
+                                            </ListItemIcon>
+                                            <ListItemText className="pl-0" primary="Actor Search"/>
+                                        </MenuItem>
+                                        <MenuItem component={Link} to={`/profile/tags`}
+                                                  onClick={() => setDbButtonToggle(null)}>
+                                            <ListItemIcon className="min-w-40">
+                                                <LocalOfferOutlinedIcon />
+                                            </ListItemIcon>
+                                            <ListItemText className="pl-0" primary={"My Tags"}/>
+                                        </MenuItem>
+                                    </Popover>
                                 </>
                             )
                         }
-                        {
-                            userType.includes('actor') && (
-                                <>
-                                    <Button onClick={() => props.history.push('/search/audition')}>Audition
-                                        Search</Button>
-                                    <div className={classes.separator}/>
-                                </>
-                            )
-                        }
+                        {/*{*/}
+                        {/*    userType.includes('actor') && (*/}
+                        {/*        <>*/}
+                        {/*            <Button onClick={() => props.history.push('/search/audition')}>Audition*/}
+                        {/*                Search</Button>*/}
+                        {/*            <div className={classes.separator}/>*/}
+                        {/*        </>*/}
+                        {/*    )*/}
+                        {/*}*/}
                         <UserMenu/>
                     </div>
                 </Toolbar>

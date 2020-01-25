@@ -52,7 +52,7 @@ const AppRouter: FC<any> = () => {
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/register' component={RegistrationPage}/>
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/login' component={LoginPage}/>
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset' component={PasswordResetPage}/>
-                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset/:token' component={PasswordResetPage}/>
+                <Route loggedIn={loggedIn} exact path='/passwordReset/:token' component={PasswordResetPage}/>
 
                 <Route path='/audition/:auditionId/checkIn' component={CheckInPage}/>
                 <Route path='/audition/:auditionId' component={AuditionRSVPPage}/>

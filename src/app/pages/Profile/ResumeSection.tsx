@@ -52,7 +52,6 @@ const ResumeSection: FC<IResumeSection> = (props) => {
         const newOrder = [...props.profileOrder];
         // @ts-ignore
         newOrder.moveDown(props.type);
-        console.log(newOrder);
         moveSection({
             variables: {order: newOrder}
         });

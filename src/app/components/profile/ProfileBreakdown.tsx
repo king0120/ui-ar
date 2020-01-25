@@ -34,14 +34,14 @@ const ProfileBreakdown: FC<any> = ({ breakdown }) => {
         <div className='mt-64'>
             <Typography variant="h6" color="inherit">Actor Breakdown</Typography>
             <div className="flex">
-                <div className="w-8/12">
+                <div className="w-7/12">
                     <Breakdown title="Age Range" breakdownArray={ageRange} />
                     <Breakdown title="Gender" breakdownArray={gender} />
                     <Breakdown title="Ethnicity" breakdownArray={ethnicity} />
                 </div>
-                <div className="w-4/12">
-                    <Breakdown width='w-3' title="Unions" breakdownArray={unions} />
-                    <Breakdown width='w-3' title="Vocal Range" breakdownArray={vocalRange} />
+                <div className="w-6/12">
+                    <Breakdown title="Unions" breakdownArray={unions} />
+                    <Breakdown title="Vocal Range" breakdownArray={vocalRange} />
                 </div>
             </div>
         </div>

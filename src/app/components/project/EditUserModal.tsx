@@ -1,13 +1,18 @@
 import * as Yup from "yup";
 import {
-    Button, createStyles,
+    Button,
+    createStyles,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     FormControl,
-    InputLabel, ListItem, ListItemText, makeStyles,
-    MenuItem, Theme,
+    InputLabel,
+    ListItem,
+    ListItemText,
+    makeStyles,
+    MenuItem,
+    Theme,
     Typography,
 } from "@material-ui/core";
 import React from "react";
@@ -33,14 +38,14 @@ const UPDATE_USER = gql`
     mutation updateUser($data: UserDataDTO!){
         updateUser(data: $data)
     }
-`
+`;
 
 const useStyles = makeStyles((theme: Theme) => {
     return createStyles({
         text: {
             color: theme.palette.secondary.light
         }
-    })
+    });
 });
 
 function EditUserModal({user}: any) {
@@ -50,7 +55,7 @@ function EditUserModal({user}: any) {
         refetchQueries: [{query: GET_USER, variables: {id: user.id}}]
     });
     if (!user) {
-        return <p>loading</p>
+        return <p>loading</p>;
     }
     const initialValues = {
         firstName: user.firstName,
@@ -61,7 +66,8 @@ function EditUserModal({user}: any) {
         gender: user.gender,
         representation: user.representation,
         phoneNumber: user.phoneNumber,
-        heightInches: user.heightInches,
+        feet: Math.floor(user.heightInches / 12),
+        inches: user.heightInches % 12,
         eyeColor: user.eyeColor,
         hairColor: user.hairColor
     };
@@ -75,12 +81,14 @@ function EditUserModal({user}: any) {
     };
     const handleSubmit = async (values: any, {resetForm, setErrors}: any) => {
         try {
-            values.heightInches = parseInt(values.heightInches)
+            values.heightInches = (parseInt(values.feet) * 12) + parseInt(values.inches);
+            delete values.feet;
+            delete values.inches;
             await updateUser({variables: {data: values}});
-            resetForm()
-            handleClose()
+            resetForm();
+            handleClose();
         } catch (error) {
-            setErrors({submit: error.messages})
+            setErrors({submit: error.messages});
         }
 
     };
@@ -89,7 +97,7 @@ function EditUserModal({user}: any) {
         <div>
             <ListItem onClick={handleOpen}>
                 <ListItemText
-                    classes={{ secondary: classes.text }}
+                    classes={{secondary: classes.text}}
                     primary="Update User"
                     secondary="Update General Attributes"
                 />
@@ -125,12 +133,17 @@ function EditUserModal({user}: any) {
                                     name="lastName"
                                     label="Last Name"
                                 />
+                                <FormikTextField
+                                    type="phoneNumber"
+                                    name="phoneNumber"
+                                    label="Phone Number"
+                                />
                                 <AddressInput
                                     required={false}
                                     placeholder={`${user.city}, ${user.state}`}
                                     handleChange={(city: string, state: string) => {
-                                        props.setFieldValue('city', city)
-                                        props.setFieldValue('state', state)
+                                        props.setFieldValue('city', city);
+                                        props.setFieldValue('state', state);
                                     }}
                                 />
                                 <FormikTextField
@@ -145,17 +158,7 @@ function EditUserModal({user}: any) {
                                     name="representation"
                                     label="Representation"
                                 />
-                                <FormikTextField
-                                    type="phoneNumber"
-                                    name="phoneNumber"
-                                    label="Phone Number"
-                                />
-                                <FormikTextField
-                                    type="text"
-                                    name="heightInches"
-                                    label="Height (in Inches)"
-                                />
-                                <FormControl>
+                                <FormControl variant="outlined" style={{marginBottom: "16px"}}>
                                     <InputLabel shrink={true} htmlFor="gender">
                                         Gender
                                     </InputLabel>
@@ -172,7 +175,19 @@ function EditUserModal({user}: any) {
                                         <MenuItem value={"private"}>Private</MenuItem>
                                     </Field>
                                 </FormControl>
-                                <FormControl>
+                                <div className={'flex justify-between'}>
+                                    <FormikTextField
+                                        type="text"
+                                        name="feet"
+                                        label="Feet"
+                                    />
+                                    <FormikTextField
+                                        type="text"
+                                        name="inches"
+                                        label="Inches"
+                                    />
+                                </div>
+                                <FormControl variant="outlined" style={{marginBottom: "16px"}}>
                                     <InputLabel shrink={true} htmlFor="eyeColor">
                                         Eye Color
                                     </InputLabel>
@@ -193,7 +208,7 @@ function EditUserModal({user}: any) {
                                         <MenuItem value={"unknown"}>Unknown</MenuItem>
                                     </Field>
                                 </FormControl>
-                                <FormControl>
+                                <FormControl variant="outlined" style={{marginBottom: "16px"}}>
                                     <InputLabel shrink={true} htmlFor="eyeColor">
                                         Hair Color
                                     </InputLabel>
@@ -234,7 +249,7 @@ function EditUserModal({user}: any) {
             </Formik>
 
         </div>
-    )
+    );
 }
 
-export default EditUserModal
+export default EditUserModal;

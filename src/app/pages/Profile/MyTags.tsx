@@ -1,5 +1,5 @@
 import React, {FC, useContext, useEffect, useState} from 'react';
-import {useMutation, useQuery} from '@apollo/react-hooks'
+import {useMutation, useQuery} from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {GlobalContext} from 'context/globalContext';
 import {
@@ -31,7 +31,8 @@ const GET_TAGS_FOR_OWNER = gql`
             tag
             for {
                 id
-                displayName
+                firstName
+                lastName
                 profilePicture {
                     url
                 }
@@ -41,11 +42,11 @@ const GET_TAGS_FOR_OWNER = gql`
 `;
 
 const TagSection: FC<any> = ({tagName, users}) => {
-  const DELETE_TAG = gql`
-      mutation deleteTag($input: CreateTagDTO!) {
-          deleteTag(input: $input)
-      }
-  `;
+    const DELETE_TAG = gql`
+        mutation deleteTag($input: CreateTagDTO!) {
+            deleteTag(input: $input)
+        }
+    `;
     const [deleteTag] = useMutation(DELETE_TAG, {
         refetchQueries: [
             {query: GET_TAGS_FOR_OWNER},
@@ -62,60 +63,61 @@ const TagSection: FC<any> = ({tagName, users}) => {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className="pl-0 flex-col">
                 <List>
-                    {users.map((user: any) => {
+                    {!users && <Typography variant={'body1'}>No Tags Found</Typography>}
+                    {users && users.map((user: any) => {
                             return (
                                 <Chip
                                     key={user.id}
                                     avatar={<Avatar src={user.profilePicture?.url}/>}
                                     onClick={() => push(`/profile/${user.id}`)}
-                                    label={user.displayName}
+                                    label={`${user.firstName} ${user.lastName}`}
                                     onDelete={() => {
-                                        deleteTag({variables: {input: {tag: tagName, for: user.id}}})
+                                        deleteTag({variables: {input: {tag: tagName, for: user.id}}});
                                     }}
                                     variant="outlined"
-                                />)
+                                />);
                         }
                     )}
                 </List>
             </ExpansionPanelDetails>
         </ExpansionPanel>
-    )
+    );
 };
 
 const MyTags = () => {
     const {userId} = useContext(GlobalContext);
 
-    const [tags, setTags] = useState({});
+    const [tags, setTags] = useState({} as any);
     const classes = useStyles();
     const {loading, data} = useQuery(GET_TAGS_FOR_OWNER);
-
+    const [myTalent, setMyTalent] = useState([] as any);
 
     useEffect(() => {
         if (data?.getTagsForOwner) {
             const tagsObject = data.getTagsForOwner.reduce((acc: any, val: any) => {
-                if (acc[val.tag]) {
-                    acc[val.tag].push(val.for)
+                if (val.tag === "My Talent") {
+                    setMyTalent([...myTalent, val.for]);
+                } else if (acc[val.tag]) {
+                    acc[val.tag].push(val.for);
                 } else {
-                    acc[val.tag] = [val.for]
+                    acc[val.tag] = [val.for];
                 }
-                return acc
+                return acc;
             }, {});
-            setTags(tagsObject)
+            setTags(tagsObject);
         }
 
     }, [data?.getTagsForOwner]);
-
     if (loading) {
-        return <h1>Loading</h1>
+        return <h1>Loading</h1>;
     }
-    console.log('TAGS', tags);
-
     return <Container className="h-full">
         <Paper className={clsx(classes.root, "p-16 mt-36")}>
             <Typography variant="h4">My Tags</Typography>
             <List>
+                <TagSection tagName={"My Talent"} users={myTalent}/>
                 {Object.entries(tags).map(([tagName, users]: [any, any]) => {
-                    return <TagSection tagName={tagName} users={users}/>
+                    return <TagSection tagName={tagName} users={users}/>;
                 })}
             </List>
         </Paper>

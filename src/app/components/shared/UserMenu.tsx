@@ -24,7 +24,8 @@ const GET_ACTOR = gql`
     query getActor($id: String!) {
         getActor(id: $id) {
             id
-            displayName
+            firstName
+            lastName
             profilePicture {
                 url
             }
@@ -134,7 +135,7 @@ function UserMenu(props: any) {
                     </ListItemIcon>
                     <ListItemText className="pl-0" primary="My Profile"/>
                 </MenuItem>
-                <MenuItem component={Link} to="/profile/notifications" onClick={userMenuClose}>
+                <MenuItem disabled={true} component={Link} to="/profile/notifications" onClick={userMenuClose}>
                     <ListItemIcon className="min-w-40">
                         <Badge badgeContent={notificationNumber} color="primary">
                             <Icon>notifications</Icon>
@@ -142,7 +143,7 @@ function UserMenu(props: any) {
                     </ListItemIcon>
                     <ListItemText className="pl-0" primary="My Notifications"/>
                 </MenuItem>
-                <MenuItem component={Link} to="/profile/auditions" onClick={userMenuClose}>
+                <MenuItem disabled={true} component={Link} to="/profile/auditions" onClick={userMenuClose}>
                     <ListItemIcon className="min-w-40">
                         <Icon>audiotrack</Icon>
                     </ListItemIcon>
@@ -151,15 +152,8 @@ function UserMenu(props: any) {
                 {
                     userType.includes('theatre') && (
                         <>
-                            <MenuItem component={Link} to={`/profile/tags`}
-                                      onClick={userMenuClose}>
-                                <ListItemIcon className="min-w-40">
-                                    <LocalOfferOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText className="pl-0" primary={"My Tags"}/>
-                            </MenuItem>
                             {orgs.map((org: any) => (
-                                <MenuItem key={org.id} component={Link} to={`/organization/${org.id}/projects`}
+                                <MenuItem disabled={true} key={org.id} component={Link} to={`/organization/${org.id}/projects`}
                                           onClick={userMenuClose}>
                                     <ListItemIcon className="min-w-40">
                                         <Icon>group</Icon>
@@ -169,6 +163,16 @@ function UserMenu(props: any) {
                             ))}
                         </>)
                 }
+                <MenuItem
+                    onClick={() => {
+                        window.location.href = "mailto:support@auditionrevolution.com";
+                    }}
+                >
+                    <ListItemIcon className="min-w-40">
+                        <Icon>contact_support</Icon>
+                    </ListItemIcon>
+                    <ListItemText className="pl-0" primary="Contact Support"/>
+                </MenuItem>
                 <MenuItem
                     onClick={() => {
                         userMenuClose();

@@ -62,7 +62,7 @@ function UserMenu(props: any) {
     const user = {
         role: "member",
         data: {
-            displayName: data.getActor.displayName,
+            displayName: `${data.getActor.firstName} ${data.getActor.lastName}`,
             email: data.getActor.email,
             photoURL: data.getActor.profilePicture && data.getActor.profilePicture.url,
             shortcuts: [],

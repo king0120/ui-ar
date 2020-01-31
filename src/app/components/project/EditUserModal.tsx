@@ -31,7 +31,7 @@ const validationSchema = Yup.object({
     city: Yup.string(),
     state: Yup.string(),
     representation: Yup.string(),
-    website: Yup.string()
+    website: Yup.string().url("Must be a valid URL, make sure to include http://")
 });
 
 const UPDATE_USER = gql`

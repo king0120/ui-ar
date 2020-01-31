@@ -75,25 +75,6 @@ const ExperienceSection: FC<IExperienceSection> = (props) => {
         return experienceData[name];
     });
 
-    const moveUp = () => {
-        const newOrder = [...user.profileOrder];
-        // @ts-ignore
-        newOrder.moveUp(props.type);
-        moveSection({
-            variables: {order: newOrder}
-        });
-    };
-
-    const moveDown = () => {
-        const newOrder = [...user.profileOrder];
-        // @ts-ignore
-        newOrder.moveDown(props.type);
-        moveSection({
-            variables: {order: newOrder}
-        });
-    };
-
-
     const onDragEnd = (result: any) => {
         //Thanks stackoverflow
         const newOrder: string[] = [...expOrder];
@@ -117,89 +98,67 @@ const ExperienceSection: FC<IExperienceSection> = (props) => {
                 <Typography variant={"h4"}>Experience</Typography>
                 {!props.readOnly && (
                     <div>
+                        <Button onClick={() => {
+                            setAnchorEl(null);
+                            handleReorderToggle();
+                        }}>{reorderExperience ? "Save Order" : "Reorder Experience"}</Button>
                         <AddExperienceModal/>
-                        <IconButton
-                            aria-label="more"
-                            aria-controls="long-menu"
-                            aria-haspopup="true"
-                            onClick={handleClick}
-                        >
-                            <MoreVertIcon/>
-                        </IconButton>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={() => setAnchorEl(null)}
-                        >
-                            <MenuItem onClick={() => {
-                                setAnchorEl(null);
-                                handleReorderToggle();
-                            }}>
-                                <Button>{reorderExperience ? "Save Order" : "Reorder Experiences"}</Button>
-                            </MenuItem>
-                            <MenuItem onClick={() => {
-                                setAnchorEl(null);
-                                moveUp();
-                            }}>
-                                <Button>Move Up</Button>
-                            </MenuItem>
-                            <MenuItem onClick={() => {
-                                setAnchorEl(null);
-                                moveDown();
-                            }}>
-                                <Button>Move Down</Button>
-                            </MenuItem>
-                        </Menu>
-
                     </div>
                 )}
             </div>
-            <DragDropContext onDragEnd={onDragEnd}>
-                {
-                    reorderExperience ? (
-                        <Droppable droppableId="experiencesDroppable">
-                            {(provided: any, snapshot: any) => (
-                                <div
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                >
-                                    {experienceList.map((experience: any, index: number) => (
-                                        <Draggable
-                                            key={experience.value}
-                                            draggableId={experience.value} index={index}>
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    className={'mt-12 mb-12'}
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    <ExperienceList value={experience.value}
-                                                                    draggable={true}
-                                                                    id={user.id}
-                                                                    type={experience.type}
-                                                                    readOnly={props.readOnly}/>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    ) : experienceList.map((experience: any, index: number) => (
-                        <div className={'mt-12 mb-12'}>
-                            <ExperienceList value={experience.value} id={user.id}
-                                            type={experience.type}
-                                            experiences={experience.experiences}
-                                            readOnly={props.readOnly}/>
-                        </div>
-                    ))
-                }
-            </DragDropContext>
+            <MakeDraggable draggable={reorderExperience} items={experienceList} onDragEnd={onDragEnd} readOnly={props.readOnly}>
+                <ExperienceList id={user.id} />
+            </MakeDraggable>
         </>
     );
 };
+
+interface IMakeDraggable {
+    draggable: boolean
+    items: any[]
+    onDragEnd: (r: any) => void
+    readOnly: boolean
+    children: any
+}
+
+
+export function MakeDraggable(props: IMakeDraggable) {
+    return (<DragDropContext onDragEnd={props.onDragEnd}>
+        {
+            props.draggable ? (
+                <Droppable droppableId="experiencesDroppable">
+                    {(provided: any, snapshot: any) => (
+                        <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {props.items.map((experience: any, index: number) => (
+                                <Draggable
+                                    key={experience.value || experience.id}
+                                    draggableId={experience.value || experience.id} index={index}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            className={'mt-12 mb-12'}
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                        >
+                                            {React.cloneElement(props.children, {draggable: props.draggable, readOnly: props.readOnly, ...experience})}
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            ) : props.items.map((experience: any, index: number) => (
+                <div className={'mt-12 mb-12'} key={experience.id}>
+                    {React.cloneElement(props.children, {draggable: props.draggable, readOnly: props.readOnly, ...experience})}
+                </div>
+            ))
+        }
+    </DragDropContext>)
+}
 
 export default ExperienceSection;

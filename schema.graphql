@@ -200,9 +200,9 @@ type MusicalTheatreExperience implements Experience {
 type Mutation {
     addExperience(data: AddExperienceDTO!): Boolean
     addNote(input: CreateNoteDTO!): ActorNote!
-    addSkillOrTraining(text: String!, type: String!): Boolean
+    addSkillOrTraining(skillOrder: [ExperienceOrder!], text: String, type: String!): Boolean
     addUserBreakdown(key: String!): Boolean
-    changeExperienceOrder(newExperiences: [ExperienceType!]!): Boolean
+    changeExperienceOrder(newExperiences: [ExperienceType!], order: [String!]): Boolean
     checkIn(instanceId: String, status: String): Boolean
     closeAudition(auditionId: String!): Audition!
     createAudition(audition: CreateAuditionDTO!, projectId: String!): Audition!
@@ -216,11 +216,14 @@ type Mutation {
     deleteTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     inviteToAudition(auditionId: String!, projectId: String!, timeSlotId: String, userId: String, users: [String!]): AuditionTalentInstance!
     login(email: String!, password: String!): LoginResponse!
+    moveSection(newExperiences: [ExperienceType!], order: [String!]): Boolean
     readNotification(id: String!): Boolean
     removeExperience(data: AddExperienceDTO!): Boolean
     removeNote(id: String!): Boolean
+    removeSkillOrTraining(skillOrder: [ExperienceOrder!], text: String, type: String!): Boolean
     removeTalentFromTimeSlot(data: DeleteTimeSlotDTO!): Boolean!
     reorderExperience(data: ReorderExperienceDTO!): Boolean
+    reorderSkillOrTraining(skillOrder: [ExperienceOrder!], text: String, type: String!): Boolean
     respondToAuditionInvite(answerToQuestions: [String!]!, email: String!, response: String!, responseCode: String!): Audition!
     sendRejectionEmails(projectId: String!): Boolean
     setProfile(key: String!): Boolean

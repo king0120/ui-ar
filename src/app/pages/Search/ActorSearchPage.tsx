@@ -11,8 +11,8 @@ import {
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
-    makeStyles,
-    Paper,
+    makeStyles, MenuItem,
+    Paper, Select,
     Theme,
     Typography
 } from '@material-ui/core';
@@ -49,13 +49,12 @@ function NoReduxActorSearch(props: any) {
     const classes = useStyles();
 
     const [value, changeValue] = useState('');
-    const [type] = useState('displayName');
-
+    const [searchType, setSearchType] = useState('name')
     return (
         <>
             <form onSubmit={(e: any) => {
                 e.preventDefault();
-                props.searchUsers({value, type, spec: props.spec});
+                props.searchUsers({value, type: searchType, spec: props.spec,});
             }}>
                 <Paper>
                     <div className={classes.root}>
@@ -67,13 +66,21 @@ function NoReduxActorSearch(props: any) {
                             value={value}
                             onChange={(e) => changeValue(e.target.value)}
                         />
-
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={searchType}
+                            onChange={(e) => setSearchType(e.target.value as string)}
+                        >
+                            <MenuItem value={'name'}>Search by Name</MenuItem>
+                            <MenuItem value={'experienceTalent'}>Search by Keyword</MenuItem>
+                        </Select>
                         <Divider className={classes.divider} orientation="vertical"/>
                         <Button type="submit" color="primary" className={classes.iconButton} aria-label="directions">
                             Search
                         </Button>
                     </div>
-                    {props.showTalentSpec && (
+                    {props.showTalentSpec && searchType === "name" && (
                         <ExpansionPanel>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon/>}

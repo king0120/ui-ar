@@ -4,9 +4,12 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
-import React, {FC} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {gql} from "apollo-boost";
 import {useMutation} from "@apollo/react-hooks";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {MakeDraggable} from "./ExperienceSection";
 
 interface IResumeSection {
     title: string;
@@ -19,42 +22,51 @@ interface IResumeSection {
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
-const MOVE_SECTION = gql`
-    mutation moveSection($order: [String!]!) {
-        moveSection(order: $order)
+const REMOVE_SKILL = gql`
+    mutation removeSkillOrTraining($type: String!, $text: String!) {
+        removeSkillOrTraining(type: $type, text: $text)
     }
 `;
 
+const REORDER_SKILL = gql`
+    mutation reorderSkillsOrTraining($type: String!, $skillOrder: [ExperienceOrder!]) {
+        reorderSkillOrTraining(type: $type, skillOrder: $skillOrder)
+    }
+`
+
 const ResumeSection: FC<IResumeSection> = (props) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
+    const [reorder, setReorder] = useState(false)
+    const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [skillItems, setSkillItems] = useState([] as any[])
+    const [reorderSkillsOrTraining] = useMutation(REORDER_SKILL)
+    const onDragEnd = (result: any) => {
+        const newOrder: any[] = [...skillItems];
+        newOrder.splice(
+            result.destination.index,
+            0,
+            newOrder.splice(result.source.index, 1)[0]
+        );
+        setSkillItems(newOrder as any[])
     };
-    const [moveSection] = useMutation(MOVE_SECTION, {
-        refetchQueries: [
-            {query: GET_USER, variables: {id: props.userId}}
-        ]
-    });
+    useEffect(() => {
+        const sorted = props.items.sort((a: any, b: any) => a.index - b.index);
+        setSkillItems(sorted)
+    }, [props.items.length]);
 
-    const moveUp = () => {
-        console.log(props.profileOrder);
-        const newOrder = [...props.profileOrder];
-        // @ts-ignore
-        newOrder.moveUp(props.type);
-        console.log(newOrder);
-        moveSection({
-            variables: {order: newOrder}
-        });
-    };
-
-    const moveDown = () => {
-        console.log(props.profileOrder);
-        const newOrder = [...props.profileOrder];
-        // @ts-ignore
-        newOrder.moveDown(props.type);
-        moveSection({
-            variables: {order: newOrder}
-        });
+    const handleReorder = () => {
+        setAnchorEl(null);
+        if (reorder) {
+            const indexedItems = skillItems.map((item: any, index: number) => ({
+                id: item.id,
+                index
+            }))
+            reorderSkillsOrTraining({
+                variables: {
+                    type: props.type, skillOrder: indexedItems
+                }
+            })
+        }
+        setReorder(!reorder)
     };
 
     return (
@@ -63,34 +75,10 @@ const ResumeSection: FC<IResumeSection> = (props) => {
                 <Typography variant={"h4"}>{props.title}</Typography>
                 {!props.readOnly && (
                     <div>
+                        <Button onClick={handleReorder}>
+                            {reorder ? "Save Order" : "Reorder " + props.type}
+                        </Button>
                         <AddSkillModal type={props.type}/>
-                        <IconButton
-                            aria-label="more"
-                            aria-controls="long-menu"
-                            aria-haspopup="true"
-                            onClick={handleClick}
-                        >
-                            <MoreVertIcon/>
-                        </IconButton>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={() => setAnchorEl(null)}
-                        >
-                            <MenuItem onClick={() => {
-                                setAnchorEl(null);
-                                moveUp();
-                            }}>
-                                <Button>Move Up</Button>
-                            </MenuItem>
-                            <MenuItem onClick={() => {
-                                setAnchorEl(null);
-                                moveDown();
-                            }}>
-                                <Button>Move Down</Button>
-                            </MenuItem>
-                        </Menu>
                     </div>
                 )}
             </div>
@@ -98,18 +86,13 @@ const ResumeSection: FC<IResumeSection> = (props) => {
                 <Card>
                     <CardContent>
                         <List>
-                            {
-                                props.items && props.items.map((training: any, index: number) => (
-                                    <>
-                                        <ListItem alignItems="flex-start"
-                                                  className={'mt-12 mb-12'}
-                                                  key={training.id}
-                                        >
-                                            <Typography variant={"h6"}>{training.text}</Typography>
-                                        </ListItem>
-                                        <Divider/>
-                                    </>
-                                ))}
+                            <MakeDraggable
+                                draggable={reorder}
+                                items={skillItems}
+                                onDragEnd={onDragEnd}
+                                readOnly={props.readOnly}>
+                                <ResumeListItem/>
+                            </MakeDraggable>
                         </List>
                     </CardContent>
                 </Card>
@@ -117,6 +100,37 @@ const ResumeSection: FC<IResumeSection> = (props) => {
         </>
     );
 };
+
+function ResumeListItem(props: any) {
+    const [removeSkill] = useMutation(REMOVE_SKILL, {
+        refetchQueries: [
+            {query: GET_USER, variables: {id: props.userId}}
+        ]
+    })
+    return (
+        <>
+            <ListItem alignItems="flex-start"
+                      className={'mt-12 mb-12'}
+            >
+                <Typography variant={"h6"}>{props.text}</Typography>
+                {!props.readOnly && (
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="comments"
+                                    onClick={() => removeSkill({
+                                        variables: {
+                                            type: props.type,
+                                            text: props.text
+                                        }
+                                    })}>
+                            <DeleteIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                )}
+            </ListItem>
+            <Divider/>
+        </>
+    )
+}
 
 export default ResumeSection;
 

@@ -67,43 +67,37 @@ const ProfilePage: FC<any> = (props) => {
                     scrollButtons="off"
                     className="h-64 w-full border-b-1"
                 >
-                    <Tab className="h-64" label="Experience & Talent"/>
-                    <Tab className="h-64" label="Head Shots & Photos"/>
+                    <Tab className="h-64" label="General Resume"/>
+                    <Tab className="h-64" label="Additional Photos"/>
                 </Tabs>
                 <TabPanel value={selectedTab} index={0}>
-                    {user.profileOrder.map((orderName: string) => {
-                        if (orderName === 'training') {
-                            return (
-                                <ResumeSection
-                                    type={"training"}
-                                    title={"Training"}
-                                    items={user.trainings}
-                                    readOnly={props.readOnly}
-                                    profileOrder={user.profileOrder}
-                                    userId={user.id}
-                                />
-                            );
-                        }
-                        if (orderName === 'skill') {
-                            return (
-                                <ResumeSection
-                                    type={"skill"}
-                                    title={"Special Skills"}
-                                    items={user.specialSkills}
-                                    readOnly={props.readOnly}
-                                    profileOrder={user.profileOrder}
-                                    userId={user.id}
-                                />
-                            );
-                        }
-                        if (orderName === 'experience') {
-                            return <ExperienceSection
+                    <div className={'flex justify-between flex-col lg:flex-row'}>
+                        <div className={'lg:w-8/12 mr-24'}>
+                            <ExperienceSection
                                 user={user}
                                 type={'experience'}
                                 readOnly={props.readOnly}
                             />
-                        }
-                    })}
+                        </div>
+                        <div className={'lg:w-4/12'}>
+                            <ResumeSection
+                            type={"training"}
+                            title={"Training"}
+                            items={user.trainings}
+                            readOnly={props.readOnly}
+                            profileOrder={user.profileOrder}
+                            userId={user.id}
+                        />
+                            <ResumeSection
+                                type={"skill"}
+                                title={"Special Skills"}
+                                items={user.specialSkills}
+                                readOnly={props.readOnly}
+                                profileOrder={user.profileOrder}
+                                userId={user.id}
+                            />
+                        </div>
+                    </div>
                 </TabPanel>
                 <TabPanel value={selectedTab} index={1}>
                     <ProfileImagePage userId={id} readOnly={readOnly}/>

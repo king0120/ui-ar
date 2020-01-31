@@ -38,15 +38,17 @@ const GET_EXPERIENCE = gql`
 
 
 const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false}) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [reorderExperienceItems, setReorderExperienceItems] = useState(false);
     const [removeExperience] = useMutation(REMOVE_EXPERIENCE, {
         refetchQueries: [{
-            query: GET_USER,
-            variables: {id}
+            query: GET_EXPERIENCE,
+            variables: {
+                data: {
+                    userId: id,
+                    experienceType: value
+                }
+            }
         }]
     });
     const {data} = useQuery(GET_EXPERIENCE, {
@@ -96,8 +98,12 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
     };
 
 
-    if (!experiences) {
+    if (!expItems) {
         return <h1>loading</h1>
+    }
+
+    if (!expItems.length) {
+        return null
     }
 
     return (
@@ -105,27 +111,10 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
             <CardHeader
                 title={(<>{draggable && <DragIndicatorIcon/>} {type}</>)}
                 action={!readOnly &&
-                <>
-                  <IconButton
-                    aria-label="settings"
-                    onClick={handleClick}
-                  >
-                    <MoreVertIcon/>
-                  </IconButton>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(null)}
-                  >
-                    <MenuItem onClick={handleReorderItemsToggle}>
-                      <Button>{reorderExperienceItems ? "Save Items" : "Reorder Experiences Items"}</Button>
-                    </MenuItem>
-                  </Menu>
-                </>
-                }
+                <Button onClick={handleReorderItemsToggle}>{reorderExperienceItems ? "Save Items" : "Reorder"}</Button>}
+                className={"pb-0"}
             />
-            <CardContent>
+            <CardContent className={"pt-0"}>
                 <DragDropContext onDragEnd={onDragEnd}>
 
                     {reorderExperienceItems ? (
@@ -135,6 +124,16 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
+                                    <ListItem>
+                                        <ListItemText>
+                                            <div className={'flex'}>
+                                                <div className={'text-lg w-1/4'}><strong>Project: </strong></div>
+                                                <div className={'text-lg w-1/4'}><strong>Role:</strong></div>
+                                                <div className={'text-lg w-1/4'}><strong>Company: </strong></div>
+                                                <div className={'text-lg w-1/4'}><strong>Director: </strong></div>
+                                            </div>
+                                        </ListItemText>
+                                    </ListItem>
                                     {expItems.map((exp: any, index: number) => (
                                         <Draggable
                                             key={exp.id} draggableId={exp.id} index={index}>
@@ -151,13 +150,10 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                                         <ListItemText
                                                             primary={(
                                                                 <div className={'flex'}>
-                                                                    <div className={'w-1/4'}><strong>Project: </strong> {exp.project}
-                                                                    </div>
-                                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
-                                                                    <div className={'w-1/4'}><strong>Company: </strong> {exp.company}
-                                                                    </div>
-                                                                    <div className={'w-1/4'}><strong>Director: </strong> {exp.director}
-                                                                    </div>
+                                                                    <div className={'w-1/4'}>{exp.project}</div>
+                                                                    <div className={'w-1/4'}>{exp.role}</div>
+                                                                    <div className={'w-1/4'}>{exp.company}</div>
+                                                                    <div className={'w-1/4'}>{exp.director}</div>
                                                                 </div>
                                                             )}
                                                             secondary={exp.description}
@@ -174,19 +170,26 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                         </Droppable>
                     ) : (
                         <List>
+                            <ListItem>
+                                <ListItemText>
+                                    <div className={'flex'}>
+                                        <div className={'text-lg w-1/4'}><strong>Project: </strong></div>
+                                        <div className={'text-lg w-1/4'}><strong>Role:</strong></div>
+                                        <div className={'text-lg w-1/4'}><strong>Company: </strong></div>
+                                        <div className={'text-lg w-1/4'}><strong>Director: </strong></div>
+                                    </div>
+                                </ListItemText>
+                            </ListItem>
                             {expItems.map((exp: any) => (
                                 <>
                                     <ListItem alignItems="flex-start">
                                         <ListItemText
                                             primary={(
                                                 <div className={'flex'}>
-                                                    <div className={'w-1/4'}><strong>Project: </strong> {exp.project}
-                                                    </div>
-                                                    <div className={'w-1/4'}><strong>Role:</strong> {exp.role}</div>
-                                                    <div className={'w-1/4'}><strong>Company: </strong> {exp.company}
-                                                    </div>
-                                                    <div className={'w-1/4'}><strong>Director: </strong> {exp.director}
-                                                    </div>
+                                                    <div className={'w-1/4'}>{exp.project}</div>
+                                                    <div className={'w-1/4'}>{exp.role}</div>
+                                                    <div className={'w-1/4'}>{exp.company}</div>
+                                                    <div className={'w-1/4'}>{exp.director}</div>
                                                 </div>
                                             )}
                                             secondary={exp.description}

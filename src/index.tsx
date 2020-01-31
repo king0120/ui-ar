@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   #address-input {
-    width: 100%;
+    width: 90%;
   }
 `;
 

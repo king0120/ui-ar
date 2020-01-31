@@ -22,10 +22,12 @@ query getUser($id: String!) {
         specialSkills {
             id
             text
+            index
         }
         trainings {
             id
             text
+            index
         }
         breakdown {
             ageRange

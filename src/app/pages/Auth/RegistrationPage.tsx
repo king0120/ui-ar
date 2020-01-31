@@ -86,7 +86,7 @@ function RegistrationPage(props: any) {
                                         label="Last Name"
                                     />
                                     <AddressInput
-                                        value={''}
+                                        placeholder={``}
                                         handleChange={(city: string, state: string) => {
                                             props.setFieldValue('city', city)
                                             props.setFieldValue('state', state)

@@ -45,7 +45,7 @@ function ActorSearchResults(props: any) {
                                 <div
                                     className="pl-16 w-full flex flex-col justify-center align-center truncate font-600">
                                     <div className={"flex justify-between w-full"}>
-                                        <Typography variant="body2">{actor.displayName}</Typography>
+                                        <Typography variant="body2">{actor.firstName} {actor.lastName}</Typography>
                                         <Typography variant="subtitle2">{actor.city}, {actor.state}</Typography>
                                     </div>
                                     {props.includeEmail && <Typography variant="subtitle1"><a

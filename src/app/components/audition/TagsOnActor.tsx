@@ -3,6 +3,7 @@ import {Button, Chip, TextField} from '@material-ui/core'
 import {useMutation, useQuery} from '@apollo/react-hooks';
 import {gql} from "apollo-boost";
 import {Autocomplete} from "@material-ui/lab";
+import {GET_TAGS_FOR_OWNER} from "../../pages/Profile/MyTags";
 
 const GET_DISTINCT_TAGS = gql`
     {
@@ -40,6 +41,7 @@ const TagsOnActor: FC<any> = ({userId}) => {
     const {data: allTags} = useQuery(GET_TAGS_FOR_ACTOR, {variables: {id: userId}});
     const [createTag] = useMutation(CREATE_TAG, {
         refetchQueries: [
+            {query: GET_TAGS_FOR_OWNER},
             {query: GET_TAGS_FOR_ACTOR, variables: {id: userId}},
             {query: GET_DISTINCT_TAGS}
         ]
@@ -52,13 +54,15 @@ const TagsOnActor: FC<any> = ({userId}) => {
         ]
     });
 
-    const {tags} = data && data.getDistinctTags || {tags: []};
-    if (!tags.find((tag: any) => tag.tag === "My Talent")) {
-        tags.unshift("My Talent")
-    }
-    const [options, setOptions] = useState([value, ...tags]);
+    const {tags} = data?.getDistinctTags || {tags: []};
+    const [options, setOptions] = useState([value, 'My Talent', ...tags]);
     useEffect(() => {
-        const withVal = [value, ...tags];
+        let withVal;
+        if (tags.indexOf("My Talent") === -1) {
+            withVal = [value, 'My Talent', ...tags];
+        } else {
+            withVal = [value, ...tags];
+        }
         setOptions(withVal.filter(((text: string) => text.includes(value))))
     }, [tags, value]);
 

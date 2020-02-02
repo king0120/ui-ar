@@ -9,21 +9,19 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from "@material-ui/core/Divider";
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {gql} from "apollo-boost";
 
 
 const REMOVE_EXPERIENCE = require('../../../graphql/mutations/profile/REMOVE_EXPERIENCE.gql')
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql')
 const REORDER_EXPERIENCE = gql`
     mutation reorderExperience($data: ReorderExperienceDTO!) {
         reorderExperience(data: $data)
     }
 `;
 
-const GET_EXPERIENCE = gql`
+export const GET_EXPERIENCE = gql`
     query getExperience($data: ReorderExperienceDTO!) {
         getExperience(data: $data) {
             id

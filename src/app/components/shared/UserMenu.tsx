@@ -14,7 +14,6 @@ import {Link, withRouter} from 'react-router-dom';
 import {useLazyQuery, useQuery} from "@apollo/react-hooks";
 import {GlobalContext} from 'context/globalContext';
 import {gql} from 'apollo-boost';
-import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
 import {GET_NOTIFICATIONS} from "../../pages/Profile/MyNotifications";
 
 const GET_ORGANIZATIONS_FOR_USER = require('graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql');

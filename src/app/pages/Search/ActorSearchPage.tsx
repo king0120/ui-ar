@@ -74,6 +74,7 @@ function NoReduxActorSearch(props: any) {
                         >
                             <MenuItem value={'name'}>Search by Name</MenuItem>
                             <MenuItem value={'experienceTalent'}>Search by Keyword</MenuItem>
+                            <MenuItem value={'tag'}>Search by Tag</MenuItem>
                         </Select>
                         <Divider className={classes.divider} orientation="vertical"/>
                         <Button type="submit" color="primary" className={classes.iconButton} aria-label="directions">

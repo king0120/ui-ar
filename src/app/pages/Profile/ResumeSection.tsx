@@ -1,6 +1,5 @@
-import {Button, Card, CardContent, IconButton, Menu, MenuItem, Typography} from "@material-ui/core";
+import {Button, Card, CardContent, IconButton, Typography} from "@material-ui/core";
 import AddSkillModal from "../../components/profile/AddSkillModal";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -51,7 +50,7 @@ const ResumeSection: FC<IResumeSection> = (props) => {
     useEffect(() => {
         const sorted = props.items.sort((a: any, b: any) => a.index - b.index);
         setSkillItems(sorted)
-    }, [props.items.length]);
+    }, [props.items, props.items.length]);
 
     const handleReorder = () => {
         setAnchorEl(null);
@@ -91,7 +90,7 @@ const ResumeSection: FC<IResumeSection> = (props) => {
                                 items={skillItems}
                                 onDragEnd={onDragEnd}
                                 readOnly={props.readOnly}>
-                                <ResumeListItem/>
+                                <ResumeListItem {...props}/>
                             </MakeDraggable>
                         </List>
                     </CardContent>

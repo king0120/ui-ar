@@ -81,13 +81,13 @@ const ProfilePage: FC<any> = (props) => {
                         </div>
                         <div className={'lg:w-4/12'}>
                             <ResumeSection
-                            type={"training"}
-                            title={"Training"}
-                            items={user.trainings}
-                            readOnly={props.readOnly}
-                            profileOrder={user.profileOrder}
-                            userId={user.id}
-                        />
+                                type={"training"}
+                                title={"Training"}
+                                items={user.trainings}
+                                readOnly={props.readOnly}
+                                profileOrder={user.profileOrder}
+                                userId={user.id}
+                            />
                             <ResumeSection
                                 type={"skill"}
                                 title={"Special Skills"}

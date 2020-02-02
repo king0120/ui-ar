@@ -4,7 +4,7 @@ import {GlobalContext} from "../../../context/globalContext";
 import makeStyles from '@material-ui/styles/makeStyles';
 import {useSelector} from 'react-redux';
 import {ThemeProvider} from '@material-ui/styles';
-import {AppBar, Badge, Button, Icon, ListItemIcon, ListItemText, MenuItem, Popover, Toolbar} from '@material-ui/core';
+import {AppBar, Button, Icon, ListItemIcon, ListItemText, MenuItem, Popover, Toolbar} from '@material-ui/core';
 import UserMenu from 'app/components/shared/UserMenu';
 import ArLogo from "../../../static/AR_Logo.png";
 import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";

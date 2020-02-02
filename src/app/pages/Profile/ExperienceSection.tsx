@@ -1,6 +1,5 @@
-import {Button, IconButton, Menu, MenuItem, Typography} from "@material-ui/core";
+import {Button, Typography} from "@material-ui/core";
 import AddExperienceModal from "../../components/profile/AddExperienceModal";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import ExperienceList from "../../components/profile/ExperienceList";
 import React, {FC, useEffect, useState} from "react";
@@ -13,14 +12,6 @@ const CHANGE_EXPERIENCE_ORDER = gql`
         changeExperienceOrder(newExperiences: $newExperiences)
     }
 `;
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
-
-const MOVE_SECTION = gql`
-    mutation moveSection($order: [String!]!) {
-        moveSection(order: $order)
-    }
-`;
-
 interface IExperienceSection {
     readOnly: boolean;
     user: any;
@@ -57,19 +48,11 @@ const experienceData: any = {
 const ExperienceSection: FC<IExperienceSection> = (props) => {
     const {user} = props;
     const [reorderExperience, setReorderExperience] = useState(false);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [changeExperienceOrder] = useMutation(CHANGE_EXPERIENCE_ORDER);
     const [expOrder, setExpOrder] = useState([] as string[]);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
     const order = user ? user.experienceOrder : [];
     useEffect(() => user && setExpOrder(order), [order]);
-    const [moveSection] = useMutation(MOVE_SECTION, {
-        refetchQueries: [
-            {query: GET_USER, variables: {id: user.id}}
-        ]
-    });
 
     const experienceList = expOrder.map((name: any) => {
         return experienceData[name];

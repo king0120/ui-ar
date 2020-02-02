@@ -5,9 +5,9 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLa
 import {Form, Formik} from "formik";
 import {FormikTextField} from "../shared/FormikTextField";
 import * as Yup from "yup";
+import {GET_EXPERIENCE} from "./ExperienceList";
 
 const ADD_EXPERIENCE = require('../../../graphql/mutations/profile/ADD_EXPERIENCE.gql');
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
 const experiences = [{
     id: 'theatreExperience',
@@ -50,8 +50,13 @@ const AddExperienceModal: FC<any> = () => {
     const {userId} = useContext(GlobalContext);
     const [addExperience] = useMutation(ADD_EXPERIENCE, {
         refetchQueries: [{
-            query: GET_USER,
-            variables: {id: userId}
+            query: GET_EXPERIENCE,
+            variables: {
+                data: {
+                    userId,
+                    experienceType: selectedValue
+                }
+            }
         }]
     });
     const onSubmit = (data: any) => {
@@ -99,13 +104,13 @@ const AddExperienceModal: FC<any> = () => {
                                     </div>
                                     <FormikTextField
                                         type={"text"}
-                                        name={"role"}
-                                        label={"Role Name"}
+                                        name={"project"}
+                                        label={"Project Name"}
                                     />
                                     <FormikTextField
                                         type={"text"}
-                                        name={"project"}
-                                        label={"Project Name"}
+                                        name={"role"}
+                                        label={"Role Name"}
                                     />
                                     <FormikTextField
                                         type={"text"}
@@ -117,15 +122,15 @@ const AddExperienceModal: FC<any> = () => {
                                         name={"director"}
                                         label={"Director"}
                                     />
-                                    <FormikTextField
-                                        type={"text"}
-                                        name={"description"}
-                                        label={"Description"}
-                                        variant="outlined"
-                                        rows="5"
-                                        multiline
-                                        fullWidth
-                                    />
+                                    {/*<FormikTextField*/}
+                                    {/*    type={"text"}*/}
+                                    {/*    name={"description"}*/}
+                                    {/*    label={"Description"}*/}
+                                    {/*    variant="outlined"*/}
+                                    {/*    rows="5"*/}
+                                    {/*    multiline*/}
+                                    {/*    fullWidth*/}
+                                    {/*/>*/}
                                 </Form>
                             </DialogContent>
                             <DialogActions>

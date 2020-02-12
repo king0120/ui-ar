@@ -113,9 +113,9 @@ const ProfilePage: FC<any> = (props) => {
     const {readOnly} = props;
     const {userType} = useContext(GlobalContext);
     if (!readOnly && userType.includes('theatre')) {
-        return <div>
-            <ActorSearchPage/>
-            <MyTags/>
+        return <div className={'flex'}>
+            <div className={'ml-10 w-8/12'}><ActorSearchPage fullWidth={true}/></div>
+            <div className={'w-4/12'}><MyTags/></div>
         </div>
     } else {
         return <ActorProfilePage {...props}/>

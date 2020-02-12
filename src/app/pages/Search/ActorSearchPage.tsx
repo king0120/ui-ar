@@ -112,13 +112,18 @@ export const ActorSearch = connect(mapStateToProps, {searchUsers})(NoReduxActorS
 
 const ActorSearchPage: FC<any> = (props) => {
     const handleClickTalent = (id: string) => props.history.push(`/profile/${id}`);
-
-
+    if (props.fullWidth) {
+        return (
+            <>
+                <Typography variant={'h5'}>Actor Search</Typography>
+                <ActorSearch handleClickTalent={handleClickTalent} showTalentSpec={true}/>
+            </>
+        )
+    }
     return (
         <Container>
             <Typography variant={'h5'}>Actor Search</Typography>
             <ActorSearch handleClickTalent={handleClickTalent} showTalentSpec={true}/>
-
         </Container>
     );
 };

@@ -21,8 +21,16 @@ import CheckInPage from "./app/pages/CheckInPage";
 import MyAuditionInstance from "./app/pages/Profile/MyAuditionInstance";
 import MyNotifications from "./app/pages/Profile/MyNotifications";
 import MyTags from "./app/pages/Profile/MyTags";
+import CompanyRegistrationPage from "./app/pages/Auth/CompanyRegistrationPage";
+import PendingVerificationPage from "./app/pages/PendingVerificationPage";
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
+    const {theatreVerified, userType} = useContext(GlobalContext);
+    if (userType.includes('theatre') && !theatreVerified) {
+        return <Route {...rest} render={(props) => (
+            <PendingVerificationPage />
+        )}/>
+    }
     return (
         <Route {...rest} render={(props) => (
             loggedIn
@@ -33,7 +41,6 @@ const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
 }
 
 const RedirectIfLoggedIn: FC<any> = ({component: Component, loggedIn, ...rest}) => {
-    console.log("REDIRECT", loggedIn)
     return (
         <Route {...rest} render={(props) => (
             loggedIn
@@ -44,53 +51,70 @@ const RedirectIfLoggedIn: FC<any> = ({component: Component, loggedIn, ...rest}) 
 }
 
 const AppRouter: FC<any> = () => {
-    const {userId} = useContext(GlobalContext);
-    const loggedIn = userId !== 'none'
+    const {userId, theatreVerified} = useContext(GlobalContext);
+    const loggedIn = userId !== 'none';
     return (
-            <Switch>
-                {/* Login Related */}
-                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/register' component={RegistrationPage}/>
-                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/login' component={LoginPage}/>
-                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset' component={PasswordResetPage}/>
-                <Route loggedIn={loggedIn} exact path='/passwordReset/:token' component={PasswordResetPage}/>
+        <Switch>
+            {/* Login Related */}
+            <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/register' component={RegistrationPage}/>
+            <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/register-company' component={CompanyRegistrationPage}/>
+            <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/login' component={LoginPage}/>
+            <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset' component={PasswordResetPage}/>
+            <Route loggedIn={loggedIn} exact path='/passwordReset/:token' component={PasswordResetPage}/>
 
-                <Route path='/audition/:auditionId/checkIn' component={CheckInPage}/>
-                <Route path='/audition/:auditionId' component={AuditionRSVPPage}/>
-                <Route exact path='/auditionResponse' component={AuditionResponse}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/settings' component={SettingsPage}/>
+            <Route path='/audition/:auditionId/checkIn' component={CheckInPage}/>
+            <Route path='/audition/:auditionId' component={AuditionRSVPPage}/>
+            <Route path='/pendingVerification' component={AuditionRSVPPage}/>
+            <Route exact path='/auditionResponse' component={AuditionResponse}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/settings'
+                          component={SettingsPage}/>
 
-                {/* Search */}
-                <PrivateRoute loggedIn={loggedIn} exact path='/search/actor' component={ActorSearchPage}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/search/audition' component={AuditionSearchPage}/>
+            {/* Search */}
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/search/actor'
+                          component={ActorSearchPage}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/search/audition'
+                          component={AuditionSearchPage}/>
 
-                <PrivateRoute loggedIn={loggedIn} exact path='/organization' component={OrgSelectPage}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/organization'
+                          component={OrgSelectPage}/>
 
-                {/* User */}
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions' component={MyAuditions}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile/notifications' component={MyNotifications}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile/tags' component={MyTags}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile/auditions/:instanceId' component={MyAuditionInstance}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile/images' component={(props: any) => <ProfilePage tabIndex={2} {...props}/>}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId/images'
-                              component={(props: any) => <ProfilePage readOnly={true} user={props.match.params.userId} tabIndex={2} {...props}/>}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile' component={ProfilePage}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/profile/:userId'
-                              component={(props: any) => <ProfilePage readOnly={true} {...props}/>}/>
-                {/* Project/Org */}
-                <PrivateRoute loggedIn={loggedIn} exact path='/organization/:organizationId/projects'
-                              component={ProjectsList}/>
-                <PrivateRoute loggedIn={loggedIn} exact
-                              path='/organization/:organizationId/projects/:projectId/auditions/:auditionId'
-                              component={AuditionPage}/>
-                <PrivateRoute loggedIn={loggedIn} path='/projects/:projectId/audition-manager/:auditionId'
-                              component={AuditionManagerPage}/>
-                <PrivateRoute loggedIn={loggedIn} exact path='/projects/:projectId/roles/:roleId'
-                              component={RoleBreakdownDetailPage}/>
+            {/* User */}
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/profile/auditions'
+                          component={MyAuditions}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/profile/notifications'
+                          component={MyNotifications}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/profile/tags'
+                          component={MyTags}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact
+                          path='/profile/auditions/:instanceId' component={MyAuditionInstance}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/profile/images'
+                          component={(props: any) => <ProfilePage tabIndex={2} {...props}/>}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/profile/:userId/images'
+                          component={(props: any) => <ProfilePage readOnly={true} user={props.match.params.userId}
+                                                                  tabIndex={2} {...props}/>}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/profile'
+                          component={ProfilePage}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact path='/profile/:userId'
+                          component={(props: any) => <ProfilePage readOnly={true} {...props}/>}/>
+            {/* Project/Org */}
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact
+                          path='/organization/:organizationId/projects'
+                          component={ProjectsList}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact
+                          path='/organization/:organizationId/projects/:projectId/auditions/:auditionId'
+                          component={AuditionPage}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn}
+                          path='/projects/:projectId/audition-manager/:auditionId'
+                          component={AuditionManagerPage}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact
+                          path='/projects/:projectId/roles/:roleId'
+                          component={RoleBreakdownDetailPage}/>
 
-                <PrivateRoute loggedIn={loggedIn} path='/organization/:organizationId/projects/:projectId'
-                              component={ProjectsDetailPage}/>
-                <PrivateRoute loggedIn={loggedIn} path='/' component={ProfilePage}/>
-            </Switch>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn}
+                          path='/organization/:organizationId/projects/:projectId'
+                          component={ProjectsDetailPage}/>
+            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} path='/' component={ProfilePage}/>
+        </Switch>
     );
 };
 

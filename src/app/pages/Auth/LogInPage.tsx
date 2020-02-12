@@ -156,7 +156,8 @@ function Login2Page(props: any) {
 
                         <div className="flex flex-col items-center justify-center pt-32 pb-24">
                             <span className="font-medium">Don't have an account?</span>
-                            <Link className="font-medium" to="/register">Create an account</Link>
+                            <Link className="font-medium" to="/register">Actor? Create an account</Link>
+                            <Link className="font-medium" to="/register-company">Company? Request Access</Link>
                         </div>
 
                     </CardContent>

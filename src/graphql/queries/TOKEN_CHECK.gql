@@ -3,5 +3,6 @@
         id
         displayName
         userType
+        theatreVerified
     }
 }

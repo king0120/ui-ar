@@ -10,6 +10,8 @@ import ProfileImagePage from './ProfileImagePage';
 import ProfileHeader from './ProfileHeader';
 import ResumeSection from "./ResumeSection";
 import ExperienceSection from "./ExperienceSection";
+import ActorSearchPage from "../Search/ActorSearchPage";
+import MyTags from "./MyTags";
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
@@ -28,10 +30,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ProfilePage: FC<any> = (props) => {
+const ActorProfilePage: FC<any> = (props) => {
     const classes = useStyles();
-    const {readOnly, tabIndex = 0, auditionView = false} = props;
     const {userId} = useContext(GlobalContext);
+    const {readOnly, tabIndex = 0, auditionView = false} = props;
     const [selectedTab, setSelectedTab] = useState(tabIndex);
 
     const id = readOnly ? props.match.params.userId : userId;
@@ -105,6 +107,19 @@ const ProfilePage: FC<any> = (props) => {
             </div>
         </div>
     );
+}
+
+const ProfilePage: FC<any> = (props) => {
+    const {readOnly} = props;
+    const {userType} = useContext(GlobalContext);
+    if (!readOnly && userType.includes('theatre')) {
+        return <div>
+            <ActorSearchPage/>
+            <MyTags/>
+        </div>
+    } else {
+        return <ActorProfilePage {...props}/>
+    }
 };
 
 export default ProfilePage;

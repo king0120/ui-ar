@@ -1,17 +1,43 @@
 import React, {useContext} from 'react';
-import {Button, Card, CardContent, FormControl, Typography} from '@material-ui/core';
+import {Button, Card, CardContent, FormControl, MenuItem, Typography} from '@material-ui/core';
 import clsx from 'clsx';
 import {Link} from 'react-router-dom';
 import {useAuthStyles, Animate, AuthPageSplash} from './SharedAuth'
 import AddressInput from 'app/components/shared/AddressInput';
 import {Formik, Form, Field} from 'formik'
-import {CheckboxWithLabel} from 'formik-material-ui'
+import {CheckboxWithLabel, TextField} from 'formik-material-ui'
 import * as Yup from 'yup'
 import arAxios from 'utils/axiosHelper';
 import {GlobalContext} from 'context/globalContext';
 import {FormikTextField} from '../../components/shared/FormikTextField';
+import {Simulate} from "react-dom/test-utils";
+import {useSnackbar} from "notistack";
+
+const ranges = [
+    {
+        value: 'nonprofit',
+        label: 'Non-Profit Theatre',
+    },
+    {
+        value: 'forProfit',
+        label: 'For-Profit Theatre',
+    },
+    {
+        value: 'filmAndTelevision',
+        label: 'TV & Film',
+    },
+    {
+        value: 'talentAgency',
+        label: 'Talent Agency',
+    },
+];
 
 const initialValues = {
+    companyName: '',
+    companyType: 'nonprofit',
+    companyCity: '',
+    companyState: '',
+    companyEin: '',
     firstName: '',
     lastName: '',
     city: '',
@@ -23,7 +49,11 @@ const initialValues = {
 }
 
 const validationSchema = Yup.object({
-    firstName: Yup.string().required('Required'),
+    companyName: Yup.string().required('Required'),
+    companyType: Yup.string().oneOf(['nonprofit', 'forProfit', 'filmAndTelevision', 'talentAgency']).required('Required'),
+    companyCity: Yup.string().required('Required'),
+    companyState: Yup.string().required('Required'),
+    companyEin: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
     city: Yup.string().required('Required'),
     state: Yup.string().required('Required'),
@@ -31,16 +61,28 @@ const validationSchema = Yup.object({
     password: Yup.string().required('Required').min(6, 'Password must be at least 6 characters').max(30, 'Password must be under 30 characters'),
     passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
     acceptTermsConditions: Yup.boolean().oneOf([true], 'Please Review Terms and Conditions')
-})
+});
 
-function RegistrationPage(props: any) {
+function CompanyRegistrationPage(props: any) {
     const classes = useAuthStyles();
     const {setUserId, setDisplayName} = useContext(GlobalContext)
-
+    const { enqueueSnackbar } = useSnackbar();
     async function handleSubmit(values: any) {
         try {
-            const {email, password, firstName, lastName, city, state} = values;
-            const {data} = await arAxios.post('/auth/register', {email, password, firstName, lastName, city, state})
+            const {
+                email, password, firstName, lastName, city, state, companyName,
+                companyType, companyCity, companyState, companyEin
+            } = values;
+            const {data} = await arAxios.post('/auth/register-company', {
+                user: {email, password, firstName, lastName, city, state},
+                company: {
+                    name: companyName,
+                    type: companyType,
+                    city: companyCity,
+                    state: companyState,
+                    ein: companyEin
+                }
+            })
             if (data) {
                 localStorage.setItem('accessToken', data.accessToken);
                 await setUserId(data.userId);
@@ -49,6 +91,13 @@ function RegistrationPage(props: any) {
                 window.location.reload();
             }
         } catch (err) {
+            enqueueSnackbar("Email Already Registerd", {
+                variant: 'error',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                }
+            });
         }
     }
 
@@ -61,7 +110,7 @@ function RegistrationPage(props: any) {
 
                 <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
 
-                    <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-128 ">
+                    <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 ">
 
                         <Typography variant="h6" className="md:w-full mb-32">CREATE AN ACCOUNT</Typography>
 
@@ -75,6 +124,45 @@ function RegistrationPage(props: any) {
                                     name="registerForm"
                                     className="flex flex-col justify-center w-full"
                                 >
+                                    <h1>Company Info</h1>
+                                    <FormikTextField
+                                        type="text"
+                                        name="companyName"
+                                        label="Company Name"
+                                    />
+                                    <Field
+                                        component={TextField}
+                                        type="text"
+                                        name="select"
+                                        label="Company Type"
+                                        select
+                                        variant="outlined"
+                                        className={'mb-16'}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    >
+                                        {ranges.map(option => (
+                                            <MenuItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))}
+                                    </Field>
+                                    <AddressInput
+                                        placeholder={``}
+                                        handleChange={(city: string, state: string) => {
+                                            props.setFieldValue('city', city)
+                                            props.setFieldValue('state', state)
+                                            props.setFieldValue('companyCity', city)
+                                            props.setFieldValue('companyState', state)
+                                        }}
+                                    />
+                                    <FormikTextField
+                                        type="text"
+                                        name="companyEin"
+                                        label="EIN Number"
+                                    />
+                                    <h1>User Info</h1>
                                     <FormikTextField
                                         type="text"
                                         name="firstName"
@@ -84,13 +172,6 @@ function RegistrationPage(props: any) {
                                         type="text"
                                         name="lastName"
                                         label="Last Name"
-                                    />
-                                    <AddressInput
-                                        placeholder={``}
-                                        handleChange={(city: string, state: string) => {
-                                            props.setFieldValue('city', city)
-                                            props.setFieldValue('state', state)
-                                        }}
                                     />
                                     <FormikTextField
                                         type="email"
@@ -135,7 +216,6 @@ function RegistrationPage(props: any) {
                         <div className="flex flex-col items-center justify-center pt-32 pb-24">
                             <span className="font-medium">Already have an account?</span>
                             <Link className="font-medium" to="/login">Login</Link>
-                            <Link className="font-medium" to="/register-company">Company? Request Access</Link>
                         </div>
 
                     </CardContent>
@@ -145,4 +225,4 @@ function RegistrationPage(props: any) {
     );
 }
 
-export default RegistrationPage;
+export default CompanyRegistrationPage;

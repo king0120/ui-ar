@@ -174,7 +174,7 @@ type FormattedQuestionAnswer {
 
 type LoginResponse {
     accessToken: String!
-    displayName: String!
+    displayName: String
     userId: String!
 }
 
@@ -260,7 +260,7 @@ type Organization {
     address: String!
     contactPhoneNumber: String!
     contractsOfferred: String!
-    eid: String!
+    ein: String!
     id: String!
     irsStatus: String!
     lat: Float!
@@ -313,6 +313,7 @@ type ProjectRole {
 
 type Query {
     getActor(id: String!): User!
+    getAllNotes: [ActorNote!]!
     getAllOrganizationsForUser: UserOrganizations!
     getAllProjects(organizationId: String!): [Project!]!
     getAllRoles(projectId: String!): [ProjectRole!]!
@@ -414,6 +415,7 @@ type User {
     state: String
     televisionExperience: [TelevisionExperience!]!
     theatreExperience: [TheatreExperience!]!
+    theatreVerified: Boolean!
     trainings: [Training!]
     updatedAt: Float!
     userType: [UserType!]!

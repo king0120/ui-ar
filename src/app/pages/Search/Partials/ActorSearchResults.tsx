@@ -19,13 +19,13 @@ function ActorSearchResults(props: any) {
     const changePage = (data: any) => setSelectedPage(data.selected);
     const sliceToShow = props.actors && props.actors.slice(selected * 10, (selected * 10) + 10);
     return (
-        <Paper className="w-full shadow-none">
+        <Paper style={{minHeight: '60vh'}} className="w-full shadow-none flex flex-col justify-between">
             <div className="flex items-center justify-between px-16 h-64">
                 <Typography className="text-16">Found Actors</Typography>
                 <Typography
                     className="text-11 font-500 rounded-4 text-white bg-blue px-8 py-4">{props.actors.length + " Actors"}</Typography>
             </div>
-            <div className="w-full min-w-full table-responsive">
+            <div className="w-full min-w-full table-responsive flex-grow">
                 <AnimateGroup
                     className="w-full"
                     enter={{

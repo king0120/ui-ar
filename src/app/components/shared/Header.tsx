@@ -28,11 +28,7 @@ const Header = (props: any) => {
     }
 
     const handleLogoClick = () => {
-        if (userType.includes("theatre")) {
-            push('/organization')
-        } else {
-            push('/profile')
-        }
+        push('/profile')
     };
 
     return (

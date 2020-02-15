@@ -12,6 +12,7 @@ import ResumeSection from "./ResumeSection";
 import ExperienceSection from "./ExperienceSection";
 import ActorSearchPage from "../Search/ActorSearchPage";
 import MyTags from "./MyTags";
+import CompanyNotes from "./CompanyNotes";
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
@@ -107,16 +108,38 @@ const ActorProfilePage: FC<any> = (props) => {
             </div>
         </div>
     );
-}
+};
+
+const CompanyProfile = () => (<div className={'flex'}>
+    <div className={'ml-10 w-8/12'}><ActorSearchPage fullWidth={true}/></div>
+    <div className={'w-4/12'}>
+        <CompanyNotes />
+        <MyTags/>
+    </div>
+</div>);
 
 const ProfilePage: FC<any> = (props) => {
     const {readOnly} = props;
     const {userType} = useContext(GlobalContext);
+    const [tab, setTab] = useState(0);
     if (!readOnly && userType.includes('theatre')) {
-        return <div className={'flex'}>
-            <div className={'ml-10 w-8/12'}><ActorSearchPage fullWidth={true}/></div>
-            <div className={'w-4/12'}><MyTags/></div>
-        </div>
+        if (userType.includes('actor')) {
+            return (
+                <>
+                    <Tabs value={tab} onChange={(_, tab) => setTab(tab)} aria-label="simple tabs example">
+                        <Tab label="Company Dashboard"/>
+                        <Tab label="Actor Profile"/>
+                    </Tabs>
+                    <TabPanel value={tab} index={0}>
+                        <CompanyProfile/>
+                    </TabPanel>
+                    <TabPanel value={tab} index={1}>
+                        <ActorProfilePage {...props}/>
+                    </TabPanel>
+                </>
+            )
+        }
+        return <CompanyProfile/>
     } else {
         return <ActorProfilePage {...props}/>
     }

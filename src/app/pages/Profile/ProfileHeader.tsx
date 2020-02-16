@@ -13,13 +13,13 @@ const ProfileHeader = ({ user }: any) => {
                   <Typography data-cy="profile-display-name" variant="h2" color="inherit">{user.firstName} {user.lastName}</Typography>
               </Animate>
               <Animate animation="transition.expandIn" delay={300}>
-                  <Typography data-cy="profile-address" variant="h4" color="inherit">{user.city}, {user.state}</Typography>
+                  <Typography data-cy="profile-address" variant="h6" color="inherit">{user.city}, {user.state}</Typography>
               </Animate>
               <Animate animation="transition.expandIn" delay={300}>
-                  <Typography data-cy="profile-address" variant="h4" color="inherit">Height: {feet} Feet, {inches} Inches</Typography>
+                  <Typography data-cy="profile-address" variant="h6" color="inherit">Height: {feet} Feet, {inches} Inches</Typography>
               </Animate>
               <Animate animation="transition.expandIn" delay={300}>
-                  <Typography data-cy="profile-address" variant="h4" color="inherit">Eye: {user.eyeColor.capitalize()}, Hair: {user.hairColor.capitalize()}</Typography>
+                  <Typography data-cy="profile-address" variant="h6" color="inherit">Eye: {user.eyeColor.capitalize()}, Hair: {user.hairColor.capitalize()}</Typography>
               </Animate>
           </div>
 

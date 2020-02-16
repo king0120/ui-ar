@@ -48,12 +48,7 @@ const useStyles = makeStyles((theme: Theme) => {
         text: {
             color: theme.palette.secondary.light
         },
-        profilePic: {
-            height: 300,
-            width: 250,
-            borderRadius: 10,
-            "object-fit": "scale-down"
-        }
+
     })
 });
 
@@ -105,25 +100,13 @@ declare const Chargebee: any;
 const ProfileSidebar: FC<any> = (props: any) => {
     const classes = useStyles();
     const { userType } = useContext(GlobalContext);
-    let imageUrl = 'https://image.shutterstock.com/z/stock-vector-default-avatar-profile-icon-grey-photo-placeholder-518740741.jpg';
-    if (props.user.profilePicture && props.user.profilePicture.url) {
-        imageUrl = props.user.profilePicture && props.user.profilePicture.url;
-    }
+
     const canAddNotes = userType.includes('theatre')
-    const [open, setOpen] = useState(false);
     const [notesOpen, setNotesOpen] = useState(false);
     const [tagsOpen, setTagsOpen] = useState(false);
     return (
         <div>
-            <LightboxModal
-                open={open}
-                handleClose={() => setOpen(false)}
-                images={[{ src: imageUrl }]}
-            />
             <List component="nav" aria-label="">
-                <ListItem>
-                    <img data-cy="profile-picture" alt={props.user.displayName} className={classes.profilePic} onClick={() => setOpen(true)} src={imageUrl} />
-                </ListItem>
                 {!props.readOnly && (
                     <AttributesModal {...props} />
                 )}

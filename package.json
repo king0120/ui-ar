@@ -83,6 +83,7 @@
     "build": "craco build",
     "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.ts -o ./src/styles/tailwind.css",
     "deploy": "yarn build && aws s3 sync build/ s3://ar-react-app",
+    "deploy-prod": "yarn build && aws s3 sync build/ s3://app.auditionrevolution.com",
     "test": "craco test",
     "instrument": "yarn nyc instrument --compact=false src instrumented",
     "cypress:open": "cypress open",

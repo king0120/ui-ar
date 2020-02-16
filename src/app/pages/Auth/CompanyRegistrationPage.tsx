@@ -12,6 +12,7 @@ import {GlobalContext} from 'context/globalContext';
 import {FormikTextField} from '../../components/shared/FormikTextField';
 import {Simulate} from "react-dom/test-utils";
 import {useSnackbar} from "notistack";
+import TermsAndConditions from "./TermsAndConditions";
 
 const ranges = [
     {
@@ -67,6 +68,10 @@ function CompanyRegistrationPage(props: any) {
     const classes = useAuthStyles();
     const {setUserId, setDisplayName} = useContext(GlobalContext)
     const { enqueueSnackbar } = useSnackbar();
+    const [open, setOpen] = React.useState(false)
+    const handleClose = () => {
+        setOpen(false);
+    };
     async function handleSubmit(values: any) {
         try {
             const {
@@ -103,7 +108,7 @@ function CompanyRegistrationPage(props: any) {
 
     return (
         <div className={clsx(classes.root, "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0")}>
-
+            <TermsAndConditions open={open} onClose={handleClose}/>
             <AuthPageSplash/>
 
             <Animate animation={{translateX: [0, '100%']}}>
@@ -191,7 +196,9 @@ function CompanyRegistrationPage(props: any) {
                                     />
                                     <FormControl className="items-center">
                                         <Field
-                                            Label={{label: 'I read and accept terms and conditions'}}
+                                            Label={{label: (
+                                                    <span>I read and accept <a onClick={() => setOpen(true)}>terms and conditions</a></span>)
+                                            }}
                                             name="acceptTermsConditions"
                                             id="termsAndConditions"
                                             component={CheckboxWithLabel}

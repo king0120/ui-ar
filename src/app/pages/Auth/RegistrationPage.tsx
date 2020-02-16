@@ -10,6 +10,7 @@ import * as Yup from 'yup'
 import arAxios from 'utils/axiosHelper';
 import {GlobalContext} from 'context/globalContext';
 import {FormikTextField} from '../../components/shared/FormikTextField';
+import TermsAndConditions from "./TermsAndConditions";
 
 const initialValues = {
     firstName: '',
@@ -36,6 +37,10 @@ const validationSchema = Yup.object({
 function RegistrationPage(props: any) {
     const classes = useAuthStyles();
     const {setUserId, setDisplayName} = useContext(GlobalContext)
+    const [open, setOpen] = React.useState(false)
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     async function handleSubmit(values: any) {
         try {
@@ -54,7 +59,7 @@ function RegistrationPage(props: any) {
 
     return (
         <div className={clsx(classes.root, "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0")}>
-
+            <TermsAndConditions open={open} onClose={handleClose}/>
             <AuthPageSplash/>
 
             <Animate animation={{translateX: [0, '100%']}}>
@@ -110,7 +115,9 @@ function RegistrationPage(props: any) {
                                     />
                                     <FormControl className="items-center">
                                         <Field
-                                            Label={{label: 'I read and accept terms and conditions'}}
+                                            Label={{label: (
+                                                    <span>I read and accept <a onClick={() => setOpen(true)}>terms and conditions</a></span>)
+                                            }}
                                             name="acceptTermsConditions"
                                             id="termsAndConditions"
                                             component={CheckboxWithLabel}

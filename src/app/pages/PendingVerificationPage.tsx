@@ -10,25 +10,26 @@ import ARLogo from '../../static/AR_Logo.png';
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         background: 'radial-gradient(' + darken(theme.palette.primary.dark, 0.5) + ' 0%, ' + theme.palette.primary.dark + ' 80%)',
-        color     : theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText
     }
 }));
 
-function PendingVerificationPage()
-{
+interface PendingVerificationProps {
+    type: 'actor' | 'company'
+}
+
+function PendingVerificationPage(props: PendingVerificationProps) {
     const classes = useStyles();
 
     const {form, handleChange, resetForm} = useForm({
         email: ''
     });
 
-    function isFormValid()
-    {
+    function isFormValid() {
         return form.email.length > 0;
     }
 
-    function handleSubmit(ev: any)
-    {
+    function handleSubmit(ev: any) {
         ev.preventDefault();
         resetForm();
     }
@@ -50,13 +51,30 @@ function PendingVerificationPage()
                                 Thank you for joining the Audition Revolution!
                             </Typography>
 
-                            <Typography color="textSecondary" className="max-w-288">
-                                We are still verifying your company's request to access our data.
-                            </Typography>
-
-                            <Typography color="textSecondary" className="max-w-288">
-                                Our Team will be in touch with you soon!
-                            </Typography>
+                            {props.type === 'company' && (
+                                <>
+                                    <Typography color="textSecondary" className="max-w-288">
+                                        You’re almost there! We just sent an email to verify your account. You should
+                                        receive it soon - be on the lookout!
+                                    </Typography>
+                                    <Typography color="textSecondary" className="max-w-288">
+                                        Our Team will be in touch with you soon!
+                                    </Typography>
+                                </>
+                            )}
+                            {props.type === 'actor' && (
+                                <>
+                                    <Typography color="textSecondary" className="max-w-288">
+                                        You’re almost there! We just sent an email to verify your account. You should
+                                        receive it soon - be on the lookout!
+                                    </Typography>
+                                    <br/>
+                                    <Typography color="textSecondary" className="max-w-288">
+                                        To be sure you receive all notifications from Audition Revolution, whitelist
+                                        support@auditionrevolution.com and check your spam and promotions folder.
+                                    </Typography>
+                                </>
+                            )}
 
                         </CardContent>
                     </Card>

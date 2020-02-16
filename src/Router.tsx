@@ -25,10 +25,16 @@ import CompanyRegistrationPage from "./app/pages/Auth/CompanyRegistrationPage";
 import PendingVerificationPage from "./app/pages/PendingVerificationPage";
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
-    const {theatreVerified, userType} = useContext(GlobalContext);
+    const {theatreVerified, verified, userType} = useContext(GlobalContext);
+    console.log(userType, verified)
     if (userType.includes('theatre') && !theatreVerified) {
         return <Route {...rest} render={(props) => (
-            <PendingVerificationPage />
+            <PendingVerificationPage type={'company'}/>
+        )}/>
+    }
+    if (userType.includes('actor') && !verified) {
+        return <Route {...rest} render={(props) => (
+            <PendingVerificationPage type={'actor'}/>
         )}/>
     }
     return (

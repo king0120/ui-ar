@@ -10,7 +10,6 @@ import * as Yup from 'yup'
 import arAxios from 'utils/axiosHelper';
 import {GlobalContext} from 'context/globalContext';
 import {FormikTextField} from '../../components/shared/FormikTextField';
-import {Simulate} from "react-dom/test-utils";
 import {useSnackbar} from "notistack";
 import TermsAndConditions from "./TermsAndConditions";
 

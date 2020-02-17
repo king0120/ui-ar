@@ -88,7 +88,7 @@ const ProfileImagePage: FC<any> = (props) => {
                                         color={'primary'}
                                         disabled
                                     >
-                                        Current Pic
+                                        Current Image
                                     </Button>
                                 ) : (
                                     <Button
@@ -96,7 +96,7 @@ const ProfileImagePage: FC<any> = (props) => {
                                         variant={"outlined"}
                                         color={'primary'}
                                     >
-                                        Set Profile Pic
+                                        Set Profile Image
                                     </Button>)
                                 }
 

@@ -88,7 +88,7 @@ const ActorProfilePage: FC<any> = (props) => {
                     className="h-64 w-full border-b-1"
                 >
                     <Tab className="h-64" label="General Resume"/>
-                    <Tab className="h-64" label="Additional Photos"/>
+                    <Tab className="h-64" label="Photos"/>
                 </Tabs>
                 <TabPanel value={selectedTab} index={0}>
                     <div className={'flex justify-between flex-col lg:flex-row'}>

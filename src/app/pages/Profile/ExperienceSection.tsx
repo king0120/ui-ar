@@ -136,7 +136,7 @@ export function MakeDraggable(props: IMakeDraggable) {
                     )}
                 </Droppable>
             ) : props.items.map((experience: any, index: number) => (
-                <div className={'mt-12 mb-12'} key={experience.id}>
+                <div className={'mt-12 mb-12'} key={experience.id || index}>
                     {React.cloneElement(props.children, {draggable: props.draggable, readOnly: props.readOnly, ...experience})}
                 </div>
             ))

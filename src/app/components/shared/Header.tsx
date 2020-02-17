@@ -23,7 +23,7 @@ const Header = (props: any) => {
     const toolbarTheme = useSelector<any, any>(({fuse}) => fuse.settings.toolbarTheme);
     const [dbButtonToggle, setDbButtonToggle] = useState(null as any);
     const classes = useStyles(props);
-    if (props.location.pathname === "/" || props.location.pathname === "/login" || props.location.pathname === "/register" || props.location.pathname === "/passwordReset") {
+    if (props.location.pathname === "/login" || props.location.pathname === "/register" || props.location.pathname === "/passwordReset") {
         return null
     }
 

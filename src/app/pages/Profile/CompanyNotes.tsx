@@ -6,6 +6,7 @@ import {Card, CardContent, CardHeader, Container, Typography} from "@material-ui
 const GET_ALL_NOTES = gql`
     query getAllNotes {
         getAllNotes {
+            id
             for {
                 id
                 firstName
@@ -31,7 +32,7 @@ const CompanyNotes: FC<any> = () => {
                         Recent Notes
                     </Typography>
                     {notes.map((note: any) => (
-                        <p>{note.text} - <a
+                        <p key={note.id}>{note.text} - <a
                             href={"/profile/" + note.for.id}>{note.for.firstName} {note.for.lastName}</a>
                         </p>
                     ))}

@@ -25,13 +25,16 @@ import {useMutation} from "@apollo/react-hooks";
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
 const validationSchema = Yup.object({
     firstName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
     city: Yup.string(),
     state: Yup.string(),
     representation: Yup.string(),
-    website: Yup.string().url("Must be a valid URL, make sure to include http://")
+    website: Yup.string().url("Must be a valid URL, make sure to include http://"),
+    phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
 });
 
 const UPDATE_USER = gql`
@@ -62,10 +65,10 @@ function EditUserModal({user}: any) {
         lastName: user.lastName,
         city: user.city,
         state: user.state,
-        website: user.website,
+        website: user.website || '',
         gender: user.gender,
-        representation: user.representation,
-        phoneNumber: user.phoneNumber,
+        representation: user.representation || '',
+        phoneNumber: user.phoneNumber || '',
         feet: Math.floor(user.heightInches / 12),
         inches: user.heightInches % 12,
         eyeColor: user.eyeColor,
@@ -111,7 +114,7 @@ function EditUserModal({user}: any) {
                 {props => (
                     <Dialog
                         fullWidth
-                        maxWidth="xs"
+                        maxWidth="md"
                         aria-labelledby="update-user-modal"
                         open={open}
                         onClose={handleClose}

@@ -2,15 +2,16 @@ import React, {useContext} from 'react';
 import {Button, Card, CardContent, FormControl, Typography} from '@material-ui/core';
 import clsx from 'clsx';
 import {Link} from 'react-router-dom';
-import {useAuthStyles, Animate, AuthPageSplash} from './SharedAuth'
+import {useAuthStyles, Animate, AuthPageSplash} from './SharedAuth';
 import AddressInput from 'app/components/shared/AddressInput';
-import {Formik, Form, Field} from 'formik'
-import {CheckboxWithLabel} from 'formik-material-ui'
-import * as Yup from 'yup'
+import {Formik, Form, Field} from 'formik';
+import {CheckboxWithLabel} from 'formik-material-ui';
+import * as Yup from 'yup';
 import arAxios from 'utils/axiosHelper';
 import {GlobalContext} from 'context/globalContext';
 import {FormikTextField} from '../../components/shared/FormikTextField';
-import TermsAndConditions from "./TermsAndConditions";
+import TermsAndConditions from './TermsAndConditions';
+import {useSnackbar} from 'notistack';
 
 const initialValues = {
     firstName: '',
@@ -21,7 +22,7 @@ const initialValues = {
     password: '',
     passwordConfirm: '',
     acceptTermsConditions: false
-}
+};
 
 const validationSchema = Yup.object({
     firstName: Yup.string().required('Required'),
@@ -32,20 +33,21 @@ const validationSchema = Yup.object({
     password: Yup.string().required('Required').min(6, 'Password must be at least 6 characters').max(30, 'Password must be under 30 characters'),
     passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
     acceptTermsConditions: Yup.boolean().oneOf([true], 'Please Review Terms and Conditions')
-})
+});
 
 function RegistrationPage(props: any) {
     const classes = useAuthStyles();
-    const {setUserId, setDisplayName} = useContext(GlobalContext)
-    const [open, setOpen] = React.useState(false)
+    const {setUserId, setDisplayName} = useContext(GlobalContext);
+    const { enqueueSnackbar } = useSnackbar();
+    const [open, setOpen] = React.useState(false);
     const handleClose = () => {
         setOpen(false);
     };
 
     async function handleSubmit(values: any) {
+        const {email, password, firstName, lastName, city, state} = values;
         try {
-            const {email, password, firstName, lastName, city, state} = values;
-            const {data} = await arAxios.post('/auth/register', {email, password, firstName, lastName, city, state})
+            const {data} = await arAxios.post('/auth/register', {email, password, firstName, lastName, city, state});
             if (data) {
                 localStorage.setItem('accessToken', data.accessToken);
                 await setUserId(data.userId);
@@ -54,11 +56,18 @@ function RegistrationPage(props: any) {
                 window.location.reload();
             }
         } catch (err) {
+            enqueueSnackbar("Email Already Registerd", {
+                variant: 'error',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                }
+            });
         }
     }
 
     return (
-        <div className={clsx(classes.root, "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0")}>
+        <div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0')}>
             <TermsAndConditions open={open} onClose={handleClose}/>
             <AuthPageSplash/>
 
@@ -93,8 +102,8 @@ function RegistrationPage(props: any) {
                                     <AddressInput
                                         placeholder={``}
                                         handleChange={(city: string, state: string) => {
-                                            props.setFieldValue('city', city)
-                                            props.setFieldValue('state', state)
+                                            props.setFieldValue('city', city);
+                                            props.setFieldValue('state', state);
                                         }}
                                     />
                                     <FormikTextField
@@ -115,7 +124,8 @@ function RegistrationPage(props: any) {
                                     />
                                     <FormControl className="items-center">
                                         <Field
-                                            Label={{label: (
+                                            Label={{
+                                                label: (
                                                     <span>I read and accept <a onClick={() => setOpen(true)}>terms and conditions</a></span>)
                                             }}
                                             name="acceptTermsConditions"

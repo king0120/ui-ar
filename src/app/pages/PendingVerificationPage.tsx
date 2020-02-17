@@ -62,7 +62,7 @@ function PendingVerificationPage(props: PendingVerificationProps) {
                             <img className="m-32" src={ARLogo} alt="logo"/>
 
                             <Typography variant="subtitle1" className="mb-16">
-                                Thank you for joining the Audition Revolution!
+                                Thank you for joining Audition Revolution!
                             </Typography>
 
                             {props.type === 'company' && (

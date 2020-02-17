@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const arAxios = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? 'https://aud-rev-test.herokuapp.com/' : '/',
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://app.auditionrevolution.com/' : '/',
 });
 
 const accessToken = localStorage.getItem('accessToken');

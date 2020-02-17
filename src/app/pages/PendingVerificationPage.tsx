@@ -6,6 +6,8 @@ import {useForm} from '@fuse/hooks';
 import clsx from 'clsx';
 import {Animate} from "./Auth/SharedAuth";
 import ARLogo from '../../static/AR_Logo.png';
+import arAxios from '../../utils/axiosHelper';
+import {useSnackbar} from 'notistack';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -20,6 +22,7 @@ interface PendingVerificationProps {
 
 function PendingVerificationPage(props: PendingVerificationProps) {
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
 
     const {form, handleChange, resetForm} = useForm({
         email: ''
@@ -32,6 +35,17 @@ function PendingVerificationPage(props: PendingVerificationProps) {
     function handleSubmit(ev: any) {
         ev.preventDefault();
         resetForm();
+    }
+
+    function sendVerificationEmail(){
+        arAxios.get('/auth/resendVerification')
+        enqueueSnackbar("Send New Verification Email", {
+            variant: 'success',
+            anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+            }
+        });
     }
 
     return (
@@ -73,6 +87,8 @@ function PendingVerificationPage(props: PendingVerificationProps) {
                                         To be sure you receive all notifications from Audition Revolution, whitelist
                                         support@auditionrevolution.com and check your spam and promotions folder.
                                     </Typography>
+
+                                    <Button variant="contained" size="small" color="primary" onClick={() => sendVerificationEmail()}>Resend Verification Email</Button>
                                 </>
                             )}
 

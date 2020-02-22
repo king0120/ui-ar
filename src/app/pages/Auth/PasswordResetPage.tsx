@@ -5,9 +5,11 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'
 import arAxios from 'utils/axiosHelper';
+import {useSnackbar} from 'notistack';
 
 function PasswordResetPage(props: any) {
     const classes = useAuthStyles();
+    const { enqueueSnackbar } = useSnackbar();
     const [error, setError] = useState(false)
     const { form, handleChange, resetForm } = useForm({
         email: '',
@@ -21,7 +23,7 @@ function PasswordResetPage(props: any) {
         } else {
             return form.email.length > 0;
         }
-        
+
     }
 
     const handleSubmit = async (ev: any) => {
@@ -32,6 +34,13 @@ function PasswordResetPage(props: any) {
             if (!props.match.params.token) {
                 await arAxios.post('/auth/passwordReset', { email: form.email });
                 props.history.push('/')
+                enqueueSnackbar('Password Reset Email Sent. Please check your e-mail.', {
+                    variant: 'success',
+                    anchorOrigin: {
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }
+                });
             } else {
                 const passwordResetToken = props.match.params.token;
                 const expiresToken = props.location.search.split('=')[1];

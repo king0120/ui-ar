@@ -225,6 +225,8 @@ function EditUserModal({user}: any) {
                                         <MenuItem value={"brown"}>Brown</MenuItem>
                                         <MenuItem value={"red"}>Red</MenuItem>
                                         <MenuItem value={"blonde"}>Blonde</MenuItem>
+                                        <MenuItem value={"gray"}>Gray</MenuItem>
+                                        <MenuItem value={"white"}>White</MenuItem>
                                         <MenuItem value={"other"}>Other</MenuItem>
                                         <MenuItem value={"unknown"}>Unknown</MenuItem>
                                     </Field>

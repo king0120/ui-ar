@@ -6,10 +6,9 @@ import AddProjectModal from '../project/AddProjectModal';
 import { format } from 'date-fns';
 import { createProject } from '../../../redux/actions/projectActions';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { List, ListItem, ListItemIcon, ListItemText, Collapse, Paper, Typography, makeStyles } from '@material-ui/core';
+import {List, ListItem, ListItemIcon, ListItemText, Collapse, Paper, Typography, makeStyles, Tooltip} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { Popup } from 'semantic-ui-react';
 import EditProjectModal from '../project/EditProjectModal';
 import ConfirmationModal from '../shared/ConfirmationModal';
 import { AuditionsContent } from 'app/pages/Audition/Auditions';
@@ -33,8 +32,8 @@ const ProjectListItem = ({ project, organizationId }: any) => {
     const [deleteProject] = useMutation(DELETE_PROJECT, {
         variables: { projectId: project.id },
         refetchQueries: [{
-            query: GET_PROJECTS_FOR_ORG, 
-            variables: { organizationId } 
+            query: GET_PROJECTS_FOR_ORG,
+            variables: { organizationId }
         }]
     })
     return (
@@ -59,22 +58,14 @@ const ProjectListItem = ({ project, organizationId }: any) => {
                 }
                 />
                 <ListItemIcon>
-                    <Popup
-                        inverted
-                        trigger={
-                            <EditProjectModal project={project} />
-                        }
-                        content='Edit This Project'
-                    />
+                    <Tooltip title="Edit This Project" aria-label="edit-project">
+                        <EditProjectModal project={project} />
+                    </Tooltip>
                 </ListItemIcon>
                 <ListItemIcon>
-                    <Popup
-                        inverted
-                        trigger={
-                            <ConfirmationModal id={project.id} onConfirm={() => deleteProject(project.id)} />
-                        }
-                        content='Delete This Project'
-                    />
+                    <Tooltip title="Delete This Project" aria-label="delete-project">
+                        <ConfirmationModal id={project.id} onConfirm={() => deleteProject(project.id)} />
+                    </Tooltip>
                 </ListItemIcon>
                 <ListItemIcon>
                     {expanded ? <ExpandLessIcon/> : <ExpandMoreIcon />}

@@ -9,7 +9,7 @@ import RegistrationPage from './app/pages/Auth/RegistrationPage';
 import ActorSearchPage from './app/pages/Search/ActorSearchPage';
 import PasswordResetPage from './app/pages/Auth/PasswordResetPage';
 import SettingsPage from './app/pages/General/SettingsPage';
-import RoleBreakdownDetailPage from './app/pages/Project/RoleBreakdownDetailPage';
+// import RoleBreakdownDetailPage from './app/pages/Project/RoleBreakdownDetailPage';
 import AuditionResponse from "./app/pages/Audition/AuditionResponse";
 import AuditionPage from "./app/pages/Audition/AuditionPage";
 import AuditionSearchPage from "./app/pages/Search/AuditionSearchPage";
@@ -112,9 +112,9 @@ const AppRouter: FC<any> = () => {
             <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn}
                           path='/projects/:projectId/audition-manager/:auditionId'
                           component={AuditionManagerPage}/>
-            <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact
-                          path='/projects/:projectId/roles/:roleId'
-                          component={RoleBreakdownDetailPage}/>
+            {/*<PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn} exact*/}
+            {/*              path='/projects/:projectId/roles/:roleId'*/}
+            {/*              component={RoleBreakdownDetailPage}/>*/}
 
             <PrivateRoute theatreVerified={theatreVerified} loggedIn={loggedIn}
                           path='/organization/:organizationId/projects/:projectId'

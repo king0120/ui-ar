@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Modal } from "semantic-ui-react";
 import { ActorSearch } from "../../pages/Search/ActorSearchPage";
 import { useMutation } from "@apollo/react-hooks";
 import Button from '@material-ui/core/Button';
@@ -24,28 +23,29 @@ const AddTalentToActiveAudition: FC<any> = ({ auditionId, projectId }) => {
         });
         changeOpen(false);
     };
-    return (
-        <Modal
-            open={open}
-            closeOnDimmerClick
-            closeIcon
-            onClose={() => {
-                changeOpen(false);
-            }}
-            trigger={<Button
-                variant="contained"
-                color="primary"
-                onClick={() => changeOpen(true)}
-            >
-                Add Talent
-            </Button>}>
-            <Modal.Header>Invite Actor To Audition</Modal.Header>
-            <Modal.Content>
-                <ActorSearch showTalentSpec={false} handleClickTalent={handleClickTalent} />
-            </Modal.Content>
-        </Modal>
-
-    );
+    return <h1>Currently Hidden</h1>
+    // return (
+    //     <Modal
+    //         open={open}
+    //         closeOnDimmerClick
+    //         closeIcon
+    //         onClose={() => {
+    //             changeOpen(false);
+    //         }}
+    //         trigger={<Button
+    //             variant="contained"
+    //             color="primary"
+    //             onClick={() => changeOpen(true)}
+    //         >
+    //             Add Talent
+    //         </Button>}>
+    //         <Modal.Header>Invite Actor To Audition</Modal.Header>
+    //         <Modal.Content>
+    //             <ActorSearch showTalentSpec={false} handleClickTalent={handleClickTalent} />
+    //         </Modal.Content>
+    //     </Modal>
+    //
+    // );
 };
 
 

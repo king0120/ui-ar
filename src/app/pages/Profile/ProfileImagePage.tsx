@@ -60,9 +60,9 @@ const ProfileImagePage: FC<any> = (props) => {
                 currentIndex={currentIndex}
             />
             {!readOnly && (
-                user.profileImages.length >= 4 ? (
+                user.profileImages.length >= 1 ? (
                         <div>
-                            <Typography variant={'h5'}>Free Accounts Currently Support A Maximum of 4 Images</Typography>
+                            <Typography variant={'h5'}>Free Accounts Currently Support A Maximum of 1 Image</Typography>
                             <Typography variant={'body1'}>Unlimited Image Upload Available Soon</Typography>
                         </div>
                     )

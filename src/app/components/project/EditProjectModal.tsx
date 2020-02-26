@@ -1,11 +1,7 @@
 import React, { FC, SyntheticEvent, useState } from 'react';
-import { Button, Form, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { editProject } from '../../../redux/actions/projectActions';
 import { withRouter } from "react-router";
-import { KeyboardDateTimePicker } from '@material-ui/pickers';
-import EditIcon from '@material-ui/icons/Edit';
-import { Fab, Tooltip } from '@material-ui/core'
 
 const AddProjectModal: FC<any> = (props) => {
     const [open, setOpen] = useState(false);
@@ -37,71 +33,72 @@ const AddProjectModal: FC<any> = (props) => {
 
     };
 
-    return (
-        <Modal
-            closeOnDimmerClick
-            closeIcon
-            open={open}
-            trigger={
-                <Tooltip placement="bottom" title="Edit Project">
-                    <Fab onClick={() => setOpen(true)} color='secondary' size="small">
-                        <EditIcon />
-                    </Fab>
-                </Tooltip>
-            }
-            onClose={() => {
-                setOpen(false);
-            }}
-        >
-            <Modal.Header>Update {props.project.name}</Modal.Header>
-            <Modal.Content image>
-                <Modal.Description>
-                    <Form>
-                        <Form.Field onSubmit={handleSubmit}>
-                            <label>Name</label>
-                            <input value={name} onChange={e => setName(e.target.value)} placeholder='Name' />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Short Name</label>
-                            <input value={shortName} onChange={e => setShortName(e.target.value)}
-                                placeholder='Short Name' />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Director</label>
-                            <input value={director} onChange={e => setDirector(e.target.value)} placeholder='Director' />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Writer</label>
-                            <input value={writer} onChange={e => setWriter(e.target.value)} placeholder='Writer' />
-                        </Form.Field>
-                        <Form.Field>
-                            <KeyboardDateTimePicker
-                                label="Audition Date"
-                                variant="inline"
-                                value={auditionDate}
-                                disablePast={true}
-                                onChange={(data: any) => setAuditionDate(data)}
-                                ampm={true}
-                                format="MM/dd/yyyy hh:mm aaaa"
-                            />
-                        </Form.Field>
-                        <Form.Field>
-                            <KeyboardDateTimePicker
-                                label="Callback Date"
-                                variant="inline"
-                                value={callbackDate}
-                                disablePast={true}
-                                onChange={(data: any) => setCallbackDate(data)}
-                                ampm={true}
-                                format="MM/dd/yyyy hh:mm aaaa"
-                            />
-                        </Form.Field>
-                        <Button type='submit' onClick={handleSubmit}>Submit</Button>
-                    </Form>
-                </Modal.Description>
-            </Modal.Content>
-        </Modal>
-    );
+    return <h2>Currently hidden</h2>
+    // return (
+    //     <Modal
+    //         closeOnDimmerClick
+    //         closeIcon
+    //         open={open}
+    //         trigger={
+    //             <Tooltip placement="bottom" title="Edit Project">
+    //                 <Fab onClick={() => setOpen(true)} color='secondary' size="small">
+    //                     <EditIcon />
+    //                 </Fab>
+    //             </Tooltip>
+    //         }
+    //         onClose={() => {
+    //             setOpen(false);
+    //         }}
+    //     >
+    //         <Modal.Header>Update {props.project.name}</Modal.Header>
+    //         <Modal.Content image>
+    //             <Modal.Description>
+    //                 <Form>
+    //                     <Form.Field onSubmit={handleSubmit}>
+    //                         <label>Name</label>
+    //                         <input value={name} onChange={e => setName(e.target.value)} placeholder='Name' />
+    //                     </Form.Field>
+    //                     <Form.Field>
+    //                         <label>Short Name</label>
+    //                         <input value={shortName} onChange={e => setShortName(e.target.value)}
+    //                             placeholder='Short Name' />
+    //                     </Form.Field>
+    //                     <Form.Field>
+    //                         <label>Director</label>
+    //                         <input value={director} onChange={e => setDirector(e.target.value)} placeholder='Director' />
+    //                     </Form.Field>
+    //                     <Form.Field>
+    //                         <label>Writer</label>
+    //                         <input value={writer} onChange={e => setWriter(e.target.value)} placeholder='Writer' />
+    //                     </Form.Field>
+    //                     <Form.Field>
+    //                         <KeyboardDateTimePicker
+    //                             label="Audition Date"
+    //                             variant="inline"
+    //                             value={auditionDate}
+    //                             disablePast={true}
+    //                             onChange={(data: any) => setAuditionDate(data)}
+    //                             ampm={true}
+    //                             format="MM/dd/yyyy hh:mm aaaa"
+    //                         />
+    //                     </Form.Field>
+    //                     <Form.Field>
+    //                         <KeyboardDateTimePicker
+    //                             label="Callback Date"
+    //                             variant="inline"
+    //                             value={callbackDate}
+    //                             disablePast={true}
+    //                             onChange={(data: any) => setCallbackDate(data)}
+    //                             ampm={true}
+    //                             format="MM/dd/yyyy hh:mm aaaa"
+    //                         />
+    //                     </Form.Field>
+    //                     <Button type='submit' onClick={handleSubmit}>Submit</Button>
+    //                 </Form>
+    //             </Modal.Description>
+    //         </Modal.Content>
+    //     </Modal>
+    // );
 };
 
 export default connect(null, { editProject })(withRouter(AddProjectModal));

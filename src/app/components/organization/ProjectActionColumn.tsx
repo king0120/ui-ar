@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import styled from 'styled-components';
-import {Popup} from 'semantic-ui-react';
 import EditProjectModal from '../project/EditProjectModal';
 import ConfirmationModal from '../shared/ConfirmationModal';
 import {IProject} from 'types/IProject';
+import {Tooltip} from '@material-ui/core';
 
 export const ActionsContainer = styled.div`
   display: flex;
@@ -16,24 +16,15 @@ interface IProjectActionColumn {
     deleteProject: (id: number) => {};
 }
 
-
 const ProjectActionColumn: FC<IProjectActionColumn> = ({data, deleteProject}) => {
     return (
         <ActionsContainer>
-            <Popup
-                inverted
-                trigger={
-                    <EditProjectModal project={data}/>
-                }
-                content='Edit This Project'
-            />
-            <Popup
-                inverted
-                trigger={
-                    <ConfirmationModal id={data.id} onConfirm={() => deleteProject(data.id)}/>
-                }
-                content='Delete This Project'
-            />
+            <Tooltip title="Edit This Project" aria-label="Project Edit">
+                <EditProjectModal project={data}/>
+            </Tooltip>
+            <Tooltip title="Delete This Project" aria-label="Project Edit">
+                <ConfirmationModal id={data.id} onConfirm={() => deleteProject(data.id)}/>
+            </Tooltip>
         </ActionsContainer>
     );
 };

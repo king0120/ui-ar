@@ -1,6 +1,20 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone';
-import { Header, Icon, Segment  } from 'semantic-ui-react';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import {Typography} from '@material-ui/core';
+import styled from 'styled-components';
+
+const StyledBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70vw;
+    height: 150px;
+    border: 3px dashed grey;
+    border-radius: 5px; 
+    flex-direction: column;
+    margin: 0 auto;
+`
 
 export default function MyDropzone(props: any) {
   const { uploadImage, refetch } = props;
@@ -11,17 +25,17 @@ export default function MyDropzone(props: any) {
 
   return (
       <div {...getRootProps()}>
-          <Segment placeholder style={{ width: '100%' }}>
-              <Header icon>
-                  <Icon name='file image outline' />
+          <StyledBox>
+              <CloudUploadIcon/>
+              <Typography variant={'h6'}>
                   {
                       isDragActive ?
                           <p>Drop the files here ...</p> :
                           <p>Drag 'n' drop some files here, or click to select files</p>
                   }
-              </Header>
+              </Typography>
               <input {...getInputProps()} />
-          </Segment>
+          </StyledBox>
       </div>
   );
 }

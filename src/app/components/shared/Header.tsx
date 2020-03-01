@@ -36,7 +36,7 @@ const Header = (props: any) => {
             <AppBar id="fuse-toolbar" className="flex relative z-10" color="default">
                 <Toolbar className="p-0">
                     <div className="flex flex-1 justify-start align-center" onClick={handleLogoClick}>
-                        <img className="w-128 pl-12" src={ArLogo} alt="logo"/>
+                        <img className="w-128 max-h-64 pl-12" src={ArLogo} alt="logo"/>
                     </div>
 
                     <div className="flex">

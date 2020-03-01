@@ -126,9 +126,10 @@ const App = (props: any) => {
                     </Button>
                             )}>
                             <div id="fuse-layout" className={clsx(classes.root)}>
+
+                                <FuseDialog />
                                 <div className="flex flex-1 flex-col overflow-hidden relative">
                                     <ScrollBars className={classes.content} scrollToTopOnRouteChange>
-                                        <FuseDialog />
                                         <NavBar />
                                         <div className="flex-grow-1 flex flex-auto flex-col relative">
                                             <Router />
@@ -136,6 +137,7 @@ const App = (props: any) => {
                                         <Footer />
                                     </ScrollBars>
                                 </div>
+
                             </div>
                         </SnackbarProvider>
                     </FuseTheme>

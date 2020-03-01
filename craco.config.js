@@ -9,12 +9,13 @@ const path = require('path')
 module.exports = {
   style: {
     postcss: {
+      // mode: POSTCSS_MODES.file
       plugins: [
         tailwindcss(),
         cssnano({
           preset: 'default',
         }),
-        autoprefixer
+        // autoprefixer
       ],
     }
   },

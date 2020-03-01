@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from "@apollo/react-hooks";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Badge, List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, Divider, Paper, Typography, Collapse, makeStyles } from '@material-ui/core';
-import uuid from 'uuid/v1'
+import {v1 as uuid} from 'uuid'
 
 const GET_ALL_ROLES = require('graphql/queries/roles/GET_ALL_ROLES.gql');
 

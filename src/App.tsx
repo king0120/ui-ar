@@ -40,7 +40,7 @@ const client = new ApolloClient({
 const jss = create({
     ...jssPreset(),
     plugins: [...jssPreset().plugins, jssExtend()],
-    insertionPoint: document.getElementById('jss-insertion-point'),
+    insertionPoint: document.getElementById('jss-insertion-point') as any,
 });
 
 const generateClassName = createGenerateClassName();

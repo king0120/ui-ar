@@ -90,8 +90,8 @@ const TagsOnActor: FC<any> = ({userId}) => {
                 <Autocomplete
                     className={'w-3/4'}
                     options={options}
-                    onInputChange={(e, newVal) => setValue(newVal)}
-                    onChange={(e, newVal) => setValue(newVal)}
+                    onInputChange={(e: any, newVal: any) => setValue(newVal)}
+                    onChange={(e: any, newVal: any) => setValue(newVal)}
                     value={value}
                     renderInput={(params: any) => (
                         <TextField fullWidth {...params}/>

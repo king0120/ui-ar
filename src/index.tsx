@@ -5,9 +5,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createGlobalStyle } from 'styled-components';
 import 'typeface-muli';
-import 'primereact/resources/themes/nova-light/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
 import 'styles/index.css';
 import io from 'socket.io-client'
 

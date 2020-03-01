@@ -6,14 +6,14 @@ import Auditions from '../Audition/Auditions';
 import { Dashboard } from '../../components/project/ProjectsDetailDashboard';
 import { useQuery } from "@apollo/react-hooks";
 import CreateAudition from '../Audition/CreateAudition';
-import { FuseNavigation } from '@fuse';
+// import { FuseNavigation } from '@fuse';
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 
 const GET_PROJECT = require('../../../graphql/queries/projects/GET_PROJECT.gql');
-const TsFuseNavigation: any = FuseNavigation
+// const TsFuseNavigation: any = FuseNavigation
 const DetailPageStyles = styled.div`
   display: flex;
   width: 100%;
@@ -110,9 +110,9 @@ const ProjectsDetailPage: FC<any> = ({ match }) => {
             {loading && <h1>Loading</h1>}
             {!loading && (
                 <>
-                    <div className={classes.wrapper}>
-                        <TsFuseNavigation active={active} className={classes.navbar} layout="vertical" navigation={navigation} />
-                    </div>
+                    {/*<div className={classes.wrapper}>*/}
+                    {/*    <TsFuseNavigation active={active} className={classes.navbar} layout="vertical" navigation={navigation} />*/}
+                    {/*</div>*/}
                     <div className='detail-view w-full'>
                         <Route
                             path={`${match!.path}/dashboard`}

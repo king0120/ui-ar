@@ -18,7 +18,6 @@ const ActorQuestions: FC<any> = (props) => {
             label={`Question ${i + 1}`}
             autoFocus
             value={question}
-            data-cy={`audition-question-${i+1}`}
             onChange={handleChange}
             variant="outlined"
             fullWidth

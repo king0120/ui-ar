@@ -33,11 +33,16 @@ module.exports = {
         exclude: /node_modules/,
         loader: require.resolve('graphql-tag/loader'),
       })
-      config.externals = {
-        // react: 'React',
-        // 'react-dom': 'ReactDOM',
-        // lodash: '_'
-      }
+      config.resolve.alias = {
+        'react-dom': path.resolve(path.join(__dirname, 'node_modules', 'react-dom'))
+      };
+      config.optimization = {
+        splitChunks: {
+          chunks: 'all',
+          minSize: 30 * 1024,
+          maxSize: 512 * 1024
+        },
+      };
       return config
     }
   }

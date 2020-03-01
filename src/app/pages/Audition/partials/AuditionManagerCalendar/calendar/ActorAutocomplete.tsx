@@ -58,7 +58,7 @@ const ActorAutocomplete: FC<any> = ({selectedActor, setSelectedActor}) => {
         }}
         getOptionLabel={option => option.displayName}
         value={selectedActor}
-        onChange={(e, newActor) => { setSelectedActor(newActor) }}
+        onChange={(e: any, newActor: any) => { setSelectedActor(newActor) }}
         options={options}
         loading={loading}
         renderInput={params => (

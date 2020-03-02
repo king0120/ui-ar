@@ -36,6 +36,7 @@ const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
             <PendingVerificationPage type={'actor'}/>
         )}/>;
     }
+    console.log('PRIVATE ROUTER', rest);
     return (
         <Route {...rest} render={(props) => (
             loggedIn
@@ -61,12 +62,14 @@ const AppRouter: FC<any> = () => {
     return (
         <Suspense fallback={<span/>}>
             <Switch>
+
+                <Route exact path='/passwordReset' component={PasswordResetPage}/>
+                <Route path='/passwordReset/:token' component={PasswordResetPage}/>
                 {/* Login Related */}
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/register' component={RegistrationPage}/>
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/register-company' component={CompanyRegistrationPage}/>
                 <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/login' component={LoginPage}/>
-                <RedirectIfLoggedIn loggedIn={loggedIn} exact path='/passwordReset' component={PasswordResetPage}/>
-                <Route loggedIn={loggedIn} exact path='/passwordReset/:token' component={PasswordResetPage}/>
+
 
                 <Route path='/audition/:auditionId/checkIn' component={CheckInPage}/>
                 <Route path='/audition/:auditionId' component={AuditionRSVPPage}/>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
-import { useForm } from '@fuse/hooks';
+import { useForm } from 'vendor/@fuse/hooks';
 import { useMutation } from "@apollo/react-hooks";
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';

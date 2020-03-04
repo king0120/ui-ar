@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useMutation } from "@apollo/react-hooks";
 import { Button, TextField } from '@material-ui/core';
-import { useForm } from '@fuse/hooks';
+import { useForm } from 'vendor/@fuse/hooks';
 
 const ADD_NOTE = require('../../../graphql/mutations/ADD_NOTE.gql');
 const GET_NOTES = require('../../../graphql/queries/GET_NOTES.gql');

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Avatar, Divider, makeStyles, Paper, Theme, Typography} from '@material-ui/core';
-import FuseAnimateGroup from '@fuse/components/FuseAnimateGroup/FuseAnimateGroup';
+import FuseAnimateGroup from 'vendor/@fuse/components/FuseAnimateGroup/FuseAnimateGroup';
 import Pagination from "../../../components/shared/Pagination";
 
 const useStyles = makeStyles((theme: Theme) => ({

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Card, CardContent, TextField, Typography } from '@material-ui/core';
-import { useForm } from '@fuse/hooks';
+import { useForm } from 'vendor/@fuse/hooks';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth'

@@ -1,5 +1,5 @@
 import React from 'react'
-import FuseAnimate from "@fuse/components/FuseAnimate/FuseAnimate";
+import FuseAnimate from "vendor/@fuse/components/FuseAnimate/FuseAnimate";
 import { makeStyles } from "@material-ui/styles";
 import { darken, fade } from '@material-ui/core/styles';
 import {Typography} from '@material-ui/core';

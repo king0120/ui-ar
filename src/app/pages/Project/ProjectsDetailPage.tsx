@@ -6,14 +6,8 @@ import Auditions from '../Audition/Auditions';
 import { Dashboard } from '../../components/project/ProjectsDetailDashboard';
 import { useQuery } from "@apollo/react-hooks";
 import CreateAudition from '../Audition/CreateAudition';
-// import { FuseNavigation } from '@fuse';
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-
 
 const GET_PROJECT = require('../../../graphql/queries/projects/GET_PROJECT.gql');
-// const TsFuseNavigation: any = FuseNavigation
 const DetailPageStyles = styled.div`
   display: flex;
   width: 100%;
@@ -24,76 +18,73 @@ const DetailPageStyles = styled.div`
     margin: 10px;
   }
 `;
-const navbarWidth = 280
-const useStyles = makeStyles((theme: Theme) => ({
-    wrapper: {
-        display: 'flex',
-        flexDirection: 'column',
-        zIndex: 4,
-        [theme.breakpoints.up('lg')]: {
-            width: navbarWidth,
-            minWidth: navbarWidth
-        }
-    },
-    wrapperFolded: {
-        background: theme.palette.secondary.dark,
-        [theme.breakpoints.up('lg')]: {
-            width: 64,
-            minWidth: 64
-        }
-    },
-    navbar: {
-        display: 'flex',
-        overflow: 'hidden',
-        flexDirection: 'column',
-        flex: '1 1 auto',
-        width: navbarWidth,
-        minWidth: navbarWidth,
-        height: '100%',
-        zIndex: 4,
-        transition: theme.transitions.create(['width', 'min-width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.shorter
-        }),
-        boxShadow: theme.shadows[3]
-    }
-}));
-
-const buildNav = (path: string) => [{
-    'id': 'dashboard',
-    'title': 'Dashboard',
-    'type': 'item',
-    'icon': 'dashboard',
-    'url': `${path}/dashboard`
-}, {
-    'id': 'role',
-    'title': 'Role Breakdown',
-    'type': 'item',
-    'icon': 'face',
-    'url': `${path}/roles`
-}, {
-    'id': 'audition',
-    'title': 'Auditions',
-    'type': 'item',
-    'icon': 'calendar_today',
-    'url': `${path}/auditions`
-}, {
-    'id': 'teams',
-    'title': 'Project Teams',
-    'type': 'item',
-    'icon': 'group',
-    'url': `${path}/teams`
-}, {
-    'id': 'messaging',
-    'title': 'Messaging',
-    'type': 'item',
-    'icon': 'chat',
-    'url': `${path}/messaging`
-}]
+// const useStyles = makeStyles((theme: Theme) => ({
+//     wrapper: {
+//         display: 'flex',
+//         flexDirection: 'column',
+//         zIndex: 4,
+//         [theme.breakpoints.up('lg')]: {
+//             width: navbarWidth,
+//             minWidth: navbarWidth
+//         }
+//     },
+//     wrapperFolded: {
+//         background: theme.palette.secondary.dark,
+//         [theme.breakpoints.up('lg')]: {
+//             width: 64,
+//             minWidth: 64
+//         }
+//     },
+//     navbar: {
+//         display: 'flex',
+//         overflow: 'hidden',
+//         flexDirection: 'column',
+//         flex: '1 1 auto',
+//         width: navbarWidth,
+//         minWidth: navbarWidth,
+//         height: '100%',
+//         zIndex: 4,
+//         transition: theme.transitions.create(['width', 'min-width'], {
+//             easing: theme.transitions.easing.sharp,
+//             duration: theme.transitions.duration.shorter
+//         }),
+//         boxShadow: theme.shadows[3]
+//     }
+// }));
+//
+// const buildNav = (path: string) => [{
+//     'id': 'dashboard',
+//     'title': 'Dashboard',
+//     'type': 'item',
+//     'icon': 'dashboard',
+//     'url': `${path}/dashboard`
+// }, {
+//     'id': 'role',
+//     'title': 'Role Breakdown',
+//     'type': 'item',
+//     'icon': 'face',
+//     'url': `${path}/roles`
+// }, {
+//     'id': 'audition',
+//     'title': 'Auditions',
+//     'type': 'item',
+//     'icon': 'calendar_today',
+//     'url': `${path}/auditions`
+// }, {
+//     'id': 'teams',
+//     'title': 'Project Teams',
+//     'type': 'item',
+//     'icon': 'group',
+//     'url': `${path}/teams`
+// }, {
+//     'id': 'messaging',
+//     'title': 'Messaging',
+//     'type': 'item',
+//     'icon': 'chat',
+//     'url': `${path}/messaging`
+// }]
 
 const ProjectsDetailPage: FC<any> = ({ match }) => {
-    const active = useSelector(({fuse}: any) => fuse.navbar.mobileOpen);
-    const classes = useStyles()
     const {
         loading,
         data,
@@ -103,16 +94,11 @@ const ProjectsDetailPage: FC<any> = ({ match }) => {
     if (loading) { return <></> }
     if (error) { return <p>error</p> }
     const project = data.getOneProject
-    const baseUrl = `/organization/${match.params.organizationId}/projects/${match.params.projectId}`
-    const navigation = buildNav(baseUrl)
     return (
         <DetailPageStyles>
             {loading && <h1>Loading</h1>}
             {!loading && (
                 <>
-                    {/*<div className={classes.wrapper}>*/}
-                    {/*    <TsFuseNavigation active={active} className={classes.navbar} layout="vertical" navigation={navigation} />*/}
-                    {/*</div>*/}
                     <div className='detail-view w-full'>
                         <Route
                             path={`${match!.path}/dashboard`}

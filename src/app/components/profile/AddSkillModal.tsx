@@ -9,7 +9,7 @@ import {gql} from "apollo-boost";
 
 const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
 
-const ADD_SKILL = gql`
+export const ADD_SKILL = gql`
     mutation addSkillOrTraining($type: String!, $text: String!) {
         addSkillOrTraining(type: $type, text: $text)
     }

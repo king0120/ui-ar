@@ -1,7 +1,6 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useMutation, useQuery} from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import {GlobalContext} from 'context/globalContext';
 import {
     Avatar,
     Chip,
@@ -101,7 +100,7 @@ const MyTags = () => {
             setTags(tagsObject);
         }
 
-    }, [data?.getTagsForOwner]);
+    }, [data, data?.getTagsForOwner]);
     if (loading) {
         return <h1>Loading</h1>;
     }

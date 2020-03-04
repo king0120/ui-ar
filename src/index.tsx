@@ -6,12 +6,10 @@ import * as serviceWorker from './serviceWorker';
 import { createGlobalStyle } from 'styled-components';
 import 'typeface-muli';
 import 'styles/index.css';
-import io from 'socket.io-client'
-
 import { Provider } from 'react-redux';
 import { GlobalContextProvider } from './context/globalContext';
 import store from 'redux/store';
-import './utils/prototypeUtils'
+import './utils/stringUtils'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -26,25 +24,6 @@ const GlobalStyle = createGlobalStyle`
     width: 90%;
   }
 `;
-
-
-const socket = io('http://localhost:3000')
-
-socket.on('connect', () => {
-    console.log("CONNECTED WS")
-    socket.emit('notifications', {data: "Hello ssfsfs from client"})
-})
-
-socket.on('notifications', (data: string) => {
-    console.log("NOTIFICATION", data)
-})
-
-socket.on('exception', function(data: any) {
-    console.error('event', data);
-});
-socket.on('disconnect', function() {
-    console.log('Disconnected');
-});
 
 ReactDOM.render(
   <GlobalContextProvider>

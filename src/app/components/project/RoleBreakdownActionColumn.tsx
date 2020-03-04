@@ -1,13 +1,13 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {castRole} from "../../../redux/actions/roleActions";
 import {connect} from "react-redux";
 
 
-const CastRoleModal = (props: any) => {
-    const [open, changeOpen] = useState(false);
-    return (
-        <h1>Currently Hidden</h1>
-    )
+// const CastRoleModal = (props: any) => {
+    // const [open, changeOpen] = useState(false);
+    // return (
+    //     <h1>Currently Hidden</h1>
+    // )
     // const trigger = (
     //     <Popup
     //         inverted
@@ -36,7 +36,7 @@ const CastRoleModal = (props: any) => {
     //         </Card>
     //     </Modal>
     // );
-};
+// };
 
 const RoleBreakdownActionColumn: FC<any> = ({data, projectId, deleteRole, castRole}) => {
     return <h1>Currently Hidden</h1>

@@ -1,37 +1,37 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
+import React, { FC } from 'react';
 import { connect } from 'react-redux';
 import { editProject } from '../../../redux/actions/projectActions';
 import { withRouter } from "react-router";
 
 const AddProjectModal: FC<any> = (props) => {
-    const [open, setOpen] = useState(false);
-    const [name, setName] = useState(props.project.name);
-    const [shortName, setShortName] = useState(props.project.shortName);
-    const [director, setDirector] = useState(props.project.director);
-    const [writer, setWriter] = useState(props.project.writer);
-    const [auditionDate, setAuditionDate] = useState(new Date());
-    const [callbackDate, setCallbackDate] = useState(new Date());
-    const handleSubmit = async (e: SyntheticEvent) => {
-        e.preventDefault();
-        const updatedProject = {
-            id: props.project.id,
-            name,
-            shortName,
-            director,
-            writer,
-            auditionDate: auditionDate.toString(),
-            callbackDate: callbackDate.toString(),
-            projectSummary: props.project.projectSummary,
-            projectNotes: props.project.projectNotes,
-        };
-        try {
-            await props.editProject(props.project.id, updatedProject);
-            setOpen(false);
-        } catch (err) {
-            console.log('ERROR');
-        }
-
-    };
+    // const [open, setOpen] = useState(false);
+    // const [name, setName] = useState(props.project.name);
+    // const [shortName, setShortName] = useState(props.project.shortName);
+    // const [director, setDirector] = useState(props.project.director);
+    // const [writer, setWriter] = useState(props.project.writer);
+    // const [auditionDate, setAuditionDate] = useState(new Date());
+    // const [callbackDate, setCallbackDate] = useState(new Date());
+    // const handleSubmit = async (e: SyntheticEvent) => {
+    //     e.preventDefault();
+    //     const updatedProject = {
+    //         id: props.project.id,
+    //         name,
+    //         shortName,
+    //         director,
+    //         writer,
+    //         auditionDate: auditionDate.toString(),
+    //         callbackDate: callbackDate.toString(),
+    //         projectSummary: props.project.projectSummary,
+    //         projectNotes: props.project.projectNotes,
+    //     };
+    //     try {
+    //         await props.editProject(props.project.id, updatedProject);
+    //         setOpen(false);
+    //     } catch (err) {
+    //         console.log('ERROR');
+    //     }
+    //
+    // };
 
     return <h2>Currently hidden</h2>
     // return (

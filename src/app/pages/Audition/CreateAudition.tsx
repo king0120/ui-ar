@@ -6,7 +6,7 @@ import AdditionalDetails from './createAuditionForms/AdditionalDetails';
 import AuditionRoles from './createAuditionForms/AuditionRoles';
 import {ActorSearch} from '../Search/ActorSearchPage';
 import ActorQuestions from './createAuditionForms/ActorQuestions';
-import {Form, Formik, useFormikContext} from 'formik';
+import {Form, Formik} from 'formik';
 import * as Yup from 'yup';
 
 const CREATE_AUDITION = require('../../../graphql/mutations/CREATE_AUDITION.gql');

@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
-import {Button, Card, CardContent, CardHeader, Menu, MenuItem} from '@material-ui/core'
+import {Button, Card, CardContent, CardHeader} from '@material-ui/core'
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";

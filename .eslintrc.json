@@ -1,5 +1,9 @@
 {
   "plugins": [
     "cypress"
-  ]
+  ],
+  "rules": {
+    "no-extend-native": "off",
+    "react-hooks/exhaustive-deps": "off"
+  }
 }

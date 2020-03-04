@@ -1,25 +1,25 @@
-import React, {FC, SyntheticEvent, useState} from 'react';
+import React, {FC} from 'react';
 import {connect} from 'react-redux';
 import {getFormState} from '../../../redux/store/reducers/finalFormReducer';
 
 const AddRoleBreakdownModal: FC<{ specs: any, handleSubmit: (val: any) => void }> = (props) => {
-    const [open, setOpen] = useState(false);
-    const [characterName, setCharacterName] = useState('');
-    const [characterSummary, setCharacterSummary] = useState('');
-    const [movementRequirements, setMovementRequirements] = useState('');
-    const [hideInPublicSearch, setHideInPublicSearch] = useState(false);
-
-    const handleSubmit = (e: SyntheticEvent) => {
-        e.preventDefault();
-        props.handleSubmit({
-            characterName,
-            characterSummary,
-            movementRequirements,
-            hideInPublicSearch: hideInPublicSearch ? 'YES' : 'NO',
-            searchCriteria: props.specs,
-        });
-        setOpen(false);
-    };
+    // const [open, setOpen] = useState(false);
+    // const [characterName, setCharacterName] = useState('');
+    // const [characterSummary, setCharacterSummary] = useState('');
+    // const [movementRequirements, setMovementRequirements] = useState('');
+    // const [hideInPublicSearch, setHideInPublicSearch] = useState(false);
+    //
+    // const handleSubmit = (e: SyntheticEvent) => {
+    //     e.preventDefault();
+    //     props.handleSubmit({
+    //         characterName,
+    //         characterSummary,
+    //         movementRequirements,
+    //         hideInPublicSearch: hideInPublicSearch ? 'YES' : 'NO',
+    //         searchCriteria: props.specs,
+    //     });
+    //     setOpen(false);
+    // };
 
     return <h1>Currently Hidden</h1>
     // return (

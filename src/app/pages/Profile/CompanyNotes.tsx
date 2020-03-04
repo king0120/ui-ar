@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {gql} from "apollo-boost";
 import {useQuery} from "@apollo/react-hooks";
-import {Card, CardContent, CardHeader, Container, Typography} from "@material-ui/core";
+import {Card, CardContent, Container, Typography} from "@material-ui/core";
 
 const GET_ALL_NOTES = gql`
     query getAllNotes {

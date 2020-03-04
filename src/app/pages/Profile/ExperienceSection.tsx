@@ -52,7 +52,7 @@ const ExperienceSection: FC<IExperienceSection> = (props) => {
     const [changeExperienceOrder] = useMutation(CHANGE_EXPERIENCE_ORDER);
     const [expOrder, setExpOrder] = useState([] as string[]);
     const order = user ? user.experienceOrder : [];
-    useEffect(() => user && setExpOrder(order), [order]);
+    useEffect(() => user && setExpOrder(order), [order, user]);
 
     const experienceList = expOrder.map((name: any) => {
         return experienceData[name];

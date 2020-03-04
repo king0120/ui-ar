@@ -1,8 +1,7 @@
 import React from 'react';
-import {Button, Card, CardContent, Divider, TextField, Theme, Typography} from '@material-ui/core';
+import {Button, Card, CardContent, Theme, Typography} from '@material-ui/core';
 import {darken} from '@material-ui/core/styles/colorManipulator';
 import {makeStyles} from '@material-ui/styles';
-import {useForm} from '@fuse/hooks';
 import clsx from 'clsx';
 import {Animate} from "./Auth/SharedAuth";
 import ARLogo from '../../static/AR_Logo.png';
@@ -23,23 +22,9 @@ interface PendingVerificationProps {
 function PendingVerificationPage(props: PendingVerificationProps) {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-
-    const {form, handleChange, resetForm} = useForm({
-        email: ''
-    });
-
-    function isFormValid() {
-        return form.email.length > 0;
-    }
-
-    function handleSubmit(ev: any) {
-        ev.preventDefault();
-        resetForm();
-    }
-
     function sendVerificationEmail(){
         arAxios.get('/auth/resendVerification')
-        enqueueSnackbar("Send New Verification Email", {
+        enqueueSnackbar("Sent New Verification Email", {
             variant: 'success',
             anchorOrigin: {
                 vertical: 'top',

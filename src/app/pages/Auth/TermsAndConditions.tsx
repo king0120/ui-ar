@@ -2,14 +2,10 @@ import React from 'react';
 import {Dialog, DialogContent, DialogTitle} from "@material-ui/core";
 
 export default function TermsAndConditions(props: any) {
-    const {onClose, selectedValue, open} = props;
+    const {onClose, open} = props;
 
     const handleClose = () => {
         onClose();
-    };
-
-    const handleListItemClick = (value: string) => {
-        onClose(value);
     };
     return (
         <Dialog onClose={handleClose} aria-labelledby="terms-and-conditions" open={open}>

@@ -19,7 +19,6 @@ import {
     DialogTitle,
     Typography
 } from '@material-ui/core';
-import LightboxModal from '../shared/LightboxModal';
 import { GlobalContext } from 'context/globalContext';
 import NotesOnActor from '../audition/NotesOnActor';
 import EditUserModal from "../project/EditUserModal";

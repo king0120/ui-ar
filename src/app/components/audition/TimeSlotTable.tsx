@@ -1,9 +1,9 @@
-// import React, { FC } from 'react';
+import React from 'react';
 // import { format } from 'date-fns';
 //
 // import AuditionTimeSlotActionColumn from './AuditionTimeSlotActionColumn';
 // import { ActorSearch } from '../../pages/Search/ActorSearchPage';
-// import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 // import { useMutation } from "@apollo/react-hooks";
 // import { Table, TableCell, TableHead, TableRow, Paper, Typography } from '@material-ui/core';
 //
@@ -101,4 +101,4 @@
 //     );
 // };
 //
-// export default withRouter(TimeSlotTable);
+export default withRouter(() => <h1>Hello</h1>);

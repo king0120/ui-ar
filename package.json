@@ -6,7 +6,6 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
     "@craco/craco": "^5.6.3",
-    "@cypress/instrument-cra": "^1.1.0",
     "@date-io/date-fns": "^2.4.0",
     "@fullhuman/postcss-purgecss": "^2.1.0",
     "@material-ui/core": "^4.9.5",
@@ -75,15 +74,13 @@
     "yup": "^0.28.1"
   },
   "scripts": {
-    "start": "craco -r @cypress/instrument-cra start",
+    "start": "craco start",
     "build": "craco build",
     "tailwind": "./node_modules/.bin/tailwind build src/static/styles/tailwind.base.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
     "deploy": "yarn build && aws s3 sync build/ s3://ar-react-app",
     "deploy-prod": "yarn build && aws s3 sync build/ s3://app.auditionrevolution.com",
     "test": "craco test",
     "instrument": "yarn nyc instrument --compact=false src instrumented",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -97,8 +94,6 @@
   ],
   "devDependencies": {
     "@apollo/react-testing": "^3.1.3",
-    "@cypress/code-coverage": "^1.12.2",
-    "@cypress/webpack-preprocessor": "^4.1.3",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@testing-library/jest-dom": "^5.1.1",
     "@types/chai": "^4.2.10",
@@ -123,10 +118,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
-    "cypress": "^4.1.0",
-    "cypress-graphql-mock": "^0.5.0-alpha.4",
     "dynamic-cdn-webpack-plugin": "^5.0.0",
-    "eslint-plugin-cypress": "^2.10.3",
     "istanbul-lib-coverage": "^3.0.0",
     "module-to-cdn": "^3.1.5",
     "npm-check-updates": "^4.0.3",

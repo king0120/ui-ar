@@ -80,7 +80,7 @@
   "scripts": {
     "start": "craco -r @cypress/instrument-cra start",
     "build": "craco build",
-    "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.ts -o ./src/styles/tailwind.css",
+    "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
     "deploy": "yarn build && aws s3 sync build/ s3://ar-react-app",
     "deploy-prod": "yarn build && aws s3 sync build/ s3://app.auditionrevolution.com",
     "test": "craco test",

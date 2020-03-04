@@ -36,7 +36,7 @@ module.exports = {
         },
         plugins: [
             // new DynamicCdnWebpackPlugin(),
-            // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
+            new BundleAnalyzerPlugin({analyzerMode: 'static'}),
         ],
         configure: (config) => {
             config.module.rules[2].oneOf.unshift({

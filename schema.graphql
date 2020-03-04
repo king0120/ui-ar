@@ -465,9 +465,11 @@ enum HairColor {
     black
     blonde
     brown
+    gray
     other
     red
     unknown
+    white
 }
 
 "What type of user is this? Admin or Actor"

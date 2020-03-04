@@ -21,7 +21,7 @@ import {
 } from '@material-ui/core';
 import { GlobalContext } from 'context/globalContext';
 import NotesOnActor from '../audition/NotesOnActor';
-import EditUserModal from "../project/EditUserModal";
+import EditUserModal from "./EditUserModal";
 import TagsOnActor from "../audition/TagsOnActor";
 
 function getModalStyle() {

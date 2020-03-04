@@ -1,24 +1,22 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import Router from './Router';
 import NavBar from './app/components/shared/Header';
 import Footer from './app/components/shared/Footer';
-import { BrowserRouter, withRouter } from 'react-router-dom';
+import {BrowserRouter, withRouter} from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider, useQuery } from '@apollo/react-hooks';
-import { GlobalContext } from './context/globalContext';
-import { create } from 'jss';
+import {ApolloProvider, useQuery} from '@apollo/react-hooks';
+import {GlobalContext} from './context/globalContext';
+import {create} from 'jss';
 import jssExtend from 'jss-extend';
-import { jssPreset, StylesProvider, makeStyles } from '@material-ui/styles';
+import {jssPreset, StylesProvider, makeStyles} from '@material-ui/styles';
 import createGenerateClassName from '@material-ui/styles/createGenerateClassName';
 import clsx from 'clsx';
-import FuseDialog from '@fuse/components/FuseDialog/FuseDialog';
 import FuseScrollbars from '@fuse/components/FuseScrollbars/FuseScrollbars';
 import FuseTheme from '@fuse/components/FuseTheme/FuseTheme';
-import { FuseLoading } from '@fuse';
-import { SnackbarProvider } from 'notistack';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import {SnackbarProvider} from 'notistack';
+import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { Button } from '@material-ui/core';
+import {Button, LinearProgress, Typography} from '@material-ui/core';
 
 const token = localStorage.getItem('accessToken');
 const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql');
@@ -96,8 +94,8 @@ const useStyles = makeStyles(() => ({
 
 declare const Chargebee: any;
 const App = (props: any) => {
-    const { data, loading } = useQuery(TOKEN_CHECK);
-    const { setUserId, setDisplayName, setUserType, setTheatreVerified, setVerified } = useContext(GlobalContext);
+    const {data, loading} = useQuery(TOKEN_CHECK);
+    const {setUserId, setDisplayName, setUserType, setTheatreVerified, setVerified} = useContext(GlobalContext);
     const classes = useStyles(props);
 
     useEffect(() => {
@@ -112,29 +110,32 @@ const App = (props: any) => {
         }
     }, [data, setUserId, loading, setUserType, setDisplayName]);
     if (loading) {
-        return <FuseLoading />;
+        return (
+            <div className="flex flex-1 flex-col items-center justify-center">
+                <Typography className="text-20 mb-16" color="textSecondary">Loading...</Typography>
+                <LinearProgress className="w-xs" color="secondary"/>
+            </div>
+        );
     } else {
         return (
             <>
                 <StylesProvider jss={jss} generateClassName={generateClassName}>
                     <FuseTheme>
                         <SnackbarProvider ref={notistackRef}
-                            maxSnack={5}
-                            action={(key: string) => (
-                                <Button onClick={onClickDismiss(key)}>
-                                    Close
-                    </Button>
-                            )}>
+                                          maxSnack={5}
+                                          action={(key: string) => (
+                                              <Button onClick={onClickDismiss(key)}>
+                                                  Close
+                                              </Button>
+                                          )}>
                             <div id="fuse-layout" className={clsx(classes.root)}>
-
-                                <FuseDialog />
                                 <div className="flex flex-1 flex-col overflow-hidden relative">
                                     <ScrollBars className={classes.content} scrollToTopOnRouteChange>
-                                        <NavBar />
+                                        <NavBar/>
                                         <div className="flex-grow-1 flex flex-auto flex-col relative">
-                                            <Router />
+                                            <Router/>
                                         </div>
-                                        <Footer />
+                                        <Footer/>
                                     </ScrollBars>
                                 </div>
 
@@ -149,13 +150,13 @@ const notistackRef = React.createRef();
 const onClickDismiss = (key: string) => () => {
     // @ts-ignore
     notistackRef.current.closeSnackbar(key);
-}
+};
 const WithRouter = withRouter(App);
 const WithApollo = () => (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <ApolloProvider client={client}>
             <BrowserRouter>
-                <WithRouter />
+                <WithRouter/>
             </BrowserRouter>
         </ApolloProvider>
     </MuiPickersUtilsProvider>

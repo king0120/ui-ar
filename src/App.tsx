@@ -92,7 +92,6 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-declare const Chargebee: any;
 const App = (props: any) => {
     const {data, loading} = useQuery(TOKEN_CHECK);
     const {setUserId, setDisplayName, setUserType, setTheatreVerified, setVerified} = useContext(GlobalContext);

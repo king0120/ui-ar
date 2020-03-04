@@ -178,8 +178,8 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                     </div>
                                 </ListItemText>
                             </ListItem>
-                            {expItems.map((exp: any) => (
-                                <>
+                            {expItems.map((exp: any, i: number) => (
+                                <React.Fragment key={i}>
                                     <ListItem alignItems="flex-start">
                                         <ListItemText
                                             primary={(
@@ -210,7 +210,7 @@ const ExperienceList: FC<any> = ({value, type, id, readOnly, draggable = false})
                                         )}
                                     </ListItem>
                                     <Divider/>
-                                </>
+                                </React.Fragment>
                             ))}
                         </List>
                     )}

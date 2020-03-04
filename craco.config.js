@@ -5,7 +5,6 @@ const purgecss = require('@fullhuman/postcss-purgecss');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
-// const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
 module.exports = {
     style: {
         postcss: {
@@ -36,7 +35,7 @@ module.exports = {
         },
         plugins: [
             // new DynamicCdnWebpackPlugin(),
-            new BundleAnalyzerPlugin(),
+            // new BundleAnalyzerPlugin(),
         ],
         configure: (config) => {
             config.module.rules[2].oneOf.unshift({

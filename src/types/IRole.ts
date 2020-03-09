@@ -1,4 +1,3 @@
-
 export interface IRole {
   castAuditionTalentSerialNumber: number;
   castToEmail: string;
@@ -17,6 +16,6 @@ export interface IRole {
   offerDateTime: string;
   offerNote: number;
   organizationId: number;
-  projectRoleSearch: any
-  breakdown?: any
+  projectRoleSearch: any;
+  breakdown?: any;
 }

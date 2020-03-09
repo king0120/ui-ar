@@ -8,7 +8,7 @@ import 'static/styles/index.css';
 import { Provider } from 'react-redux';
 import { GlobalContextProvider } from './context/globalContext';
 import store from 'redux/store';
-import './utils/stringUtils'
+import './utils/stringUtils';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -30,6 +30,6 @@ ReactDOM.render(
       <GlobalStyle />
       <App />
     </Provider>
-  </GlobalContextProvider>
-  , document.getElementById('root'));
-
+  </GlobalContextProvider>,
+  document.getElementById('root')
+);

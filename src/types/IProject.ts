@@ -1,4 +1,3 @@
-
 export interface IProject {
   id: number;
   name: string;
@@ -9,6 +8,6 @@ export interface IProject {
   callbackDate: string;
   projectSummary: string;
   projectNotes: string;
-  roles?: any[]
-  auditions?: any[]
+  roles?: any[];
+  auditions?: any[];
 }

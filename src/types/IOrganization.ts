@@ -1,4 +1,4 @@
-import { IProject } from "./IProject";
+import { IProject } from './IProject';
 
 export interface IOrganization {
   projects: IProject[];
@@ -25,8 +25,8 @@ export interface IOrganization {
   orgInstagram: string;
   oontractsOfferred: string;
   textMessagePhone1: string;
-  generalTextId: number
-  editTextId: number
+  generalTextId: number;
+  editTextId: number;
   paidSubscriber: string;
   paymentName: string;
   paymentPhone: string;
@@ -39,6 +39,6 @@ export interface IOrganization {
   actionAlerts: string;
   smallPhotoGUID: string;
   largePhotoGUID: string;
-  textMessagesAllowed: number
-  textMessagesUsed: number
+  textMessagesAllowed: number;
+  textMessagesUsed: number;
 }

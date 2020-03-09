@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 
 interface ILightboxModal {
@@ -7,22 +7,22 @@ interface ILightboxModal {
   images: { src: string }[];
   currentIndex?: number;
 }
-const styleFn = (styleObj: any) => ({ ...styleObj, zIndex: 100 })
+const styleFn = (styleObj: any) => ({ ...styleObj, zIndex: 100 });
 
-const LightboxModal: FC<ILightboxModal> = (props) => {
-  const { open, handleClose, images, currentIndex } = props
+const LightboxModal: FC<ILightboxModal> = props => {
+  const { open, handleClose, images, currentIndex } = props;
   return (
     <ModalGateway>
       {open ? (
-        <Modal styles={{ blanket: styleFn, positioner: styleFn }} onClose={handleClose}>
-          <Carousel
-            views={images}
-            currentIndex={currentIndex}
-          />
+        <Modal
+          styles={{ blanket: styleFn, positioner: styleFn }}
+          onClose={handleClose}
+        >
+          <Carousel views={images} currentIndex={currentIndex} />
         </Modal>
       ) : null}
     </ModalGateway>
-  )
-}
+  );
+};
 
-export default LightboxModal
+export default LightboxModal;

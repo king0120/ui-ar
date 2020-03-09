@@ -1,9 +1,9 @@
-import React, { FC, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { getFormState } from '../../../redux/store/reducers/finalFormReducer';
-import { addUserBreakdown } from '../../../redux/actions/talentActions';
-import TalentSpecificationsForm from '../shared/TalentSpecificationsForm';
+import React, { FC, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { getFormState } from "../../../redux/store/reducers/finalFormReducer";
+import { addUserBreakdown } from "../../../redux/actions/talentActions";
+import TalentSpecificationsForm from "../shared/TalentSpecificationsForm";
 import {
   ListItem,
   List,
@@ -18,11 +18,11 @@ import {
   Button,
   DialogTitle,
   Typography
-} from '@material-ui/core';
-import { GlobalContext } from 'context/globalContext';
-import NotesOnActor from '../audition/NotesOnActor';
-import EditUserModal from './EditUserModal';
-import TagsOnActor from '../audition/TagsOnActor';
+} from "@material-ui/core";
+import { GlobalContext } from "context/globalContext";
+import NotesOnActor from "../audition/NotesOnActor";
+import EditUserModal from "./EditUserModal";
+import TagsOnActor from "../audition/TagsOnActor";
 
 function getModalStyle() {
   const top = 50;
@@ -38,7 +38,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
     paper: {
-      position: 'absolute',
+      position: "absolute",
       width: 800,
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
@@ -103,7 +103,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
   const classes = useStyles();
   const { userType } = useContext(GlobalContext);
 
-  const canAddNotes = userType.includes('theatre');
+  const canAddNotes = userType.includes("theatre");
   const [notesOpen, setNotesOpen] = useState(false);
   const [tagsOpen, setTagsOpen] = useState(false);
   return (
@@ -121,10 +121,10 @@ const ProfileSidebar: FC<any> = (props: any) => {
                 data-cy="add-notes"
               />
             </ListItemLink>
-            <Dialog className={'mh-1/2'} open={notesOpen} fullWidth={true}>
+            <Dialog className={"mh-1/2"} open={notesOpen} fullWidth={true}>
               <DialogTitle>Notes on {props.user.displayName}</DialogTitle>
               <DialogContent>
-                <NotesOnActor userId={props.user.id} auditionId={''} />
+                <NotesOnActor userId={props.user.id} auditionId={""} />
                 {/* <AddNoteForActor userId={props.user.id} auditionId={''} /> */}
                 <DialogActions>
                   <Button onClick={() => setNotesOpen(false)} color="primary">
@@ -145,10 +145,10 @@ const ProfileSidebar: FC<any> = (props: any) => {
                 data-cy="add-notes"
               />
             </ListItemLink>
-            <Dialog className={'mh-1/2'} open={tagsOpen} fullWidth={true}>
+            <Dialog className={"mh-1/2"} open={tagsOpen} fullWidth={true}>
               <DialogTitle>Tags for {props.user.displayName}</DialogTitle>
               <DialogContent>
-                <Typography variant={'body2'}>
+                <Typography variant={"body2"}>
                   Tags are private and are not shared with actor or other users
                 </Typography>
                 <TagsOnActor userId={props.user.id} />
@@ -169,7 +169,7 @@ const ProfileSidebar: FC<any> = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    specs: getFormState(state, 'talentSpecs').values
+    specs: getFormState(state, "talentSpecs").values
   };
 };
 

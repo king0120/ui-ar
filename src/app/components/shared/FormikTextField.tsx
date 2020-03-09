@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import { Field } from 'formik';
-import { TextField } from 'formik-material-ui';
+import React, { FC } from "react";
+import { Field } from "formik";
+import { TextField } from "formik-material-ui";
 
 export const FormikTextField: FC<{
   name: string;
@@ -13,7 +13,7 @@ export const FormikTextField: FC<{
   return (
     <Field
       className="mb-16"
-      type={props.type || 'text'}
+      type={props.type || "text"}
       name={props.name}
       label={props.label}
       component={TextField}
@@ -30,7 +30,7 @@ export const FormikCheckbox: FC<{
 }> = props => (
   <Field
     className="mb-16"
-    type={props.type || 'text'}
+    type={props.type || "text"}
     name={props.name}
     label={props.label}
     component={TextField}

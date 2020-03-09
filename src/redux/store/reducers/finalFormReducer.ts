@@ -1,6 +1,6 @@
 // Actions
 const UPDATE_FORM_STATE =
-  'final-form-redux-example/finalForm/UPDATE_FORM_STATE';
+  "final-form-redux-example/finalForm/UPDATE_FORM_STATE";
 
 // Reducer
 export default function reducer(state: any = {}, action: any = {}) {

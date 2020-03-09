@@ -1,34 +1,34 @@
-import React, { useContext, useEffect } from 'react';
-import Router from './Router';
-import NavBar from './app/components/shared/Header';
-import Footer from './app/components/shared/Footer';
-import { BrowserRouter, withRouter } from 'react-router-dom';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider, useQuery } from '@apollo/react-hooks';
-import { GlobalContext } from './context/globalContext';
-import { create } from 'jss';
-import jssExtend from 'jss-extend';
-import { jssPreset, StylesProvider, makeStyles } from '@material-ui/styles';
-import createGenerateClassName from '@material-ui/styles/createGenerateClassName';
-import clsx from 'clsx';
-import FuseScrollbars from 'vendor/@fuse/components/FuseScrollbars/FuseScrollbars';
-import FuseTheme from 'vendor/@fuse/components/FuseTheme/FuseTheme';
-import { SnackbarProvider } from 'notistack';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { Button, LinearProgress, Typography } from '@material-ui/core';
+import React, { useContext, useEffect } from "react";
+import Router from "./Router";
+import NavBar from "./app/components/shared/Header";
+import Footer from "./app/components/shared/Footer";
+import { BrowserRouter, withRouter } from "react-router-dom";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider, useQuery } from "@apollo/react-hooks";
+import { GlobalContext } from "./context/globalContext";
+import { create } from "jss";
+import jssExtend from "jss-extend";
+import { jssPreset, StylesProvider, makeStyles } from "@material-ui/styles";
+import createGenerateClassName from "@material-ui/styles/createGenerateClassName";
+import clsx from "clsx";
+import FuseScrollbars from "vendor/@fuse/components/FuseScrollbars/FuseScrollbars";
+import FuseTheme from "vendor/@fuse/components/FuseTheme/FuseTheme";
+import { SnackbarProvider } from "notistack";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { Button, LinearProgress, Typography } from "@material-ui/core";
 
-const token = localStorage.getItem('accessToken');
-const TOKEN_CHECK = require('./graphql/queries/TOKEN_CHECK.gql');
+const token = localStorage.getItem("accessToken");
+const TOKEN_CHECK = require("./graphql/queries/TOKEN_CHECK.gql");
 
 const ScrollBars: any = FuseScrollbars;
 const client = new ApolloClient({
   headers: {
-    Authorization: token ? `Bearer ${token}` : ''
+    Authorization: token ? `Bearer ${token}` : ""
   },
   uri:
-    process.env.NODE_ENV === 'production'
-      ? 'https://aud-rev-test.herokuapp.com/graphql'
+    process.env.NODE_ENV === "production"
+      ? "https://aud-rev-test.herokuapp.com/graphql"
       : undefined,
   clientState: {
     defaults: {},
@@ -41,57 +41,57 @@ const client = new ApolloClient({
 const jss = create({
   ...jssPreset(),
   plugins: [...jssPreset().plugins, jssExtend()],
-  insertionPoint: document.getElementById('jss-insertion-point') as any
+  insertionPoint: document.getElementById("jss-insertion-point") as any
 });
 
 const generateClassName = createGenerateClassName();
 
 const useStyles = makeStyles(() => ({
   root: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    height: '100%',
-    overflow: 'hidden',
-    '&.boxed': {
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+    "&.boxed": {
       maxWidth: 1280,
-      margin: '0 auto'
+      margin: "0 auto"
     },
-    '&.container': {
-      '& .container': {
+    "&.container": {
+      "& .container": {
         maxWidth: 1120,
-        width: '100%',
-        margin: '0 auto'
+        width: "100%",
+        margin: "0 auto"
       },
-      '& .navigation': {}
+      "& .navigation": {}
     }
   },
   content: {
-    display: 'flex',
-    overflow: 'auto',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    width: '100%',
-    '-webkit-overflow-scrolling': 'touch',
+    display: "flex",
+    overflow: "auto",
+    flex: "1 1 auto",
+    flexDirection: "column",
+    width: "100%",
+    "-webkit-overflow-scrolling": "touch",
     zIndex: 4
   },
   toolbarWrapper: {
-    display: 'flex',
-    position: 'relative',
+    display: "flex",
+    position: "relative",
     zIndex: 5
   },
   toolbar: {
-    display: 'flex',
-    flex: '1 0 auto'
+    display: "flex",
+    flex: "1 0 auto"
   },
   footerWrapper: {
-    position: 'relative',
+    position: "relative",
     zIndex: 5
   },
   footer: {
-    display: 'flex',
-    flex: '1 0 auto'
+    display: "flex",
+    flex: "1 0 auto"
   }
 }));
 
@@ -114,7 +114,7 @@ const App = (props: any) => {
       setVerified(data.tokenCheck.verified);
       setTheatreVerified(data.tokenCheck.theatreVerified);
     } else if (!loading && !data) {
-      setUserId('none');
+      setUserId("none");
     }
   }, [data, setUserId, loading, setUserType, setDisplayName]);
   if (loading) {

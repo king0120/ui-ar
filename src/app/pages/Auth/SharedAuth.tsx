@@ -1,19 +1,19 @@
-import React from 'react';
-import FuseAnimate from 'vendor/@fuse/components/FuseAnimate/FuseAnimate';
-import { makeStyles } from '@material-ui/styles';
-import { darken, fade } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
-import ArLogo from '../../../static/AR_Logo.png';
+import React from "react";
+import FuseAnimate from "vendor/@fuse/components/FuseAnimate/FuseAnimate";
+import { makeStyles } from "@material-ui/styles";
+import { darken, fade } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
+import ArLogo from "../../../static/AR_Logo.png";
 
 export const useAuthStyles = makeStyles((theme: any) => ({
   root: {
     background:
-      'linear-gradient(to right, ' +
+      "linear-gradient(to right, " +
       theme.palette.primary.dark +
-      ' 0%, ' +
+      " 0%, " +
       fade(darken(theme.palette.primary.dark, 0.5), 0.5) +
-      ' 100%), url(https://images.unsplash.com/photo-1530234332485-f2c7355bd1ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80)',
-    backgroundSize: 'cover',
+      " 100%), url(https://images.unsplash.com/photo-1530234332485-f2c7355bd1ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80)",
+    backgroundSize: "cover",
     color: theme.palette.primary.contrastText
   }
 }));

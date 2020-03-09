@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { Typography } from '@material-ui/core';
-import styled from 'styled-components';
+import React, { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { Typography } from "@material-ui/core";
+import styled from "styled-components";
 
 const StyledBox = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ export default function MyDropzone(props: any) {
     <div {...getRootProps()}>
       <StyledBox>
         <CloudUploadIcon />
-        <Typography variant={'h6'}>
+        <Typography variant={"h6"}>
           {isDragActive ? (
             <p>Drop the files here ...</p>
           ) : (

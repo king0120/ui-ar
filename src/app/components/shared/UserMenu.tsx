@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -9,14 +9,14 @@ import {
   MenuItem,
   Popover,
   Typography
-} from '@material-ui/core';
-import { Link, withRouter } from 'react-router-dom';
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { GlobalContext } from 'context/globalContext';
-import { gql } from 'apollo-boost';
-import { GET_NOTIFICATIONS } from '../../pages/Profile/MyNotifications';
+} from "@material-ui/core";
+import { Link, withRouter } from "react-router-dom";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { GlobalContext } from "context/globalContext";
+import { gql } from "apollo-boost";
+import { GET_NOTIFICATIONS } from "../../pages/Profile/MyNotifications";
 
-const GET_ORGANIZATIONS_FOR_USER = require('graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql');
+const GET_ORGANIZATIONS_FOR_USER = require("graphql/queries/organization/GET_ORGANIZATIONS_FOR_USER.gql");
 
 const TsIcon: any = Icon;
 const GET_ACTOR = gql`
@@ -66,7 +66,7 @@ function UserMenu(props: any) {
     return <div></div>;
   }
   const user = {
-    role: 'member',
+    role: "member",
     data: {
       displayName: `${data.getActor.firstName} ${data.getActor.lastName}`,
       email: data.getActor.email,
@@ -85,8 +85,8 @@ function UserMenu(props: any) {
   };
 
   const logOut = () => {
-    localStorage.removeItem('accessToken');
-    props.history.push('/login');
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
     window.location.reload();
   };
 
@@ -105,7 +105,7 @@ function UserMenu(props: any) {
             {user.data.displayName}
           </Typography>
           <Typography className="text-11 capitalize" color="textSecondary">
-            {userType.join(', ')}
+            {userType.join(", ")}
           </Typography>
         </div>
 
@@ -119,15 +119,15 @@ function UserMenu(props: any) {
         anchorEl={userMenu}
         onClose={userMenuClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
+          vertical: "bottom",
+          horizontal: "center"
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
+          vertical: "top",
+          horizontal: "center"
         }}
         classes={{
-          paper: 'py-8'
+          paper: "py-8"
         }}
       >
         <MenuItem component={Link} to="/profile" onClick={userMenuClose}>
@@ -160,7 +160,7 @@ function UserMenu(props: any) {
           </ListItemIcon>
           <ListItemText className="pl-0" primary="My Auditions" />
         </MenuItem>
-        {userType.includes('theatre') && (
+        {userType.includes("theatre") && (
           <>
             {orgs.map((org: any) => (
               <MenuItem
@@ -180,7 +180,7 @@ function UserMenu(props: any) {
         )}
         <MenuItem
           onClick={() => {
-            window.location.href = 'mailto:support@auditionrevolution.com';
+            window.location.href = "mailto:support@auditionrevolution.com";
           }}
         >
           <ListItemIcon className="min-w-40">

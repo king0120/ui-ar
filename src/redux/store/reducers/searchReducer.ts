@@ -1,4 +1,4 @@
-import { Reducer } from 'redux';
+import { Reducer } from "redux";
 
 const initialState = {
   data: [],
@@ -7,7 +7,7 @@ const initialState = {
 
 const searchReducer: Reducer<any> = (state = initialState, action: any) => {
   switch (action.type) {
-    case 'SEARCH_USER_SUCCESS':
+    case "SEARCH_USER_SUCCESS":
       return {
         data: action.data,
         count: action.count

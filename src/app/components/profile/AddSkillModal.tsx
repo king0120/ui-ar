@@ -1,19 +1,19 @@
-import React, { FC, useContext, useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import { GlobalContext } from '../../../context/globalContext';
+import React, { FC, useContext, useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { GlobalContext } from "../../../context/globalContext";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle
-} from '@material-ui/core';
-import { Form, Formik } from 'formik';
-import { FormikTextField } from '../shared/FormikTextField';
-import * as Yup from 'yup';
-import { gql } from 'apollo-boost';
+} from "@material-ui/core";
+import { Form, Formik } from "formik";
+import { FormikTextField } from "../shared/FormikTextField";
+import * as Yup from "yup";
+import { gql } from "apollo-boost";
 
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
+const GET_USER = require("../../../graphql/queries/user/GET_USER.gql");
 
 export const ADD_SKILL = gql`
   mutation addSkillOrTraining($type: String!, $text: String!) {
@@ -22,7 +22,7 @@ export const ADD_SKILL = gql`
 `;
 
 const initialValues = {
-  text: ''
+  text: ""
 };
 
 const validationSchema = Yup.object({
@@ -53,10 +53,10 @@ const AddSkillModal: FC<any> = props => {
     <>
       <Button
         onClick={() => toggleOpen(true)}
-        variant={'contained'}
+        variant={"contained"}
         color="primary"
       >
-        {props.type === 'skill' ? 'Add Skill' : 'Add Training'}
+        {props.type === "skill" ? "Add Skill" : "Add Training"}
       </Button>
       <Dialog
         aria-labelledby="simple-modal-title"
@@ -73,16 +73,16 @@ const AddSkillModal: FC<any> = props => {
           {fProps => (
             <>
               <DialogTitle>
-                {props.type === 'skill'
-                  ? 'Add A Special Skill'
-                  : 'Add Training'}
+                {props.type === "skill"
+                  ? "Add A Special Skill"
+                  : "Add Training"}
               </DialogTitle>
               <DialogContent>
                 <Form
                   name="addSkill"
                   className="flex flex-col justify-center w-full"
                 >
-                  <FormikTextField type={'text'} name={'text'} label={'Text'} />
+                  <FormikTextField type={"text"} name={"text"} label={"Text"} />
                 </Form>
               </DialogContent>
               <DialogActions>
@@ -90,7 +90,7 @@ const AddSkillModal: FC<any> = props => {
                   Cancel
                 </Button>
                 <Button onClick={fProps.submitForm} color="primary" autoFocus>
-                  {props.type === 'skill' ? 'Add Skill' : 'Add Training'}
+                  {props.type === "skill" ? "Add Skill" : "Add Training"}
                 </Button>
               </DialogActions>
             </>

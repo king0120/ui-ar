@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import {
   Button,
   Card,
@@ -6,80 +6,80 @@ import {
   FormControl,
   MenuItem,
   Typography
-} from '@material-ui/core';
-import clsx from 'clsx';
-import { Link } from 'react-router-dom';
-import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth';
-import AddressInput from 'app/components/shared/AddressInput';
-import { Formik, Form, Field } from 'formik';
-import { CheckboxWithLabel, TextField } from 'formik-material-ui';
-import * as Yup from 'yup';
-import arAxios from 'utils/axiosHelper';
-import { GlobalContext } from 'context/globalContext';
-import { FormikTextField } from '../../components/shared/FormikTextField';
-import { useSnackbar } from 'notistack';
-import TermsAndConditions from './TermsAndConditions';
+} from "@material-ui/core";
+import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { useAuthStyles, Animate, AuthPageSplash } from "./SharedAuth";
+import AddressInput from "app/components/shared/AddressInput";
+import { Formik, Form, Field } from "formik";
+import { CheckboxWithLabel, TextField } from "formik-material-ui";
+import * as Yup from "yup";
+import arAxios from "utils/axiosHelper";
+import { GlobalContext } from "context/globalContext";
+import { FormikTextField } from "../../components/shared/FormikTextField";
+import { useSnackbar } from "notistack";
+import TermsAndConditions from "./TermsAndConditions";
 
 const ranges = [
   {
-    value: 'nonprofit',
-    label: 'Non-Profit Theatre'
+    value: "nonprofit",
+    label: "Non-Profit Theatre"
   },
   {
-    value: 'forProfit',
-    label: 'For-Profit Theatre'
+    value: "forProfit",
+    label: "For-Profit Theatre"
   },
   {
-    value: 'filmAndTelevision',
-    label: 'TV & Film'
+    value: "filmAndTelevision",
+    label: "TV & Film"
   },
   {
-    value: 'talentAgency',
-    label: 'Talent Agency'
+    value: "talentAgency",
+    label: "Talent Agency"
   }
 ];
 
 const initialValues = {
-  companyName: '',
-  companyType: 'nonprofit',
-  companyCity: '',
-  companyState: '',
-  companyEin: '',
-  firstName: '',
-  lastName: '',
-  city: '',
-  state: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
+  companyName: "",
+  companyType: "nonprofit",
+  companyCity: "",
+  companyState: "",
+  companyEin: "",
+  firstName: "",
+  lastName: "",
+  city: "",
+  state: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
   acceptTermsConditions: false
 };
 
 const validationSchema = Yup.object({
-  companyName: Yup.string().required('Required'),
+  companyName: Yup.string().required("Required"),
   companyType: Yup.string()
-    .oneOf(['nonprofit', 'forProfit', 'filmAndTelevision', 'talentAgency'])
-    .required('Required'),
-  companyCity: Yup.string().required('Required'),
-  companyState: Yup.string().required('Required'),
-  companyEin: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
-  city: Yup.string().required('Required'),
-  state: Yup.string().required('Required'),
+    .oneOf(["nonprofit", "forProfit", "filmAndTelevision", "talentAgency"])
+    .required("Required"),
+  companyCity: Yup.string().required("Required"),
+  companyState: Yup.string().required("Required"),
+  companyEin: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  city: Yup.string().required("Required"),
+  state: Yup.string().required("Required"),
   email: Yup.string()
-    .required('Required')
-    .email('Please Enter A Valid Email'),
+    .required("Required")
+    .email("Please Enter A Valid Email"),
   password: Yup.string()
-    .required('Required')
-    .min(6, 'Password must be at least 6 characters')
-    .max(30, 'Password must be under 30 characters'),
+    .required("Required")
+    .min(6, "Password must be at least 6 characters")
+    .max(30, "Password must be under 30 characters"),
   passwordConfirm: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Passwords must match'
+    [Yup.ref("password"), null],
+    "Passwords must match"
   ),
   acceptTermsConditions: Yup.boolean().oneOf(
     [true],
-    'Please Review Terms and Conditions'
+    "Please Review Terms and Conditions"
   )
 });
 
@@ -106,7 +106,7 @@ function CompanyRegistrationPage(props: any) {
         companyState,
         companyEin
       } = values;
-      const { data } = await arAxios.post('/auth/register-company', {
+      const { data } = await arAxios.post("/auth/register-company", {
         user: { email, password, firstName, lastName, city, state },
         company: {
           name: companyName,
@@ -117,18 +117,18 @@ function CompanyRegistrationPage(props: any) {
         }
       });
       if (data) {
-        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem("accessToken", data.accessToken);
         await setUserId(data.userId);
         await setDisplayName(data.displayName);
-        props.history.push('/profile');
+        props.history.push("/profile");
         window.location.reload();
       }
     } catch (err) {
-      enqueueSnackbar('Email Already Registerd', {
-        variant: 'error',
+      enqueueSnackbar("Email Already Registerd", {
+        variant: "error",
         anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right"
         }
       });
     }
@@ -138,13 +138,13 @@ function CompanyRegistrationPage(props: any) {
     <div
       className={clsx(
         classes.root,
-        'flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0'
+        "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0"
       )}
     >
       <TermsAndConditions open={open} onClose={handleClose} />
       <AuthPageSplash />
 
-      <Animate animation={{ translateX: [0, '100%'] }}>
+      <Animate animation={{ translateX: [0, "100%"] }}>
         <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
           <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 ">
             <Typography variant="h6" className="md:w-full mb-32">
@@ -174,7 +174,7 @@ function CompanyRegistrationPage(props: any) {
                     label="Company Type"
                     select
                     variant="outlined"
-                    className={'mb-16'}
+                    className={"mb-16"}
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -188,10 +188,10 @@ function CompanyRegistrationPage(props: any) {
                   <AddressInput
                     placeholder={``}
                     handleChange={(city: string, state: string) => {
-                      props.setFieldValue('city', city);
-                      props.setFieldValue('state', state);
-                      props.setFieldValue('companyCity', city);
-                      props.setFieldValue('companyState', state);
+                      props.setFieldValue("city", city);
+                      props.setFieldValue("state", state);
+                      props.setFieldValue("companyCity", city);
+                      props.setFieldValue("companyState", state);
                     }}
                   />
                   <FormikTextField
@@ -226,7 +226,7 @@ function CompanyRegistrationPage(props: any) {
                       Label={{
                         label: (
                           <span>
-                            I read and accept{' '}
+                            I read and accept{" "}
                             <a onClick={() => setOpen(true)}>
                               terms and conditions
                             </a>

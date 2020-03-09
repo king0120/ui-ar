@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Button, Chip, TextField } from '@material-ui/core';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
-import { Autocomplete } from '@material-ui/lab';
-import { GET_TAGS_FOR_OWNER } from '../../pages/Profile/MyTags';
+import React, { FC, useEffect, useState } from "react";
+import { Button, Chip, TextField } from "@material-ui/core";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import { Autocomplete } from "@material-ui/lab";
+import { GET_TAGS_FOR_OWNER } from "../../pages/Profile/MyTags";
 
 const GET_DISTINCT_TAGS = gql`
   {
@@ -34,7 +34,7 @@ const DELETE_TAG = gql`
 `;
 
 const TagsOnActor: FC<any> = ({ userId }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const { loading, data } = useQuery(GET_DISTINCT_TAGS);
   const { data: allTags } = useQuery(GET_TAGS_FOR_ACTOR, {
     variables: { id: userId }
@@ -55,11 +55,11 @@ const TagsOnActor: FC<any> = ({ userId }) => {
   });
 
   const { tags } = data?.getDistinctTags || { tags: [] };
-  const [options, setOptions] = useState([value, 'My Talent', ...tags]);
+  const [options, setOptions] = useState([value, "My Talent", ...tags]);
   useEffect(() => {
     let withVal;
-    if (tags.indexOf('My Talent') === -1) {
-      withVal = [value, 'My Talent', ...tags];
+    if (tags.indexOf("My Talent") === -1) {
+      withVal = [value, "My Talent", ...tags];
     } else {
       withVal = [value, ...tags];
     }
@@ -81,28 +81,28 @@ const TagsOnActor: FC<any> = ({ userId }) => {
         }
       }
     });
-    setValue('');
+    setValue("");
   };
 
   return (
     <div>
-      <div className={'flex justify-between'}>
+      <div className={"flex justify-between"}>
         <Autocomplete
-          className={'w-3/4'}
+          className={"w-3/4"}
           options={options}
           onInputChange={(e: any, newVal: any) => setValue(newVal)}
           onChange={(e: any, newVal: any) => setValue(newVal)}
           value={value}
           renderInput={(params: any) => <TextField fullWidth {...params} />}
         />
-        <Button color={'primary'} variant="contained" onClick={handleClick}>
+        <Button color={"primary"} variant="contained" onClick={handleClick}>
           Save Tag
         </Button>
       </div>
       <div>
         {actorTags.map((tag: string) => (
           <Chip
-            className={'m-2'}
+            className={"m-2"}
             size="small"
             label={tag}
             onDelete={() =>

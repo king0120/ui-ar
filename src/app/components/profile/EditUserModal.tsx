@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import {
   Button,
   createStyles,
@@ -14,29 +14,29 @@ import {
   MenuItem,
   Theme,
   Typography
-} from '@material-ui/core';
-import React from 'react';
-import { Field, Form, Formik } from 'formik';
-import { FormikTextField } from '../shared/FormikTextField';
-import AddressInput from '../shared/AddressInput';
-import { Select } from 'formik-material-ui';
-import { gql } from 'apollo-boost';
-import { useMutation } from '@apollo/react-hooks';
+} from "@material-ui/core";
+import React from "react";
+import { Field, Form, Formik } from "formik";
+import { FormikTextField } from "../shared/FormikTextField";
+import AddressInput from "../shared/AddressInput";
+import { Select } from "formik-material-ui";
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
 
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
+const GET_USER = require("../../../graphql/queries/user/GET_USER.gql");
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
   city: Yup.string(),
   state: Yup.string(),
   representation: Yup.string(),
   website: Yup.string().url(
-    'Must be a valid URL, make sure to include http://'
+    "Must be a valid URL, make sure to include http://"
   ),
-  phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
+  phoneNumber: Yup.string().matches(phoneRegExp, "Phone number is not valid")
 });
 
 const UPDATE_USER = gql`
@@ -67,10 +67,10 @@ function EditUserModal({ user }: any) {
     lastName: user.lastName,
     city: user.city,
     state: user.state,
-    website: user.website || '',
+    website: user.website || "",
     gender: user.gender,
-    representation: user.representation || '',
-    phoneNumber: user.phoneNumber || '',
+    representation: user.representation || "",
+    phoneNumber: user.phoneNumber || "",
     feet: Math.floor(user.heightInches / 12),
     inches: user.heightInches % 12,
     eyeColor: user.eyeColor,
@@ -147,8 +147,8 @@ function EditUserModal({ user }: any) {
                   required={false}
                   placeholder={`${user.city}, ${user.state}`}
                   handleChange={(city: string, state: string) => {
-                    props.setFieldValue('city', city);
-                    props.setFieldValue('state', state);
+                    props.setFieldValue("city", city);
+                    props.setFieldValue("state", state);
                   }}
                 />
                 <FormikTextField
@@ -165,7 +165,7 @@ function EditUserModal({ user }: any) {
                 />
                 <FormControl
                   variant="outlined"
-                  style={{ marginBottom: '16px' }}
+                  style={{ marginBottom: "16px" }}
                 >
                   <InputLabel shrink={true} htmlFor="gender">
                     Gender
@@ -177,19 +177,19 @@ function EditUserModal({ user }: any) {
                     id="gender"
                     component={Select}
                   >
-                    <MenuItem value={'male'}>Male</MenuItem>
-                    <MenuItem value={'female'}>Female</MenuItem>
-                    <MenuItem value={'nonbinary'}>Non-Binary</MenuItem>
-                    <MenuItem value={'private'}>Private</MenuItem>
+                    <MenuItem value={"male"}>Male</MenuItem>
+                    <MenuItem value={"female"}>Female</MenuItem>
+                    <MenuItem value={"nonbinary"}>Non-Binary</MenuItem>
+                    <MenuItem value={"private"}>Private</MenuItem>
                   </Field>
                 </FormControl>
-                <div className={'flex justify-between'}>
+                <div className={"flex justify-between"}>
                   <FormikTextField type="text" name="feet" label="Feet" />
                   <FormikTextField type="text" name="inches" label="Inches" />
                 </div>
                 <FormControl
                   variant="outlined"
-                  style={{ marginBottom: '16px' }}
+                  style={{ marginBottom: "16px" }}
                 >
                   <InputLabel shrink={true} htmlFor="eyeColor">
                     Eye Color
@@ -201,37 +201,37 @@ function EditUserModal({ user }: any) {
                     id="eyeColor"
                     component={Select}
                   >
-                    <MenuItem value={'brown'}>Brown</MenuItem>
-                    <MenuItem value={'hazel'}>Hazel</MenuItem>
-                    <MenuItem value={'blue'}>Blue</MenuItem>
-                    <MenuItem value={'green'}>Green</MenuItem>
-                    <MenuItem value={'gray'}>Gray</MenuItem>
-                    <MenuItem value={'amber'}>Amber</MenuItem>
-                    <MenuItem value={'other'}>Other</MenuItem>
-                    <MenuItem value={'unknown'}>Unknown</MenuItem>
+                    <MenuItem value={"brown"}>Brown</MenuItem>
+                    <MenuItem value={"hazel"}>Hazel</MenuItem>
+                    <MenuItem value={"blue"}>Blue</MenuItem>
+                    <MenuItem value={"green"}>Green</MenuItem>
+                    <MenuItem value={"gray"}>Gray</MenuItem>
+                    <MenuItem value={"amber"}>Amber</MenuItem>
+                    <MenuItem value={"other"}>Other</MenuItem>
+                    <MenuItem value={"unknown"}>Unknown</MenuItem>
                   </Field>
                 </FormControl>
                 <FormControl
                   variant="outlined"
-                  style={{ marginBottom: '16px' }}
+                  style={{ marginBottom: "16px" }}
                 >
                   <InputLabel shrink={true} htmlFor="eyeColor">
                     Hair Color
                   </InputLabel>
                   <Field
-                    label={'Hair Color'}
+                    label={"Hair Color"}
                     name="hairColor"
                     id="hairColor"
                     component={Select}
                   >
-                    <MenuItem value={'black'}>Black</MenuItem>
-                    <MenuItem value={'brown'}>Brown</MenuItem>
-                    <MenuItem value={'red'}>Red</MenuItem>
-                    <MenuItem value={'blonde'}>Blonde</MenuItem>
-                    <MenuItem value={'gray'}>Gray</MenuItem>
-                    <MenuItem value={'white'}>White</MenuItem>
-                    <MenuItem value={'other'}>Other</MenuItem>
-                    <MenuItem value={'unknown'}>Unknown</MenuItem>
+                    <MenuItem value={"black"}>Black</MenuItem>
+                    <MenuItem value={"brown"}>Brown</MenuItem>
+                    <MenuItem value={"red"}>Red</MenuItem>
+                    <MenuItem value={"blonde"}>Blonde</MenuItem>
+                    <MenuItem value={"gray"}>Gray</MenuItem>
+                    <MenuItem value={"white"}>White</MenuItem>
+                    <MenuItem value={"other"}>Other</MenuItem>
+                    <MenuItem value={"unknown"}>Unknown</MenuItem>
                   </Field>
                 </FormControl>
                 <DialogActions>

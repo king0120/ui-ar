@@ -1,18 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 import {
   List,
   ListItemText,
   ListItem,
   ListItemSecondaryAction,
   IconButton
-} from '@material-ui/core';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import AddNoteForActor from './AddNoteForActor';
-import moment from 'moment';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+} from "@material-ui/core";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import AddNoteForActor from "./AddNoteForActor";
+import moment from "moment";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-const GET_NOTES = require('../../../graphql/queries/GET_NOTES.gql');
-const REMOVE_NOTE = require('../../../graphql/mutations/REMOVE_NOTE.gql');
+const GET_NOTES = require("../../../graphql/queries/GET_NOTES.gql");
+const REMOVE_NOTE = require("../../../graphql/mutations/REMOVE_NOTE.gql");
 
 const NoteItem: FC<any> = ({ note, userId }) => {
   const refetchQueries = [

@@ -4,28 +4,28 @@ import {
   CardContent,
   IconButton,
   Typography
-} from '@material-ui/core';
-import AddSkillModal from '../../components/profile/AddSkillModal';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import React, { FC, useEffect, useState } from 'react';
-import { gql } from 'apollo-boost';
-import { useMutation } from '@apollo/react-hooks';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { MakeDraggable } from './ExperienceSection';
+} from "@material-ui/core";
+import AddSkillModal from "../../components/profile/AddSkillModal";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import React, { FC, useEffect, useState } from "react";
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { MakeDraggable } from "./ExperienceSection";
 
 interface IResumeSection {
   title: string;
   readOnly: boolean;
   items: any[];
-  type: 'skill' | 'training';
+  type: "skill" | "training";
   profileOrder: string[];
   userId: string;
 }
 
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
+const GET_USER = require("../../../graphql/queries/user/GET_USER.gql");
 
 const REMOVE_SKILL = gql`
   mutation removeSkillOrTraining($type: String!, $text: String!) {
@@ -80,12 +80,12 @@ const ResumeSection: FC<IResumeSection> = props => {
 
   return (
     <>
-      <div className={'flex justify-between mt-8 mb-8'}>
-        <Typography variant={'h4'}>{props.title}</Typography>
+      <div className={"flex justify-between mt-8 mb-8"}>
+        <Typography variant={"h4"}>{props.title}</Typography>
         {!props.readOnly && (
           <div>
             <Button onClick={handleReorder}>
-              {reorder ? 'Save Order' : 'Reorder ' + props.type}
+              {reorder ? "Save Order" : "Reorder " + props.type}
             </Button>
             <AddSkillModal type={props.type} />
           </div>
@@ -117,8 +117,8 @@ function ResumeListItem(props: any) {
   });
   return (
     <>
-      <ListItem alignItems="flex-start" className={'mt-12 mb-12'}>
-        <Typography variant={'h6'}>{props.text}</Typography>
+      <ListItem alignItems="flex-start" className={"mt-12 mb-12"}>
+        <Typography variant={"h6"}>{props.text}</Typography>
         {!props.readOnly && (
           <ListItemSecondaryAction>
             <IconButton
@@ -150,7 +150,7 @@ Array.prototype.moveUp = function(value, by) {
   let index = this.indexOf(value),
     newPos = index - (by || 1);
 
-  if (index === -1) throw new Error('Element not found in array');
+  if (index === -1) throw new Error("Element not found in array");
 
   if (newPos < 0) newPos = 0;
 
@@ -163,7 +163,7 @@ Array.prototype.moveDown = function(value, by) {
   let index = this.indexOf(value),
     newPos = index + (by || 1);
 
-  if (index === -1) throw new Error('Element not found in array');
+  if (index === -1) throw new Error("Element not found in array");
 
   if (newPos >= this.length) newPos = this.length;
 

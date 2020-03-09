@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import { GlobalContext } from 'context/globalContext';
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { GlobalContext } from "context/globalContext";
+import { Link } from "react-router-dom";
 import {
   Container,
   Divider,
@@ -13,13 +13,13 @@ import {
   makeStyles,
   Paper,
   Typography
-} from '@material-ui/core';
-import clsx from 'clsx';
-import MarkunreadIcon from '@material-ui/icons/Markunread';
+} from "@material-ui/core";
+import clsx from "clsx";
+import MarkunreadIcon from "@material-ui/icons/Markunread";
 
 const useStyles = makeStyles(() => ({
   root: {
-    height: '80%'
+    height: "80%"
   }
 }));
 
@@ -55,7 +55,7 @@ const MyNotifications = () => {
 
   return (
     <Container className="h-full">
-      <Paper className={clsx(classes.root, 'p-16 mt-36')}>
+      <Paper className={clsx(classes.root, "p-16 mt-36")}>
         <Typography variant="h4">My Notifications</Typography>
         <List>
           {user.notifications.map((notification: any) => {

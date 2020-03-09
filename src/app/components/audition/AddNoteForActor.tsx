@@ -1,14 +1,14 @@
-import React, { FC } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import { Button, TextField } from '@material-ui/core';
-import { useForm } from 'vendor/@fuse/hooks';
+import React, { FC } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { Button, TextField } from "@material-ui/core";
+import { useForm } from "vendor/@fuse/hooks";
 
-const ADD_NOTE = require('../../../graphql/mutations/ADD_NOTE.gql');
-const GET_NOTES = require('../../../graphql/queries/GET_NOTES.gql');
+const ADD_NOTE = require("../../../graphql/mutations/ADD_NOTE.gql");
+const GET_NOTES = require("../../../graphql/queries/GET_NOTES.gql");
 
 const AddNoteForActor: FC<any> = ({ userId, auditionId }) => {
   const { form, handleChange, resetForm } = useForm({
-    note: ''
+    note: ""
   });
   const variables = {
     input: { for: userId, audition: auditionId, text: form.note }

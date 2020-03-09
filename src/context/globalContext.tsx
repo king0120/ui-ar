@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState } from "react";
 
 interface IGlobalContext {
   userId: string;
@@ -14,11 +14,11 @@ interface IGlobalContext {
 }
 
 export const GlobalContext = createContext<IGlobalContext>({
-  userId: '',
+  userId: "",
   setUserId: _s => {},
   userType: [],
   setUserType: _s => {},
-  displayName: '',
+  displayName: "",
   setDisplayName: _s => {},
   verified: false,
   setVerified: _s => {},
@@ -27,9 +27,9 @@ export const GlobalContext = createContext<IGlobalContext>({
 });
 
 export const GlobalContextProvider = (props: any) => {
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState("");
   const [userType, setUserType] = useState([]);
-  const [displayName, setDisplayName] = useState('');
+  const [displayName, setDisplayName] = useState("");
   const [theatreVerified, setTheatreVerified] = useState(false);
   const [verified, setVerified] = useState(false);
   return (

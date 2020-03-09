@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import { Link, useHistory, withRouter } from 'react-router-dom';
-import { GlobalContext } from '../../../context/globalContext';
-import makeStyles from '@material-ui/styles/makeStyles';
-import { useSelector } from 'react-redux';
+import React, { useContext, useState } from "react";
+import { Link, useHistory, withRouter } from "react-router-dom";
+import { GlobalContext } from "../../../context/globalContext";
+import makeStyles from "@material-ui/styles/makeStyles";
+import { useSelector } from "react-redux";
 import {
   AppBar,
   Button,
@@ -12,10 +12,10 @@ import {
   MenuItem,
   Popover,
   Toolbar
-} from '@material-ui/core';
-import UserMenu from 'app/components/shared/UserMenu';
-import ArLogo from '../../../static/AR_Logo.png';
-import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
+} from "@material-ui/core";
+import UserMenu from "app/components/shared/UserMenu";
+import ArLogo from "../../../static/AR_Logo.png";
+import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 
 const useStyles = makeStyles((theme: any) => ({
   separator: {
@@ -31,15 +31,15 @@ const Header = (props: any) => {
   const [dbButtonToggle, setDbButtonToggle] = useState(null as any);
   const classes = useStyles(props);
   if (
-    props.location.pathname === '/login' ||
-    props.location.pathname === '/register' ||
-    props.location.pathname === '/passwordReset'
+    props.location.pathname === "/login" ||
+    props.location.pathname === "/register" ||
+    props.location.pathname === "/passwordReset"
   ) {
     return null;
   }
 
   const handleLogoClick = () => {
-    push('/profile');
+    push("/profile");
   };
 
   return (
@@ -53,7 +53,7 @@ const Header = (props: any) => {
         </div>
 
         <div className="flex">
-          {userType.includes('theatre') && (
+          {userType.includes("theatre") && (
             <>
               <Button onClick={event => setDbButtonToggle(event.currentTarget)}>
                 Talent Database
@@ -64,15 +64,15 @@ const Header = (props: any) => {
                 anchorEl={dbButtonToggle}
                 onClose={() => setDbButtonToggle(null)}
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center'
+                  vertical: "bottom",
+                  horizontal: "center"
                 }}
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center'
+                  vertical: "top",
+                  horizontal: "center"
                 }}
                 classes={{
-                  paper: 'py-8'
+                  paper: "py-8"
                 }}
               >
                 <MenuItem
@@ -93,7 +93,7 @@ const Header = (props: any) => {
                   <ListItemIcon className="min-w-40">
                     <LocalOfferOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText className="pl-0" primary={'My Tags'} />
+                  <ListItemText className="pl-0" primary={"My Tags"} />
                 </MenuItem>
               </Popover>
             </>

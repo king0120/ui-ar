@@ -1,14 +1,14 @@
-import 'whatwg-fetch';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { createGlobalStyle } from 'styled-components';
-import 'typeface-muli';
-import 'static/styles/index.css';
-import { Provider } from 'react-redux';
-import { GlobalContextProvider } from './context/globalContext';
-import store from 'redux/store';
-import './utils/stringUtils';
+import "whatwg-fetch";
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { createGlobalStyle } from "styled-components";
+import "typeface-muli";
+import "static/styles/index.css";
+import { Provider } from "react-redux";
+import { GlobalContextProvider } from "./context/globalContext";
+import store from "redux/store";
+import "./utils/stringUtils";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -31,5 +31,5 @@ ReactDOM.render(
       <App />
     </Provider>
   </GlobalContextProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

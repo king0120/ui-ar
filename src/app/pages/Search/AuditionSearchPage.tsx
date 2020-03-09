@@ -1,6 +1,6 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { Container } from '../../components/project/CommonStyledComponents';
+import React, { SyntheticEvent, useEffect, useState } from "react";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { Container } from "../../components/project/CommonStyledComponents";
 import {
   Button,
   createStyles,
@@ -10,25 +10,25 @@ import {
   Paper,
   Theme,
   Typography
-} from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import { AnimateGroup } from './Partials/ActorSearchResults';
-import Pagination from '../../components/shared/Pagination';
+} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import { AnimateGroup } from "./Partials/ActorSearchResults";
+import Pagination from "../../components/shared/Pagination";
 
-const SEARCH_AUDITIONS = require('graphql/queries/SEARCH_AUDITIONS.gql');
+const SEARCH_AUDITIONS = require("graphql/queries/SEARCH_AUDITIONS.gql");
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: '2px 4px',
-      display: 'flex',
-      alignItems: 'center',
-      width: '100%'
+      padding: "2px 4px",
+      display: "flex",
+      alignItems: "center",
+      width: "100%"
     },
     input: {
       marginLeft: theme.spacing(1),
       flex: 1,
-      border: 'none'
+      border: "none"
     },
     iconButton: {
       padding: 10
@@ -51,10 +51,10 @@ const AuditionSearchResult = (props: { results: any; history: any }) => {
         <AnimateGroup
           className="w-full"
           enter={{
-            animation: 'transition.slideUpBigIn'
+            animation: "transition.slideUpBigIn"
           }}
           leave={{
-            animation: 'transition.slideUpBigOut'
+            animation: "transition.slideUpBigOut"
           }}
         >
           {sliceToShow.map((result: any) => (
@@ -88,16 +88,16 @@ const AuditionSearchResult = (props: { results: any; history: any }) => {
 };
 const AuditionSearchPage = (props: any) => {
   const classes = useStyles();
-  const [value, changeValue] = useState('');
+  const [value, changeValue] = useState("");
   const [searchAuditions, { loading, data }] = useLazyQuery(SEARCH_AUDITIONS);
   const results = data && data.searchForAuditions;
 
   useEffect(() => {
-    searchAuditions({ variables: { query: '' } });
+    searchAuditions({ variables: { query: "" } });
   }, [searchAuditions]);
   return (
     <Container>
-      <Typography variant={'h5'}>Audition Search</Typography>
+      <Typography variant={"h5"}>Audition Search</Typography>
       <form
         onSubmit={(e: SyntheticEvent) => {
           e.preventDefault();
@@ -110,7 +110,7 @@ const AuditionSearchPage = (props: any) => {
             <InputBase
               className={classes.input}
               placeholder="Search For Talent"
-              inputProps={{ 'aria-label': 'search for talent' }}
+              inputProps={{ "aria-label": "search for talent" }}
               value={value}
               onChange={e => changeValue(e.target.value)}
             />

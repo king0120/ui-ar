@@ -1,58 +1,58 @@
-import React, { FC, Suspense, useContext } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { GlobalContext } from './context/globalContext';
+import React, { FC, Suspense, useContext } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { GlobalContext } from "./context/globalContext";
 
-const ProfilePage = React.lazy(() => import('./app/pages/Profile/ProfilePage'));
+const ProfilePage = React.lazy(() => import("./app/pages/Profile/ProfilePage"));
 const RegistrationPage = React.lazy(() =>
-  import('./app/pages/Auth/RegistrationPage')
+  import("./app/pages/Auth/RegistrationPage")
 );
 const ActorSearchPage = React.lazy(() =>
-  import('./app/pages/Search/ActorSearchPage')
+  import("./app/pages/Search/ActorSearchPage")
 );
 const PasswordResetPage = React.lazy(() =>
-  import('./app/pages/Auth/PasswordResetPage')
+  import("./app/pages/Auth/PasswordResetPage")
 );
 const SettingsPage = React.lazy(() =>
-  import('./app/pages/General/SettingsPage')
+  import("./app/pages/General/SettingsPage")
 );
 const AuditionSearchPage = React.lazy(() =>
-  import('./app/pages/Search/AuditionSearchPage')
+  import("./app/pages/Search/AuditionSearchPage")
 );
-const MyAuditions = React.lazy(() => import('./app/pages/Profile/MyAuditions'));
-const LoginPage = React.lazy(() => import('./app/pages/Auth/LogInPage'));
+const MyAuditions = React.lazy(() => import("./app/pages/Profile/MyAuditions"));
+const LoginPage = React.lazy(() => import("./app/pages/Auth/LogInPage"));
 const MyAuditionInstance = React.lazy(() =>
-  import('./app/pages/Profile/MyAuditionInstance')
+  import("./app/pages/Profile/MyAuditionInstance")
 );
 const MyNotifications = React.lazy(() =>
-  import('./app/pages/Profile/MyNotifications')
+  import("./app/pages/Profile/MyNotifications")
 );
-const MyTags = React.lazy(() => import('./app/pages/Profile/MyTags'));
+const MyTags = React.lazy(() => import("./app/pages/Profile/MyTags"));
 const CompanyRegistrationPage = React.lazy(() =>
-  import('./app/pages/Auth/CompanyRegistrationPage')
+  import("./app/pages/Auth/CompanyRegistrationPage")
 );
 const PendingVerificationPage = React.lazy(() =>
-  import('./app/pages/Auth/PendingVerificationPage')
+  import("./app/pages/Auth/PendingVerificationPage")
 );
 
 const PrivateRoute: FC<any> = ({ component: Component, loggedIn, ...rest }) => {
   const { theatreVerified, verified, userType } = useContext(GlobalContext);
-  if (userType.includes('theatre') && !theatreVerified) {
+  if (userType.includes("theatre") && !theatreVerified) {
     return (
       <Route
         {...rest}
-        render={props => <PendingVerificationPage type={'company'} />}
+        render={props => <PendingVerificationPage type={"company"} />}
       />
     );
   }
-  if (userType.includes('actor') && !verified) {
+  if (userType.includes("actor") && !verified) {
     return (
       <Route
         {...rest}
-        render={props => <PendingVerificationPage type={'actor'} />}
+        render={props => <PendingVerificationPage type={"actor"} />}
       />
     );
   }
-  console.log('PRIVATE ROUTER', rest);
+  console.log("PRIVATE ROUTER", rest);
   return (
     <Route
       {...rest}
@@ -80,7 +80,7 @@ const RedirectIfLoggedIn: FC<any> = ({
 
 const AppRouter: FC<any> = () => {
   const { userId, theatreVerified } = useContext(GlobalContext);
-  const loggedIn = userId !== 'none';
+  const loggedIn = userId !== "none";
   return (
     <Suspense fallback={<span />}>
       <Switch>

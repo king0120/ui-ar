@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React, { FC, useState } from "react";
+import DeleteIcon from "@material-ui/icons/Delete";
 import {
   Button,
   Dialog,
@@ -7,7 +7,7 @@ import {
   DialogContent,
   Fab,
   Tooltip
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const ConfirmationModal: FC<any> = ({ onConfirm, id, trigger }) => {
   const [open, changeOpen] = useState(false);

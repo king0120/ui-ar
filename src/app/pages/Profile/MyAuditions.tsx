@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { format } from 'date-fns';
-import gql from 'graphql-tag';
-import { GlobalContext } from 'context/globalContext';
+import React, { useContext } from "react";
+import { useQuery } from "@apollo/react-hooks";
+import { format } from "date-fns";
+import gql from "graphql-tag";
+import { GlobalContext } from "context/globalContext";
 import {
   Container,
   Typography,
@@ -12,13 +12,13 @@ import {
   ListItem,
   ListItemText,
   Divider
-} from '@material-ui/core';
-import clsx from 'clsx';
-import { useHistory } from 'react-router';
+} from "@material-ui/core";
+import clsx from "clsx";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles(() => ({
   root: {
-    height: '80%'
+    height: "80%"
   }
 }));
 
@@ -41,7 +41,7 @@ const MyAuditions = () => {
   });
   return (
     <Container className="h-full">
-      <Paper className={clsx(classes.root, 'p-16 mt-36')}>
+      <Paper className={clsx(classes.root, "p-16 mt-36")}>
         <Typography variant="h4">My Auditions</Typography>
         <Typography variant="h6">
           {user.instances.length} upcoming auditions
@@ -63,7 +63,7 @@ const MyAuditions = () => {
                         <p>
                           {format(
                             new Date(instance.audition.startDate),
-                            'MMM do, hh:mm a'
+                            "MMM do, hh:mm a"
                           )}
                         </p>
                       </div>
@@ -84,10 +84,10 @@ const MyAuditions = () => {
                             variant="body2"
                             color="textPrimary"
                           >
-                            Time Slot Start:{' '}
+                            Time Slot Start:{" "}
                             {format(
                               new Date(instance.timeSlot.startTime),
-                              'MMM do, hh:mm a'
+                              "MMM do, hh:mm a"
                             )}
                           </Typography>
                         )}

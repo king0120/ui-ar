@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
-import { gql } from 'apollo-boost';
-import { useQuery } from '@apollo/react-hooks';
-import { Card, CardContent, Container, Typography } from '@material-ui/core';
+import React, { FC } from "react";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
+import { Card, CardContent, Container, Typography } from "@material-ui/core";
 
 const GET_ALL_NOTES = gql`
   query getAllNotes {
@@ -33,8 +33,8 @@ const CompanyNotes: FC<any> = () => {
           </Typography>
           {notes.map((note: any) => (
             <p key={note.id}>
-              {note.text} -{' '}
-              <a href={'/profile/' + note.for.id}>
+              {note.text} -{" "}
+              <a href={"/profile/" + note.for.id}>
                 {note.for.firstName} {note.for.lastName}
               </a>
             </p>

@@ -1,10 +1,10 @@
-import { Button, Typography } from '@material-ui/core';
-import AddExperienceModal from '../../components/profile/AddExperienceModal';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import ExperienceList from '../../components/profile/ExperienceList';
-import React, { FC, useEffect, useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
+import { Button, Typography } from "@material-ui/core";
+import AddExperienceModal from "../../components/profile/AddExperienceModal";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import ExperienceList from "../../components/profile/ExperienceList";
+import React, { FC, useEffect, useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 const CHANGE_EXPERIENCE_ORDER = gql`
   mutation changeExperienceOrder($newExperiences: [ExperienceType!]!) {
@@ -19,28 +19,28 @@ interface IExperienceSection {
 
 const experienceData: any = {
   theatreExperience: {
-    value: 'theatreExperience',
-    type: 'Theatre'
+    value: "theatreExperience",
+    type: "Theatre"
   },
   musicalTheatreExperience: {
-    value: 'musicalTheatreExperience',
-    type: 'Musical Theatre'
+    value: "musicalTheatreExperience",
+    type: "Musical Theatre"
   },
   operaExperience: {
-    value: 'operaExperience',
-    type: 'Opera'
+    value: "operaExperience",
+    type: "Opera"
   },
   filmExperience: {
-    value: 'filmExperience',
-    type: 'Film'
+    value: "filmExperience",
+    type: "Film"
   },
   televisionExperience: {
-    value: 'televisionExperience',
-    type: 'Television'
+    value: "televisionExperience",
+    type: "Television"
   },
   commercialExperience: {
-    value: 'commercialExperience',
-    type: 'Commercial'
+    value: "commercialExperience",
+    type: "Commercial"
   }
 };
 
@@ -76,8 +76,8 @@ const ExperienceSection: FC<IExperienceSection> = props => {
 
   return (
     <>
-      <div className={'flex justify-between'}>
-        <Typography variant={'h4'}>Experience</Typography>
+      <div className={"flex justify-between"}>
+        <Typography variant={"h4"}>Experience</Typography>
         {!props.readOnly && (
           <div>
             <Button
@@ -86,7 +86,7 @@ const ExperienceSection: FC<IExperienceSection> = props => {
                 handleReorderToggle();
               }}
             >
-              {reorderExperience ? 'Save Order' : 'Reorder Experience'}
+              {reorderExperience ? "Save Order" : "Reorder Experience"}
             </Button>
             <AddExperienceModal />
           </div>
@@ -127,7 +127,7 @@ export function MakeDraggable(props: IMakeDraggable) {
                 >
                   {(provided, snapshot) => (
                     <div
-                      className={'mt-12 mb-12'}
+                      className={"mt-12 mb-12"}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
@@ -147,7 +147,7 @@ export function MakeDraggable(props: IMakeDraggable) {
         </Droppable>
       ) : (
         props.items.map((experience: any, index: number) => (
-          <div className={'mt-12 mb-12'} key={experience.id || index}>
+          <div className={"mt-12 mb-12"} key={experience.id || index}>
             {React.cloneElement(props.children, {
               draggable: props.draggable,
               readOnly: props.readOnly,

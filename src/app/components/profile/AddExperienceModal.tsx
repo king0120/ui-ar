@@ -1,6 +1,6 @@
-import React, { FC, useContext, useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import { GlobalContext } from '../../../context/globalContext';
+import React, { FC, useContext, useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { GlobalContext } from "../../../context/globalContext";
 import {
   Button,
   Dialog,
@@ -9,47 +9,47 @@ import {
   DialogTitle,
   FormControlLabel,
   Radio
-} from '@material-ui/core';
-import { Form, Formik } from 'formik';
-import { FormikTextField } from '../shared/FormikTextField';
-import * as Yup from 'yup';
-import { GET_EXPERIENCE } from './ExperienceList';
+} from "@material-ui/core";
+import { Form, Formik } from "formik";
+import { FormikTextField } from "../shared/FormikTextField";
+import * as Yup from "yup";
+import { GET_EXPERIENCE } from "./ExperienceList";
 
-const ADD_EXPERIENCE = require('../../../graphql/mutations/profile/ADD_EXPERIENCE.gql');
+const ADD_EXPERIENCE = require("../../../graphql/mutations/profile/ADD_EXPERIENCE.gql");
 
 const experiences = [
   {
-    id: 'theatreExperience',
-    friendly: 'Theatre'
+    id: "theatreExperience",
+    friendly: "Theatre"
   },
   {
-    id: 'musicalTheatreExperience',
-    friendly: 'Musical Theatre'
+    id: "musicalTheatreExperience",
+    friendly: "Musical Theatre"
   },
   {
-    id: 'operaExperience',
-    friendly: 'Opera'
+    id: "operaExperience",
+    friendly: "Opera"
   },
   {
-    id: 'filmExperience',
-    friendly: 'Film'
+    id: "filmExperience",
+    friendly: "Film"
   },
   {
-    id: 'televisionExperience',
-    friendly: 'Television'
+    id: "televisionExperience",
+    friendly: "Television"
   },
   {
-    id: 'commercialExperience',
-    friendly: 'Commercial'
+    id: "commercialExperience",
+    friendly: "Commercial"
   }
 ];
 
 const initialValues = {
-  role: '',
-  project: '',
-  company: '',
-  director: '',
-  description: ''
+  role: "",
+  project: "",
+  company: "",
+  director: "",
+  description: ""
 };
 
 const validationSchema = Yup.object({
@@ -61,7 +61,7 @@ const validationSchema = Yup.object({
 });
 const AddExperienceModal: FC<any> = () => {
   const [open, toggleOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('theatreExperience');
+  const [selectedValue, setSelectedValue] = useState("theatreExperience");
   const { userId } = useContext(GlobalContext);
   const [addExperience] = useMutation(ADD_EXPERIENCE, {
     refetchQueries: [
@@ -86,7 +86,7 @@ const AddExperienceModal: FC<any> = () => {
     <>
       <Button
         onClick={() => toggleOpen(true)}
-        variant={'contained'}
+        variant={"contained"}
         color="primary"
       >
         Add Experience
@@ -127,24 +127,24 @@ const AddExperienceModal: FC<any> = () => {
                     ))}
                   </div>
                   <FormikTextField
-                    type={'text'}
-                    name={'project'}
-                    label={'Project Name'}
+                    type={"text"}
+                    name={"project"}
+                    label={"Project Name"}
                   />
                   <FormikTextField
-                    type={'text'}
-                    name={'role'}
-                    label={'Role Name'}
+                    type={"text"}
+                    name={"role"}
+                    label={"Role Name"}
                   />
                   <FormikTextField
-                    type={'text'}
-                    name={'company'}
-                    label={'Company Name'}
+                    type={"text"}
+                    name={"company"}
+                    label={"Company Name"}
                   />
                   <FormikTextField
-                    type={'text'}
-                    name={'director'}
-                    label={'Director'}
+                    type={"text"}
+                    name={"director"}
+                    label={"Director"}
                   />
                   {/*<FormikTextField*/}
                   {/*    type={"text"}*/}

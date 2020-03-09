@@ -1,54 +1,54 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import {
   Button,
   Card,
   CardContent,
   FormControl,
   Typography
-} from '@material-ui/core';
-import clsx from 'clsx';
-import { Link } from 'react-router-dom';
-import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth';
-import AddressInput from 'app/components/shared/AddressInput';
-import { Formik, Form, Field } from 'formik';
-import { CheckboxWithLabel } from 'formik-material-ui';
-import * as Yup from 'yup';
-import arAxios from 'utils/axiosHelper';
-import { GlobalContext } from 'context/globalContext';
-import { FormikTextField } from '../../components/shared/FormikTextField';
-import TermsAndConditions from './TermsAndConditions';
-import { useSnackbar } from 'notistack';
+} from "@material-ui/core";
+import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { useAuthStyles, Animate, AuthPageSplash } from "./SharedAuth";
+import AddressInput from "app/components/shared/AddressInput";
+import { Formik, Form, Field } from "formik";
+import { CheckboxWithLabel } from "formik-material-ui";
+import * as Yup from "yup";
+import arAxios from "utils/axiosHelper";
+import { GlobalContext } from "context/globalContext";
+import { FormikTextField } from "../../components/shared/FormikTextField";
+import TermsAndConditions from "./TermsAndConditions";
+import { useSnackbar } from "notistack";
 
 const initialValues = {
-  firstName: '',
-  lastName: '',
-  city: '',
-  state: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
+  firstName: "",
+  lastName: "",
+  city: "",
+  state: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
   acceptTermsConditions: false
 };
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
-  city: Yup.string().required('Required'),
-  state: Yup.string().required('Required'),
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  city: Yup.string().required("Required"),
+  state: Yup.string().required("Required"),
   email: Yup.string()
-    .required('Required')
-    .email('Please Enter A Valid Email'),
+    .required("Required")
+    .email("Please Enter A Valid Email"),
   password: Yup.string()
-    .required('Required')
-    .min(6, 'Password must be at least 6 characters')
-    .max(30, 'Password must be under 30 characters'),
+    .required("Required")
+    .min(6, "Password must be at least 6 characters")
+    .max(30, "Password must be under 30 characters"),
   passwordConfirm: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Passwords must match'
+    [Yup.ref("password"), null],
+    "Passwords must match"
   ),
   acceptTermsConditions: Yup.boolean().oneOf(
     [true],
-    'Please Review Terms and Conditions'
+    "Please Review Terms and Conditions"
   )
 });
 
@@ -64,7 +64,7 @@ function RegistrationPage(props: any) {
   async function handleSubmit(values: any) {
     const { email, password, firstName, lastName, city, state } = values;
     try {
-      const { data } = await arAxios.post('/auth/register', {
+      const { data } = await arAxios.post("/auth/register", {
         email,
         password,
         firstName,
@@ -73,18 +73,18 @@ function RegistrationPage(props: any) {
         state
       });
       if (data) {
-        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem("accessToken", data.accessToken);
         await setUserId(data.userId);
         await setDisplayName(data.displayName);
-        props.history.push('/profile');
+        props.history.push("/profile");
         window.location.reload();
       }
     } catch (err) {
-      enqueueSnackbar('Email Already Registerd', {
-        variant: 'error',
+      enqueueSnackbar("Email Already Registerd", {
+        variant: "error",
         anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right"
         }
       });
     }
@@ -94,13 +94,13 @@ function RegistrationPage(props: any) {
     <div
       className={clsx(
         classes.root,
-        'flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0'
+        "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0"
       )}
     >
       <TermsAndConditions open={open} onClose={handleClose} />
       <AuthPageSplash />
 
-      <Animate animation={{ translateX: [0, '100%'] }}>
+      <Animate animation={{ translateX: [0, "100%"] }}>
         <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
           <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-128 ">
             <Typography variant="h6" className="md:w-full mb-32">
@@ -130,8 +130,8 @@ function RegistrationPage(props: any) {
                   <AddressInput
                     placeholder={``}
                     handleChange={(city: string, state: string) => {
-                      props.setFieldValue('city', city);
-                      props.setFieldValue('state', state);
+                      props.setFieldValue("city", city);
+                      props.setFieldValue("state", state);
                     }}
                   />
                   <FormikTextField type="email" name="email" label="Email" />
@@ -150,7 +150,7 @@ function RegistrationPage(props: any) {
                       Label={{
                         label: (
                           <span>
-                            I read and accept{' '}
+                            I read and accept{" "}
                             <a onClick={() => setOpen(true)}>
                               terms and conditions
                             </a>

@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
-import { Typography, Chip } from '@material-ui/core';
-import { Animate } from 'app/pages/Auth/SharedAuth';
+import React, { FC } from "react";
+import { Typography, Chip } from "@material-ui/core";
+import { Animate } from "app/pages/Auth/SharedAuth";
 
 const Breakdown: React.FC<any> = ({ title, breakdownArray, width }) => {
-  const classWidth = width || 'w-sm';
+  const classWidth = width || "w-sm";
   return (
     <>
       <p>{title}: </p>
@@ -31,11 +31,11 @@ const Breakdown: React.FC<any> = ({ title, breakdownArray, width }) => {
 };
 
 const ProfileBreakdown: FC<any> = ({ breakdown }) => {
-  const ageRange = breakdown.ageRange || ['None'];
-  const gender = breakdown.gender || ['None'];
-  const unions = breakdown.unions || ['None'];
-  const ethnicity = breakdown.ethnicity || ['None'];
-  const vocalRange = breakdown.vocalRange || ['None'];
+  const ageRange = breakdown.ageRange || ["None"];
+  const gender = breakdown.gender || ["None"];
+  const unions = breakdown.unions || ["None"];
+  const ethnicity = breakdown.ethnicity || ["None"];
+  const vocalRange = breakdown.vocalRange || ["None"];
   return (
     <div className="mt-64">
       <Typography variant="h6" color="inherit">

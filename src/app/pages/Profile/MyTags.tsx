@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import React, { FC, useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 import {
   Avatar,
   Chip,
@@ -12,14 +12,14 @@ import {
   makeStyles,
   Paper,
   Typography
-} from '@material-ui/core';
-import clsx from 'clsx';
-import { useHistory } from 'react-router';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from "@material-ui/core";
+import clsx from "clsx";
+import { useHistory } from "react-router";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles(() => ({
   root: {
-    minHeight: '80%'
+    minHeight: "80%"
   }
 }));
 
@@ -59,12 +59,12 @@ const TagSection: FC<any> = ({ tagName, users }) => {
     >
       <ExpansionPanelSummary className="p-0" expandIcon={<ExpandMoreIcon />}>
         <div className="p-0 flex items-baseline justify-between">
-          <Typography variant={'h5'}>{tagName}</Typography>
+          <Typography variant={"h5"}>{tagName}</Typography>
         </div>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className="pl-0 flex-col">
         <List>
-          {!users && <Typography variant={'body1'}>No Tags Found</Typography>}
+          {!users && <Typography variant={"body1"}>No Tags Found</Typography>}
           {users &&
             users.map((user: any) => {
               return (
@@ -108,14 +108,14 @@ const MyTags = () => {
   if (loading) {
     return <h1>Loading</h1>;
   }
-  const tal = tags['My Talent'] ? [...tags['My Talent']] : [];
-  delete tags['My Talent'];
+  const tal = tags["My Talent"] ? [...tags["My Talent"]] : [];
+  delete tags["My Talent"];
   return (
     <Container className="h-full">
-      <Paper className={clsx(classes.root, 'p-16 mt-36')}>
+      <Paper className={clsx(classes.root, "p-16 mt-36")}>
         <Typography variant="h4">My Tags</Typography>
         <List>
-          <TagSection tagName={'My Talent'} users={tal} />
+          <TagSection tagName={"My Talent"} users={tal} />
           {Object.entries(tags).map(([tagName, users]: [any, any]) => {
             return <TagSection key={tagName} tagName={tagName} users={users} />;
           })}

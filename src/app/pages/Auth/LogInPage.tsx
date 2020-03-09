@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from "react";
 import {
   Button,
   Card,
@@ -9,17 +9,17 @@ import {
   FormControlLabel,
   TextField,
   Typography
-} from '@material-ui/core';
-import { useForm } from 'vendor/@fuse/hooks';
-import { useMutation } from '@apollo/react-hooks';
-import { Link } from 'react-router-dom';
-import clsx from 'clsx';
-import { GlobalContext } from 'context/globalContext';
-import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth';
-import { useSnackbar } from 'notistack';
-import { ApolloError } from 'apollo-boost';
+} from "@material-ui/core";
+import { useForm } from "vendor/@fuse/hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
+import clsx from "clsx";
+import { GlobalContext } from "context/globalContext";
+import { useAuthStyles, Animate, AuthPageSplash } from "./SharedAuth";
+import { useSnackbar } from "notistack";
+import { ApolloError } from "apollo-boost";
 
-const LOGIN = require('../../../graphql/mutations/LOGIN.gql');
+const LOGIN = require("../../../graphql/mutations/LOGIN.gql");
 
 function Login2Page(props: any) {
   const { enqueueSnackbar } = useSnackbar();
@@ -31,17 +31,17 @@ function Login2Page(props: any) {
     },
     onError: (error: ApolloError) => {
       enqueueSnackbar(error.message, {
-        variant: 'error',
+        variant: "error",
         anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right"
         }
       });
     }
   });
   const { form, handleChange, resetForm } = useForm({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     remember: true
   });
 
@@ -52,10 +52,10 @@ function Login2Page(props: any) {
   useEffect(() => {
     const user = data && data.login;
     if (user) {
-      localStorage.setItem('accessToken', user.accessToken);
+      localStorage.setItem("accessToken", user.accessToken);
       setUserId(user.userId);
       setDisplayName(user.displayName);
-      props.history.push('/profile');
+      props.history.push("/profile");
       window.location.reload();
     }
   }, [data, setUserId, setDisplayName, props.history]);
@@ -71,11 +71,11 @@ function Login2Page(props: any) {
     <div
       className={clsx(
         classes.root,
-        'flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0'
+        "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0"
       )}
     >
       <AuthPageSplash />
-      <Animate animation={{ translateX: [0, '100%'] }}>
+      <Animate animation={{ translateX: [0, "100%"] }}>
         <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
           <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-128 ">
             <Typography variant="h6" className="md:w-full mb-32">
@@ -129,7 +129,7 @@ function Login2Page(props: any) {
                   />
                 </FormControl>
 
-                <Link className="font-medium" to={'/passwordReset'}>
+                <Link className="font-medium" to={"/passwordReset"}>
                   Forgot Password?
                 </Link>
               </div>

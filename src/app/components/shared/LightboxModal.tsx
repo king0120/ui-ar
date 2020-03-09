@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import Carousel, { Modal, ModalGateway } from 'react-images';
+import React, { FC } from "react";
+import Carousel, { Modal, ModalGateway } from "react-images";
 
 interface ILightboxModal {
   open: boolean;

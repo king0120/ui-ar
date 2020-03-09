@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import GoBackButton from '../../components/shared/GoBackButton';
-import { gql } from 'apollo-boost';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import { useParams } from 'react-router';
-import { Typography } from '@material-ui/core';
+import React, { useState } from "react";
+import GoBackButton from "../../components/shared/GoBackButton";
+import { gql } from "apollo-boost";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useParams } from "react-router";
+import { Typography } from "@material-ui/core";
 
 const GET_MY_INSTANCE = gql`
   query getInstance($instanceId: String!) {
@@ -77,7 +77,7 @@ const MyAuditionInstance = () => {
   return (
     <div>
       <GoBackButton />
-      <Typography variant={'h3'}>{instance.audition.name}</Typography>
+      <Typography variant={"h3"}>{instance.audition.name}</Typography>
       <div>
         {instance.questions.map((question: any) => (
           <AnswerInput question={question} />

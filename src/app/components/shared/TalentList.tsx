@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState } from "react";
 import {
   Avatar,
   List,
@@ -7,8 +7,8 @@ import {
   ListItemText,
   Tabs,
   Tab
-} from '@material-ui/core';
-import TabPanel from './TabPanel';
+} from "@material-ui/core";
+import TabPanel from "./TabPanel";
 
 interface ITalentList {
   talent: any[];
@@ -16,9 +16,9 @@ interface ITalentList {
 
 const TalentList: FC<ITalentList> = ({ talent = [] }) => {
   const [value, setValue] = useState(0);
-  const confirmed = talent.filter(a => a.status === 'confirmed');
-  const denied = talent.filter(a => a.status === 'denied');
-  const unconfirmed = talent.filter(a => a.status === 'unconfirmed');
+  const confirmed = talent.filter(a => a.status === "confirmed");
+  const denied = talent.filter(a => a.status === "denied");
+  const unconfirmed = talent.filter(a => a.status === "unconfirmed");
   return (
     <div>
       <Tabs

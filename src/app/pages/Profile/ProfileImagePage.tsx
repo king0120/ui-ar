@@ -1,22 +1,22 @@
-import React, { FC, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { deleteImage, uploadImage } from '../../../redux/actions/talentActions';
-import { Button, Typography } from '@material-ui/core';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { withRouter } from 'react-router';
-import LightboxModal from 'app/components/shared/LightboxModal';
-import MyDropzone from 'app/components/shared/MyDropzone';
-import { makeStyles } from '@material-ui/styles';
+import React, { FC, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { deleteImage, uploadImage } from "../../../redux/actions/talentActions";
+import { Button, Typography } from "@material-ui/core";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { withRouter } from "react-router";
+import LightboxModal from "app/components/shared/LightboxModal";
+import MyDropzone from "app/components/shared/MyDropzone";
+import { makeStyles } from "@material-ui/styles";
 
-const GET_USER = require('../../../graphql/queries/user/GET_USER.gql');
-const SET_PROFILE = require('../../../graphql/mutations/profile/SET_PROFILE.gql');
-const DELETE_IMAGE = require('../../../graphql/mutations/profile/DELETE_IMAGE.gql');
+const GET_USER = require("../../../graphql/queries/user/GET_USER.gql");
+const SET_PROFILE = require("../../../graphql/mutations/profile/SET_PROFILE.gql");
+const DELETE_IMAGE = require("../../../graphql/mutations/profile/DELETE_IMAGE.gql");
 
 const useStyles = makeStyles({
   imageList: {
     height: 300,
     width: 300,
-    'object-fit': 'scale-down'
+    "object-fit": "scale-down"
   }
 });
 
@@ -52,10 +52,10 @@ const ProfileImagePage: FC<any> = props => {
   if (user.profileImages.length > 4) {
     return (
       <div>
-        <Typography variant={'h5'}>
+        <Typography variant={"h5"}>
           Free Accounts Currently Support A Maximum of 4 Images
         </Typography>
-        <Typography variant={'body1'}>
+        <Typography variant={"body1"}>
           Unlimited Image Upload Available Soon
         </Typography>
       </div>
@@ -75,10 +75,10 @@ const ProfileImagePage: FC<any> = props => {
       {!readOnly &&
         (user.profileImages.length >= 1 ? (
           <div>
-            <Typography variant={'h5'}>
+            <Typography variant={"h5"}>
               Free Accounts Currently Support A Maximum of 1 Image
             </Typography>
-            <Typography variant={'body1'}>
+            <Typography variant={"body1"}>
               Unlimited Image Upload Available Soon
             </Typography>
           </div>
@@ -102,7 +102,7 @@ const ProfileImagePage: FC<any> = props => {
                 <div>
                   {user.profilePicture &&
                   user.profilePicture.s3Key === img.s3Key ? (
-                    <Button variant={'outlined'} color={'primary'} disabled>
+                    <Button variant={"outlined"} color={"primary"} disabled>
                       Current Image
                     </Button>
                   ) : (
@@ -110,8 +110,8 @@ const ProfileImagePage: FC<any> = props => {
                       onClick={() =>
                         setProfile({ variables: { key: img.s3Key } })
                       }
-                      variant={'outlined'}
-                      color={'primary'}
+                      variant={"outlined"}
+                      color={"primary"}
                     >
                       Set Profile Image
                     </Button>
@@ -121,8 +121,8 @@ const ProfileImagePage: FC<any> = props => {
                     onClick={() =>
                       deleteImage({ variables: { key: img.s3Key } })
                     }
-                    variant={'outlined'}
-                    color={'secondary'}
+                    variant={"outlined"}
+                    color={"secondary"}
                   >
                     Delete Image
                   </Button>

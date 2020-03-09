@@ -1,8 +1,8 @@
-import React from 'react';
-import { Animate } from '../Auth/SharedAuth';
-import { Typography } from '@material-ui/core';
-import { transformPhoneNumber } from '../../../utils';
-import capitalize from '../../../utils/stringUtils';
+import React from "react";
+import { Animate } from "../Auth/SharedAuth";
+import { Typography } from "@material-ui/core";
+import { transformPhoneNumber } from "../../../utils";
+import capitalize from "../../../utils/stringUtils";
 
 const ProfileHeader = ({ user }: any) => {
   const feet = Math.floor(user.heightInches / 12);
@@ -10,7 +10,7 @@ const ProfileHeader = ({ user }: any) => {
   return (
     <div
       className={
-        'flex flex-1 flex-col items-center justify-center md:flex-row md:items-between'
+        "flex flex-1 flex-col items-center justify-center md:flex-row md:items-between"
       }
     >
       <div className="flex flex-1 flex-col items-between justify-start">
@@ -59,7 +59,7 @@ const ProfileHeader = ({ user }: any) => {
         </Animate>
         <Animate animation="transition.expandIn" delay={300}>
           <Typography data-cy="profile-phone" variant="h6" color="inherit">
-            Phone:{' '}
+            Phone:{" "}
             <a href={`tel://${user.phoneNumber}`}>
               {transformPhoneNumber(user.phoneNumber)}
             </a>
@@ -69,7 +69,7 @@ const ProfileHeader = ({ user }: any) => {
           <Animate animation="transition.expandIn" delay={300}>
             <Typography data-cy="profile-website" variant="h6" color="inherit">
               <a
-                target={'_blank'}
+                target={"_blank"}
                 rel="noopener noreferrer"
                 href={user.website}
               >

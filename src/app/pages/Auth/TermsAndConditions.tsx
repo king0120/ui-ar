@@ -1,5 +1,5 @@
-import React from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
+import React from "react";
+import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 
 export default function TermsAndConditions(props: any) {
   const { onClose, open } = props;

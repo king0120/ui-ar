@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
-import finalFormReducer from './finalFormReducer';
-import searchReducer from './searchReducer';
+import { combineReducers } from "redux";
+import finalFormReducer from "./finalFormReducer";
+import searchReducer from "./searchReducer";
 
 const createReducer = (_asyncReducers?: any) =>
   combineReducers({

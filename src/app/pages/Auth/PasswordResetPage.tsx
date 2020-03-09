@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   Card,
   CardContent,
   TextField,
   Typography
-} from '@material-ui/core';
-import { useForm } from 'vendor/@fuse/hooks';
-import clsx from 'clsx';
-import { Link } from 'react-router-dom';
-import { useAuthStyles, Animate, AuthPageSplash } from './SharedAuth';
-import arAxios from 'utils/axiosHelper';
-import { useSnackbar } from 'notistack';
+} from "@material-ui/core";
+import { useForm } from "vendor/@fuse/hooks";
+import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { useAuthStyles, Animate, AuthPageSplash } from "./SharedAuth";
+import arAxios from "utils/axiosHelper";
+import { useSnackbar } from "notistack";
 
 function PasswordResetPage(props: any) {
   const classes = useAuthStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [error, setError] = useState(false);
   const { form, handleChange, resetForm } = useForm({
-    email: '',
-    newPassword: '',
-    confirmNewPassword: ''
+    email: "",
+    newPassword: "",
+    confirmNewPassword: ""
   });
 
   function isFormValid() {
@@ -41,26 +41,26 @@ function PasswordResetPage(props: any) {
     resetForm();
     try {
       if (!props.match.params.token) {
-        await arAxios.post('/auth/passwordReset', { email: form.email });
-        props.history.push('/');
+        await arAxios.post("/auth/passwordReset", { email: form.email });
+        props.history.push("/");
         enqueueSnackbar(
-          'Password Reset Email Sent. Please check your e-mail.',
+          "Password Reset Email Sent. Please check your e-mail.",
           {
-            variant: 'success',
+            variant: "success",
             anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'right'
+              vertical: "top",
+              horizontal: "right"
             }
           }
         );
       } else {
         const passwordResetToken = props.match.params.token;
-        const expiresToken = props.location.search.split('=')[1];
+        const expiresToken = props.location.search.split("=")[1];
         await arAxios.post(
           `/auth/passwordReset/${passwordResetToken}?resetPasswordExpires=${expiresToken}`,
           { password: form.newPassword }
         );
-        props.history.push('/login');
+        props.history.push("/login");
       }
     } catch (e) {
       setError(true);
@@ -71,12 +71,12 @@ function PasswordResetPage(props: any) {
     <div
       className={clsx(
         classes.root,
-        'flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0'
+        "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0"
       )}
     >
       <AuthPageSplash />
 
-      <Animate animation={{ translateX: [0, '100%'] }}>
+      <Animate animation={{ translateX: [0, "100%"] }}>
         <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
           <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-128 ">
             <Typography variant="h6" className="md:w-full mb-32">
@@ -146,8 +146,8 @@ function PasswordResetPage(props: any) {
                 type="submit"
               >
                 {props.match.params.token
-                  ? 'Set New Password'
-                  : 'RESET PASSWORD'}
+                  ? "Set New Password"
+                  : "RESET PASSWORD"}
               </Button>
             </form>
 

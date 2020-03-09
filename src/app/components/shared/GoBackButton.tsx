@@ -1,6 +1,6 @@
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import React from 'react';
-import { withRouter } from 'react-router';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import React from "react";
+import { withRouter } from "react-router";
 
 const GoBackButton = (props: any) => {
   return (

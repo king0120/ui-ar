@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Avatar,
   Divider,
@@ -6,9 +6,9 @@ import {
   Paper,
   Theme,
   Typography
-} from '@material-ui/core';
-import FuseAnimateGroup from 'vendor/@fuse/components/FuseAnimateGroup/FuseAnimateGroup';
-import Pagination from '../../../components/shared/Pagination';
+} from "@material-ui/core";
+import FuseAnimateGroup from "vendor/@fuse/components/FuseAnimateGroup/FuseAnimateGroup";
+import Pagination from "../../../components/shared/Pagination";
 
 const useStyles = makeStyles((theme: Theme) => ({
   bigAvatar: {
@@ -28,23 +28,23 @@ function ActorSearchResults(props: any) {
     props.actors && props.actors.slice(selected * 10, selected * 10 + 10);
   return (
     <Paper
-      style={{ minHeight: '60vh' }}
+      style={{ minHeight: "60vh" }}
       className="w-full shadow-none flex flex-col justify-between"
     >
       <div className="flex items-center justify-between px-16 h-64">
         <Typography className="text-16">Found Actors</Typography>
         <Typography className="text-11 font-500 rounded-4 text-white bg-blue px-8 py-4">
-          {props.actors.length + ' Actors'}
+          {props.actors.length + " Actors"}
         </Typography>
       </div>
       <div className="w-full min-w-full table-responsive flex-grow">
         <AnimateGroup
           className="w-full"
           enter={{
-            animation: 'transition.slideUpBigIn'
+            animation: "transition.slideUpBigIn"
           }}
           leave={{
-            animation: 'transition.slideUpBigOut'
+            animation: "transition.slideUpBigOut"
           }}
         >
           {sliceToShow.map((actor: any) => (
@@ -61,7 +61,7 @@ function ActorSearchResults(props: any) {
                   />
                 </div>
                 <div className="pl-16 w-full flex flex-col justify-center align-center truncate font-600">
-                  <div className={'flex justify-between w-full'}>
+                  <div className={"flex justify-between w-full"}>
                     <Typography variant="body2">
                       {actor.firstName} {actor.lastName}
                     </Typography>

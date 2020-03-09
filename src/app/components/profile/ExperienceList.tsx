@@ -1,19 +1,19 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
-import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Divider from '@material-ui/core/Divider';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { gql } from 'apollo-boost';
+import React, { FC, useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
+import { Button, Card, CardContent, CardHeader } from "@material-ui/core";
+import List from "@material-ui/core/List";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Divider from "@material-ui/core/Divider";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { gql } from "apollo-boost";
 
-const REMOVE_EXPERIENCE = require('../../../graphql/mutations/profile/REMOVE_EXPERIENCE.gql');
+const REMOVE_EXPERIENCE = require("../../../graphql/mutations/profile/REMOVE_EXPERIENCE.gql");
 const REORDER_EXPERIENCE = gql`
   mutation reorderExperience($data: ReorderExperienceDTO!) {
     reorderExperience(data: $data)
@@ -120,13 +120,13 @@ const ExperienceList: FC<any> = ({
         action={
           !readOnly && (
             <Button onClick={handleReorderItemsToggle}>
-              {reorderExperienceItems ? 'Save Items' : 'Reorder'}
+              {reorderExperienceItems ? "Save Items" : "Reorder"}
             </Button>
           )
         }
-        className={'pb-0'}
+        className={"pb-0"}
       />
-      <CardContent className={'pt-0'}>
+      <CardContent className={"pt-0"}>
         <DragDropContext onDragEnd={onDragEnd}>
           {reorderExperienceItems ? (
             <Droppable droppableId="experienceItemsDroppable">
@@ -134,17 +134,17 @@ const ExperienceList: FC<any> = ({
                 <List {...provided.droppableProps} ref={provided.innerRef}>
                   <ListItem>
                     <ListItemText>
-                      <div className={'flex'}>
-                        <div className={'text-lg w-1/4'}>
+                      <div className={"flex"}>
+                        <div className={"text-lg w-1/4"}>
                           <strong>Project: </strong>
                         </div>
-                        <div className={'text-lg w-1/4'}>
+                        <div className={"text-lg w-1/4"}>
                           <strong>Role:</strong>
                         </div>
-                        <div className={'text-lg w-1/4'}>
+                        <div className={"text-lg w-1/4"}>
                           <strong>Company: </strong>
                         </div>
-                        <div className={'text-lg w-1/4'}>
+                        <div className={"text-lg w-1/4"}>
                           <strong>Director: </strong>
                         </div>
                       </div>
@@ -160,18 +160,18 @@ const ExperienceList: FC<any> = ({
                         >
                           <ListItem
                             alignItems="flex-start"
-                            className={'mt-12 mb-12'}
+                            className={"mt-12 mb-12"}
                           >
                             <ListItemIcon>
                               <DragIndicatorIcon />
                             </ListItemIcon>
                             <ListItemText
                               primary={
-                                <div className={'flex'}>
-                                  <div className={'w-1/4'}>{exp.project}</div>
-                                  <div className={'w-1/4'}>{exp.role}</div>
-                                  <div className={'w-1/4'}>{exp.company}</div>
-                                  <div className={'w-1/4'}>{exp.director}</div>
+                                <div className={"flex"}>
+                                  <div className={"w-1/4"}>{exp.project}</div>
+                                  <div className={"w-1/4"}>{exp.role}</div>
+                                  <div className={"w-1/4"}>{exp.company}</div>
+                                  <div className={"w-1/4"}>{exp.director}</div>
                                 </div>
                               }
                               secondary={exp.description}
@@ -190,17 +190,17 @@ const ExperienceList: FC<any> = ({
             <List>
               <ListItem>
                 <ListItemText>
-                  <div className={'flex'}>
-                    <div className={'text-lg w-1/4'}>
+                  <div className={"flex"}>
+                    <div className={"text-lg w-1/4"}>
                       <strong>Project: </strong>
                     </div>
-                    <div className={'text-lg w-1/4'}>
+                    <div className={"text-lg w-1/4"}>
                       <strong>Role:</strong>
                     </div>
-                    <div className={'text-lg w-1/4'}>
+                    <div className={"text-lg w-1/4"}>
                       <strong>Company: </strong>
                     </div>
-                    <div className={'text-lg w-1/4'}>
+                    <div className={"text-lg w-1/4"}>
                       <strong>Director: </strong>
                     </div>
                   </div>
@@ -211,11 +211,11 @@ const ExperienceList: FC<any> = ({
                   <ListItem alignItems="flex-start">
                     <ListItemText
                       primary={
-                        <div className={'flex'}>
-                          <div className={'w-1/4'}>{exp.project}</div>
-                          <div className={'w-1/4'}>{exp.role}</div>
-                          <div className={'w-1/4'}>{exp.company}</div>
-                          <div className={'w-1/4'}>{exp.director}</div>
+                        <div className={"flex"}>
+                          <div className={"w-1/4"}>{exp.project}</div>
+                          <div className={"w-1/4"}>{exp.role}</div>
+                          <div className={"w-1/4"}>{exp.company}</div>
+                          <div className={"w-1/4"}>{exp.director}</div>
                         </div>
                       }
                       secondary={exp.description}

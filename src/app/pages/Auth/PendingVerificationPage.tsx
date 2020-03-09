@@ -1,45 +1,45 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   Card,
   CardContent,
   Theme,
   Typography
-} from '@material-ui/core';
-import { darken } from '@material-ui/core/styles/colorManipulator';
-import { makeStyles } from '@material-ui/styles';
-import clsx from 'clsx';
-import { Animate } from './SharedAuth';
-import ARLogo from '../../../static/AR_Logo.png';
-import arAxios from '../../../utils/axiosHelper';
-import { useSnackbar } from 'notistack';
+} from "@material-ui/core";
+import { darken } from "@material-ui/core/styles/colorManipulator";
+import { makeStyles } from "@material-ui/styles";
+import clsx from "clsx";
+import { Animate } from "./SharedAuth";
+import ARLogo from "../../../static/AR_Logo.png";
+import arAxios from "../../../utils/axiosHelper";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     background:
-      'radial-gradient(' +
+      "radial-gradient(" +
       darken(theme.palette.primary.dark, 0.5) +
-      ' 0%, ' +
+      " 0%, " +
       theme.palette.primary.dark +
-      ' 80%)',
+      " 80%)",
     color: theme.palette.primary.contrastText
   }
 }));
 
 interface PendingVerificationProps {
-  type: 'actor' | 'company';
+  type: "actor" | "company";
 }
 
 function PendingVerificationPage(props: PendingVerificationProps) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   function sendVerificationEmail() {
-    arAxios.get('/auth/resendVerification');
-    enqueueSnackbar('Sent New Verification Email', {
-      variant: 'success',
+    arAxios.get("/auth/resendVerification");
+    enqueueSnackbar("Sent New Verification Email", {
+      variant: "success",
       anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'right'
+        vertical: "top",
+        horizontal: "right"
       }
     });
   }
@@ -48,7 +48,7 @@ function PendingVerificationPage(props: PendingVerificationProps) {
     <div
       className={clsx(
         classes.root,
-        'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32'
+        "flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32"
       )}
     >
       <div className="flex flex-col items-center justify-center w-full">
@@ -61,7 +61,7 @@ function PendingVerificationPage(props: PendingVerificationProps) {
                 Thank you for joining Audition Revolution!
               </Typography>
 
-              {props.type === 'company' && (
+              {props.type === "company" && (
                 <>
                   <Typography color="textSecondary" className="max-w-288">
                     You’re almost there! We just sent an email to verify your
@@ -72,7 +72,7 @@ function PendingVerificationPage(props: PendingVerificationProps) {
                   </Typography>
                 </>
               )}
-              {props.type === 'actor' && (
+              {props.type === "actor" && (
                 <>
                   <Typography color="textSecondary" className="max-w-288">
                     You’re almost there! We just sent an email to verify your

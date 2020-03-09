@@ -1,4 +1,4 @@
-import { IProject } from './IProject';
+import { IProject } from "./IProject";
 
 export interface IOrganization {
   projects: IProject[];

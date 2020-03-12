@@ -42,7 +42,7 @@ function PasswordResetPage(props: any) {
     try {
       if (!props.match.params.token) {
         await arAxios.post("/auth/passwordReset", { email: form.email });
-        props.history.push("/");
+        props.history.push("/pendingPasswordReset");
         enqueueSnackbar(
           "Password Reset Email Sent. Please check your e-mail.",
           {

@@ -16,9 +16,6 @@ query getUser($id: String!) {
         heightInches
         hairColor
         profileOrder
-        notifications {
-            text
-        }
         specialSkills {
             id
             text

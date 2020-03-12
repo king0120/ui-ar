@@ -107,12 +107,6 @@ export const GET_NOTIFICATIONS = () => gql`
     getNotifications(id: $id) {
       id
       displayName
-      notifications {
-        id
-        text
-        linkTo
-        read
-      }
     }
   }
 `;

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Field } from "formik";
 import { TextField } from "formik-material-ui";
 
+const WithStyle = (props: any) => <TextField className={'mb-16'} {...props}/>
 export const FormikTextField: FC<{
   name: string;
   type?: string;
@@ -12,11 +13,10 @@ export const FormikTextField: FC<{
   const req = props.required === undefined ? true : props.required;
   return (
     <Field
-      className="mb-16"
       type={props.type || "text"}
       name={props.name}
       label={props.label}
-      component={TextField}
+      component={WithStyle}
       autoFocus
       required={req}
       variant="outlined"
@@ -33,7 +33,7 @@ export const FormikCheckbox: FC<{
     type={props.type || "text"}
     name={props.name}
     label={props.label}
-    component={TextField}
+    component={WithStyle}
     autoFocus
     required
     variant="outlined"

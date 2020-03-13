@@ -77,7 +77,7 @@ function Login2Page(props: any) {
       <AuthPageSplash />
       <Animate animation={{ translateX: [0, "100%"] }}>
         <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
-          <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-128 ">
+          <CardContent className="flex flex-col items-center justify-center h-full p-32 md:p-48 md:pt-128 ">
             <Typography variant="h6" className="md:w-full mb-32">
               LOGIN TO YOUR ACCOUNT
             </Typography>

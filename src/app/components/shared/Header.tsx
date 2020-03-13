@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Link, useHistory, withRouter } from "react-router-dom";
 import { GlobalContext } from "../../../context/globalContext";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { useSelector } from "react-redux";
 import {
   AppBar,
   Button,
@@ -58,7 +57,6 @@ const Header = (props: any) => {
               <Button onClick={event => setDbButtonToggle(event.currentTarget)}>
                 Talent Database
               </Button>
-              <div className={classes.separator} />
               <Popover
                 open={Boolean(dbButtonToggle)}
                 anchorEl={dbButtonToggle}

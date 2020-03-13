@@ -15,7 +15,13 @@ const theme = createMuiTheme({
             "@media (min-width:600px)": {"minHeight": 64}
         }
     },
-    "overrides": {},
+    "overrides": {
+        'MuiFormControl': {
+            'root': {
+                margin: ''
+            }
+        }
+    },
     "palette": {
         "common": {"black": "#000", "white": "#fff"},
         "type": "light",

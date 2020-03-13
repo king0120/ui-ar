@@ -92,8 +92,8 @@ function UserMenu(props: any) {
   };
 
   return (
-    <>
-      <Button className="h-64" onClick={userMenuClick}>
+    <div>
+      <Button className="h-64 ml-8" onClick={userMenuClick}>
         <Badge badgeContent={notificationNumber} color="primary">
           {user.data.photoURL ? (
             <Avatar className="" alt="user photo" src={user.data.photoURL} />
@@ -201,7 +201,7 @@ function UserMenu(props: any) {
           <ListItemText className="pl-0" primary="Logout" />
         </MenuItem>
       </Popover>
-    </>
+    </div>
   );
 }
 

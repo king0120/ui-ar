@@ -1,11 +1,4 @@
 @import 'normalize.css';
-@import 'print.css';
-
-@import 'tables.css';
-
-@import 'react-table.css';
-
-@import 'tailwind.base.css';
 
 * {
     outline: none !important;
@@ -116,3 +109,11 @@ form label {
 .ap-footer svg {
     display: inline;
 }
+
+@import 'print.css';
+
+@import 'tables.css';
+
+@import 'react-table.css';
+
+@import 'tailwind.base.css';

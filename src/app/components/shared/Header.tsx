@@ -43,7 +43,7 @@ const Header = (props: any) => {
   };
 
   return (
-    <AppBar id="fuse-toolbar" className="flex relative z-10" color="default">
+    <AppBar id="fuse-toolbar" position="relative" className="flex relative z-10" color="default">
       <Toolbar className="p-0">
         <div
           className="flex flex-1 justify-start align-center"

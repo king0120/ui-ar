@@ -79,8 +79,6 @@ const theme = createMuiTheme({
             "A400": "#303030",
             "A700": "#616161"
         },
-        "contrastThreshold": 3,
-        "tonalOffset": 0.2,
         "text": {
             "primary": "rgba(0, 0, 0, 0.87)",
             "secondary": "rgba(0, 0, 0, 0.54)",
@@ -96,7 +94,7 @@ const theme = createMuiTheme({
             "selected": "rgba(0, 0, 0, 0.08)",
             "selectedOpacity": 0.08,
             "disabled": "rgba(0, 0, 0, 0.26)",
-            "disabledBackground": "rgba(0, 0, 0, 0.12)",
+            // "disabledBackground": "rgba(0, 0, 0, 0.12)",
             "disabledOpacity": 0.38,
             "focus": "rgba(0, 0, 0, 0.12)",
             "focusOpacity": 0.12,

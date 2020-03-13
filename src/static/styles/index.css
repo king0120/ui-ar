@@ -1,4 +1,11 @@
 @import 'normalize.css';
+@import 'print.css';
+
+@import 'tables.css';
+
+@import 'react-table.css';
+
+@import 'tailwind.base.css';
 
 * {
     outline: none !important;
@@ -23,7 +30,7 @@ html {
 
 body {
     font-size: 14px;
-    background: #f5f7f8;
+    background: #f5f7f8 !important;
     line-height: 1.4;
 }
 
@@ -101,13 +108,6 @@ form label {
     z-index: 99;
 }
 
-@import 'print.css';
-
-@import 'tables.css';
-
-@import 'react-table.css';
-
-@import 'tailwind.base.css';
 
 .ap-suggestion {
     display: flex;

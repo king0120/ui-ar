@@ -44,10 +44,10 @@ function UserMenu(props: any) {
   const { loading: orgLoading, data: orgData } = useQuery(
     GET_ORGANIZATIONS_FOR_USER
   );
-  const { data: notifications } = useQuery(GET_NOTIFICATIONS(), {
-    variables: { id: userId },
-    skip: !userId
-  });
+  // const { data: notifications } = useQuery(GET_NOTIFICATIONS(), {
+  //   variables: { id: userId },
+  //   skip: !userId
+  // });
   let orgs = orgData && orgData.getAllOrganizationsForUser;
   const [userMenu, setUserMenu] = useState(null);
   useEffect(() => {
@@ -58,9 +58,10 @@ function UserMenu(props: any) {
     return <></>;
   }
 
-  const notificationNumber = notifications?.getNotifications?.notifications.filter(
-    (n: any) => !n.read
-  ).length;
+  // const notificationNumber = notifications?.getNotifications?.notifications.filter(
+  //   (n: any) => !n.read
+  // ).length;
+  const notificationNumber = 0;
   orgs = orgs ? [...orgs.owned, ...orgs.member] : [];
   if (!data) {
     return <div></div>;

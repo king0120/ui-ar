@@ -7,11 +7,23 @@
 html {
     font-size: 62.5%;
     font-family: Muli, Roboto, Helvetica Neue, Arial, sans-serif;
-    background-color: #262933;
+}
+
+ .pi {
+     margin-left: -8px;
+ }
+
+#address-input {
+    width: 90%;
+}
+
+.ap-dropdown-menu {
+    position: inherit !important;
 }
 
 body {
     font-size: 14px;
+    background: #f5f7f8;
     line-height: 1.4;
 }
 

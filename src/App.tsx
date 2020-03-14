@@ -6,9 +6,7 @@ import { BrowserRouter, withRouter } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, useQuery } from "@apollo/react-hooks";
 import { GlobalContext } from "./context/globalContext";
-import { create } from "jss";
-import jssExtend from "jss-extend";
-import { jssPreset, StylesProvider, makeStyles } from "@material-ui/styles";
+import { StylesProvider, makeStyles } from "@material-ui/styles";
 import createGenerateClassName from "@material-ui/styles/createGenerateClassName";
 import clsx from "clsx";
 import FuseScrollbars from "vendor/@fuse/components/FuseScrollbars/FuseScrollbars";
@@ -102,7 +100,8 @@ const App = (props: any) => {
     setDisplayName,
     setUserType,
     setTheatreVerified,
-    setVerified
+    setVerified,
+      setUserEmail
   } = useContext(GlobalContext);
   const classes = useStyles(props);
 
@@ -113,6 +112,7 @@ const App = (props: any) => {
       setDisplayName(data.tokenCheck.displayName);
       setVerified(data.tokenCheck.verified);
       setTheatreVerified(data.tokenCheck.theatreVerified);
+      setUserEmail(data.tokenCheck.email);
     } else if (!loading && !data) {
       setUserId("none");
     }

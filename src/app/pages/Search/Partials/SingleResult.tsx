@@ -21,7 +21,7 @@ function findUnion(actor: Record<string, any>) {
         if (unionArray.length === 1) {
             unions = unionArray[0].value
         } else {
-            unions = unionArray.join(', ')
+            unions = unionArray.map((u: any) => u.value).sort().join(', ')
         }
     }
     return unions
@@ -78,7 +78,7 @@ const SingleResult: FC<SingleResultProps> = ({actor, handleClickTalent, classes,
                     ) : ''}
                 </div>
             </div>
-            <div className={'w-1/2 flex flex-col text-right'}>
+            <div className={'w-1/2 flex flex-col text-right mr-16'}>
                 {includeEmail && (
                     <Typography variant="body1">
                         Email:{'  '}

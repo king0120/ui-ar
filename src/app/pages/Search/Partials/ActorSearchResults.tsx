@@ -1,31 +1,16 @@
 import React, {useState} from "react";
 import {
-    Avatar,
     Divider,
-    makeStyles,
     Paper,
-    Theme,
     Typography
 } from "@material-ui/core";
 import FuseAnimateGroup from "vendor/@fuse/components/FuseAnimateGroup/FuseAnimateGroup";
 import Pagination from "../../../components/shared/Pagination";
 import SingleResult from "./SingleResult";
 
-const useStyles = makeStyles((theme: Theme) => ({
-    bigAvatar: {
-        margin: 2.5,
-        width: 'auto',
-        maxWidth: 80,
-        height: 'auto',
-        maxHeight: 100,
-        borderRadius: 5
-    }
-}));
-
 export const AnimateGroup: any = FuseAnimateGroup;
 
 function ActorSearchResults(props: any) {
-    const classes = useStyles();
     const [selected, setSelectedPage] = useState(0);
     const changePage = (data: any) => setSelectedPage(data.selected);
     const sliceToShow =
@@ -53,7 +38,7 @@ function ActorSearchResults(props: any) {
                 >
                     {sliceToShow.map((actor: any) => (
                         <>
-                            <SingleResult actor={actor} handleClickTalent={props.handleClickTalent} classes={classes}
+                            <SingleResult actor={actor} handleClickTalent={props.handleClickTalent}
                                           includeEmail={props.includeEmail}/>
                             <Divider/>
                         </>

@@ -1,4 +1,4 @@
-import {Button, ButtonGroup, Chip, Divider, List, Typography} from "@material-ui/core";
+import {Button, ButtonGroup, Chip, Divider, List, makeStyles, Theme, Typography} from "@material-ui/core";
 import React, {FC} from "react";
 import {useQuery} from "@apollo/react-hooks";
 import {GET_TAGS_FOR_ACTOR} from "../../../components/audition/TagsOnActor";
@@ -8,7 +8,6 @@ import AddNotes from "../../../components/profile/AddNotes";
 interface SingleResultProps {
     actor: Record<string, any>,
     handleClickTalent: (id: string) => void
-    classes: Record<string, any>
     includeEmail: boolean
 }
 
@@ -27,7 +26,19 @@ function findUnion(actor: Record<string, any>) {
     return unions
 }
 
-const SingleResult: FC<SingleResultProps> = ({actor, handleClickTalent, classes, includeEmail}) => {
+const useStyles = makeStyles((theme: Theme) => ({
+    bigAvatar: {
+        width: 'auto',
+        maxWidth: 80,
+        height: 'auto',
+        maxHeight: 100,
+        borderRadius: 5
+    }
+}));
+
+
+const SingleResult: FC<SingleResultProps> = ({actor, handleClickTalent, includeEmail}) => {
+    const classes = useStyles();
     const {data} = useQuery(GET_TAGS_FOR_ACTOR, {
         variables: {id: actor.id}
     });
@@ -38,7 +49,7 @@ const SingleResult: FC<SingleResultProps> = ({actor, handleClickTalent, classes,
             className="w-full flex content-between  mt-3 mb-3"
             key={actor.id}
         >
-            <div className="pl-16 pr-0" onClick={() => handleClickTalent(actor.id)}>
+            <div style={{margin: '2px', width: '80px', height: '100px'}} className="flex justify-center items-center pl-8 pr-0" onClick={() => handleClickTalent(actor.id)}>
                 <img
                     src={actor.profilePicture}
                     className={classes.bigAvatar}

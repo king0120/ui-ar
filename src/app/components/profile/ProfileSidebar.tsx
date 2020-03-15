@@ -23,6 +23,8 @@ import { GlobalContext } from "context/globalContext";
 import NotesOnActor from "../audition/NotesOnActor";
 import EditUserModal from "./EditUserModal";
 import TagsOnActor from "../audition/TagsOnActor";
+import AddTags from "./AddTags";
+import AddNotes from "./AddNotes";
 
 function getModalStyle() {
   const top = 50;
@@ -87,81 +89,21 @@ const AttributesModal: FC<any> = props => {
     </>
   );
 };
-declare const Chargebee: any;
-
-// const handleUpgradeClick = () => {
-//     const cb = Chargebee.getInstance();
-//     cb.openCheckout({
-//         hostedPage: (page: any) => {
-//             console.log(page);
-//             return Promise.resolve('success');
-//         }
-//     });
-// };
 
 const ProfileSidebar: FC<any> = (props: any) => {
   const classes = useStyles();
   const { userType } = useContext(GlobalContext);
 
   const canAddNotes = userType.includes("theatre");
-  const [notesOpen, setNotesOpen] = useState(false);
-  const [tagsOpen, setTagsOpen] = useState(false);
+
+
   return (
     <div>
       <List component="nav" aria-label="">
         {!props.readOnly && <AttributesModal {...props} />}
         {!props.readOnly && <EditUserModal user={props.user} />}
-        {props.readOnly && canAddNotes && !props.auditionView && (
-          <>
-            <ListItemLink onClick={() => setNotesOpen(true)}>
-              <ListItemText
-                classes={{ secondary: classes.text }}
-                primary="Notes"
-                secondary="See and Add Notes On This Actor"
-                data-cy="add-notes"
-              />
-            </ListItemLink>
-            <Dialog className={"mh-1/2"} open={notesOpen} fullWidth={true}>
-              <DialogTitle>Notes on {props.user.displayName}</DialogTitle>
-              <DialogContent>
-                <NotesOnActor userId={props.user.id} auditionId={""} />
-                {/* <AddNoteForActor userId={props.user.id} auditionId={''} /> */}
-                <DialogActions>
-                  <Button onClick={() => setNotesOpen(false)} color="primary">
-                    Close
-                  </Button>
-                </DialogActions>
-              </DialogContent>
-            </Dialog>
-          </>
-        )}
-        {props.readOnly && !props.auditionView && (
-          <>
-            <ListItemLink onClick={() => setTagsOpen(true)}>
-              <ListItemText
-                classes={{ secondary: classes.text }}
-                primary="Tags"
-                secondary="See and Add Tags On This Actor"
-                data-cy="add-notes"
-              />
-            </ListItemLink>
-            <Dialog className={"mh-1/2"} open={tagsOpen} fullWidth={true}>
-              <DialogTitle>Tags for {props.user.displayName}</DialogTitle>
-              <DialogContent>
-                <Typography variant={"body2"}>
-                  Tags are private and are not shared with actor or other users
-                </Typography>
-                <TagsOnActor userId={props.user.id} />
-                {/* <AddNoteForActor userId={props.user.id} auditionId={''} /> */}
-                <DialogActions>
-                  <Button onClick={() => setTagsOpen(false)} color="primary">
-                    Close
-                  </Button>
-                </DialogActions>
-              </DialogContent>
-            </Dialog>
-          </>
-        )}
+        {props.readOnly && canAddNotes && !props.auditionView && <AddNotes user={props.user}/>}
+        {props.readOnly && !props.auditionView && <AddTags user={props.user}/>}
       </List>
     </div>
   );

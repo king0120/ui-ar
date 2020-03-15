@@ -16,6 +16,11 @@ const theme = createMuiTheme({
         }
     },
     "overrides": {
+        'MuiTypography': {
+            'h6': {
+                'line-height': 1
+            }
+        },
         'MuiFormControl': {
             'root': {
                 margin: ''

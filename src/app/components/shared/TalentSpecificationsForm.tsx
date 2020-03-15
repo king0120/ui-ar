@@ -132,7 +132,6 @@ export const TalentSpecificationsForm: FC<any> = ({
   breakdown = {},
   onSubmit = () => {}
 }) => {
-  console.log("talent spec");
   return (
     <FinalForm
       onSubmit={onSubmit}

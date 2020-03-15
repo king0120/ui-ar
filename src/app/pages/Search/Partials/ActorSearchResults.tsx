@@ -9,12 +9,16 @@ import {
 } from "@material-ui/core";
 import FuseAnimateGroup from "vendor/@fuse/components/FuseAnimateGroup/FuseAnimateGroup";
 import Pagination from "../../../components/shared/Pagination";
+import SingleResult from "./SingleResult";
 
 const useStyles = makeStyles((theme: Theme) => ({
     bigAvatar: {
-        margin: 10,
-        width: 40,
-        height: 40
+        margin: 2.5,
+        width: 'auto',
+        maxWidth: 80,
+        height: 'auto',
+        maxHeight: 100,
+        borderRadius: 5
     }
 }));
 
@@ -49,35 +53,8 @@ function ActorSearchResults(props: any) {
                 >
                     {sliceToShow.map((actor: any) => (
                         <>
-                            <div
-                                className="w-full flex content-between"
-                                key={actor.id}
-                                onClick={() => props.handleClickTalent(actor.id)}
-                            >
-                                <div className="pl-16 pr-0">
-                                    <Avatar
-                                        src={actor.profilePicture}
-                                        className={classes.bigAvatar}
-                                    />
-                                </div>
-                                <div className="pl-16 w-full flex flex-col justify-center align-center truncate font-600">
-                                    <div className={"flex justify-between w-3/4"}>
-                                        <Typography variant="body2">
-                                            {actor.firstName} {actor.lastName}
-                                        </Typography>
-                                        {props.includeEmail && (
-                                            <Typography variant="subtitle1">
-                                                <a href={`mailto://${actor.email}}`}>{actor.email}</a>
-                                            </Typography>
-                                        )}
-                                    </div>
-                                    {actor.city && actor.state && (
-                                        <Typography variant="subtitle2">
-                                            {actor.city}, {actor.state}
-                                        </Typography>
-                                    )}
-                                </div>
-                            </div>
+                            <SingleResult actor={actor} handleClickTalent={props.handleClickTalent} classes={classes}
+                                          includeEmail={props.includeEmail}/>
                             <Divider/>
                         </>
                     ))}

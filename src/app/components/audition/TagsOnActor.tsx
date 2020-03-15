@@ -19,7 +19,7 @@ const CREATE_TAG = gql`
   }
 `;
 
-const GET_TAGS_FOR_ACTOR = gql`
+export const GET_TAGS_FOR_ACTOR = gql`
   query getTags($id: String!) {
     getTagsForActor(id: $id) {
       tags

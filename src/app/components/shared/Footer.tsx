@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { withRouter } from "react-router-dom";
 import { GlobalContext } from "../../../context/globalContext";
 import {
-  AppBar,
   createStyles,
   makeStyles,
   Theme,
@@ -13,9 +12,12 @@ import {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      top: "auto",
       bottom: 0,
-      position: "initial"
+      width: '100vw',
+      position: 'absolute',
+      background: '#fff',
+      marginTop: '12px',
+      boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
     }
   })
 );

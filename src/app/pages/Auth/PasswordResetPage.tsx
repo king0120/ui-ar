@@ -71,7 +71,7 @@ function PasswordResetPage(props: any) {
     <div
       className={clsx(
         classes.root,
-        "flex flex-col flex-auto flex-shrink-0 p-24 md:flex-row md:p-0"
+        "flex flex-col flex-auto flex-shrink-0 min-h-screen p-24 md:flex-row md:p-0"
       )}
     >
       <AuthPageSplash />

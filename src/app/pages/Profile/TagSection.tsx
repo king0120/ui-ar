@@ -20,6 +20,7 @@ import {useHistory} from "react-router";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {GET_TAGS_FOR_OWNER} from "./MyTags";
+import ConfirmationModal from "../../components/shared/ConfirmationModal";
 
 
 const TagSection: FC<any> = ({tagName, users}) => {
@@ -42,19 +43,24 @@ const TagSection: FC<any> = ({tagName, users}) => {
             expanded={open}
             onChange={() => setOpen(!open)}
         >
-            <ExpansionPanelSummary className="p-0" expandIcon={<ExpandMoreIcon/>}>
-                <div className="p-0 flex items-baseline justify-between w-full">
-                    <Typography variant={"h6"}>{tagName}</Typography>
+            <ExpansionPanelSummary className="p-0" style={{paddingLeft: '5px', paddingRight: '5px'}} expandIcon={<ExpandMoreIcon/>}>
+                <div className="p-0 flex items-baseline justify-between items-center w-full">
+                    <div>
+                        <Typography variant={"h6"}>{tagName}</Typography>
+                        <Typography variant={"subtitle2"}>{users.length} actors</Typography>
+                    </div>
                     <div className={'flex align-end '}>
+                        {tagName !== "My Talent" && (
+                            <ConfirmationModal
+                                onConfirm={() => deleteTag({
+                                    variables: {input: {tag: tagName, for: "all"}}
+                                })}
+                                trigger={
+                                <Button size={"small"} variant={"contained"} color={'default'}>Delete Tag</Button>
+                            }/>
+                        )}
                         <Button size={"small"} variant={"contained"} color={'primary'}
                                 href={`mailto:${userEmail}?bcc=${emails}`}>Email All</Button>
-                        {tagName !== "My Talent" && (
-                            <Button size={"small"} variant={"contained"} color={'default'}
-                                    onClick={() => deleteTag({
-                                        variables: {input: {tag: tagName, for: "all"}}
-                                    })}>Delete Tag</Button>
-                        )}
-
                     </div>
                 </div>
             </ExpansionPanelSummary>

@@ -56,7 +56,6 @@ const MyTags = () => {
                 <List>
                     <TagSection tagName={"My Talent"} users={tal}/>
                     {Object.entries(tags).map(([tagName, users]: [any, any]) => {
-                        console.log('TAGNAME', tagName)
                         return <TagSection key={tagName} tagName={tagName} users={users}/>;
                     })}
                 </List>

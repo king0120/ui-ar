@@ -32,7 +32,8 @@ const Header = (props: any) => {
   if (
     props.location.pathname === "/login" ||
     props.location.pathname === "/register" ||
-    props.location.pathname === "/passwordReset"
+    props.location.pathname === "/passwordReset" ||
+    props.location.pathname === "/register-company"
   ) {
     return null;
   }

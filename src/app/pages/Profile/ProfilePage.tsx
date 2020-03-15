@@ -11,9 +11,9 @@ import ProfileHeader from "./ProfileHeader";
 import ResumeSection from "./ResumeSection";
 import ExperienceSection from "./ExperienceSection";
 import ActorSearchPage from "../Search/ActorSearchPage";
-import MyTags from "./MyTags";
 import CompanyNotes from "./CompanyNotes";
 import LightboxModal from "../../components/shared/LightboxModal";
+import MyTags from "./MyTags";
 
 const GET_USER = require("../../../graphql/queries/user/GET_USER.gql");
 

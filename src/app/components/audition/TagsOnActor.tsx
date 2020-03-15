@@ -3,7 +3,7 @@ import { Button, Chip, TextField } from "@material-ui/core";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { Autocomplete } from "@material-ui/lab";
-import { GET_TAGS_FOR_OWNER } from "../../pages/Profile/MyTags";
+import {GET_TAGS_FOR_OWNER} from "../../pages/Profile/MyTags";
 
 const GET_DISTINCT_TAGS = gql`
   {

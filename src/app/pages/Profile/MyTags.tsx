@@ -1,28 +1,9 @@
-import React, {FC, useContext, useEffect, useState} from "react";
-import {useMutation, useQuery} from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import {
-    Avatar, Button,
-    Chip,
-    Container,
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    List,
-    makeStyles,
-    Paper,
-    Typography
-} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
+import {useQuery} from "@apollo/react-hooks";
+import {Container, List, makeStyles, Paper, Typography} from "@material-ui/core";
 import clsx from "clsx";
-import {useHistory} from "react-router";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import {GlobalContext} from "../../../context/globalContext";
-
-const useStyles = makeStyles(() => ({
-    root: {
-        minHeight: "80%"
-    }
-}));
+import TagSection from "./TagSection";
+import {gql} from "apollo-boost";
 
 export const GET_TAGS_FOR_OWNER = gql`
     {
@@ -41,59 +22,11 @@ export const GET_TAGS_FOR_OWNER = gql`
         }
     }
 `;
-
-const TagSection: FC<any> = ({tagName, users}) => {
-    const {userEmail} = useContext(GlobalContext);
-    const DELETE_TAG = gql`
-        mutation deleteTag($input: CreateTagDTO!) {
-            deleteTag(input: $input)
-        }
-    `;
-    const [deleteTag] = useMutation(DELETE_TAG, {
-        refetchQueries: [{query: GET_TAGS_FOR_OWNER}]
-    });
-    const [open, setOpen] = useState(true);
-    const {push} = useHistory();
-    let emails = users.map((user: any) => user.email).reduce((acc: string, val: string) => acc + val + ", ", "");
-    emails = emails.substring(0, emails.length - 1);
-    return (
-        <ExpansionPanel
-            className="w-full p-2"
-            expanded={open}
-            onChange={() => setOpen(!open)}
-        >
-            <ExpansionPanelSummary className="p-0" expandIcon={<ExpandMoreIcon/>}>
-                <div className="p-0 flex items-baseline justify-between">
-                    <Typography variant={"h5"}>{tagName}</Typography>
-                </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className="pl-0 flex-col">
-                <Button href={`mailto:${userEmail}?bcc=${emails}`}>Email All</Button>
-                <List>
-                    {!users && <Typography variant={"body1"}>No Tags Found</Typography>}
-                    {users &&
-                    users.map((user: any) => {
-                        return (
-                            <Chip
-                                key={user.id}
-                                avatar={<Avatar src={user.profilePicture?.url}/>}
-                                onClick={() => push(`/profile/${user.id}`)}
-                                label={`${user.firstName} ${user.lastName}`}
-                                onDelete={() => {
-                                    deleteTag({
-                                        variables: {input: {tag: tagName, for: user.id}}
-                                    });
-                                }}
-                                variant="outlined"
-                            />
-                        );
-                    })}
-                </List>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
-    );
-};
-
+const useStyles = makeStyles(() => ({
+    root: {
+        minHeight: "80%"
+    }
+}));
 const MyTags = () => {
     const [tags, setTags] = useState({} as any);
     const classes = useStyles();
@@ -119,10 +52,11 @@ const MyTags = () => {
     return (
         <Container className="h-full">
             <Paper className={clsx(classes.root, "p-16 mt-36")}>
-                <Typography variant="h4">My Tags</Typography>
+                <Typography variant="h5">My Tags</Typography>
                 <List>
                     <TagSection tagName={"My Talent"} users={tal}/>
                     {Object.entries(tags).map(([tagName, users]: [any, any]) => {
+                        console.log('TAGNAME', tagName)
                         return <TagSection key={tagName} tagName={tagName} users={users}/>;
                     })}
                 </List>
@@ -130,5 +64,4 @@ const MyTags = () => {
         </Container>
     );
 };
-
 export default MyTags;

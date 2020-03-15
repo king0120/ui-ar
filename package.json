@@ -73,7 +73,7 @@
     "yup": "^0.28.3"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "PORT=3001 craco start",
     "build": "craco build",
     "tailwind": "./node_modules/.bin/tailwind build src/static/styles/tailwind.base.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
     "deploy": "yarn build && aws s3 sync build/ s3://ar-react-app",

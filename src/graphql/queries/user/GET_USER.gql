@@ -4,6 +4,7 @@ query getUser($id: String!) {
         firstName
         lastName
         displayName
+        ghostAccount
         representation
         city
         state

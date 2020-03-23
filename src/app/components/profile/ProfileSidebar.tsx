@@ -101,11 +101,13 @@ const ProfileSidebar: FC<any> = (props: any) => {
         <div>
             {props.readOnly ? (props.user.ghostAccount ? (
                 <Chip
+                    style={{marginLeft: '16px'}}
                     color={"primary"}
                     label="Unverified Account"
                 />
             ) : (
                 <Chip
+                    style={{marginLeft: '16px'}}
                     color={"primary"}
                     label="Verified Account"
                 />

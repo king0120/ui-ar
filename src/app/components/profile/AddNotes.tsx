@@ -30,7 +30,7 @@ const AddNotes: FC<AddNotesProps> = (props) => {
             <ListItem onClick={props.onClick}>
                 <ListItemText
                     classes={{ secondary: classes.text }}
-                    primary="Tags"
+                    primary="Notes"
                     secondary="See and Add Notes On This Actor"
                     data-cy="add-notes"
                 />

@@ -2,14 +2,10 @@ import {
     Avatar,
     Button,
     Chip,
-    Container, Divider,
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
-    IconButton,
     List,
-    makeStyles,
-    Paper,
     Typography
 } from "@material-ui/core";
 import gql from "graphql-tag";
@@ -18,7 +14,6 @@ import {GlobalContext} from "../../../context/globalContext";
 import {useMutation} from "@apollo/react-hooks";
 import {useHistory} from "react-router";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import DeleteIcon from "@material-ui/icons/Delete";
 import {GET_TAGS_FOR_OWNER} from "./MyTags";
 import ConfirmationModal from "../../components/shared/ConfirmationModal";
 
@@ -45,7 +40,7 @@ const TagSection: FC<any> = ({tagName, users}) => {
         >
             <ExpansionPanelSummary className="p-0" style={{paddingLeft: '5px', paddingRight: '5px'}} expandIcon={<ExpandMoreIcon/>}>
                 <div className="p-0 flex items-baseline justify-between items-center w-full">
-                    <div>
+                    <div onClick={() => push(`/tag/${tagName}`)}>
                         <Typography variant={"h6"}>{tagName}</Typography>
                         <Typography variant={"subtitle2"}>{users.length} actors</Typography>
                     </div>
@@ -72,7 +67,7 @@ const TagSection: FC<any> = ({tagName, users}) => {
                         return (
                             <Chip
                                 key={user.id}
-                                avatar={<Avatar src={user.profilePicture?.url}/>}
+                                // avatar={<Avatar src={user.profilePicture?.url}/>}
                                 onClick={() => push(`/profile/${user.id}`)}
                                 label={`${user.firstName} ${user.lastName}`}
                                 onDelete={() => {

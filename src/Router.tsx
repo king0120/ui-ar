@@ -37,6 +37,10 @@ const PendingPasswordResetPage = React.lazy(() =>
     import("./app/pages/Auth/PendingPasswordResetPage")
 );
 
+const TagTablePage = React.lazy(() =>
+    import("./app/pages/Company/TagTablePage")
+);
+
 
 const PrivateRoute: FC<any> = ({component: Component, loggedIn, ...rest}) => {
     const {theatreVerified, verified, userType} = useContext(GlobalContext);
@@ -90,6 +94,7 @@ const AppRouter: FC<any> = () => {
                 <Route exact path="/passwordReset" component={PasswordResetPage}/>
                 <Route exact path="/pendingPasswordReset" component={PendingPasswordResetPage}/>
                 <Route path="/passwordReset/:token" component={PasswordResetPage}/>
+
                 {/* Login Related */}
                 <RedirectIfLoggedIn
                     loggedIn={loggedIn}
@@ -108,6 +113,15 @@ const AppRouter: FC<any> = () => {
                     exact
                     path="/login"
                     component={LoginPage}
+                />
+
+
+                {/* Company Related */}
+                <PrivateRoute
+                    theatreVerified={theatreVerified}
+                    loggedIn={loggedIn}
+                    path="/tag/:tagName"
+                    component={TagTablePage}
                 />
 
                 <PrivateRoute

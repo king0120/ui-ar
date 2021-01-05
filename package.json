@@ -18,7 +18,7 @@
     "@types/react-images": "^0.5.1",
     "apollo-boost": "^0.4.7",
     "autosuggest-highlight": "^3.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-plugin-istanbul": "^6.0.0",
     "clsx": "^1.1.0",
     "cssnano": "^4.1.10",
